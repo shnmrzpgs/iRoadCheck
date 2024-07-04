@@ -1,17 +1,4 @@
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="../img/IRoadCheck_Logo.png" />
-    <link rel="stylesheet" href="/css/style.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap" rel="stylesheet">
-    <title>Sign Up as Super Admin</title>
-    @vite('resources/css/app.css')
-</head>
-
-<body class="bg-slate Poppins">
-
+<x-app-layout>
     <div class="flex w-full h-full z-0">
 
         <!-- Sign in Form-->
@@ -19,7 +6,7 @@
             <div action="" class="relative p-10 w-50 bg-none md:max-lg:w-[300px]">
 
                 <div class="flex items-center justify-center mt-[-300]">
-                    <img src="/img/headerLogo.png" alt="headerLogo" class="w-3/12" />
+                    <img src="{{ asset('/storage/images/headerLogo.png') }}" alt="headerLogo" class="w-3/12" />
                 </div>
                 <div class="mt-[-45] text-center form-title text-[#2E3031] xxs:max-sm:text-lg">
                     <p>
@@ -229,16 +216,24 @@
         <!--end of Sign In form-->
         <div class="hidden md:flex md:max-semi 2xl:w-30 absolute top-0 right-0 h-full">
             <div class="h-full">
-                <img src="/img/Point2Left_SignUp.png" alt="manGraphic" class="w-full h-full object-cover"
+                <img src="{{ asset('/storage/images/Point2Right_LogIn.png') }}" alt="manGraphic" class="w-full h-full object-cover"
                     style="transform: scaleX(-1);" />
             </div>
         </div>
     </div>
+    
+    <script type="module"> 
+        initializedSignUpDefer();
+    </Script>
+</x-app-layout>
 
-</body>
+
+
+
+<!--- </body>
 <script src="/Tailwindcss/Tailwind-config.js"></script>
 <script src="/js/PasswordChecker.js"></script>
 <script src="/js/signUp.js"></script>
-<script src="/js/signUpDefer.js" defer></script>
+<script src="{{ asset('js/signUpDefer.js') }}" defer></script>
 
-</html>
+</html> --->
