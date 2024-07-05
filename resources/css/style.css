@@ -1,7 +1,7 @@
 /* Firefox */
 * {
     scrollbar-width: auto;
-    scrollbar-color: #005751 #fff;
+    scrollbar-color: #f19d00 #ffae00;
   }
   
   /* Chrome, Edge, and Safari */
@@ -41,6 +41,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 53px;
+    font-size: 0.875rem; 
   }
   
   .step-indicator div {
@@ -69,7 +70,7 @@
   .form-group input {
     display: flex;
     align-items: center;
-    margin-bottom: 34px;
+    margin-bottom: 24px;
     flex: 1;
   }
   
@@ -79,7 +80,16 @@
     margin-bottom: 15px;
     flex: 1;
   }
-  
+  .step2 .form-group input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    flex: 1;
+  }
+  .step2 .form-group select {
+    margin-bottom: 15px;
+  }
+
   .form-group select {
     margin-bottom: 25px;
   }
@@ -89,8 +99,17 @@
     margin-right: 59px;
     text-align: left;
     display: flex;
-    margin-bottom: 45px;
+    margin-bottom: 33px;
+    font-size: 0.875rem;
   }
   
-  
+  input[type=number]::-webkit-outer-spin-button,
+  input[type=number]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+  }
+
+  input[type=number] {
+      -moz-appearance: textfield; /* Firefox */
+  }
   
