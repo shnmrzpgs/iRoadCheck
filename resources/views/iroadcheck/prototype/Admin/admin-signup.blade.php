@@ -1,17 +1,16 @@
 <x-app-layout>
-    <div class="flex w-full h-full z-0">
+    <div class="flex w-full bg-white h-full xs:mt-0 sm:mt-20 md:mt-0 lg:mt-0 xl z-0">
 
         <!-- Sign in Form-->
-        <div class="flex items-center justify-start w-6/12 h-screen max-lg mt-[100]">
-            <div action="" class="relative p-10 w-50 bg-none md:max-lg:w-[300px]">
+        <div class="flex items-center justify-start w-6/12 h-screen max-lg mt-[100] ml-10">
+            <div action="" class="relative p-10 w-full bg-none md:max-lg:w-[600px] md:mx-auto">
 
-                <div class="flex items-center justify-center mt-[-300]">
-                    <img src="{{ asset('/storage/images/headerLogo.png') }}" alt="headerLogo" class="w-3/12" />
+                <div class="flex items-center justify-center mt-[-300] mb-8">
+                    <img src="{{ asset('/storage/images/iroadcheck header.png') }}" alt="headerLogo" class="w-5/12 sm:w-9/12 sm:mt-60 sm:ml-60 md:w-8/12 md:mt-0 md:ml-60 lg:w-5/12 lg:ml-0" />
                 </div>
-                <div class="mt-[-45] text-center form-title text-[#2E3031] xxs:max-sm:text-lg">
-                    <p>
-                        <p class="text-[22px] font-semibold">Register</p>Super Admin
-                    </p>
+                <div class="text-center form-title text-[#2E3031] xxs:max-sm:text-lg mb-[-45]">
+                <p class="text-[20px] font-semibold mb-1">Register</p>
+                <p class="text-[15px]" >Super Admin</p>
                 </div>
 
                 <div class="mt-5 text-base font-medium text-cyan-950 ">
@@ -28,43 +27,43 @@
                         <form>
                             <div class="flex flex-wrap">
                                 <!-- Container for labels -->
-                                <div class="w-full md:w-1/3 px-0">
+                                <div class="w-2/10 h-1/10 pr-2 font-medium text-[12px] xs:mx-[14px] xs:text-[10px]">
                                     <div class="form-group">
-                                        <label for="firstName" class="block text-gray-700 leading-8">First Name</label>
+                                        <label for="firstName" class="block text-gray-700 leading-6">First Name</label>
                                     </div>
                                     <div class="form-group">
-                                        <label for="middleName" class="block text-gray-700 leading-8">Middle
+                                        <label for="middleName" class="block text-gray-700 leading-7">Middle
                                             Name</label>
                                     </div>
                                     <div class="form-group">
-                                        <label for="lastName" class="block text-gray-700  leading-8">Last Name</label>
+                                        <label for="lastName" class="block text-gray-700  leading-7">Last Name</label>
                                     </div>
                                     <div class="form-group">
-                                        <label for="birthdate" class="block text-gray-700  leading-8">Birthdate</label>
+                                        <label for="birthdate" class="block text-gray-700  leading-7">Birthdate</label>
                                     </div>
                                     <div class="form-group">
-                                        <label for="gender" class="block text-gray-700  leading-8">Gender</label>
+                                        <label for="gender" class="block text-gray-700  leading-6">Gender</label>
                                     </div>
                                 </div>
                                 <!-- Container for input fields -->
-                                <div class="w-full md:w-2/3 px-0">
+                                <div class="w-4/12 md:w-2/3 px-0">
                                     <div class="form-group">
-                                        <input type="text" id="firstName" class="w-full p-2 border rounded"
+                                        <input type="text" id="firstName" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]"
                                             placeholder="Enter First Name" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" id="middleName" class="w-full p-2 border rounded"
+                                        <input type="text" id="middleName" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]"
                                             placeholder="Enter Middle Name" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" id="lastName" class="w-full p-2 border rounded"
+                                        <input type="text" id="lastName" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]"
                                             placeholder="Enter Last Name" required>
                                     </div>
                                     <div class="form-group">
-                                        <input type="date" id="birthdate" class="w-full p-2 border rounded" required>
+                                        <input type="date" id="birthdate" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]" required>
                                     </div>
                                     <div class="form-group">
-                                        <select id="gender" class="w-full p-2 border rounded" required>
+                                        <select id="gender" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]" required>
                                             <option value="" disabled selected>Select Gender</option>
                                             <option value="male">Male</option>
                                             <option value="female">Female</option>
@@ -73,9 +72,9 @@
                                 </div>
                             </div>
                             <!-- Next button -->
-                            <div class="flex justify-end mt-5">
+                            <div class="flex justify-end mt-2">
                                 <button type="button"
-                                    class="next bg-yellow-500 text-white px-10 py-2 rounded">NEXT</button>
+                                    class="next bg-yellow-500 text-white text-sm px-7 py-1 rounded">NEXT</button>
                             </div>
                         </form>
                     </div>
@@ -85,51 +84,51 @@
                         <form>
                             <div class="flex flex-wrap">
                                 <!-- Container for labels -->
-                                <div class="w-full md:w-1/3 px-3">
+                                <div class="w-2/10 h-1/10 pr-2 font-medium text-[12px] xs:mx-[14px] xs:text-[10px]">
                                     <div class="form-group">
-                                        <label for="phone" class="block text-gray-700">Phone Number</label>
+                                        <label for="phone" class="block text-gray-700 leading-6">Phone Number</label>
                                     </div>
                                     <div class="form-group">
                                         <label for="country" class="block text-gray-700">Country</label>
                                     </div>
                                     <div class="form-group">
-                                        <label for="province" class="block text-gray-700">Province</label>
+                                        <label for="province" class="block text-gray-700 leading-5">Province</label>
                                     </div>
                                     <div class="form-group">
-                                        <label for="city" class="block text-gray-700">City/Municipality</label>
+                                        <label for="city" class="block text-gray-700 leading-4">City/Municipality</label>
                                     </div>
                                     <div class="form-group">
-                                        <label for="barangay" class="block text-gray-700">Barangay</label>
+                                        <label for="barangay" class="block text-gray-700 leading-4">Barangay</label>
                                     </div>
                                     <div class="form-group">
                                         <label for="street" class="block text-gray-700">Street Address</label>
                                     </div>
                                 </div>
                                 <!-- Container for input fields -->
-                                <div class="w-full md:w-2/3 px-0">
+                                <div class="step2 w-full md:w-2/3 px-0">
                                     <div class="form-group">
-                                        <input type="text" id="phone" class="w-full p-2 border rounded"
-                                            style="margin-bottom: 28px;" placeholder="Enter phone number" required>
+                                        <input type="number" id="phone" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]"
+                                            placeholder="Enter phone number" required>
                                     </div>
                                     <div class="form-group">
-                                        <select id="country" class="w-full p-2 border rounded" required
+                                        <select id="country" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]" required
                                             onchange="updateProvinces()">
                                             <option value="">Select country</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <select id="province" class="w-full p-2 border rounded" required
+                                        <select id="province" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]" required
                                             onchange="updateCities()">
                                             <option value="">Select province</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <select id="city" class="w-full p-2 border rounded" required>
+                                        <select id="city" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]" required>
                                             <option value="">Select city/municipality</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <select id="barangay" class="w-full p-2 border rounded" required>
+                                        <select id="barangay" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]" required>
                                             <option value="">Select barangay</option>
                                             <option value="Barangay 1">Barangay 1</option>
                                             <option value="Barangay 2">Barangay 2</option>
@@ -137,17 +136,17 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" id="street" class="w-full p-2 border rounded"
+                                        <input type="text" id="street" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]"
                                             placeholder="Enter street address" required>
                                     </div>
                                 </div>
                             </div>
                             <!-- Navigation buttons -->
-                            <div class="flex justify-between mt-5">
+                            <div class="flex justify-between mt-2">
                                 <button type="button"
-                                    class="prev bg-gray-500 text-white px-5 py-2 rounded">PREVIOUS</button>
+                                    class="prev bg-gray-500 text-white text-sm px-7 py-1 rounded text-sm font-light">PREVIOUS</button>
                                 <button type="button"
-                                    class="next bg-yellow-500 text-white px-10 py-2 rounded">NEXT</button>
+                                    class="next bg-yellow-500 text-white text-sm px-7 py-1 rounded text-sm font-light">NEXT</button>
                             </div>
                         </form>
                     </div>
@@ -173,19 +172,19 @@
                                 <!-- Container for input fields -->
                                 <div class="step3 w-full md:w-2/3 px-0">
                                     <div class="form-group">
-                                        <input type="email" id="email" class="w-full p-2 border rounded"
+                                        <input type="email" id="email" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]"
                                             placeholder="Enter Email" required>
                                         <p id="email-error" class="invisible text-xs text-pink-600">Please provide a
                                             valid email address.</p>
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" id="password" class="w-full p-2 border rounded"
+                                        <input type="password" id="password" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]"
                                             placeholder="Enter Password" required>
                                         <p id="password-error" class="invisible text-xs text-pink-600">Please follow
                                             this guide for a strong password.</p>
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" id="confirmPassword" class="w-full p-2 border rounded"
+                                        <input type="password" id="confirmPassword" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]"
                                             placeholder="Confirm Password" required>
                                         <p id="confirm-password-error" class="invisible text-xs text-pink-600">Passwords
                                             do not match.</p>
@@ -204,17 +203,17 @@
                             <!-- Next button -->
                             <div class="flex justify-between">
                                 <button type="button"
-                                    class="prev bg-gray-500 text-white px-6 py-2 rounded">PREVIOUS</button>
+                                    class="prev bg-gray-500 text-white text-sm px-7 py-1 rounded">PREVIOUS</button>
                                 <button type="submit"
-                                    class="bg-green-500 text-white px-6 py-2 rounded">REGISTER</button>
+                                    class="bg-green-500 text-white text-sm px-7 py-1 rounded">REGISTER</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        <!--end of Sign In form-->
-        <div class="hidden md:flex md:max-semi 2xl:w-30 absolute top-0 right-0 h-full">
+        <!--end of Sign In form -->
+        <div class="hidden lg:flex lg:max-semi 2xl:w-30 absolute top-0 right-0 h-full">
             <div class="h-full">
                 <img src="{{ asset('/storage/images/Point2Right_LogIn.png') }}" alt="manGraphic" class="w-full h-full object-cover"
                     style="transform: scaleX(-1);" />
