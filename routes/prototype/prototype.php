@@ -7,3 +7,7 @@ Route::get('/', function () {
     return view('iroadcheck.prototype.Admin.admin-signup');
 });
 
+Route::get('/login', function () {
+    return view('iroadcheck.prototype.Admin.login');
+});
+
