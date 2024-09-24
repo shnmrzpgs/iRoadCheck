@@ -31,7 +31,7 @@
                 path: '{{ asset("animations/Animation - 1726942853737.json") }}'
             })">
             <form action="" method="POST" class="flex flex-col items-center w-full">
-                <div class="text-[#6AA76F] font-bold text-[22px]">Forgot Password</div>
+                <div class="text-[#6AA76F] font-bold text-[22px]">Account Verification</div>
 
                 <!-- Lottie Animation Container -->
                 <div x-ref="lottieAnimation" class="w-28 sm:w-36 md:w-48 lg:w-56 max-w-[150px] mt-4 mb-0 drop-shadow-lg"></div>

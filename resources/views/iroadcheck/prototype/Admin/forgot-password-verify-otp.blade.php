@@ -28,7 +28,7 @@
                 renderer: 'svg', // render as SVG
                 loop: true, // loop the animation
                 autoplay: true, // start playing the animation
-                path: '{{ asset("animations/Animation - 1726942853737.json") }}'
+                path: '{{ asset("animations/Animation - 1726948674471.json") }}'
             })">
             <form action="" method="POST" class="flex flex-col items-center w-full">
                 <div class="text-[#6AA76F] font-bold text-[22px]">Forgot Password</div>
@@ -36,14 +36,13 @@
                 <!-- Lottie Animation Container -->
                 <div x-ref="lottieAnimation" class="w-28 sm:w-36 md:w-48 lg:w-56 max-w-[150px] mt-4 mb-0 drop-shadow-lg"></div>
 
-                <p class="text-[#4D4F50] text-[16px] font-medium mt-3 mb-2 ">Email Verification</p>
+                <p class="text-[#4D4F50] text-[16px] font-medium mt-6 mb-2 ">OTP Verification</p>
 
-                <div class="relative mb-2">
-                    <input class="rounded border border-gray-400 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none text-[14px] text-gray-600 w-full py-2 pl-10 pr-10"
-                           name="email" id="email" type="email" placeholder="Enter Email address" required >
-                    <img src="{{ asset('storage/icons/user.svg') }}" class="absolute left-2.5 top-3 h-4 w-4" alt="user">
+                <div class="relative mb-2 px-10">
+                    <input class=" text-center font-bold text-[20px] rounded border border-gray-400 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none text-gray-600 w-full py-1"
+                           name="code" id="code" type="number" placeholder="Enter Code" required >
                 </div>
-                <button class="w-3/4 hover:scale-110 transform transition-transform duration-300 ease-in-out bg-gradient-to-r from-[#5A915E] to-[#F8A15E] hover:drop-shadow-md text-white p-3 font-semibold mt-6 rounded-full">Send Code</button>
+                <button class="w-3/4 hover:scale-110 transform transition-transform duration-300 ease-in-out bg-gradient-to-r from-[#5A915E] to-[#F8A15E] hover:drop-shadow-md text-white p-3 font-semibold mt-6 rounded-full">Verify</button>
             </form>
         </div>
     </div>
