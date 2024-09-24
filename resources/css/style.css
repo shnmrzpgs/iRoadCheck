@@ -1,30 +1,33 @@
 /* Firefox */
 * {
     scrollbar-width: auto;
-    scrollbar-color: #f19d00 #ffae00;
+    scrollbar-color: rgba(255, 255, 255, 0.79) #929292;
   }
-  
+
   /* Chrome, Edge, and Safari */
   *::-webkit-scrollbar {
-    width: 9px;
+    width: 2px;
   }
-  
+
   *::-webkit-scrollbar-track {
     background: #fff;
   }
-  
+
   *::-webkit-scrollbar-thumb {
     background-color: #2f6d69;
     border: 00px solid #ffffff;
     border-radius: 20px;
   }
-  
+
   * {
     margin: 0;
     padding: 0;
   }
-  
-  
+
+  body {
+      overflow: hidden;
+  }
+
   @keyframes wipeIn {
     0% {
       transform: scaleY(0);
@@ -35,30 +38,30 @@
       transform-origin: top;
     }
   }
-  
+
     /*Sign up css*/
   .step-indicator {
     display: flex;
     justify-content: space-between;
     margin-bottom: 53px;
-    font-size: 0.875rem; 
+    font-size: 0.875rem;
   }
-  
+
   .step-indicator div {
     position: relative;
     padding-bottom: 10px;
     cursor: pointer;
   }
-  
+
   .step-indicator .current {
     color: orange;
     border-bottom: 2px solid orange;
   }
-  
+
   .step-indicator .done {
     color: green;
   }
-  
+
   .step-indicator .done:after {
     content: '✔';
     position: absolute;
@@ -66,14 +69,14 @@
     right: -10px;
     color: green;
   }
-  
+
   .form-group input {
     display: flex;
     align-items: center;
     margin-bottom: 24px;
     flex: 1;
   }
-  
+
   .step3 .form-group input {
     display: flex;
     align-items: center;
@@ -93,7 +96,7 @@
   .form-group select {
     margin-bottom: 25px;
   }
-  
+
   .form-group label {
     width: 115px;
     margin-right: 59px;
@@ -102,7 +105,7 @@
     margin-bottom: 33px;
     font-size: 0.875rem;
   }
-  
+
   input[type=number]::-webkit-outer-spin-button,
   input[type=number]::-webkit-inner-spin-button {
       -webkit-appearance: none;
@@ -112,4 +115,3 @@
   input[type=number] {
       -moz-appearance: textfield; /* Firefox */
   }
-  
