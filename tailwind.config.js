@@ -1,3 +1,5 @@
+
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -10,6 +12,11 @@ export default {
       ...theme('colors'),
       auto: 'auto',
     }),
+    extend: {
+      colors: {
+        customGreen: '#6AA76F',
+    },
+  },
     animation: {
       none: 'none',
       spin: 'spin 1s linear infinite',
