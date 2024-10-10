@@ -17,6 +17,9 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
                 pop: ["Poppins"]
             },
+            colors: {
+              customGreen: '#6AA76F',
+            },
             width: {
                 '1/10': '10%',
                 '2/10': '20%',
