@@ -39,12 +39,10 @@
                                             </svg>
                                             <p class="mt-[2px]">Add User</p>
                                         </button>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 

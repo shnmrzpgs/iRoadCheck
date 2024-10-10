@@ -14,11 +14,10 @@ Route::view('/prototype/admin/create-new-password', 'iroadcheck.prototype.Admin.
 Route::view('/prototype/admin/verify-account-send-code', 'iroadcheck.prototype.Admin.verify-account-send-code');
 Route::view('/prototype/admin/verify-account-verify-otp', 'iroadcheck.prototype.Admin.verify-account-verify-otp');
 
-Route::view('/component/admin/dashboard', 'iroadcheck.prototype.Admin.dashboard');
-
-Route::view('/component/admin/manage-users', 'iroadcheck.prototype.Admin.manage-users');
-Route::view('/component/admin/user-type', 'iroadcheck.prototype.Admin.user-type');
-Route::view('/component/admin/activity-logs', 'iroadcheck.prototype.Admin.activity-logs');
+Route::view('/component/admin/dashboard', 'iroadcheck.prototype.Admin.dashboard')->name('admin.dashboard');
+Route::view('/component/admin/manage-users', 'iroadcheck.prototype.Admin.manage-users')->name('admin.manage-users');
+Route::view('/component/admin/user-type', 'iroadcheck.prototype.Admin.user-type')->name('admin.user-type');
+Route::view('/component/admin/activity-logs', 'iroadcheck.prototype.Admin.activity-logs')->name('admin.activity-logs');
 Route::view('/component/admin/notifications', 'iroadcheck.prototype.Admin.notifications');
 
 
@@ -36,3 +35,7 @@ Route::view('/prototype/residents/dashboard', 'iroadcheck.prototype.Residents.da
 Route::view('/prototype/residents/report-road-issue-step1', 'iroadcheck.prototype.Residents.report-road-issue-step1')->name('report-road-issue-step1');
 Route::view('/prototype/residents/report-road-issue-step2', 'iroadcheck.prototype.Residents.report-road-issue-step2')->name('report-road-issue-step2');
 
+
+
+//user
+Route::view('/component/user/dashboard', 'iroadcheck.prototype.Admin.dashboard')->name('admin.dashboard');
