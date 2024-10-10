@@ -24,7 +24,7 @@
 
                     <!-- Step 1: Personal Information -->
                     <div class="step">
-                        <form>
+                        <form method="POST" action="">
                             <div class="flex flex-wrap">
                                 <!-- Container for labels -->
                                 <div class="w-2/10 h-1/10 pr-2 font-medium text-[12px] xs:mx-[14px] xs:text-[10px]">
@@ -48,7 +48,7 @@
                                 <!-- Container for input fields -->
                                 <div class="w-4/12 md:w-2/3 px-0">
                                     <div class="form-group">
-                                        <input type="text" id="firstName" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]"
+                                        <input type="text" id="firstName" name="firstName" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]"
                                             placeholder="Enter First Name" required>
                                     </div>
                                     <div class="form-group">
@@ -71,9 +71,12 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <p class="error-message text-red-500 text-sm mt-2 mb-4 invisible"></p>
                             <!-- Next button -->
                             <div class="flex justify-end mt-2">
-                                <button type="button"
+
+                                <button type="SUBMIT"
                                     class="next bg-yellow-500 text-white text-sm px-7 py-1 rounded">NEXT</button>
                             </div>
                         </form>
@@ -112,33 +115,37 @@
                                     </div>
                                     <div class="form-group">
                                         <select id="country" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]" required
-                                            onchange="updateProvinces()">
-                                            <option value="">Select country</option>
+                                                onchange="updateProvinces()">
+                                            <option value="" hidden>Select country</option>
+                                            <option value="PH">Philippines</option> <!-- You can add more countries if necessary -->
                                         </select>
                                     </div>
+
                                     <div class="form-group">
                                         <select id="province" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]" required
-                                            onchange="updateCities()">
-                                            <option value="">Select province</option>
+                                                onchange="updateCities()">
+                                            <option value="" hidden>Select province</option>
                                         </select>
                                     </div>
+
                                     <div class="form-group">
-                                        <select id="city" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]" required>
-                                            <option value="">Select city/municipality</option>
+                                        <select id="city" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]" required
+                                                onchange="updateBarangays()">
+                                            <option value="" hidden>Select city/municipality</option>
                                         </select>
                                     </div>
+
                                     <div class="form-group">
                                         <select id="barangay" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]" required>
-                                            <option value="">Select barangay</option>
-                                            <option value="Barangay 1">Barangay 1</option>
-                                            <option value="Barangay 2">Barangay 2</option>
-                                            <!-- Add more options as needed -->
+                                            <option value="" hidden>Select barangay</option>
                                         </select>
                                     </div>
+
                                     <div class="form-group">
                                         <input type="text" id="street" class="text-[12px] w-full p-2 border rounded border-slate-400 text-xs font-light focus:outline-none focus:border-[#6C6C6C] focus:ring-1 focus:ring-[#6C6C6C]"
-                                            placeholder="Enter street address" required>
+                                               placeholder="Enter street address" required>
                                     </div>
+
                                 </div>
                             </div>
                             <!-- Navigation buttons -->
@@ -199,9 +206,9 @@
                                 <span id="min-char" class="text-gray-600">Minimum of 8 characters</span>,</br>
                                 <span id="num-char" class="text-gray-600">Include One number (2 are recommended)</span>
                             </p>
-
+                            <!-- Error message container -->
                             <!-- Next button -->
-                            <div class="flex justify-between">
+                            <div class="flex justify-between mt-2">
                                 <button type="button"
                                     class="prev bg-gray-500 text-white text-sm px-7 py-1 rounded">PREVIOUS</button>
                                 <button type="submit"
@@ -220,8 +227,8 @@
             </div>
         </div>
     </div>
-    
-    <script type="module"> 
+
+    <script type="module">
         initializedSignUpDefer();
     </Script>
 </x-app-layout>
