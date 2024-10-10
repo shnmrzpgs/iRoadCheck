@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Auth; @endphp
 @props(['page_title' => '', 'main_class' => ''])
 
 <div class="bg-none m-2 font-pop text-white 0 p-0 " x-data="{ open: false, activeLink: localStorage.getItem('activeLink') || '', activeChildLink: localStorage.getItem('activeChildLink') || '' }">
@@ -84,7 +85,7 @@
                 </div>
                 <!-- Logout -->
                 <div class="pt-2 text-[13px] mx-2">
-                    <a href="" @click="activeLink = 'logout'" :class="{ 'bg-[#2D2D2D] bg-opacity-40 border-l-[#E37878] border-l-[5px]': activeLink === 'logout' }" class="flex items-center py-2.5 px-4 rounded hover:bg-[#2D2D2D] hover:bg-opacity-40 hover:border-l-[#E37878] hover:border-l-[5px]">
+                    <a href="{{route('admin-logout')}}" :class="{ 'bg-[#2D2D2D] bg-opacity-40 border-l-[#E37878] border-l-[5px]': activeLink === 'logout' }" class="flex items-center py-2.5 px-4 rounded hover:bg-[#2D2D2D] hover:bg-opacity-40 hover:border-l-[#E37878] hover:border-l-[5px]">
                         <img src="{{ asset('storage/icons/logOut-icon.png') }}" alt="logOut icon" class="w-5 h-5 " />
                         <p class="ml-2">Logout</p>
                     </a>
@@ -442,8 +443,14 @@
                             <a x-ref="content" href="" @click="activeLink = 'profile'; localStorage.setItem('activeLink', 'profile')" class="-m-1.5 flex items-center p-1.5" id="profile">
                                 <img class="h-8 w-8 rounded-full bg-gray-50 mr-2" src="{{ asset('storage/images/sampleProfile.png') }}" alt="Profile Picture">
                                 <span class="flex flex-col items-left justify-left">
-                                    <span class="text-sm font-semibold leading-4 text-white hidden lg:block">Nelson Diaz</span>
-                                    <span class="text-xs leading-4 text-white hidden lg:block">Super Administrator</span>
+                                    @php
+                                        $user = Auth::user(); // Get the authenticated user
+                                    @endphp
+
+                                    @if ($user)
+                                        <span class="text-sm font-semibold leading-4 text-white hidden lg:block">{{ $user->first_name }} {{ $user->last_name }}</span>
+                                        <span class="text-xs leading-4 text-white hidden lg:block">{{ $user->user_type == 1 ? 'Admin' : 'Resident' }}</span>
+                                    @endif
                                 </span>
                             </a>
                         </div>

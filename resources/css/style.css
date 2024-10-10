@@ -115,3 +115,6 @@
   input[type=number] {
       -moz-appearance: textfield; /* Firefox */
   }
+input:invalid {
+    border-color: red;
+}
