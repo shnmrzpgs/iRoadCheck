@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('resident_logs', function (Blueprint $table) {
             $table->id('log_id');
-            $table->foreignId('resident_id')->references('resident_id')->on('residents');
+            $table->foreignId('resident_id')->references('id')->on('users');
             $table->string('action');
             $table->timestamps();
         });

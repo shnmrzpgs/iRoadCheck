@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -11,12 +12,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admin_logs', function (Blueprint $table) {
-            $table->id('log_id');
-            $table->foreignId('admin_id')->references('id')->on('users');
-            $table->string('action');
-            $table->timestamps();
+        Schema::create('user_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('type');
         });
+        DB::table('user_types')->insert([
+            ['type' => 'admin'],
+            ['type' => 'resident'],
+        ]);
     }
 
     /**
@@ -24,7 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admin_logs');
-
+        Schema::dropIfExists('user_types');
     }
 };
