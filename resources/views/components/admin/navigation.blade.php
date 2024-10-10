@@ -1,461 +1,293 @@
-@php use Illuminate\Support\Facades\Auth; @endphp
 @props(['page_title' => '', 'main_class' => ''])
 
 <div class="bg-none m-2 font-pop text-white 0 p-0 " x-data="{ open: false, activeLink: localStorage.getItem('activeLink') || '', activeChildLink: localStorage.getItem('activeChildLink') || '' }">
-    <!-- Header with Menu Button for small screen -->
-    <header class="p-4 flex items-start justify-start md:hidden mb-2 rounded-md">
-        <!--Menu Icon-->
-        <button @click="open = !open" class="text-red focus:outline-none mr-2">
-            <svg width="22" height="22" viewBox="0 0 28 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 0V3.5868H27.0833V0H0ZM0 10.6528V14.2396H27.0833V10.6528H0ZM0 21.4132V25H27.0833V21.4132H0Z" fill="#E37878" />
-            </svg>
-        </button>
-        <!--Page title-->
-        <h1 class="text-[16px] font-bold">{{ $page_title }}</h1>
-    </header>
-    <div class="flex h-[97vh]">
+
+    <div class="flex h-auto">
+
         <!-- Sidebar -->
-        <aside :class="open ? 'block' : 'hidden md:block'" class="w-64 bg-[#202020] h-full py-4 pl-4 pr-2 md:block rounded-lg mr-3 pb-[8px]">
-            <div class="text-2xl font-bold mb-4 flex items-center px-3">
-                <img src="{{ asset('storage/images/ElibLogoGraphics.png') }}" alt="graphicsLogo" class="w-12 h-12 inline-block -mt-2" />
-                <span>
-                    <img src="{{ asset('storage/images/ElibLogoWord.png') }}" alt="wordLogo" class="w-full h-[45px] inline-block opacity-80" />
-                </span>
+        <aside :class="open ? 'block' : 'hidden md:block'" class="w-64 bg-white h-full py-4 md:block rounded-xl mr-5 drop-shadow-md">
+            <div class="text-2xl font-bold mb-2 flex flex-col items-center justify-center p-3">
+                <img src="{{ asset('storage/images/IRoadCheck_Logo.png') }}" alt="graphicsLogo" class="w-10 h-10 inline-block mb-2" />
+                <div class="text-[#4D4F50] font-pop text-[17px]">iRoadCheck</div>
             </div>
-            <nav class="space-y-2 flex-1 text-[13px] overflow-x-auto h-[76vh]" x-data="{
+            <!-- Custom Horizontal Line -->
+            <div class="relative pb-[16px]">
+                <div class="absolute w-full h-[1px] bg-gray-300"></div>
+            </div>
+
+            <nav class="mt-4 space-y-4 flex-1 text-[13px] overflow-x-auto h-[69vh] px-4 leading-6" x-data="{
                     activeLink: localStorage.getItem('activeLink') || '',
                     activeChildLink: localStorage.getItem('activeChildLink') || ''
                 }">
                 <!-- Dashboard -->
                 <a href=""
                    @click="activeLink = 'dashboard'; activeChildLink = ''; localStorage.setItem('activeLink', 'dashboard'); localStorage.setItem('activeChildLink', '')"
-                   :class="{ 'bg-[#2D2D2D] bg-opacity-40 border-l-[#E37878] border-l-[5px] font-bold': activeLink === 'dashboard' }"
-                   class="mx-2 flex items-center block py-2.5 px-4 rounded hover:bg-[#2D2D2D] hover:bg-opacity-40 hover:border-l-[#E37878] hover:border-l-[5px]">
-                    <img src="{{ asset('storage/icons/home-icon.png') }}" alt="home icon" class="w-4 h-4" />
+                   :class="{ 'bg-[#6AA76F] text-white drop-shadow font-bold': activeLink === 'dashboard' }"
+                   class="mx-2 flex items-center block py-2.5 px-4 rounded hover:bg-[#6AA76F] hover:text-[#4D4F50] hover:bg-opacity-20 font-medium text-[#4D4F50]">
+
                     <p class="ml-2">Dashboard</p>
                 </a>
 
-                <!-- Client -->
-                <div class="relative" x-data="{ dropdownOpen: false }" x-init="dropdownOpen = activeLink === 'client'">
-                    <!-- Parent -->
-                    <a href="#"
-                       @click="dropdownOpen = !dropdownOpen; activeLink = 'client'; localStorage.setItem('activeLink', 'client')"
-                       :class="{ 'bg-[#2D2D2D] bg-opacity-40 border-l-[#E37878] border-l-[5px] font-bold': activeLink === 'client' || activeChildLink.startsWith('client-') }"
-                       class="mx-2 flex items-center block py-2.5 px-4 rounded hover:bg-[#2D2D2D] hover:border-l-[#E37878] hover:border-l-[5px]">
-                        <img src="{{ asset('storage/icons/client-icon.png') }}" alt="client icon" class="w-4 h-4" />
-                        <p class="ml-2 mr-auto">Client Account</p>
-                        <svg class="w-3 h-3 transform transition-transform" :class="{ 'rotate-180': dropdownOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </a>
-                    <!-- Child -->
-                    <div x-show="dropdownOpen" @click.away="dropdownOpen = false" class="bg-none ml-4 mt-2 rounded mx-2">
-                        <a href=""
-                           @click="activeChildLink = 'client-student-accounts'; localStorage.setItem('activeChildLink', 'client-student-accounts')"
-                           :class="{ 'text-[#E37878] text-[14px] bg-opacity-40 font-bold': activeChildLink === 'client-student-accounts' }"
-                           class="text-[12px] block py-2.5 px-4 rounded transition duration-200 hover:bg-[#2D2D2D] hover:text-[#E37878]"> Student Accounts </a>
-                        <a href=""
-                           @click="activeChildLink = 'client-guest-accounts'; localStorage.setItem('activeChildLink', 'client-guest-accounts')"
-                           :class="{ 'text-[#E37878] text-[14px] bg-opacity-40 font-bold': activeChildLink === 'client-guest-accounts' }"
-                           class="text-[12px] block py-2.5 px-4 rounded transition duration-200 hover:bg-[#2D2D2D] hover:text-[#E37878]"> Guest Accounts </a>
-                        <a href=""
-                           @click="activeChildLink = 'client-block-student-accounts'; localStorage.setItem('activeChildLink', 'client-block-student-accounts')"
-                           :class="{ 'text-[#E37878] text-[14px] bg-opacity-40 font-bold': activeChildLink === 'client-block-student-accounts' }"
-                           class="text-[12px] block py-2.5 px-4 rounded transition duration-200 hover:bg-[#2D2D2D] hover:text-[#E37878]"> Block Student Accounts </a>
-                        <a href=""
-                           @click="activeChildLink = 'client-block-guest-accounts'; localStorage.setItem('activeChildLink', 'client-block-guest-accounts')"
-                           :class="{ 'text-[#E37878] text-[14px] bg-opacity-40 font-bold': activeChildLink === 'client-block-guest-accounts' }"
-                           class="text-[12px] block py-2.5 px-4 rounded transition duration-200 hover:bg-[#2D2D2D] hover:text-[#E37878]"> Block Guest Accounts </a>
-                        <a href=""
-                           @click="activeChildLink = 'client-archived-student-accounts'; localStorage.setItem('activeChildLink', 'client-archived-student-accounts')"
-                           :class="{ 'text-[#E37878] text-[14px] bg-opacity-40 font-bold': activeChildLink === 'client-archived-student-accounts' }"
-                           class="text-[12px] block py-2.5 px-4 rounded transition duration-200 hover:bg-[#2D2D2D] hover:text-[#E37878]"> Archived Students </a>
-                        <a href=""
-                           @click="activeChildLink = 'client-archived-guest-accounts'; localStorage.setItem('activeChildLink', 'client-archived-guest-accounts')"
-                           :class="{ 'text-[#E37878] text-[14px] bg-opacity-40 font-bold': activeChildLink === 'client-archived-guest-accounts' }"
-                           class="text-[12px] block py-2.5 px-4 rounded transition duration-200 hover:bg-[#2D2D2D] hover:text-[#E37878]"> Archived Guests </a>
-                    </div>
-                </div>
+                <!-- Manage Users -->
+                <a href=""
+                   @click="activeLink = 'manageUsers'; activeChildLink = ''; localStorage.setItem('activeLink', 'manageUsers'); localStorage.setItem('activeChildLink', '')"
+                   :class="{ 'bg-[#6AA76F] text-white drop-shadow font-bold': activeLink === 'manageUsers' }"
+                   class="mx-2 flex items-center block py-2.5 px-4 rounded hover:bg-[#6AA76F] hover:text-[#4D4F50] hover:bg-opacity-20 font-medium text-[#4D4F50]">
 
-                <!-- Custom Horizontal Line -->
-                <div class="relative pb-[15px] mt-6 mx-2">
-                    <div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-1/4 h-[1px] bg-gradient-to-r from-transparent to-white"></div>
-                    <div class="absolute left-1/4 top-1/2 transform -translate-y-1/2 w-2/4 h-[1px] bg-white"></div>
-                    <div class="absolute right-0 top-1/2 transform -translate-y-1/2 w-1/4 h-[1px] bg-gradient-to-l from-transparent to-white"></div>
-                </div>
-                <!-- Logout -->
-                <div class="pt-2 text-[13px] mx-2">
-                    <a href="{{route('admin-logout')}}" :class="{ 'bg-[#2D2D2D] bg-opacity-40 border-l-[#E37878] border-l-[5px]': activeLink === 'logout' }" class="flex items-center py-2.5 px-4 rounded hover:bg-[#2D2D2D] hover:bg-opacity-40 hover:border-l-[#E37878] hover:border-l-[5px]">
-                        <img src="{{ asset('storage/icons/logOut-icon.png') }}" alt="logOut icon" class="w-5 h-5 " />
-                        <p class="ml-2">Logout</p>
-                    </a>
-                </div>
+                    <p class="ml-2">Manage Users</p>
+                </a>
+
+
+                <!-- User Type -->
+                <a href=""
+                   @click="activeLink = 'userType'; activeChildLink = ''; localStorage.setItem('activeLink', 'userType'); localStorage.setItem('activeChildLink', '')"
+                   :class="{ 'bg-[#6AA76F] text-white drop-shadow font-bold': activeLink === 'userType' }"
+                   class="mx-2 flex items-center block py-2.5 px-4 rounded hover:bg-[#6AA76F] hover:text-[#4D4F50] hover:bg-opacity-20 font-medium text-[#4D4F50]">
+                    <p class="ml-2">User Type</p>
+                </a>
+
+                <!-- Activity Logs -->
+                <a href=""
+                   @click="activeLink = 'activityLogs'; activeChildLink = ''; localStorage.setItem('activeLink', 'activityLogs'); localStorage.setItem('activeChildLink', '')"
+                   :class="{ 'bg-[#6AA76F] text-white drop-shadow font-bold': activeLink === 'activityLogs' }"
+                   class="mx-2 flex items-center block py-2.5 px-4 rounded hover:bg-[#6AA76F] hover:text-[#4D4F50] hover:bg-opacity-20 font-medium text-[#4D4F50]">
+                    <p class="ml-2">Activity Logs</p>
+                </a>
             </nav>
+
         </aside>
-        <!--Developer | About Us-->
-        <div class="absolute bottom-7 px-4 xs:hidden md:block">
-            <div class="flex">
-                <img src="{{ asset('storage/images/sitsLogo.png') }}" alt="sits Logo" class="w-7 h-7 mr-2" />
-                <p class="text-[8px] font-light italic text-gray-400 mt-1">Developed By <br/> BSIT Students 2024 </p>
-            </div>
-            <div class="absolute -right-[95px] bottom-0">
-                <!-- Use margin-top for spacing -->
-                <a href="" @click="activeLink = 'aboutUs'" :class="{ 'bg-[#2D2D2D] bg-opacity-40': activeLink === 'aboutUs' }" class="font-normal text-[12px] text-gray-400 hover:text-[#E37878]"> About Us </a>
-            </div>
-        </div>
 
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col">
             <!-- Header for large screens -->
-            <header class="bg-[#202020] rounded-md p-4 hidden md:flex w-full mb-4">
-                <!-- Page title -->
-                <h1 class="text-[20px] mt-[5px] font-bold mr-4">{{$page_title}} |</h1>
-                <!-- Time -->
-                <div class="relative mr-auto">
-                    <!-- Current Time -->
-                    <div x-data="{
-                         currentTime: '',
-                         updateTime() {
-                         let now = new Date();
-                         this.currentTime = now.toLocaleTimeString();
-                         },
-                         init() {
-                         setInterval(() => {
-                         this.updateTime();
-                         }, 1000); // Update every second
-                         this.updateTime(); // Initial call to display time immediately
-                         }
-                    }" x-init="init()">
-                        <p x-text="currentTime" class="text-[14px] text-start"></p>
+            <header class="flex w-full">
+                <div  class="bg-white rounded-md md:flex w-6/10 mb-4 drop-shadow-lg pl-14 mr-5 pt-8">
+
+                    <!--Current Profile-->
+                    <div class="flex justify-center items-center w-[61px] h-[61px] bg-[#2F7D55] rounded-full">
+                        <img src="{{ asset('storage/icons/profile-graphics.png') }}" alt=" "
+                             class="w-14 h-14 rounded-full">
                     </div>
-                    <!--Current Date-->
-                    <div x-data="{
-                                currentDate: '',
-                                updateDate() {
-                                    let now = new Date();
-                                    this.currentDate = now.toDateString();
-                                },
-                                init() {
-                                    this.updateDate(); // Initial call to display date immediately
-                                }
-                            }" x-init="init()">
-                        <p x-text="currentDate" class="text-[14px] text-center"></p>
+
+                    <!--Account Name-->
+                    <div class="relative flex flex-col ml-5 pt-2 leading-6 mr-auto">
+                        <h1 class="text-[#2F7D55] text-[24px] font-semibold">Good Morning!</h1>
+                        <a class="text-[#2F7D55] text-[14px] font-normal ml-1">Sheena Mariz Pagas</a>
                     </div>
-                </div>
-                <div class="relative float-left flex">
-                    <!-- Notification -->
-                    <div class="flex mr-auto">
-                        <!-- tooltip notification -->
-                        <div x-data="{
-                                tooltipVisible: false,
-                                tooltipText: 'Notification',
-                                tooltipArrow: true,
-                                tooltipPosition: 'top',
-                                dropdownVisible: false
-                            }" x-init="$refs.content.addEventListener('mouseenter', () => { tooltipVisible = true; }); $refs.content.addEventListener('mouseleave', () => { tooltipVisible = false; });" class="relative mr-5">
-                            <div x-ref="tooltip" x-show="tooltipVisible" :class="{ 'top-0 left-1/2 -translate-x-1/2 -mt-0.5 -translate-y-full' : tooltipPosition == 'top', 'top-1/2 -translate-y-1/2 -ml-0.5 left-0 -translate-x-full' : tooltipPosition == 'left', 'bottom-0 left-1/2 -translate-x-1/2 -mb-0.5 translate-y-full' : tooltipPosition == 'bottom', 'top-1/2 -translate-y-1/2 -mr-0.5 right-0 translate-x-full' : tooltipPosition == 'right' }" class="absolute w-auto text-sm" x-cloak>
-                                <div x-show="tooltipVisible" x-transition class="relative px-2 py-1 text-white dark:bg-gray-800 rounded bg-opacity-90">
-                                    <p x-text="tooltipText" class="flex-shrink-0 block text-xs whitespace-nowrap text-white"></p>
-                                    <div x-ref="tooltipArrow" x-show="tooltipArrow" :class="{ 'bottom-0 -translate-x-1/2 left-1/2 w-2.5 translate-y-full' : tooltipPosition == 'top', 'right-0 -translate-y-1/2 top-1/2 h-2.5 -mt-px translate-x-full' : tooltipPosition == 'left', 'top-0 -translate-x-1/2 left-1/2 w-2.5 -translate-y-full' : tooltipPosition == 'bottom', 'left-0 -translate-y-1/2 top-1/2 h-2.5 -mt-px -translate-x-full' : tooltipPosition == 'right' }" class="absolute inline-flex items-center justify-center overflow-hidden">
-                                        <div :class="{ 'origin-top-left -rotate-45' : tooltipPosition == 'top', 'origin-top-left rotate-45' : tooltipPosition == 'left', 'origin-bottom-left rotate-45' : tooltipPosition == 'bottom', 'origin-top-right -rotate-45' : tooltipPosition == 'right' }" class="w-1.5 h-1.5 transform dark:bg-gray-800 bg-opacity-90"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--Notification icon-->
-                            <svg x-ref="content"
-                                 @click="dropdownVisible = !dropdownVisible; activeLink = 'notification'; localStorage.setItem('activeLink', 'notification')"
-                                 :class="{ 'cursor-pointer rounded-[4px] text-[#E37878]': activeLink === 'notification' }"
-                                 class="cursor-pointer fill-current text-[#9B9B9B] hover:text-[#E37878] mt-[9px]"
-                                 xmlns="http://www.w3.org/2000/svg"
-                                 xmlns:xlink="http://www.w3.org/1999/xlink"
-                                 width="22"
-                                 viewBox="0 0 375 374.999991"
-                                 height="22"
-                                 preserveAspectRatio="xMidYMid meet"
-                                 version="1.0">
-                                <defs>
-                                    <clipPath id="ca934e5125">
-                                        <path d="M 145 336 L 231 336 L 231 370.144531 L 145 370.144531 Z M 145 336 " clip-rule="nonzero" />
-                                    </clipPath>
-                                    <clipPath id="eacddd7118">
-                                        <path d="M 22.175781 5.644531 L 353.675781 5.644531 L 353.675781 321 L 22.175781 321 Z M 22.175781 5.644531 " clip-rule="nonzero" />
-                                    </clipPath>
-                                </defs>
-                                <g clip-path="url(#ca934e5125)">
-                                    <path fill="fill-current" d="M 229.59375 338.414062 C 228.78125 337.234375 227.160156 336.421875 226.125 336.570312 L 149.949219 337.015625 C 149.949219 337.015625 147.21875 337.75 146.480469 338.933594 C 145.742188 340.113281 145.59375 341.589844 146.183594 342.84375 C 153.417969 359.445312 169.878906 370.144531 187.964844 370.144531 C 206.34375 370.144531 222.804688 359.222656 229.964844 342.328125 C 230.480469 341 230.332031 339.523438 229.59375 338.414062 Z M 229.59375 338.414062 " fill-opacity="1" fill-rule="nonzero" />
-                                </g>
-                                <g clip-path="url(#eacddd7118)">
-                                    <path fill="fill-current" d="M 350.722656 297.539062 L 304 258.578125 L 304 154.765625 C 304 102.15625 268.714844 57.664062 220.589844 43.496094 C 220.808594 41.945312 221.105469 40.398438 221.105469 38.773438 C 221.105469 20.476562 206.269531 5.644531 187.964844 5.644531 C 169.65625 5.644531 154.820312 20.476562 154.820312 38.773438 C 154.820312 40.398438 155.117188 41.945312 155.335938 43.496094 C 107.210938 57.664062 71.925781 102.082031 71.925781 154.765625 L 71.925781 258.578125 L 25.128906 297.539062 C 23.210938 299.089844 22.175781 301.449219 22.175781 303.882812 L 22.175781 312.148438 C 22.175781 316.722656 25.867188 320.414062 30.441406 320.414062 L 345.410156 320.414062 C 349.984375 320.414062 353.675781 316.722656 353.675781 312.148438 L 353.675781 303.882812 C 353.675781 301.449219 352.570312 299.089844 350.722656 297.539062 Z M 171.503906 40.101562 C 171.503906 39.660156 171.355469 39.214844 171.355469 38.773438 C 171.355469 29.625 178.808594 22.171875 187.964844 22.171875 C 197.117188 22.171875 204.496094 29.625 204.496094 38.773438 C 204.496094 39.214844 204.421875 39.660156 204.351562 40.101562 C 198.960938 39.363281 193.5 38.773438 187.890625 38.773438 C 182.277344 38.773438 176.890625 39.289062 171.503906 40.101562 Z M 171.503906 40.101562 " fill-opacity="1" fill-rule="nonzero" />
-                                </g>
+
+                    <!--Search-->
+                    <div class="flex w-80 items-center mb-10 px-10">
+                        <form class="relative flex flex-1  h-8 rounded-[4px]  border-[2px] border-[#F8F7F7]" action="#" method="GET">
+                            <label for="search-field" class="sr-only">Search</label>
+                            <svg class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400 ml-2 z-10" viewBox="0 0 20 20" fill="#0BAA67" aria-hidden="false">
+                                <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
                             </svg>
-                            <!--Dropdown Notification-->
-                            <div x-show="dropdownVisible"
-                                 @click.away="dropdownVisible = false"
-                                 x-transition:enter="transition ease-out duration-200"
-                                 x-transition:enter-start="transform opacity-0 scale-100"
-                                 x-transition:enter-end="transform opacity-100 scale-100"
-                                 x-transition:leave="transition ease-in duration-75"
-                                 x-transition:leave-start="transform opacity-100 scale-100"
-                                 x-transition:leave-end="transform opacity-0 scale-95"
-                                 class="absolute right-1 mt-2 w-[350px] rounded-md shadow-xl bg-[#292929] ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
-                                 aria-orientation="vertical" aria-labelledby="notifications-info">
-                                <div class="py-1 px-2">
-                                    <h1 class="text-[14px] py-2 px-2 font-medium border-b-[#757575] border-b-[2px] text-[#D5D5D5]">Notification</h1>
-                                    <ul class=" overflow-y-auto overflow-x-hidden h-[320px] mx-2 mt-2 mb-10">
-                                        <li class="block px-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-[#202020]" role="menuitem">
-                                            <div class="border-b border-b-[#373737] flex px-2 py-4">
-                                                <div class="w-10 h-10 border rounded-full border-gray-400 flex items-center justify-center">
-                                                    <img src="{{ asset('storage/icons/message-icon.png') }}" alt="message-icon"
-                                                         class="w-5 h-5">
-                                                </div>
-                                                <div class="pl-3">
+                            <input id="search-field"
+                                   class="focus:bg-gray-100 bg-white drop-shadow-sm rounded-md border-none block h-full w-full py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 xs:text-[10px] sm:text-[10px] md:text-[12px] lg:text-[12px]"
+                                   placeholder="Search" type="search" name="search">
+                        </form>
+                    </div>
 
-                                                    <p class="text-[12px]">
-                                                        <span class="text-[#E6E6E6]">James Doe</span>                 <!-- client/users name -->
-                                                        <span class="text-[#E6E6E6] font-semibold">replied a</span>   <!-- notification detail/activities made -->
-                                                        <span class="text-[#E6E6E6]">message.</span>
-                                                    </p>
 
-                                                    <!-- client computer name used -->
-                                                    <span class="text-xs leading-3 pt-1 text-gray-400">
-                                                        from
-                                                    </span>
-                                                    <span class="text-xs leading-3 pt-1 text-gray-400 italic">
-                                                        Computer 2
-                                                    </span>
-
-                                                    <!--time/notification occur-->
-                                                    <span x-data="{
-                                                        now: new Date(),
-                                                        options: {
-                                                            day: '2-digit',
-                                                            month: 'short',
-                                                            year: 'numeric',
-                                                            hour: '2-digit',
-                                                            minute: '2-digit',
-                                                            hour12: true
-                                                        },
-                                                         get formattedDate() {
-                                                            const day = this.now.toLocaleDateString('en-GB', { day: '2-digit' });
-                                                            const month = this.now.toLocaleDateString('en-GB', { month: 'short' });
-                                                            const year = this.now.toLocaleDateString('en-GB', { year: 'numeric' });
-                                                            const time = this.now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: true });
-                                                            return `${day} ${month} ${year} at ${time}`;
-                                                        }
-                                                    }">
-                                                        <div class="flex items-center space-x-2 text-gray-200 dark:text-gray-400 text-[12px] mt-2">
-                                                            <!-- Clock Icon -->
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-8V6a1 1 0 112 0v4h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd" />
-                                                            </svg>
-                                                            <!-- Timestamp -->
-                                                            <span x-text="formattedDate"></span>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="block px-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-[#202020]" role="menuitem">
-                                            <div class="border-b border-b-[#373737] flex px-2 py-4">
-                                                <div class="w-10 h-10 border rounded-full border-gray-400 flex items-center justify-center">
-                                                    <img src="{{ asset('storage/icons/message-icon.png') }}" alt="message-icon"
-                                                         class="w-5 h-5">
-                                                </div>
-                                                <div class="pl-3">
-
-                                                    <p class="text-[12px]">
-                                                        <span class="text-[#E6E6E6]">James Doe</span>                 <!-- client/users name -->
-                                                        <span class="text-[#E6E6E6] font-semibold">replied a</span>   <!-- notification detail/activities made -->
-                                                        <span class="text-[#E6E6E6]">message.</span>
-                                                    </p>
-
-                                                    <!-- client computer name used -->
-                                                    <span class="text-xs leading-3 pt-1 text-gray-400">
-                                                        from
-                                                    </span>
-                                                    <span class="text-xs leading-3 pt-1 text-gray-400 italic">
-                                                        Computer 2
-                                                    </span>
-
-                                                    <!--time/notification occur-->
-                                                    <span x-data="{
-                                                        now: new Date(),
-                                                        options: {
-                                                            day: '2-digit',
-                                                            month: 'short',
-                                                            year: 'numeric',
-                                                            hour: '2-digit',
-                                                            minute: '2-digit',
-                                                            hour12: true
-                                                        },
-                                                         get formattedDate() {
-                                                            const day = this.now.toLocaleDateString('en-GB', { day: '2-digit' });
-                                                            const month = this.now.toLocaleDateString('en-GB', { month: 'short' });
-                                                            const year = this.now.toLocaleDateString('en-GB', { year: 'numeric' });
-                                                            const time = this.now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: true });
-                                                            return `${day} ${month} ${year} at ${time}`;
-                                                        }
-                                                    }">
-                                                        <div class="flex items-center space-x-2 text-gray-200 dark:text-gray-400 text-[12px] mt-2">
-                                                            <!-- Clock Icon -->
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-8V6a1 1 0 112 0v4h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd" />
-                                                            </svg>
-                                                            <!-- Timestamp -->
-                                                            <span x-text="formattedDate"></span>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="block px-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-[#202020]" role="menuitem">
-                                            <div class="border-b border-b-[#373737] flex px-2 py-4">
-                                                <div class="w-10 h-10 border rounded-full border-gray-400 flex items-center justify-center">
-                                                    <img src="{{ asset('storage/icons/message-icon.png') }}" alt="message-icon"
-                                                         class="w-5 h-5">
-                                                </div>
-                                                <div class="pl-3">
-
-                                                    <p class="text-[12px]">
-                                                        <span class="text-[#E6E6E6]">James Doe</span>                 <!-- client/users name -->
-                                                        <span class="text-[#E6E6E6] font-semibold">replied a</span>   <!-- notification detail/activities made -->
-                                                        <span class="text-[#E6E6E6]">message.</span>
-                                                    </p>
-
-                                                    <!-- client computer name used -->
-                                                    <span class="text-xs leading-3 pt-1 text-gray-400">
-                                                        from
-                                                    </span>
-                                                    <span class="text-xs leading-3 pt-1 text-gray-400 italic">
-                                                        Computer 2
-                                                    </span>
-
-                                                    <!--time/notification occur-->
-                                                    <span x-data="{
-                                                        now: new Date(),
-                                                        options: {
-                                                            day: '2-digit',
-                                                            month: 'short',
-                                                            year: 'numeric',
-                                                            hour: '2-digit',
-                                                            minute: '2-digit',
-                                                            hour12: true
-                                                        },
-                                                         get formattedDate() {
-                                                            const day = this.now.toLocaleDateString('en-GB', { day: '2-digit' });
-                                                            const month = this.now.toLocaleDateString('en-GB', { month: 'short' });
-                                                            const year = this.now.toLocaleDateString('en-GB', { year: 'numeric' });
-                                                            const time = this.now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: true });
-                                                            return `${day} ${month} ${year} at ${time}`;
-                                                        }
-                                                    }">
-                                                        <div class="flex items-center space-x-2 text-gray-200 dark:text-gray-400 text-[12px] mt-2">
-                                                            <!-- Clock Icon -->
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-8V6a1 1 0 112 0v4h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd" />
-                                                            </svg>
-                                                            <!-- Timestamp -->
-                                                            <span x-text="formattedDate"></span>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="block px-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-[#202020]" role="menuitem">
-                                            <div class="border-b border-b-[#373737] flex px-2 py-4">
-                                                <div class="w-10 h-10 border rounded-full border-gray-400 flex items-center justify-center">
-                                                    <img src="{{ asset('storage/icons/message-icon.png') }}" alt="message-icon"
-                                                         class="w-5 h-5">
-                                                </div>
-                                                <div class="pl-3">
-
-                                                    <p class="text-[12px]">
-                                                        <span class="text-[#E6E6E6]">James Doe</span>                 <!-- client/users name -->
-                                                        <span class="text-[#E6E6E6] font-semibold">replied a</span>   <!-- notification detail/activities made -->
-                                                        <span class="text-[#E6E6E6]">message.</span>
-                                                    </p>
-
-                                                    <!-- client computer name used -->
-                                                    <span class="text-xs leading-3 pt-1 text-gray-400">
-                                                        from
-                                                    </span>
-                                                    <span class="text-xs leading-3 pt-1 text-gray-400 italic">
-                                                        Computer 2
-                                                    </span>
-
-                                                    <!--time/notification occur-->
-                                                    <span x-data="{
-                                                        now: new Date(),
-                                                        options: {
-                                                            day: '2-digit',
-                                                            month: 'short',
-                                                            year: 'numeric',
-                                                            hour: '2-digit',
-                                                            minute: '2-digit',
-                                                            hour12: true
-                                                        },
-                                                         get formattedDate() {
-                                                            const day = this.now.toLocaleDateString('en-GB', { day: '2-digit' });
-                                                            const month = this.now.toLocaleDateString('en-GB', { month: 'short' });
-                                                            const year = this.now.toLocaleDateString('en-GB', { year: 'numeric' });
-                                                            const time = this.now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: true });
-                                                            return `${day} ${month} ${year} at ${time}`;
-                                                        }
-                                                    }">
-                                                        <div class="flex items-center space-x-2 text-gray-200 dark:text-gray-400 text-[12px] mt-2">
-                                                            <!-- Clock Icon -->
-                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-8V6a1 1 0 112 0v4h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd" />
-                                                            </svg>
-                                                            <!-- Timestamp -->
-                                                            <span x-text="formattedDate"></span>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <a href="" @click="activeLink = 'notification'; localStorage.setItem('activeLink', 'notification')" class="flex justified-center items-center" id="notification">
-                                            <li class="fixed pl-24 -mt-16 px-4 text-sm text-[#e39090] hover:text-[#e37575] font-bold" role="menuitem">
-                                                <p class="text-[12px]">
-                                                    View All Notifications
-                                                </p>
-                                            </li>
-                                        </a>
-                                    </ul>
-                                </div>
+                </div>
+                <div class="bg-white rounded-md p-4 md:flex w-4/10 mb-4 drop-shadow-lg relative">
+                    <!--Notification-->
+                    <div class="w-full">
+                        <div class="flex justify-between border-b-[#757575] border-b-[2px]">
+                            {{--Notification Title--}}
+                            <div><h1 class="text-[14px] px-2 font-medium text-[#202020]">NOTIFICATIONS</h1></div>
+                           {{--See More Button--}}
+                            <div class="flex justify-end pr-3">
+                                <a href="" class="text-[12px] text-blue-500 font-medium hover:underline">
+                                    See More
+                                </a>
                             </div>
                         </div>
-                        <!-- Profile -->
-                        <div x-data="{
-                            tooltipVisible: false,
-                            tooltipText: 'Profile',
-                            tooltipArrow: true,
-                            tooltipPosition: 'top',
-                            }" x-init="$refs.content.addEventListener('mouseenter', () => { tooltipVisible = true; }); $refs.content.addEventListener('mouseleave', () => { tooltipVisible = false; });" class="relative mt-[4px] mr-5">
-                            <div x-ref="tooltip" x-show="tooltipVisible" :class="{ 'top-0 left-1/2 -translate-x-1/2 -mt-0.5 -translate-y-full' : tooltipPosition == 'top', 'top-1/2 -translate-y-1/2 -ml-0.5 left-0 -translate-x-full' : tooltipPosition == 'left', 'bottom-0 left-1/2 -translate-x-1/2 -mb-0.5 translate-y-full' : tooltipPosition == 'bottom', 'top-1/2 -translate-y-1/2 -mr-0.5 right-0 translate-x-full' : tooltipPosition == 'right' }" class="absolute w-auto text-sm" x-cloak>
-                                <div x-show="tooltipVisible" x-transition class="relative px-2 py-1 text-white dark:bg-gray-800 rounded bg-opacity-90">
-                                    <p x-text="tooltipText" class="flex-shrink-0 block text-xs whitespace-nowrap text-white"></p>
-                                    <div x-ref="tooltipArrow" x-show="tooltipArrow" :class="{ 'bottom-0 -translate-x-1/2 left-1/2 w-2.5 translate-y-full' : tooltipPosition == 'top', 'right-0 -translate-y-1/2 top-1/2 h-2.5 -mt-px translate-x-full' : tooltipPosition == 'left', 'top-0 -translate-x-1/2 left-1/2 w-2.5 -translate-y-full' : tooltipPosition == 'bottom', 'left-0 -translate-y-1/2 top-1/2 h-2.5 -mt-px -translate-x-full' : tooltipPosition == 'right' }" class="absolute inline-flex items-center justify-center overflow-hidden">
-                                        <div :class="{ 'origin-top-left -rotate-45' : tooltipPosition == 'top', 'origin-top-left rotate-45' : tooltipPosition == 'left', 'origin-bottom-left rotate-45' : tooltipPosition == 'bottom', 'origin-top-right -rotate-45' : tooltipPosition == 'right' }" class="w-1.5 h-1.5 transform dark:bg-gray-800 bg-opacity-90"></div>
+                        <ul class="overflow-y-auto overflow-x-hidden max-h-[60px] mt-2 px-2">
+                            <!-- Notification Items -->
+                            <li class="block text-sm text-[#4D4F50] space-y-4 rounded-md">
+                                <div class="border-b border-b-[#D5D5D5] hover:bg-gray-100 flex justify-between py-2">
+                                    <div class="flex pl-3 items-center space-x-3">
+                                        <!-- Notification Message Icon -->
+                                        <div class="w-8 h-8 border rounded-full border-[#FFAD20] flex items-center justify-center">
+                                            <img src="{{ asset('storage/icons/notification-message-icon.png') }}" alt="message-icon" class="w-4 h-4">
+                                        </div>
+                                        <!-- Notification Message -->
+                                        <div class="text-[12px] text-[#202020]">
+                                            <span>Successfully</span>
+                                            <span class="font-semibold">add Users</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Time of Notification Message Occur (aligned to the very right) -->
+                                    <div x-data="{
+                                        now: new Date(),
+                                        notificationDate: new Date('2024-10-09T12:00:00'), // Replace with the actual notification date
+                                            get timeAgo() {
+                                                const diffMs = this.now - this.notificationDate;
+                                                const diffMins = Math.floor(diffMs / 60000);
+                                                const diffHours = Math.floor(diffMins / 60);
+                                                const diffDays = Math.floor(diffHours / 24);
+
+                                                if (diffMins < 1) {
+                                                    return 'just now';
+                                                } else if (diffMins < 60) {
+                                                    return `${diffMins} mins ago`;
+                                                } else if (diffHours < 24) {
+                                                    return `${diffHours} hours ago`;
+                                                } else {
+                                                    return `${diffDays} days ago`;
+                                                }
+                                            }
+                                        }" class="flex items-center text-[#202020] text-[12px] pr-3">
+                                        <!-- Clock Icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-8V6a1 1 0 112 0v4h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd" />
+                                        </svg>
+                                        <!-- Time Ago -->
+                                        <span x-text="timeAgo" class="ml-1"></span>
                                     </div>
                                 </div>
-                            </div>
-                            <a x-ref="content" href="" @click="activeLink = 'profile'; localStorage.setItem('activeLink', 'profile')" class="-m-1.5 flex items-center p-1.5" id="profile">
-                                <img class="h-8 w-8 rounded-full bg-gray-50 mr-2" src="{{ asset('storage/images/sampleProfile.png') }}" alt="Profile Picture">
-                                <span class="flex flex-col items-left justify-left">
-                                    @php
-                                        $user = Auth::user(); // Get the authenticated user
-                                    @endphp
+                            </li>
+                            <li class="block text-sm text-[#4D4F50]  rounded-md">
+                                <div class="border-b border-b-[#D5D5D5] hover:bg-gray-100 flex justify-between py-2">
+                                    <div class="flex pl-3 items-center space-x-3">
+                                        <!-- Notification Message Icon -->
+                                        <div class="w-8 h-8 border rounded-full border-[#FFAD20] flex items-center justify-center">
+                                            <img src="{{ asset('storage/icons/notification-message-icon.png') }}" alt="message-icon" class="w-4 h-4">
+                                        </div>
+                                        <!-- Notification Message -->
+                                        <div class="text-[12px] text-[#202020]">
+                                            <span>Successfully</span>
+                                            <span class="font-semibold">add Users</span>
+                                        </div>
+                                    </div>
 
-                                    @if ($user)
-                                        <span class="text-sm font-semibold leading-4 text-white hidden lg:block">{{ $user->first_name }} {{ $user->last_name }}</span>
-                                        <span class="text-xs leading-4 text-white hidden lg:block">{{ $user->user_type == 1 ? 'Admin' : 'Resident' }}</span>
-                                    @endif
-                                </span>
-                            </a>
-                        </div>
+                                    <!-- Time of Notification Message Occur (aligned to the very right) -->
+                                    <div x-data="{
+                                        now: new Date(),
+                                        notificationDate: new Date('2024-10-09T12:00:00'), // Replace with the actual notification date
+                                            get timeAgo() {
+                                                const diffMs = this.now - this.notificationDate;
+                                                const diffMins = Math.floor(diffMs / 60000);
+                                                const diffHours = Math.floor(diffMins / 60);
+                                                const diffDays = Math.floor(diffHours / 24);
+
+                                                if (diffMins < 1) {
+                                                    return 'just now';
+                                                } else if (diffMins < 60) {
+                                                    return `${diffMins} mins ago`;
+                                                } else if (diffHours < 24) {
+                                                    return `${diffHours} hours ago`;
+                                                } else {
+                                                    return `${diffDays} days ago`;
+                                                }
+                                            }
+                                        }" class="flex items-center text-[#202020] text-[12px] pr-3">
+                                        <!-- Clock Icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-8V6a1 1 0 112 0v4h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd" />
+                                        </svg>
+                                        <!-- Time Ago -->
+                                        <span x-text="timeAgo" class="ml-1"></span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="block text-sm text-[#4D4F50]  rounded-md">
+                                <div class="border-b border-b-[#D5D5D5] hover:bg-gray-100 flex justify-between py-2">
+                                    <div class="flex pl-3 items-center space-x-3">
+                                        <!-- Notification Message Icon -->
+                                        <div class="w-8 h-8 border rounded-full border-[#FFAD20] flex items-center justify-center">
+                                            <img src="{{ asset('storage/icons/notification-message-icon.png') }}" alt="message-icon" class="w-4 h-4">
+                                        </div>
+                                        <!-- Notification Message -->
+                                        <div class="text-[12px] text-[#202020]">
+                                            <span>Successfully</span>
+                                            <span class="font-semibold">add Users</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Time of Notification Message Occur (aligned to the very right) -->
+                                    <div x-data="{
+                                        now: new Date(),
+                                        notificationDate: new Date('2024-10-09T12:00:00'), // Replace with the actual notification date
+                                            get timeAgo() {
+                                                const diffMs = this.now - this.notificationDate;
+                                                const diffMins = Math.floor(diffMs / 60000);
+                                                const diffHours = Math.floor(diffMins / 60);
+                                                const diffDays = Math.floor(diffHours / 24);
+
+                                                if (diffMins < 1) {
+                                                    return 'just now';
+                                                } else if (diffMins < 60) {
+                                                    return `${diffMins} mins ago`;
+                                                } else if (diffHours < 24) {
+                                                    return `${diffHours} hours ago`;
+                                                } else {
+                                                    return `${diffDays} days ago`;
+                                                }
+                                            }
+                                        }" class="flex items-center text-[#202020] text-[12px] pr-3">
+                                        <!-- Clock Icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-8V6a1 1 0 112 0v4h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd" />
+                                        </svg>
+                                        <!-- Time Ago -->
+                                        <span x-text="timeAgo" class="ml-1"></span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="block text-sm text-[#4D4F50]  rounded-md">
+                                <div class="border-b border-b-[#D5D5D5] hover:bg-gray-100 flex justify-between py-2">
+                                    <div class="flex pl-3 items-center space-x-3">
+                                        <!-- Notification Message Icon -->
+                                        <div class="w-8 h-8 border rounded-full border-[#FFAD20] flex items-center justify-center">
+                                            <img src="{{ asset('storage/icons/notification-message-icon.png') }}" alt="message-icon" class="w-4 h-4">
+                                        </div>
+                                        <!-- Notification Message -->
+                                        <div class="text-[12px] text-[#202020]">
+                                            <span>Successfully</span>
+                                            <span class="font-semibold">add Users</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Time of Notification Message Occur (aligned to the very right) -->
+                                    <div x-data="{
+                                        now: new Date(),
+                                        notificationDate: new Date('2024-10-09T12:00:00'), // Replace with the actual notification date
+                                            get timeAgo() {
+                                                const diffMs = this.now - this.notificationDate;
+                                                const diffMins = Math.floor(diffMs / 60000);
+                                                const diffHours = Math.floor(diffMins / 60);
+                                                const diffDays = Math.floor(diffHours / 24);
+
+                                                if (diffMins < 1) {
+                                                    return 'just now';
+                                                } else if (diffMins < 60) {
+                                                    return `${diffMins} mins ago`;
+                                                } else if (diffHours < 24) {
+                                                    return `${diffHours} hours ago`;
+                                                } else {
+                                                    return `${diffDays} days ago`;
+                                                }
+                                            }
+                                        }" class="flex items-center text-[#202020] text-[12px] pr-3">
+                                        <!-- Clock Icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-8V6a1 1 0 112 0v4h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd" />
+                                        </svg>
+                                        <!-- Time Ago -->
+                                        <span x-text="timeAgo" class="ml-1"></span>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <!-- Add other notification items here -->
+                        </ul>
                     </div>
                 </div>
+
+
             </header>
             <!-- Content Area -->
             <main class="flex-1 rounded-md mx-1 mb-4 {{ ' '.$main_class }}">

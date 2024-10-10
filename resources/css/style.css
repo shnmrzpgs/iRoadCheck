@@ -1,25 +1,37 @@
-/* Firefox */
+/* ===== Scrollbar CSS ===== */
+/* Custom scrollbar styles */
+*::-webkit-scrollbar {
+    width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #101010; /* Darker background track */
+    border-radius: 6px;
+
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #202020; /* Gray thumb */
+    border-radius: 6px;
+    border: 3px solid #2d3748; /* Padding around thumb for a gap effect */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: #718096; /* Lighter gray on hover */
+}
+
+*::-webkit-scrollbar-thumb:active {
+    background-color: #a0aec0; /* Even lighter gray on active */
+
+}
+/* Firefox scrollbar styles */
 * {
-    scrollbar-width: auto;
-    scrollbar-color: rgba(255, 255, 255, 0.79) #929292;
-  }
+    scrollbar-width: thin;
+    scrollbar-color: #202020 #101010;
+}
 
-  /* Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 2px;
-  }
 
-  *::-webkit-scrollbar-track {
-    background: #fff;
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: #2f6d69;
-    border: 00px solid #ffffff;
-    border-radius: 20px;
-  }
-
-  * {
+* {
     margin: 0;
     padding: 0;
   }
