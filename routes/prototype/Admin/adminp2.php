@@ -16,6 +16,12 @@ Route::view('/prototype/admin/verify-account-verify-otp', 'iroadcheck.prototype.
 
 Route::view('/component/admin/dashboard', 'iroadcheck.prototype.Admin.dashboard');
 
+Route::view('/component/admin/manage-users', 'iroadcheck.prototype.Admin.manage-users');
+Route::view('/component/admin/user-type', 'iroadcheck.prototype.Admin.user-type');
+Route::view('/component/admin/activity-logs', 'iroadcheck.prototype.Admin.activity-logs');
+Route::view('/component/admin/notifications', 'iroadcheck.prototype.Admin.notifications');
+
+
 
 //Residents
 Route::view('/prototype/residents/login', 'iroadcheck.prototype.Residents.login');
@@ -29,3 +35,4 @@ Route::view('/prototype/residents/verify-user-enterCode', 'iroadcheck.prototype.
 Route::view('/prototype/residents/dashboard', 'iroadcheck.prototype.Residents.dashboard')->name('dashboard');
 Route::view('/prototype/residents/report-road-issue-step1', 'iroadcheck.prototype.Residents.report-road-issue-step1')->name('report-road-issue-step1');
 Route::view('/prototype/residents/report-road-issue-step2', 'iroadcheck.prototype.Residents.report-road-issue-step2')->name('report-road-issue-step2');
+

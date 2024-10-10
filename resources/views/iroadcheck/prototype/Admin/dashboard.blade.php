@@ -1,24 +1,24 @@
-<x-app-layout page_title="Dashboard">
+<x-app-layout>
     <x-admin.navigation>
         <!-- Main Content -->
-        <main class="flex-1 p-6 bg-gray-100">
+        <main class="flex-1 p-6 bg-white drop-shadow-lg">
             <!-- Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <!-- Revenue Card -->
                 <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-xl font-bold mb-2">Revenue</h2>
+                    <h2 class="text-xl font-bold mb-2 text-gray-600">Revenue</h2>
                     <p class="mt-4 text-gray-600">$15,230</p>
                 </div>
 
                 <!-- New Users Card -->
                 <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-xl font-bold mb-2">New Users</h2>
+                    <h2 class="text-xl font-bold mb-2 text-gray-600">New Users</h2>
                     <p class="mt-4 text-gray-600">1,200</p>
                 </div>
 
                 <!-- Performance Card -->
                 <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-xl font-bold mb-2">Performance</h2>
+                    <h2 class="text-xl font-bold mb-2 text-gray-600">Performance</h2>
                     <p class="mt-4 text-gray-600">82%</p>
                 </div>
             </div>
@@ -27,7 +27,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Line Chart Card -->
                 <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-xl font-bold mb-2">Monthly Revenue</h2>
+                    <h2 class="text-xl font-bold mb-2 text-gray-600">Monthly Revenue</h2>
                     <div class="relative h-64" x-data="{ expanded: false }">
                         <canvas id="lineChart"></canvas>
                     </div>
@@ -35,7 +35,7 @@
 
                 <!-- Bar Chart Card -->
                 <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-xl font-bold mb-2">User Signups</h2>
+                    <h2 class="text-xl font-bold mb-2 text-gray-600">User Signups</h2>
                     <div class="relative h-64">
                         <canvas id="barChart"></canvas>
                     </div>
@@ -46,7 +46,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 <!-- Pie Chart Card -->
                 <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-xl font-bold mb-2">Traffic Sources</h2>
+                    <h2 class="text-xl font-bold mb-2 text-gray-600">Traffic Sources</h2>
                     <div class="relative h-64">
                         <canvas id="pieChart"></canvas>
                     </div>
@@ -54,7 +54,7 @@
 
                 <!-- Table -->
                 <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-xl font-bold mb-2">Latest Transactions</h2>
+                    <h2 class="text-xl font-bold mb-2 text-gray-600">Latest Transactions</h2>
                     <div class="overflow-auto">
                         <table class="min-w-full bg-white">
                             <thead class="bg-gray-200 text-gray-600">
