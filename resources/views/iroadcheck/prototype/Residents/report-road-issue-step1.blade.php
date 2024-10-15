@@ -20,11 +20,11 @@
 
         <div class="w-full max-w-md bg-white py-6 ">
             <!-- Navigation Tabs -->
-            <div class="flex overflow-x-auto whitespace-nowrap" style="scrollbar-width: none; -ms-overflow-style: none; overflow-x: auto;">
-                <button class="px-4 py-1  bg-white text-customGreen border border-customGreen rounded-full ml-6 shadow-md">Dashboard</button>
-                <button class="px-4 py-1 bg-customGreen text-white border rounded-full ml-2 shadow-md">Report Road Issue</button>
-                <button class="px-4 py-1 bg-white text-customGreen border border-customGreen rounded-full ml-2 shadow-md">Suggestion Report</button>
-                <button class="px-4 py-1 bg-white text-customGreen border border-customGreen rounded-full ml-2 shadow-md">Report History</button>
+            <div class="flex overflow-x-auto whitespace-nowrap p-1" style="scrollbar-width: none; -ms-overflow-style: none; overflow-x: auto;">
+                <button  x-data @click="window.location.href='{{ route('dashboard') }}'"  class="px-4 py-1  bg-white  text-[14px] text-customGreen border border-customGreen rounded-full ml-6 shadow-md">Dashboard</button>
+                <button class="px-4 py-1 bg-customGreen  text-[14px] text-white border rounded-full ml-2 shadow-md">Report Road Issue</button>
+                <button class="px-4 py-1 bg-white  text-[14px] text-customGreen border border-customGreen rounded-full ml-2 shadow-md">Suggestion Report</button>
+                <button class="px-4 py-1 bg-white  text-[14px] text-customGreen border border-customGreen rounded-full ml-2 shadow-md">Report History</button>
             </div>
 
         </div>
@@ -35,30 +35,34 @@
 
 
         <!-- Report History Section -->
-        <div class="mt-6 bg-white w-[80%] max-w-md shadow-sm rounded-lg  border-2 border-gray-300" style="height: 550px;">
+        <div  x-data="{ selected: null }" class="mt-6 bg-white w-[80%] max-w-md shadow-sm rounded-lg  border-2 border-gray-300" style="height: 550px;">
             <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-4">
-                <h2 class="text-lg font-semibold">Type of Road Issue Concern</h2>
+                <h2 class=" text-[16px] font-semibold">Type of Road Issue Concern</h2>
             </div>
-            <div class="h-full overflow-y-auto">
-                <div class="flex items-center mb-4 border-b-2 border-gray-300 py-6">
+            <div class="h-[50vh] overflow-y-auto">
+                <div @click="selected = 'pothole'" :class="{ 'bg-gray-100': selected === 'pothole' }" class="flex items-center border-b-2 border-gray-300 py-6 cursor-pointer">
                     <img src="{{ asset('storage/images/pothole.png') }}" alt="Pothole" class="w-16 h-16 rounded mr-2 ml-4">
-                    <p class="text-gray-800 ml-2">Pothole</p>
+                    <p class=" text-[13px] text-gray-800 ml-2">Pothole</p>
                 </div>
-                <div class="flex items-center mb-4 border-b-2 border-gray-300 py-6">
+                <div  @click="selected = 'raveling'" :class="{ 'bg-gray-100': selected === 'raveling' }" class="flex items-center border-b-2 border-gray-300 py-6 cursor-pointer">
                     <img src="{{ asset('storage/images/raveling.png') }}" alt="Raveling" class="w-16 h-16 rounded mr-2 ml-4">
-                    <p class="text-gray-800 ml-2">Raveling</p>
+                    <p class=" text-[13px] text-gray-800 ml-2">Raveling</p>
                 </div>
-                <div class="flex items-center mb-4 border-b-2 border-gray-300 py-6">
+                <div  @click="selected = 'block-cracking'" :class="{ 'bg-gray-100': selected === 'block-cracking' }" class="flex items-center border-b-2 border-gray-300 py-6 cursor-pointer">
                     <img src="{{ asset('storage/images/block craking.png') }}" alt="Block Cracking" class="w-16 h-16 rounded mr-2 ml-4">
-                    <p class="text-gray-800 ml-2">Block Cracking</p>
+                    <p class=" text-[13px] text-gray-800 ml-2">Block Cracking</p>
                 </div>
-                <div class="flex items-center mb-4 border-b-2 border-gray-300 py-6">
+                <div @click="selected = 'slippage-cracking'" :class="{ 'bg-gray-100': selected === 'slippage-cracking' }" class="flex items-center border-b-2 border-gray-300 py-6">
                     <img src="{{ asset('storage/images/slippage craking.png') }}" alt="Slippage Cracking" class="w-16 h-16 rounded mr-2 ml-4">
-                    <p class="text-gray-800 ml-2">Slippage Cracking</p>
+                    <p class=" text-[13px] text-gray-800 ml-2">Slippage Cracking</p>
                 </div>
-                <div class="flex items-center mb-4 border-b-2 border-gray-300 py-6">
-                    <img src="{{ asset('storage/images/pothole.png') }}" alt="Slippage Cracking" class="w-16 h-16 rounded mr-2 ml-4">
-                    <p class="text-gray-800 ml-2">Pothole</p>
+                <div @click="selected = 'slippage-cracking'" :class="{ 'bg-gray-100': selected === 'slippage-cracking' }" class="flex items-center border-b-2 border-gray-300 py-6">
+                    <img src="{{ asset('storage/images/slippage craking.png') }}" alt="Slippage Cracking" class="w-16 h-16 rounded mr-2 ml-4">
+                    <p class=" text-[13px] text-gray-800 ml-2">Slippage Cracking</p>
+                </div>
+                <div @click="selected = 'slippage-cracking'" :class="{ 'bg-gray-100': selected === 'slippage-cracking' }" class="flex items-center border-b-2 border-gray-300 py-6">
+                    <img src="{{ asset('storage/images/slippage craking.png') }}" alt="Slippage Cracking" class="w-16 h-16 rounded mr-2 ml-4">
+                    <p class=" text-[13px] text-gray-800 ml-2">Slippage Cracking</p>
                 </div>
                 
             </div>
@@ -66,7 +70,7 @@
 
 
         <!-- Report Road Issue Button -->
-        <div class="mt-9 w-[80%] text-center">
+        <div class="mt-9 w-[75%] text-center">
             <button x-data @click="window.location.href='{{ route('report-road-issue-step2') }}'" class="px-6 py-4 w-full bg-customGreen text-xl font-semibold text-white shadow-md rounded-full border-2 hover:bg-green-400">       
                NEXT
             </button>

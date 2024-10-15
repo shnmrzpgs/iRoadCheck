@@ -21,10 +21,10 @@
         <div class="w-full max-w-md bg-white py-6 ">
             <!-- Navigation Tabs -->
             <div class="flex overflow-x-auto whitespace-nowrap" style="scrollbar-width: none; -ms-overflow-style: none; overflow-x: auto;">
-                <button class="px-4 py-1 bg-customGreen text-white border rounded-full ml-6 shadow-md">Dashboard</button>
-                <button class="px-4 py-1 bg-white text-customGreen border border-customGreen rounded-full ml-2 shadow-md">Report Road Issue</button>
-                <button class="px-4 py-1 bg-white text-customGreen border border-customGreen rounded-full ml-2 shadow-md">Suggestion Report</button>
-                <button class="px-4 py-1 bg-white text-customGreen border border-customGreen rounded-full ml-2 shadow-md">Report History</button>
+                <button class="px-4 py-1 bg-customGreen text-white  text-[14px] border rounded-full ml-6 shadow-md">Dashboard</button>
+                <button  x-data @click="window.location.href='{{ route('report-road-issue-step1') }}'"  class="px-4 py-1 bg-white text-customGreen border text-[14px] border-customGreen rounded-full ml-2 shadow-md">Report Road Issue</button>
+                <button class="px-4 py-1 bg-white text-customGreen border border-customGreen rounded-full ml-2 text-[14px] shadow-md">Suggestion Report</button>
+                <button x-data @click="window.location.href='{{ route('report-history') }}'" class="px-4 py-1 bg-white text-customGreen border text-[14px] border-customGreen rounded-full ml-2 shadow-md">Report History</button>
             </div>
 
         </div>
@@ -62,7 +62,7 @@
 
 
         <!-- Report Road Issue Button -->
-        <div class="mt-9 w-[80%] text-center">
+        <div class="mt-9 w-[75%] text-center">
             <button x-data @click="window.location.href='{{ route('report-road-issue-step1') }}'" class="px-6 py-4 w-full bg-white text-xl font-semibold text-[#F8A15E] shadow-md rounded-full border-2 border-[#F8A15E]">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 inline-block mr-2" fill="currentColor" viewBox="0 0 30 30">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M15 12.8125C15.5178 12.8125 15.9375 13.2323 15.9375 13.75V15.3125H17.5C18.0178 15.3125 18.4375 15.7323 18.4375 16.25C18.4375 16.7678 18.0178 17.1875 17.5 17.1875H15.9375V18.75C15.9375 19.2678 15.5178 19.6875 15 19.6875C14.4823 19.6875 14.0625 19.2678 14.0625 18.75V17.1875H12.5C11.9822 17.1875 11.5625 16.7678 11.5625 16.25C11.5625 15.7323 11.9822 15.3125 12.5 15.3125H14.0625V13.75C14.0625 13.2323 14.4823 12.8125 15 12.8125Z" fill="#F8A15E" />
