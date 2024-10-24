@@ -1,7 +1,7 @@
 <x-app-layout>
-    <div class="min-h-screen flex flex-col items-center bg-white">
+    <div class="h-screen flex flex-col items-center bg-white">
         <!-- White Background Header Container -->
-        <div class="w-full max-w-lg bg-white shadow-sm p-4 border-b-2 border-gray-200">
+        <div class="w-full lg:w-full bg-white shadow-sm p-4 border-b-2 border-gray-200">
             <!-- Header -->
             <div class="flex justify-between items-center ">
                 <div class="flex -mb-2 ml-2">
@@ -13,12 +13,12 @@
                     <svg class="w-6 h-6 text-[#6AA76F]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
-                    <img src="{{ asset('storage/icons/profile-graphics.png') }}" alt="Profile Image" class="w-6 h-6 rounded-full border border-customGreen bg-green-500">
+                    <a href="{{ route('profile-info') }}"><img src="{{ asset('storage/icons/profile-graphics.png') }}" alt="Profile Image" class="w-6 h-6 rounded-full border border-customGreen bg-green-500"></a>
                 </div>
             </div>
         </div>
 
-        <div class="w-full max-w-md bg-white py-6 ">
+        <div class="w-full lg:w-full bg-white py-6 ">
             <!-- Navigation Tabs -->
             <div class="flex overflow-x-auto whitespace-nowrap p-1" style="scrollbar-width: none; -ms-overflow-style: none; overflow-x: auto;">
                 <button x-data @click="window.location.href='{{ route('dashboard') }}'" class="px-4 py-1  bg-white  text-[13px] text-customGreen border border-customGreen rounded-full ml-6 shadow-md">Dashboard</button>
@@ -29,9 +29,10 @@
 
         </div>
 
-        <div class="">
-            <div class="flex w-full justify-center items-center mb-6">
-                <div class="relative border-gray-300">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 w-full">
+            <!-- Search Section -->
+            <div class="flex w-full justify-center items-center mb-6 lg:mb-0 lg:w-auto lg:justify-start lg:ml-20">
+                <div class="relative border-gray-300 ">
                     <svg class="absolute top-[10px] left-4" width="19" height="19" viewBox="0 0 21 21"
                         fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M9.625 16.625C13.491 16.625 16.625 13.491 16.625 9.625C16.625 5.75901 13.491 2.625 9.625 2.625C5.75901 2.625 2.625 5.75901 2.625 9.625C2.625 13.491 5.75901 16.625 9.625 16.625Z"
@@ -45,7 +46,7 @@
                         placeholder="Search">
                 </div>
             </div>
-            <div class="flex mb-6">
+            <div class="flex w-full lg:w-auto justify-center items-center mb-6 lg:mb-0 lg:mr-20">
                 <label class="text-center text-customGreen mt-2 mr-1 text-sm">Date From:</label>
                 <input type="date" id="start_date" class="border  text-[13px] w-[93px] border-gray-300 rounded px-2 py-1"
                     max="{{ now()->toDateString() }}">
@@ -70,7 +71,7 @@
         </div>
 
         <!-- Report History Section -->
-        <div x-data="reportData()" class="w-[85%] max-w-md bg-white p-1 border border-gray-300 rounded-md shadow-sm overflow-y-auto" style="height: 540px;">
+        <div x-data="reportData()" class="w-[85%] bg-white p-1 border border-gray-300 rounded-md shadow-sm overflow-y-auto lg:w-[90%] h-[540px] lg:h-[500px]">
             <!-- Conditional Rendering based on Report History -->
             <div x-data="{ showModal: false }">
                 <template x-if="reports.length === 0">
@@ -92,7 +93,7 @@
                                     <th class="py-2 px-2 text-center text-xs text-gray-600 border-b whitespace-nowrap">Type of Defect</th>
                                     <th class="py-2 px-2 text-center text-xs text-gray-600 border-b whitespace-nowrap">Status</th>
                                     <th class="py-2 px-2 text-center text-xs text-gray-600 border-b whitespace-nowrap">Date</th>
-                                    <th class="py-2 px-2 text-center text-xs text-gray-600 border-b">Action</th>
+                                    <th class="py-2 px-2 text-center text-xs text-gray-600 border-b whitespace-nowrap">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,7 +104,7 @@
                                         <td class="py-3 px-2 text-center text-xs text-gray-800 border-b whitespace-nowrap" x-text="report.defectType"></td>
                                         <td class="py-3 px-2 text-center text-xs text-gray-800 border-b whitespace-nowrap" x-text="report.status"></td>
                                         <td class="py-3 px-2 text-center text-xs text-gray-800 border-b whitespace-nowrap" x-text="report.date"></td>
-                                        <td class="py-3 px-2 text-center text-xs text-gray-800 border-b">
+                                        <td class="py-3 px-2 text-center text-xs text-gray-800 border-b whitespace-nowrap">
                                             <button @click="showModal = true" class="flex items-center gap-2 px-4 py-1 border border-[#F99E00] text-[#F99E00] rounded-md bg-orange-50 hover:bg-orange-100 focus:outline-none transition-colors">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12m-6 0a6 6 0 1012 0 6 6 0 00-12 0z" />
@@ -133,7 +134,7 @@
 
                 <!-- Modal -->
                 <div x-show="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" x-cloak>
-                    <div class="mt-6 bg-white w-[80%] max-w-md shadow-sm rounded-lg border-2 border-gray-300 p-4 relative" >
+                    <div class="mt-6 bg-white w-[80%] max-w-md shadow-sm rounded-lg border-2 border-gray-300 p-4 relative">
 
                         <div class="flex p-2 justify-between items-center mb-4 border-b border-gray-400">
                             <h3 class="text-sm font-semibold text-black">View Report</h3>
@@ -162,8 +163,8 @@
                             <span class="ml-2">00001</span>
                         </div>
 
-                         <!-- Date and Time -->
-                         <div class="mb-2 text-xs ml-6">
+                        <!-- Date and Time -->
+                        <div class="mb-2 text-xs ml-6">
                             <span class="font-semibold text-customGreen">Date and Time Reported:</span>
                             <span class="ml-[22%] mr-2">10/12/2024</span>
                             <span class="">08:34:02 AM</span>
