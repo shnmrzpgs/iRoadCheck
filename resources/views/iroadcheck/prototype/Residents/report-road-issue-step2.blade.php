@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="min-h-screen flex flex-col items-center bg-white">
         <!-- White Background Header Container -->
-        <div class="w-full max-w-lg bg-white shadow-sm p-4 border-b-2 border-gray-200">
+        <div class="w-full bg-white shadow-sm p-4 border-b-2 border-gray-200 lg:w-full">
             <!-- Header -->
             <div class="flex justify-between items-center ">
                 <div class="flex -mb-2 ml-2">
@@ -13,12 +13,12 @@
                     <svg class="w-6 h-6 text-[#6AA76F]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
-                    <img src="{{ asset('storage/icons/profile-graphics.png') }}" alt="Profile Image" class="w-6 h-6 rounded-full border border-customGreen bg-green-500">
+                    <a href="{{ route('profile-info') }}"><img src="{{ asset('storage/icons/profile-graphics.png') }}" alt="Profile Image" class="w-6 h-6 rounded-full border border-customGreen bg-green-500"></a>
                 </div>
             </div>
         </div>
 
-        <div class="w-full max-w-md bg-white py-6 ">
+        <div class="w-full bg-white py-6 lg:w-full">
             <!-- Navigation Tabs -->
             <div class="flex overflow-x-auto whitespace-nowrap p-1" style="scrollbar-width: none; -ms-overflow-style: none; overflow-x: auto;">
                 <button x-data @click="window.location.href='{{ route('dashboard') }}'" class="px-4 py-1  bg-white text-[14px] text-customGreen border border-customGreen rounded-full ml-6 shadow-md">Dashboard</button>
