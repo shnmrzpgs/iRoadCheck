@@ -32,7 +32,7 @@ Route::view('/component/User/notifications', 'iroadcheck.prototype.User.notifica
 Route::view('/component/Admin/practice', 'iroadcheck.prototype.Admin.practice');
 
 //Residents
-Route::view('/prototype/residents/login', 'iroadcheck.prototype.Residents.login');
+Route::view('/prototype/residents/login', 'iroadcheck.prototype.Residents.login')->name('residents-login');
 Route::view('/prototype/residents/forgotPassword', 'iroadcheck.prototype.Residents.forgotPassword')->name('forgotPassword');
 Route::view('/prototype/residents/EnterCode', 'iroadcheck.prototype.Residents.EnterCode')->name('EnterCode');
 Route::view('/prototype/residents/createNewPass', 'iroadcheck.prototype.Residents.createNewPass')->name('createNewPass');
@@ -43,5 +43,11 @@ Route::view('/prototype/residents/verify-user-enterCode', 'iroadcheck.prototype.
 Route::view('/prototype/residents/dashboard', 'iroadcheck.prototype.Residents.dashboard')->name('dashboard');
 Route::view('/prototype/residents/report-road-issue-step1', 'iroadcheck.prototype.Residents.report-road-issue-step1')->name('report-road-issue-step1');
 Route::view('/prototype/residents/report-road-issue-step2', 'iroadcheck.prototype.Residents.report-road-issue-step2')->name('report-road-issue-step2');
-
+Route::view('/prototype/residents/report-road-issue-step3', 'iroadcheck.prototype.Residents.report-road-issue-step3')->name('report-road-issue-step3');
+Route::view('/prototype/residents/suggestion-reports', 'iroadcheck.prototype.Residents.suggestion-reports')->name('suggestion-reports');
+Route::view('/prototype/residents/report-history', 'iroadcheck.prototype.Residents.report-history')->name('report-history');
+Route::view('/prototype/residents/profile-info', 'iroadcheck.prototype.Residents.profile-info')->name('profile-info');
+Route::view('/prototype/residents/profile-contact-info', 'iroadcheck.prototype.Residents.profile-contact-info')->name('profile-contact-info');
+Route::view('/prototype/residents/profile-changePass', 'iroadcheck.prototype.Residents.profile-changePass')->name('profile-changePass');
+Route::view('/prototype/residents/notifications', 'iroadcheck.prototype.Residents.notifications')->name('notifications');
 

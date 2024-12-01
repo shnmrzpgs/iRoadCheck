@@ -6,15 +6,16 @@
         <img src="{{ asset('storage/images/bg-tagumRoad-image.jpg') }}" alt="Background" class="absolute top-0 left-0 w-full h-full opacity-50 object-cover -z-1">
 
         <!-- Logo and Title Section -->
-        <div class="absolute top-10 w-full text-center items-center z-20 mt-12">
-            <img src="{{ asset('/storage/images/IRoadCheck_Logo.png') }}" alt="iRoadCheck" class="mx-auto mb-4 w-1/6 sm:w-1/8 lg:w-1/12">
-            <h1 class="text-[16px] text-white font-medium mb-6">iRoadCheck</h1>
+        <div class="absolute top-10 w-full text-center items-center z-20 mt-12 max-w-xs sm:max-w-sm lg:mb-8 lg:mt-6">
+            <img src="{{ asset('/storage/images/IRoadCheck_Logo.png') }}" alt="iRoadCheck"
+                class="mx-auto mb-1 w-1/5 sm:w-1/6 lg:w-1/8">
+            <h1 class="text-[18px] text-white font-medium mb-4">iRoadCheck</h1>
             <p class="text-white font-medium text-[22px]">Sign Up</p>
         </div>
 
         <!-- White Container (Card) -->
         <div class="flex items-center justify-center h-screen">
-            <div class="bg-white shadow-lg rounded-lg p-10 py-6 w-full max-w-xs sm:max-w-sm text-center relative z-10 mt-[50%]">
+        <div class="bg-white shadow-lg rounded-2xl px-10 py-8 w-full mt-6 max-w-xs sm:max-w-sm lg:mt-20 text-center relative z-10">
                 <h2 class="text-[18px] mb-4 font-medium text-[#F8A15E]">iRoadCheck Account</h2>
 
                 <div class="flex w-1/2 justify-center ml-16 mb-6">
@@ -66,7 +67,7 @@
                             x-model="inputValue" 
                             @focus="isFocused = true" 
                             @blur="isFocused = false"
-                            class="w-full p-3 border font-medium rounded-lg focus:outline-none focus:border-[#6AA76F] bg-white transition-all">
+                            class="w-full text-[14px] py-2 pl-10 pr-10 border font-medium rounded-lg focus:outline-none focus:ring-1 focus:ring-[#5A915E] focus:border-[#5A915E] bg-white transition-all">
                     </div>
 
                     <!-- Password Input -->
@@ -85,7 +86,7 @@
                             @focus="isFocused = true" 
                             @blur="isFocused = false" 
                             required @input="validatePassword()"
-                            class="w-full p-3 border font-medium rounded-lg focus:outline-none focus:border-[#6AA76F] bg-white transition-all ">
+                            class="w-full text-[14px] py-2 pl-10 pr-10 border font-medium rounded-lg focus:outline-none focus:ring-1 focus:ring-[#5A915E] focus:border-[#5A915E] bg-white transition-all ">
                         
                         <!-- Show/Hide Password Toggle -->
                         <img src="{{ asset('storage/icons/show-password.png') }}" 
@@ -111,7 +112,7 @@
                     </div>
 
                     <!-- Confirm Password Input -->
-                    <div x-data="{ isFocused: false }" class="relative mb-6">
+                    <div x-data="{ isFocused: false }" class="relative mb-2">
                         <label :class="{
                                 'text-[#6AA76F]': isFocused || confirmPassword.length > 0,
                                 'absolute': true,
@@ -125,7 +126,7 @@
                             @focus="isFocused = true" 
                             @blur="isFocused = false" 
                             required 
-                            class="w-full p-3 border font-medium rounded-lg focus:outline-none focus:border-[#6AA76F] bg-white transition-all">
+                            class="w-full text-[14px] py-2 pl-10 pr-10 border font-medium rounded-lg focus:outline-none focus:ring-1 focus:ring-[#5A915E] focus:border-[#5A915E] bg-white transition-all">
                         
                         <!-- Show/Hide Confirm Password Toggle -->
                         <img src="{{ asset('storage/icons/show-password.png') }}" 
@@ -143,8 +144,8 @@
                     <p x-show="confirmPassword && !checkConfirmPassword()" class="text-red-500 text-sm mb-2">Passwords do not match.</p>
 
                     <!-- Action Buttons -->
-                    <button class="w-full text-[18px] bg-gradient-to-r from-[#5A915E] to-[#F8A15E] shadow-lg text-white p-3 font-medium mb-2 mt-2 rounded-full">Sign Up</button>
-                    <button class="w-full p-3 rounded-lg font-semibold text-[#F8A15E] border border-transparent">Log in</button>
+                    <button class="w-full text-[14px] bg-gradient-to-r from-[#5A915E] to-[#F8A15E] shadow-lg text-white p-3 font-medium mb-1 mt-2 rounded-full">Sign Up</button>
+                    <button class="w-full p-3 rounded-lg text-[14px] font-semibold text-[#F8A15E] border border-transparent">Log in</button>
 
                 </form>
             </div>
