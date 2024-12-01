@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
                 'last_name' => 'Admin',
                 'date_of_birth' => '1990-01-01',
                 'sex' => 'male',
-                'email' => 'admin@example.com',
+                'email' => 'Admin@example.com',
                 'password' => Hash::make('password'), // Hashing the password
-                'user_type' => 1, // User type for admin
+                'user_type' => 1, // User type for Admin
                 'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),

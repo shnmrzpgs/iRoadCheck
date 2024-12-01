@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "alpinejs": "^3.14.1",
+        "apexcharts": "^3.54.1",
         "lottie-web": "^5.12.2"
     }
 }

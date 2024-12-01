@@ -1,45 +1,48 @@
 /* ===== Scrollbar CSS ===== */
-/* Custom scrollbar styles */
+/* Custom scrollbar styles for WebKit browsers (Chrome, Safari, Edge) */
 *::-webkit-scrollbar {
-    width: 8px;
+    width: 2px; /* Make the scrollbar thinner */
 }
 
 *::-webkit-scrollbar-track {
-    background: #101010; /* Darker background track */
-    border-radius: 6px;
-
+    background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent track background */
+    backdrop-filter: blur(10px); /* Apply blur effect to track */
+    border-radius: 100px; /* Full border radius for the track */
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: #202020; /* Gray thumb */
-    border-radius: 6px;
-    border: 3px solid #2d3748; /* Padding around thumb for a gap effect */
+    background-color: rgba(100, 100, 100, 0.4); /* Thumb color */
+    border-radius: 100px; /* Full border radius for the thumb */
+    border: 2px solid rgba(255, 255, 255, 0.2); /* Border around thumb for a gap effect */
 }
 
 *::-webkit-scrollbar-thumb:hover {
-    background-color: #718096; /* Lighter gray on hover */
+    background-color: rgba(100, 100, 100, 0.6); /* Darker color on hover */
+    border-radius: 100px; /* Ensure hover state has rounded corners */
 }
 
-*::-webkit-scrollbar-thumb:active {
-    background-color: #a0aec0; /* Even lighter gray on active */
-
-}
 /* Firefox scrollbar styles */
 * {
-    scrollbar-width: thin;
-    scrollbar-color: #202020 #101010;
+    scrollbar-width: thin; /* Makes the scrollbar thinner */
+    scrollbar-color: rgba(100, 100, 100, 0.4) rgba(255, 255, 255, 0.2); /* Thumb and track color */
 }
 
+/* Hide the default arrow */
+select {
+    -webkit-appearance: none; /* For Safari */
+    -moz-appearance: none;    /* For Firefox */
+    appearance: none;         /* For modern browsers */
+}
 
 * {
     margin: 0;
     padding: 0;
   }
 
-  body {
-      overflow: hidden;
-  }
-
+.fixed.inset-0 {
+    margin: 0;
+    padding: 0;
+}
   @keyframes wipeIn {
     0% {
       transform: scaleY(0);
@@ -130,3 +133,126 @@
 input:invalid {
     border-color: red;
 }
+
+.custom-select select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    width: 100%;
+    border: none;
+}
+
+.custom-select::after {
+    content: '▼';
+    position: absolute;
+    right: 9px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #6AA76F; /* Default color */
+    font-size: 10px;
+    line-height: 1; /* Adjust line height if necessary */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+}
+.custom-select.active::after {
+    color: #4AA76F; /* White arrow when active */
+}
+@keyframes zoomIn {
+    0% { transform: scale(0.95); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Bounce-once animation */
+@keyframes bounce-once {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.animate-bounce-once {
+    animation: bounce-once 0.3s ease;
+}
+
+.leaflet-control-attribution {
+    display: none !important;
+}
+
+/* Custom styles for Leaflet popup */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    background-color: #f87171; /* Match the background color here */
+    color: white;
+    border: none; /* Remove border to eliminate gaps */
+    box-shadow: none;
+}
+
+/* Remove padding around the popup content */
+.leaflet-popup-content {
+    margin: 0;
+    padding: 0;
+}
+
+.custom-div-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Reduce font size and spacing in the calendar */
+.flatpickr-calendar {
+    font-size: 12px; /* Smaller font size */
+    padding: 2px 0 2px 0;
+    background: #FBFBFB;
+}
+
+.flatpickr-day {
+    padding: 0 6px; /* Smaller day cells */
+    width: 28px;
+    height: 28px;
+    line-height: 28px; /* Align text in the center */
+}
+
+/* Adjust header (month and year) */
+.flatpickr-month {
+    font-size: 10px; /* Smaller month/year font */
+    padding: 2px 0;
+}
+
+.flatpickr-weekdays {
+    font-size: 12px;
+    padding: 2px 0;
+}
+
+/* Reduce padding around the calendar */
+.flatpickr-innerContainer {
+    padding: 5px;
+}
+
+
+
+.pop-in {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.pop-in.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.pop-in-left {
+    opacity: 0;
+    transform: translateX(-100vw) scale(0.9);
+    transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+}
+
+.pop-in-left.x-show {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+}
+
+
+
+

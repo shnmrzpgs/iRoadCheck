@@ -1,7 +1,7 @@
 <x-app-layout>
-    <x-admin.admin-navigation  page_title="Activity Logs">>
+    <x-User.user-navigation  page_title="Activity Logs">>
         <div class="text-[#202020] bg-[#FBFBFB] -mt-6 pt-4 px-4 pb-4 rounded-lg drop-shadow"
-            x-data="{
+             x-data="{
                 currentPage: 1,
                 totalPages: 20,
                 maxVisiblePages: 5,
@@ -145,7 +145,7 @@
                                 <template x-for="(activity, index) in activities" :key="index">
                                     <tr :class="index % 2 == 0 ? 'bg-white' : 'bg-slate-50'" class="hover:bg-slate-200 text-left">
                                         <!-- No. Column -->
-                                        <td class="whitespace-nowrap pl-4 py-3 text-[12px] pl-4">
+                                        <td class="whitespace-nowrap py-3.5 text-[12px] pl-4">
                                             <div class="ml-2">
                                                 <div class="mt-[1px] text-[12px]" x-text="index + 1"></div>
                                             </div>
@@ -233,5 +233,5 @@
 
 
         </div>
-    </x-admin.admin-navigation>
+    </x-User.user-navigation>
 </x-app-layout>

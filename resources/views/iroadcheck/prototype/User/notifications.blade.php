@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-Admin.admin-navigation page_title="Notifications">
+    <x-User.user-navigation page_title="Notifications">
         <div class="text-[#202020] bg-[#F9F9F9] pt-4 px-4 h-full rounded-lg drop-shadow">
 
             <div class="w-full relative font-pop grid-cols-1 md:grid-cols-2">
@@ -358,5 +358,5 @@
             </div>
         </div>
         </div>
-    </x-Admin.admin-navigation>
+    </x-User.user-navigation>
 </x-app-layout>

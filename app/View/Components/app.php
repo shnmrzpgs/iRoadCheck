@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use Illuminate\Support\Facades\Blade;
+
 class app extends Component
 {
     /**
@@ -21,6 +22,6 @@ class app extends Component
      */
     public function render(): View
     {
-        return view('components.app');
+        return view('layouts.app');
     }
 }
