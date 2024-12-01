@@ -1,156 +1,334 @@
-<x-app-layout>
-    <x-admin.navigation>
+<x-app-layout >
+    <x-admin.admin-navigation  page_title="Dashboard">
+
         <!-- Main Content -->
-        <main class="flex-1 p-6 bg-white drop-shadow-lg">
+        <main class="flex-1">
+
             <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                <!-- Revenue Card -->
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-xl font-bold mb-2 text-gray-600">Revenue</h2>
-                    <p class="mt-4 text-gray-600">$15,230</p>
+            <div class="grid md:grid-cols-3 gap-6 mb-5">
+
+                <!-- Total Reports Card -->
+                <div class="relative bg-white rounded-lg shadow-md py-0 px-2 overflow-hidden
+                       hover:drop-shadow-lg transition-all duration-500 ease-out
+                       transform-gpu group ">
+
+                    <!-- Background graphic -->
+                    <div class="absolute inset-x-0 bottom-0 opacity-90 transform group-hover:scale-125 transition-transform group-hover:translate-x-1 duration-700 ease-in-out">
+                        <img src="{{ asset('storage/images/bg-cardGraphics-orange.png') }}"
+                             class="w-full h-auto rounded-b-lg object-cover"
+                             alt="Card background graphic">
+                    </div>
+
+                    <div class="flex flex-col text-[#FFAD00] pl-2 pr-3 pt-7 relative z-10">
+                        <!-- Card Title -->
+                        <div class="font-semibold text-md opacity-90 transform group-hover:scale-110 group-hover:translate-y-1 group-hover:translate-x-3 transition-all duration-500 ease-in-out">
+                            Total Reports
+                        </div>
+                        <!-- Card Counts with gentle scale on hover -->
+                        <div class="px-5 py-1 -mt-1 mb-3 ml-auto text-lg text-[#FFAD00] rounded-full bg-[#FBFBFB] font-bold transform group-hover:scale-105 group-hover:translate-x-1 duration-500 ease-in-out">
+                            12
+                        </div>
+                    </div>
                 </div>
 
-                <!-- New Users Card -->
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-xl font-bold mb-2 text-gray-600">New Users</h2>
-                    <p class="mt-4 text-gray-600">1,200</p>
+
+                <!-- Active Accounts Card -->
+                <div class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden
+                       hover:drop-shadow-lg transition-all duration-500 ease-out
+                       transform-gpu group ">
+
+                    <!-- Background graphic -->
+                    <div class="absolute inset-x-0 bottom-0 opacity-90 transform group-hover:scale-125 transition-transform group-hover:translate-x-1 duration-700 ease-in-out">
+                        <img src="{{ asset('storage/images/bg-cardGraphics-green.png') }}"
+                             class="w-full h-auto rounded-b-lg object-cover"
+                             alt="Card background graphic">
+                    </div>
+
+                    <div class="flex flex-col text-[#4AA76F] px-5 pt-7 relative z-10">
+                        <!-- Card Title -->
+                        <div class="font-semibold text-md opacity-90 transform group-hover:scale-105 group-hover:translate-y-1 group-hover:translate-x-1 transition-all duration-500 ease-in-out">
+                            Active Accounts
+                        </div>
+
+                        <!-- Card Counts -->
+                        <div class="px-5 py-1 -mt-1 mb-3 ml-auto text-lg text-[#4AA76F] rounded-full bg-[#FBFBFB] font-bold transform group-hover:scale-105 group-hover:translate-x-1 duration-500 ease-in-out">
+                            5
+                        </div>
+                    </div>
+
                 </div>
 
-                <!-- Performance Card -->
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-xl font-bold mb-2 text-gray-600">Performance</h2>
-                    <p class="mt-4 text-gray-600">82%</p>
+                <!-- Inactive Accounts Card -->
+                <div class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden
+                       hover:drop-shadow-lg transition-all duration-500 ease-out
+                       transform-gpu group ">
+
+                    <!-- Background graphic -->
+                    <div class="absolute inset-x-0 bottom-0 opacity-90 transform group-hover:scale-125 transition-transform group-hover:translate-x-1 duration-700 ease-in-out">
+                        <img src="{{ asset('storage/images/bg-cardGraphics-red.png') }}"
+                             class="w-full h-auto rounded-b-lg object-cover"
+                             alt="Card background graphic">
+                    </div>
+
+                    <div class="flex flex-col text-[#E26161] px-5 pt-7 relative z-10">
+                        <!-- Card Title -->
+                        <div class="font-semibold text-md opacity-90 transform group-hover:scale-105 group-hover:translate-y-1 group-hover:translate-x-1 transition-all duration-500 ease-in-out">
+                            Inactive Accounts
+                        </div>
+
+                        <!-- Card Counts -->
+                        <div class="px-5 py-1 -mt-1 mb-3 ml-auto text-lg text-[#E26161] rounded-full bg-[#FBFBFB] font-bold transform group-hover:scale-105 group-hover:translate-x-1 duration-500 ease-in-out">
+                            7
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Charts Section -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Line Chart Card -->
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-xl font-bold mb-2 text-gray-600">Monthly Revenue</h2>
-                    <div class="relative h-64" x-data="{ expanded: false }">
-                        <canvas id="lineChart"></canvas>
+            <!-- Road Maintenance Worker -->
+            <div class="text-[#202020] bg-[#FBFBFB] px-4 pb-4 rounded-lg drop-shadow">
+
+                <!--Page description-->
+                <div class="flex px-0 border-b border-b-gray-300 py-2 " >
+                    <div class="mt-4 mr-auto">
+
+                        <div class="flex flex-col">
+                            <!--Card Title-->
+                            <div class="text-[#4D4F50] font-semibold">Road Maintenance Workers</div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Bar Chart Card -->
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-xl font-bold mb-2 text-gray-600">User Signups</h2>
-                    <div class="relative h-64">
-                        <canvas id="barChart"></canvas>
-                    </div>
-                </div>
-            </div>
+                <!--Content-->
+                <div class="mt-2 mb-2 overflow-hidden h-[55vh] ">
 
-            <!-- Pie Chart and Table Section -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                <!-- Pie Chart Card -->
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-xl font-bold mb-2 text-gray-600">Traffic Sources</h2>
-                    <div class="relative h-64">
-                        <canvas id="pieChart"></canvas>
-                    </div>
-                </div>
+                    <div class="m-0 rounded-lg inset-0 p-0">
 
-                <!-- Table -->
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-xl font-bold mb-2 text-gray-600">Latest Transactions</h2>
-                    <div class="overflow-auto">
-                        <table class="min-w-full bg-white">
-                            <thead class="bg-gray-200 text-gray-600">
-                            <tr>
-                                <th class="py-2 px-4 text-left">ID</th>
-                                <th class="py-2 px-4 text-left">User</th>
-                                <th class="py-2 px-4 text-left">Amount</th>
-                                <th class="py-2 px-4 text-left">Status</th>
-                            </tr>
-                            </thead>
-                            <tbody class="text-gray-600">
-                            <tr>
-                                <td class="py-2 px-4">#1234</td>
-                                <td class="py-2 px-4">John Doe</td>
-                                <td class="py-2 px-4">$120</td>
-                                <td class="py-2 px-4">Completed</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 px-4">#1235</td>
-                                <td class="py-2 px-4">Jane Smith</td>
-                                <td class="py-2 px-4">$340</td>
-                                <td class="py-2 px-4">Pending</td>
-                            </tr>
-                            <tr>
-                                <td class="py-2 px-4">#1236</td>
-                                <td class="py-2 px-4">Sam Lee</td>
-                                <td class="py-2 px-4">$240</td>
-                                <td class="py-2 px-4">Failed</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <!--Dropdown Filters-->
+                        <div class="flex gap-2 mr-auto mb-0 py-3 pl-3 mt-4"
+                             x-data="{
+                             filters: {
+                                 status: '',
+                                 sort: '',
+                                 userType: '',
+                             }
+                         }">
+                            <!-- All Users Option -->
+                            <div class="relative rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md"
+                                 :class="{
+                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] ': filters.sort === '' && filters.status === ''  && filters.userType === '',  /* Active state */
+                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort !== '' || filters.status !== '' || filters.userType !== ''  /* Default and hover state */
+                             }"
+                                 @click="filters.sort = ''; filters.status = ''; filters.userType = '';">
+                            <span class="text-[12px] block appearance-none w-full text-center px-2 py-2 rounded">
+                                All Users
+                            </span>
+                            </div>
+
+                            <!-- Sort Filter -->
+                            <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select"
+                                 :class="{
+                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.sort !== '',  /* Active state */
+                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort === ''  /* Default and hover state */
+                             }">
+                                <select x-model="filters.sort" @change="console.log('Filters:', filters)"
+                                        class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-6 rounded shadow-none focus:outline-none focus:scale-105">
+                                    <option value="" class="text-gray-400 text-[12px]">Sort by</option>
+                                    <option value="asc" class="text-gray-700">
+                                        Ascending
+                                    </option>
+                                    <option value="desc" class="text-gray-700">
+                                        Descending
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- User Type Filter -->
+                            <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
+                                 :class="{
+                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.userType !== '',  /* Active state */
+                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.userType === ''  /* Default and hover state */
+                             }">
+                                <select x-model="filters.userType" @change="console.log('Filters:', filters)"
+                                        class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
+                                    <option value="" class="text-gray-400 text-[12px]">User Type</option>
+                                    <option value="patcher" class="text-gray-700">Patcher</option>
+                                    <option value="user-type-2" class="text-gray-700">User Type 2</option>
+                                    <option value="user-type-3" class="text-gray-700">User Type 3</option>
+                                </select>
+                            </div>
+
+                            <!-- Status Filter -->
+                            <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
+                                 :class="{
+                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.status !== '',  /* Active state */
+                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.status === ''  /* Default and hover state */
+                             }">
+                                <select x-model="filters.status" @change="console.log('Filters:', filters)"
+                                        class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
+                                    <option value="" class="text-gray-400 text-[12px]">Status</option>
+                                    <option value="enabled" class="text-gray-700">Enabled</option>
+                                    <option value="disabled" class="text-gray-700">Disabled</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Road maintenance workers data -->
+                        <div class="flex mb-2 px-3 pb-3 ">
+
+                            <!-- Bar Graph for the Number of Counts of User types -->
+                            <div class="w-7/10 max-h-[330px] overflow-auto">
+                                <!-- Charts Section -->
+                                <div class="rounded-full">
+                                    <div class="relative h-full">
+                                        <div id="chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- People belongs in the user types -->
+                            <div class="w-3/10 mx-8 -mt-10 bg-[#FBFBFB] h-[50vh] drop-shadow relative p-2">
+                                <div class="inline-block w-full min-h-[48vh] max-h-[48vh] overflow-y-auto align-middle z-0">
+                                    <!-- Non-striped -->
+                                    <div id="members-list" class="text-left"></div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
+
         <script>
-            // Line Chart
-            const lineChart = new Chart(document.getElementById('lineChart'), {
-                type: 'line',
-                data: {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-                    datasets: [{
-                        label: 'Revenue',
-                        data: [12000, 15000, 13000, 17000, 19000, 21000],
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 2,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
-                }
-            });
+            // Define the members for each user type
+            const members = {
+                "Patcher": ["Jane Smith", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe"],
+                "User Type 2": ["Alice Johnson", "Bob Brown"],
+                "User Type 3": ["Charlie Green", "Dana White"],
+                "User Type 4": ["Eve Black", "Frank White"],
+                "User Type 5": ["Grace Hopper", "Ivy Ross"],
+                "User Type 6": ["Jack King", "Liam Green"]
+            };
 
-            // Bar Chart
-            const barChart = new Chart(document.getElementById('barChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-                    datasets: [{
-                        label: 'New Users',
-                        data: [300, 450, 320, 600, 800, 720],
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
-                }
-            });
+            // Function to display members in the specified container
+            function displayMembers(userType, memberList) {
+                const membersContainer = document.getElementById('members-list');
+                membersContainer.classList.add('text-md', 'text-gray-700', 'relative', 'px-4');
+                membersContainer.innerHTML = '';
 
-            // Pie Chart
-            const pieChart = new Chart(document.getElementById('pieChart'), {
-                type: 'pie',
-                data: {
-                    labels: ['Organic Search', 'Social Media', 'Email Marketing', 'Referral'],
-                    datasets: [{
-                        label: 'Traffic Sources',
-                        data: [55, 25, 10, 10],
-                        backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)'],
-                        borderColor: ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)'],
-                        borderWidth: 1
-                    }]
+                // Create a sticky header for the user type label
+                const userTypeLabelDiv = document.createElement('div');
+                userTypeLabelDiv.classList.add('font-bold', 'text-[15px]', 'text-gray-700', 'bg-white', 'p-2', 'w-full', 'sticky', 'top-0', 'border', 'border-b-gray-500', 'border-x-transparent', 'border-t-transparent');
+                userTypeLabelDiv.textContent = `All ${userType}`;
+                membersContainer.appendChild(userTypeLabelDiv);
+
+                // Create a scrollable wrapper for the list items
+                const scrollableListDiv = document.createElement('div');
+                scrollableListDiv.classList.add('overflow-y-auto', 'max-h-[50vh]', 'mt-2'); // Adjust max height as needed
+                membersContainer.appendChild(scrollableListDiv);
+
+
+                memberList.forEach(member => {
+                    const memberDiv = document.createElement('div');
+                    memberDiv.classList.add('hover:bg-gray-100', 'flex', 'items-center', 'py-2', 'px-4', 'leading-10', 'hover:rounded-[6px]');
+
+                    const avatarDiv = document.createElement('div');
+                    avatarDiv.classList.add('h-8', 'w-8', 'flex-shrink-0');
+                    avatarDiv.innerHTML = `<img class="h-8 w-8 bg-[#4AA76F] rounded-full p-[0.4px]" src="{{ asset('storage/icons/profile-graphics.png') }}" alt="User Avatar">`;
+
+                    const nameDiv = document.createElement('div');
+                    nameDiv.classList.add('ml-3');
+                    nameDiv.innerHTML = `<div class="font-normal text-gray-700  text-[12.5px]">${member}</div>`;
+
+                    memberDiv.appendChild(avatarDiv);
+                    memberDiv.appendChild(nameDiv);
+                    membersContainer.appendChild(memberDiv);
+                });
+            }
+
+            // Chart options
+            var options = {
+                series: [{
+                    data: [2, 2, 2, 2, 1, 1] // The values for each bar
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 400,
+                    minWidth: 100,
+                    maxWidth: 300,
+                    events: {
+                        dataPointSelection: function(event, chartContext, config) {
+                            const selectedIndex = config.dataPointIndex;
+                            const selectedUserType = options.xaxis.categories[selectedIndex];
+                            const selectedMembers = members[selectedUserType] || [];
+                            displayMembers(selectedUserType, selectedMembers);
+                        }
+                    }
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false
+                plotOptions: {
+                    bar: {
+                        horizontal: true,
+                        barHeight: '90%',
+                        borderRadius: 20,
+                        borderRadiusApplication: 'end',
+                        dataLabels: {
+                            position: 'bottom'
+                        },
+                    }
+                },
+                colors: ['rgba(255,217,0,0.79)'],
+                dataLabels: {
+                    enabled: true,
+                    textAnchor: 'start',
+                    style: {
+                        colors: ['#febf63'],
+
+                    },
+                    formatter: function(val, opt) {
+                        return `${opt.w.globals.labels[opt.dataPointIndex]}   ${val}`;
+                    },
+                    offsetX: -10,
+                    offsetY: 0,
+                },
+                xaxis: {
+                    categories: ["Patcher", "User Type 2", "User Type 3", "User Type 4", "User Type 5", "User Type 6"],
+                    labels: {
+                        show: false
+                    }
+                },
+                yaxis: {
+                    labels: {
+                        show: false
+                    }
+                },
+                grid: {
+                    show: false
+                },
+                tooltip: {
+                    enabled: false
+                },
+                title: {
+                    text: undefined
+                },
+                subtitle: {
+                    text: undefined
+                },
+                stroke: {
+                    width: 0
                 }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+
+            // Display the default members for the first user type after rendering the chart
+            document.addEventListener("DOMContentLoaded", function() {
+                const defaultUserType = options.xaxis.categories[0];
+                const defaultMembers = members[defaultUserType] || [];
+                displayMembers(defaultUserType, defaultMembers);
             });
         </script>
 
-
-    </x-admin.navigation>
+    </x-admin.admin-navigation>
 
 </x-app-layout>

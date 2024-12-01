@@ -1,7 +1,25 @@
+@import './style.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+* {
+    scroll-behavior: smooth;
+}
+
 [x-cloak] {
-    display: none;
+    display: none !important;
+}
+
+.filepond--drop-label {
+    color: #FFFFFF !important;
+}
+.filepond--panel-root {
+    background-color: #202020 !important;
+    border-width: 2px !important;
+    border-color: #FFFFFF !important;
+}
+.filepond--drip-blob {
+    background-color: #FFFFFF !important;
 }

@@ -1,5 +1,4 @@
 <x-app-layout>
-
     <div class="bg-[#000000]">
         <div class="absolute inset-0 flex items-center justify-center z-0 opacity-50">
             <img src="{{ asset('storage/images/bg-tagumRoad-image.jpg') }}" class="object-cover w-full h-full" alt="">
@@ -7,7 +6,7 @@
 
         <div class="flex justify-center items-center h-screen">
             <div class="w-[400px] py-5 bg-[#FFFFF9] bg-blend-multiply drop-shadow-lg rounded-[15px] z-10 px-10 mx-6">
-                <form action="{{route('admin-sign-in')}}" method="POST" class="flex flex-col items-center w-full" x-data="{ showPassword: false }">
+                <form action="{{route('Admin-sign-in')}}" method="POST" class="flex flex-col items-center w-full" x-data="{ showPassword: false }">
                     @csrf
                     <img src="{{ asset('storage/images/IRoadCheck_Logo.png') }}" alt="graphicsLogo"
                          class="xs:-my-2 md:mb-1 md:mt-4 w-28 sm:w-36 md:w-48 lg:w-56 max-w-[40px]"/>
@@ -58,3 +57,4 @@
         </div>
     </div>
 </x-app-layout>
+

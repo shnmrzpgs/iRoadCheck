@@ -13,6 +13,20 @@ export default {
 
     theme: {
         extend: {
+            keyframes: {
+                'wipe-right': {
+                    '0%': { transform: 'translateX(-100%)' },
+                    '100%': { transform: 'translateX(0)' },
+                },
+                'wipe-left': {
+                    '0%': { transform: 'translateX(100%)' },
+                    '100%': { transform: 'translateX(0)' },
+                },
+            },
+            animation: {
+                'wipe-right': 'wipe-right 1.5s ease-out forwards', // Customize duration and easing
+                'wipe-left': 'wipe-left 1.5s ease-out forwards', // Customize duration and easing
+            },
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
                 pop: ["Poppins"]
