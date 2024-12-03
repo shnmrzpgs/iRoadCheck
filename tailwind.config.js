@@ -24,7 +24,7 @@ export default {
                 },
             },
             animation: {
-                'wipe-right': 'wipe-right 1.5s ease-out forwards', // Customize duration and easing
+                'wipe-right': 'wipe-right 0.5s ease-out forwards', // Customize duration and easing
                 'wipe-left': 'wipe-left 1.5s ease-out forwards', // Customize duration and easing
             },
             fontFamily: {

@@ -22,7 +22,7 @@
                     <div class="flex flex-col text-[#FFAD00] pl-2 pr-3 pt-7 relative z-10">
                         <!-- Card Title -->
                         <div class="font-semibold text-md opacity-90 transform group-hover:scale-110 group-hover:translate-y-1 group-hover:translate-x-3 transition-all duration-500 ease-in-out">
-                            Total Reports
+                            Total User Accounts
                         </div>
                         <!-- Card Counts with gentle scale on hover -->
                         <div class="px-5 py-1 -mt-1 mb-3 ml-auto text-lg text-[#FFAD00] rounded-full bg-[#FBFBFB] font-bold transform group-hover:scale-105 group-hover:translate-x-1 duration-500 ease-in-out">
@@ -274,21 +274,29 @@
                         dataLabels: {
                             position: 'bottom'
                         },
+                        colors: {
+                            ranges: [
+                                {
+                                    from: 0,
+                                    to: 100,
+                                    color: '#4e8e3a' // Hover color
+                                }
+                            ]
+                        }
                     }
                 },
-                colors: ['rgba(255,217,0,0.79)'],
+                colors: ['#FBFBFB'],
                 dataLabels: {
                     enabled: true,
                     textAnchor: 'start',
                     style: {
-                        colors: ['#febf63'],
+                        colors: ['#FBFBFB'],
 
                     },
                     formatter: function(val, opt) {
                         return `${opt.w.globals.labels[opt.dataPointIndex]}   ${val}`;
                     },
-                    offsetX: -10,
-                    offsetY: 0,
+                    offsetX: 20,
                 },
                 xaxis: {
                     categories: ["Patcher", "User Type 2", "User Type 3", "User Type 4", "User Type 5", "User Type 6"],

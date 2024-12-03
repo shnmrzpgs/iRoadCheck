@@ -1,188 +1,31 @@
-<x-app-layout >
+<div class="text-[#202020] bg-[#FBFBFB]  pt-4 px-4 pb-4 rounded-lg">
 
-    <x-admin.admin-navigation page_title="Manage Users" >
-        <div class="text-[#202020] bg-[#FBFBFB] pt-4 lg:px-2 px-0 pb-4 rounded-lg w-full min-w-[40vh] max-w-full h-full min-h-[60vh] max-h-full "
-             x-data="{
-                isPasswordVisible: false,
-                generatePassword() {
-                    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
-                    const length = 12;
-                    let password = '';
-                    for (let i = 0; i < length; i++) {
-                        password += chars.charAt(Math.floor(Math.random() * chars.length));
-                    }
-                    this.formData.password = password;
-                },
-                isAccountDisabled: false,
-                activeTab: 'basic-info',
-                visitedTabs: [],
-                tabs: [
-                    { key: 'basic-info', label: 'Basic Information' },
-                    { key: 'access-info', label: 'Access Control' },
-                    { key: 'account-info', label: 'Account Settings' }
-                ],
-                formData: {
-                    firstName: '',
-                    middleName: '',
-                    lastName: '',
-                    gender: '',
-                    email: '',
-                    idNumber: '',
-                    password: '',
-                    assignedPermissions: []
-                },
-                get canAddUser() {
-                return this.visitedTabs.length === this.tabs.length &&
-                    this.formData.firstName.trim() &&
-                    this.formData.lastName.trim() &&
-                    this.formData.email.trim() &&
-                    this.formData.idNumber.trim();
-                },
+    {{-- Header --}}
+    <div class="px-2">
+        <div class="sm:flex sm:items-baseline">
 
-                activateTab(tabKey) {
-                    this.activeTab = tabKey;
-                },
-
-                nextTab() {
-                    const currentIndex = this.tabs.findIndex(tab => tab.key === this.activeTab);
-
-                    if (currentIndex < this.tabs.length - 1) {
-                        const currentTabKey = this.tabs[currentIndex].key;
-
-                        // Mark the current tab as done (visited)
-                        this.visitedTabs.push(currentTabKey);
-
-                        // Activate the next tab
-                        const nextTab = this.tabs[currentIndex + 1].key;
-                        this.activateTab(nextTab);
-                    }
-                },
-                previousTab() {
-                    const currentIndex = this.tabs.findIndex(tab => tab.key === this.activeTab);
-                    if (currentIndex > 0) {
-                        const prevTab = this.tabs[currentIndex - 1].key;
-                        this.activateTab(prevTab);
-                    }
-                },
-                validateAndSubmit() {
-                    if (Object.values(this.formData).every(value => value.trim())) {
-                        alert('User successfully added!');
-                        this.showAddModal = false;
-                    } else {
-                        alert('Please fill in all required fields.');
-                    }
-                },
-                addUser() {
-                    // Call validateAndSubmit when adding the user
-                    this.validateAndSubmit();
-                },
-                hoveredTab: null,
-                currentPage: 1,
-                totalPages: 20,
-                maxVisiblePages: 5,
-                get pages() {
-                    const start = Math.max(this.currentPage - Math.floor(this.maxVisiblePages / 2), 1);
-                    const end = Math.min(start + this.maxVisiblePages - 1, this.totalPages);
-                    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-                },
-                goToPage(page) {
-                    if (page >= 1 && page <= this.totalPages) {
-                        this.currentPage = page;
-                    }
-                },
-                prevPage() {
-                    if (this.currentPage > 1) this.currentPage--;
-                },
-                nextPage() {
-                    if (this.currentPage < this.totalPages) this.currentPage++;
-                },
-                showAddModal: false,
-                openAddSuccessModal: false,
-                showViewModal: false,
-                users: [
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'john@example.com', userType: 'Admin', status: 'Disabled', firstName: 'John', middleName: 'A.', lastName: 'Doe', gender: 'Male' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'jane@example.com', userType: 'User', status: 'Enabled', firstName: 'Jane', middleName: '', lastName: 'Smith', gender: 'Female' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'michael.brown@example.com', userType: 'Moderator', status: 'Enabled', firstName: 'Michael', middleName: 'T.', lastName: 'Brown', gender: 'Male' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'emily.davis@example.com', userType: 'User', status: 'Enabled', firstName: 'Emily', middleName: 'R.', lastName: 'Davis', gender: 'Female' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'chris.johnson@example.com', userType: 'Admin', status: 'Disabled', firstName: 'Chris', middleName: '', lastName: 'Johnson', gender: 'Non-binary' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'sarah.wilson@example.com', userType: 'User', status: 'Disabled', firstName: 'Sarah', middleName: 'E.', lastName: 'Wilson', gender: 'Female' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'david.martinez@example.com', userType: 'User', status: 'Enabled', firstName: 'David', middleName: 'L.', lastName: 'Martinez', gender: 'Male' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'sophia.garcia@example.com', userType: 'Moderator', status: 'Enabled', firstName: 'Sophia', middleName: '', lastName: 'Garcia', gender: 'Female' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'ethan.lee@example.com', userType: 'Admin', status: 'Enabled', firstName: 'Ethan', middleName: 'H.', lastName: 'Lee', gender: 'Male' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'olivia.anderson@example.com', userType: 'User', status: 'Disabled', firstName: 'Olivia', middleName: 'M.', lastName: 'Anderson', gender: 'Female' }
-                ],
-                selectedUser: {},
-                viewUser(user) {
-                    this.selectedUser = user;
-                    this.showViewModal = true;
-                },
-                permissions: [
-                    { id: 1, name: 'View Dashboard' },
-                    { id: 2, name: 'Manage Users' },
-                    { id: 3, name: 'Edit Settings' },
-                    { id: 4, name: 'Generate Reports' },
-                    { id: 5, name: 'Access Restricted Data' },
-                    { id: 6, name: 'Manage Inventory' },
-                    { id: 7, name: 'Approve Requests' },
-                    { id: 8, name: 'View Logs' },
-                    { id: 9, name: 'Assign Roles' },
-                    { id: 10, name: 'Update Profile' },
-                    { id: 11, name: 'Manage Permissions' },
-                    { id: 12, name: 'Delete Records' },
-                    { id: 13, name: 'Export Data' },
-                    { id: 14, name: 'View Notifications' },
-                    { id: 15, name: 'Reset Passwords' },
-                    { id: 16, name: 'Monitor Activity' },
-                    { id: 17, name: 'Manage Categories' },
-                    { id: 18, name: 'View Reports' },
-                    { id: 19, name: 'Add New Entries' },
-                    { id: 20, name: 'Archive Data' }
-                ],
-                 userTypePermissions: {
-                    Admin: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // Full permissions
-                    Moderator: [1, 4, 8, 9], // Limited permissions
-                    User: [1, 4, 10], // Basic permissions
-                 },
-                 get filteredPermissions() {
-                    if (this.formData.userType && this.userTypePermissions[this.formData.userType]) {
-                        return this.permissions.filter(permission =>
-                            this.userTypePermissions[this.formData.userType].includes(permission.id)
-                        );
-                    }
-                    return [];
-                },
-                assignPermissions() {
-                    if (this.formData.userType && this.userTypePermissions[this.formData.userType]) {
-                        this.formData.assignedPermissions = [...this.userTypePermissions[this.formData.userType]];
-                    } else {
-                        this.formData.assignedPermissions = [];
-                    }
-                },
-
-              }"
-            >
-
-            <!--Page description and Add button-->
+            {{-- Page Description --}}
             <div class="px-6" >
                 <div class="mr-auto">
 
                     <div class="flex flex-col">
                         <!--Page description-->
                         <div class="sm:flex-auto">
-                            <p class="mt-2 lg:text-sm text-xs text-[#656565]">
+                            <p class="mt-2 text-sm text-[#656565]">
                                 A list of all users in iRoadCheck System.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex justify-start ">
+                <div class="flex justify-start">
 
                     <!--Dropdown Filters-->
-                    <div class="flex lg:gap-2 gap-1 mr-auto mb-0 mt-4"
+                    <div class="flex gap-2 mr-auto mb-0 mt-4"
                          x-data="{
                              filters: {
                                  status: '',
+                                 sort: '',
                                  userType: '',
                              }
                          }">
@@ -196,6 +39,24 @@
                             <span class="text-[12px] block appearance-none w-full text-center px-2 py-2 rounded">
                                 All Users
                             </span>
+                        </div>
+
+                        <!-- Sort Filter -->
+                        <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select"
+                             :class="{
+                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.sort !== '',  /* Active state */
+                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort === ''  /* Default and hover state */
+                             }">
+                            <select x-model="filters.sort" @change="console.log('Filters:', filters)"
+                                    class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-6 rounded shadow-none focus:outline-none focus:scale-105">
+                                <option value="" class="text-gray-400 text-[12px]">Sort by</option>
+                                <option value="asc" class="text-gray-700">
+                                    Ascending
+                                </option>
+                                <option value="desc" class="text-gray-700">
+                                    Descending
+                                </option>
+                            </select>
                         </div>
 
                         <!-- User Type Filter -->
@@ -229,14 +90,14 @@
                     </div>
 
                     <!--Add Button-->
-                    <div class="sm:mt-0 sm:flex-none -mt-8">
-                        <div class="flex w-full items-center px-1 md:px-4 py-2 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
+                    <div class="sm:ml-16 sm:mt-0 sm:flex-none">
+                        <div class="flex w-full items-center px-4 py-2 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
                             <div class="w-full">
                                 <div @click="showAddModal = true">
 
                                     <button type="submit" name="addUser" id="addUser" value="addUser"
                                             class="flex gap-x-[8px] w-auto text-xs px-[14px] py-[8px] font-normal tracking-wider text-[#FFFFFF]  bg-gradient-to-b from-[#84D689] to-green-500 rounded-full hover:drop-shadow hover:bg-[#4AA76F] hover:scale-105 hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier (0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" viewBox="0 0 594.95996 595.499987" height="15" preserveAspectRatio="xMidYMid meet" class="mt-1 mr-0 hidden sm:block">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" viewBox="0 0 594.95996 595.499987" height="15" preserveAspectRatio="xMidYMid meet" class="mt-1 mr-0">
                                             <defs>
                                                 <clipPath id="9bb67f9de8">
                                                     <path d="M 5.070312 4.839844 L 590.328125 4.839844 L 590.328125 590 L 5.070312 590 Z M 5.070312 4.839844 " clip-rule="nonzero"/>
@@ -616,8 +477,8 @@
                     >
                         <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full max-w-sm">
                             <div
-                            @click.away="openAddSuccessModal = false"
-                            class="bg-white rounded-lg shadow-lg"
+                                @click.away="openAddSuccessModal = false"
+                                class="bg-white rounded-lg shadow-lg"
                             >
 
                                 <!-- Modal Body -->
@@ -665,149 +526,130 @@
             </div>
 
             <!-- Table Content -->
-            <div class="mt-2 px-6 mb-2">
-                <div class="overflow-x-auto border border-t-gray-300 rounded-lg">
-                    <div class="inline-block min-w-full max-h-[56vh] min-h-[48vh] overflow-y-auto align-middle">
-                        <table class="min-w-full text-left divide-y divide-gray-300 hidden md:table">
-                            <thead>
-                            <tr>
-                                <th class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575] rounded-tl-lg">No.</th>
-                                <th class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">Name</th>
-                                <th class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">Email Address</th>
-                                <th class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">User Type</th>
-                                <th class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">Status</th>
-                                <th class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575] rounded-tr-lg">Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-300 bg-white">
-                            <template x-for="(user, index) in users" :key="index">
-                                <tr :class="index % 2 == 0 ? 'bg-white' : 'bg-slate-50'" class="hover:bg-slate-200">
-                                    <td class="whitespace-nowrap py-3 px-4 text-xs" x-text="index + 1"></td>
-                                    <td class="whitespace-nowrap py-3 px-4">
-                                        <div class="flex items-center">
-                                            <img :src="user.profileImage" alt="Profile Image" class="h-8 w-8 rounded-full flex-shrink-0" />
-                                            <div class="ml-2 text-xs font-normal text-primary-800" x-text="`${user.firstName} ${user.middleName ? user.middleName + ' ' : ''}${user.lastName}`"></div>
-                                        </div>
-                                    </td>
-                                    <td class="whitespace-nowrap py-3 px-4 text-xs" x-text="user.email"></td>
-                                    <td class="whitespace-nowrap py-3 px-4 text-xs" x-text="user.userType"></td>
-                                    <td class="whitespace-nowrap py-3 px-4 text-xs font-medium">
-                                        <div :class="user.status === 'Enabled' ? 'text-green-600 font-bold' : 'text-red-600 font-bold'" x-text="user.status"></div>
-                                    </td>
-                                    <td class="whitespace-nowrap py-3 px-4 flex space-x-4">
-                                        <button class="mr-4 flex items-center text-orange-500 hover:underline hover:text-orange-600 font-medium text-xs transition active:scale-95">
-                                            <img src="{{ asset('storage/icons/edit-icon.png') }}" alt="Edit Icon" class="w-4 h-4 mr-2" />
-                                            Edit
-                                        </button>
-                                        <button @click="viewUser(user)" class="mr-4 pr-4 flex items-center text-[#3251FF] hover:underline hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95">
-                                            <img src="{{ asset('storage/icons/view-icon.png') }}" alt="View Icon" class="w-5 h-5 mr-2" />
-                                            View
-                                        </button>
-                                    </td>
+            <div>
+                <div class="mt-2 px-5 mb-2">
+                    <div class="overflow-x-auto m-0 border border-t-gray-300 rounded-lg inset-0 p-0">
+                        <div class="min-w-full inline-block max-h-[56vh] min-h-[56vh] overflow-y-auto align-middle p-0 z-0">
+                            <table class="min-w-full min-h-full divide-y divide-gray-300 gap-y-5">
+                                <thead>
+                                <tr>
+                                    <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-[#757575] rounded-tl-lg">No.</th>
+                                    <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-[#757575]">Name</th>
+                                    <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-[#757575]">Email Address</th>
+                                    <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-[#757575]">User Type</th>
+                                    <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-10 text-left text-xs font-semibold text-[#757575]">Status</th>
+                                    <th class="sticky top-0 z-10 bg-white py-3.5 px-2 text-left text-xs font-semibold text-[#757575] rounded-tr-lg">Actions</th>
                                 </tr>
-                            </template>
-                            </tbody>
-                        </table>
+                                </thead>
 
-                        <!-- Mobile View -->
-                        <div class="md:hidden">
-                            <template x-for="(user, index) in users" :key="index">
-                                <div class="mb-4 p-4 border border-gray-300 rounded-lg">
-                                    <div class="flex items-center mb-2">
-                                        <span class="text-xs font-bold text-[#757575] mr-2">No.:</span>
-                                        <span x-text="index + 1" class="text-xs"></span>
-                                    </div>
-                                    <div class="flex items-center mb-2">
-                                        <img :src="user.profileImage" alt="Profile Image" class="h-8 w-8 rounded-full flex-shrink-0 mr-2" />
-                                        <div class="text-xs font-normal text-primary-800" x-text="`${user.firstName} ${user.middleName ? user.middleName + ' ' : ''}${user.lastName}`"></div>
-                                    </div>
-                                    <div class="flex items-center mb-2">
-                                        <span class="text-xs font-bold text-[#757575] mr-2">Email:</span>
-                                        <span x-text="user.email" class="text-xs"></span>
-                                    </div>
-                                    <div class="flex items-center mb-2">
-                                        <span class="text-xs font-bold text-[#757575] mr-2">User Type:</span>
-                                        <span x-text="user.userType" class="text-xs"></span>
-                                    </div>
-                                    <div class="flex items-center mb-2">
-                                        <span class="text-xs font-bold text-[#757575] mr-2">Status:</span>
-                                        <span :class="user.status === 'Enabled' ? 'text-green-600 font-bold' : 'text-red-600 font-bold'" x-text="user.status" class="text-xs"></span>
-                                    </div>
-                                    <div class="flex space-x-4">
-                                        <button class="flex items-center text-orange-500 hover:underline hover:text-orange-600 font-medium text-xs transition active:scale-95">
-                                            <img src="{{ asset('storage/icons/edit-icon.png') }}" alt="Edit Icon" class="w-4 h-4 mr-2" />
-                                            Edit
-                                        </button>
-                                        <button @click="viewUser(user)" class="flex items-center text-[#3251FF] hover:underline hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95">
-                                            <img src="{{ asset('storage/icons/view-icon.png') }}" alt="View Icon" class="w-5 h-5 mr-2" />
-                                            View
-                                        </button>
-                                    </div>
-                                </div>
-                            </template>
+                                <tbody class="divide-y divide-gray-300 bg-white">
+                                <template x-for="(user, index) in users" :key="index">
+                                    <tr :class="index % 2 == 0 ? 'bg-white' : 'bg-slate-50'" class="hover:bg-slate-200 text-left">
+                                        <!-- No. Column -->
+                                        <td class="whitespace-nowrap py-3 text-xs pl-4">
+                                            <div x-text="index + 1"></div>
+                                        </td>
+                                        <td class="whitespace-nowrap py-3 pl-4">
+                                            <div class="flex items-center">
+                                                <div class="h-8 w-8 flex-shrink-0">
+                                                    <img :src="user.profileImage" alt="Profile Image" class="h-8 w-8 rounded-full" />
+                                                </div>
+                                                <div class="ml-2">
+                                                    <div x-text="`${user.firstName} ${user.middleName ? user.middleName + ' ' : ''}${user.lastName}`" class="font-normal text-primary-800 text-xs"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="whitespace-nowrap py-3 pl-4 text-xs">
+                                            <div x-text="user.email"></div>
+                                        </td>
+                                        <td class="whitespace-nowrap pl-4 py-3 text-xs">
+                                            <div x-text="user.userType"></div>
+                                        </td>
+                                        <td class="whitespace-nowrap pl-4 py-3 text-xs font-medium">
+                                            <div
+                                                :class="user.status === 'Enabled' ? 'text-green-600 font-bold' : 'text-red-600 font-bold'"
+                                                x-text="user.status">
+                                            </div>
+                                        </td>
+                                        <td class="flex whitespace-nowrap py-6 text-left">
+                                            <!-- Edit Button -->
+                                            <button class="flex items-center text-orange-500 hover:underline hover:text-orange-600 font-medium transition active:scale-95 mr-5 pl-2">
+                                                <img src="{{ asset('storage/icons/edit-icon.png') }}" alt="Edit Icon" class="w-4 h-4 mr-2 transition-transform duration-200 ease-in-out group-hover:rotate-12" />
+                                                <span class="text-xs font-medium">Edit</span>
+                                            </button>
+
+                                            <!-- View Button -->
+                                            <button @click="viewUser(user)"
+                                                    class="flex items-center text-[#3251FF] hover:underline hover:text-[#1d3fcc] font-medium transition active:scale-95 mr-5 pl-8">
+                                                <img src="{{ asset('storage/icons/view-icon.png') }}" alt="View Icon" class="w-5 h-5 mr-2 transition-transform duration-200 ease-in-out group-hover:rotate-12" />
+                                                <span class="text-xs font-medium">View</span>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                </template>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Pagination Layout -->
-            <div class="mt-4 px-6">
-                <div class="flex flex-wrap items-center justify-between space-y-2 sm:space-y-0 sm:flex-nowrap">
-                    <!-- Total Users -->
-                    <div class="w-full sm:w-auto text-center sm:text-left text-xs text-gray-500 font-semibold">
-                        Total Users: <span x-text="totalUsers"></span>
-                    </div>
+            <div class="flex items-center justify-between mt-4 px-6">
+                <!-- Total Users -->
+                <div class="text-xs text-gray-500 font-semibold">
+                    Total Users: <span x-text="totalUsers"></span>
+                </div>
 
-                    <!-- Pagination Controls -->
-                    <div class="w-full sm:w-auto">
-                        <nav aria-label="Page navigation" class="flex justify-center sm:justify-start items-center text-xs space-x-1">
-                            <!-- First Page -->
+                <!-- Pagination Controls -->
+                <div>
+                    <nav aria-label="Page navigation" class="flex items-center text-xs space-x-1">
+                        <!-- First Page -->
+                        <button
+                            @click="goToPage(1)"
+                            :disabled="currentPage === 1"
+                            class="px-3 h-8 text-green-600 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
+                            First
+                        </button>
+                        <!-- Previous Page -->
+                        <button
+                            @click="prevPage()"
+                            :disabled="currentPage === 1"
+                            class="px-3 h-8 text-green-600 bg-white border border-gray-300 hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
+                            &lt; Prev
+                        </button>
+                        <!-- Page Numbers -->
+                        <template x-for="page in pages" :key="page">
                             <button
-                                @click="goToPage(1)"
-                                :disabled="currentPage === 1"
-                                class="px-3 h-8 text-green-600 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
-                                First
+                                @click="goToPage(page)"
+                                :class="{'bg-green-100 text-green-600': page === currentPage, 'text-gray-500 hover:bg-gray-100': page !== currentPage}"
+                                class="px-3 h-8 border border-gray-300">
+                                <span x-text="page"></span>
                             </button>
-                            <!-- Previous Page -->
-                            <button
-                                @click="prevPage()"
-                                :disabled="currentPage === 1"
-                                class="px-3 h-8 text-green-600 bg-white border border-gray-300 hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
-                                &lt; Prev
-                            </button>
-                            <!-- Page Numbers -->
-                            <template x-for="page in pages" :key="page">
-                                <button
-                                    @click="goToPage(page)"
-                                    :class="{'bg-green-100 text-green-600': page === currentPage, 'text-gray-500 hover:bg-gray-100': page !== currentPage}"
-                                    class="px-3 h-8 border border-gray-300">
-                                    <span x-text="page"></span>
-                                </button>
-                            </template>
-                            <!-- Next Page -->
-                            <button
-                                @click="nextPage()"
-                                :disabled="currentPage === totalPages"
-                                class="px-3 h-8 text-green-600 bg-white border border-gray-300 hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
-                                Next &gt;
-                            </button>
-                            <!-- Last Page -->
-                            <button
-                                @click="goToPage(totalPages)"
-                                :disabled="currentPage === totalPages"
-                                class="px-3 h-8 text-green-600 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
-                                Last
-                            </button>
-                        </nav>
-                    </div>
+                        </template>
+                        <!-- Next Page -->
+                        <button
+                            @click="nextPage()"
+                            :disabled="currentPage === totalPages"
+                            class="px-3 h-8 text-green-600 bg-white border border-gray-300 hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
+                            Next &gt;
+                        </button>
+                        <!-- Last Page -->
+                        <button
+                            @click="goToPage(totalPages)"
+                            :disabled="currentPage === totalPages"
+                            class="px-3 h-8 text-green-600 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
+                            Last
+                        </button>
+                    </nav>
+                </div>
 
-                    <!-- Page Information -->
-                    <div class="w-full sm:w-auto text-center sm:text-right text-xs text-gray-500 font-semibold">
-                        Page <span x-text="currentPage"></span> of <span x-text="totalPages"></span>
-                    </div>
+                <!-- Page Information -->
+                <div class="text-xs text-gray-500 font-semibold">
+                    Page <span x-text="currentPage"></span> of <span x-text="totalPages"></span>
                 </div>
             </div>
-
 
             <!-- View User Modal -->
             <div x-show="showViewModal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -933,5 +775,5 @@
                 </div>
             </div>
         </div>
-    </x-admin.admin-navigation>
-</x-app-layout>
+    </div>
+</div>
