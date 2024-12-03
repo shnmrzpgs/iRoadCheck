@@ -6,9 +6,8 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
-    {
-        return view('iroadcheck.prototype.User.dashboard');
+    public function showDashboard(){
+        return view('iroadcheck.prototype.Admin.dashboard');
     }
 }
 

@@ -55,7 +55,7 @@ window.initializedSignUpDefer = function initializedSignUpDefer() {
     function validateAge(birthdate) {
         const birthDate = new Date(birthdate);
         const today = new Date();
-        const age = today.getFullYear() - birthDate.getFullYear();
+        let age = today.getFullYear() - birthDate.getFullYear();
         const monthDifference = today.getMonth() - birthDate.getMonth();
 
         // Adjust age if the birthday hasn't occurred yet this year
