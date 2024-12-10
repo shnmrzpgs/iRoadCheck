@@ -107,17 +107,21 @@
 
                     <!-- Basic Information -->
                         <div x-show="activeTab === 'basic-info'">
-                            <div class="pt-10 pl-5 text-[13px] italic text-gray-900">
+                            <div class="mt-6 text-[16px] font-semibold text-gray-900 flex items-center space-x-2">
+                                Basic Personal Information
+                            </div>
+                            <div class="mt-2 text-[12px] italic text-gray-900 pb-2">
                                 Below is your basic information as the staff of iRoadCheck.
                             </div>
                             <form action=""
                                   method="POST"
+                                  class="border-t border-gray-300"
                                   x-transition:enter="transition ease-out duration-300"
                                   x-transition:enter-start="opacity-0 transform scale-80"
                                   x-transition:enter-end="opacity-100 transform scale-100">
                                 @csrf
                                 @method('PUT')
-                                <div class="grid grid-cols-2 mt-8 mb-2 space-x-6 px-4 ">
+                                <div class="grid sm:grid-cols-2 grid-cols-1 mt-8 mb-2 space-x-6 px-4 ">
                                     <!--First Name-->
                                     <div class="flex gap-4 p-2 w-full">
                                         <label for="first_name" class="w-2/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
@@ -137,7 +141,7 @@
                                                placeholder="Middle Name" >
                                     </div>
                                 </div>
-                                <div class="grid grid-cols-2 mb-2 space-x-6 px-4">
+                                <div class="grid sm:grid-cols-2 grid-cols-1 mb-2 space-x-6 px-4">
                                     <!--Last Name-->
                                     <div class="flex gap-4 p-2 w-full">
                                         <label for="last_name" class="w-2/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
@@ -147,44 +151,38 @@
                                                class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-7/10 rounded-md bg-none text-[14px] font-normal text-gray-900 shadow"
                                                placeholder="Last Name" >
                                     </div>
-                                    <!--Gender-->
-                                    <div class="flex gap-4 p-2 w-full">
-                                        <label for="sex" class="w-2/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
+                                    <!-- Gender -->
+                                    <div class="relative flex gap-4 p-2 w-full">
+                                        <label for="sex_id" class="w-2/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
                                             Gender
                                         </label>
-                                        <select  name="sex_id" id="sex_id"
-                                                 class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-7/10 rounded-md bg-none text-[14px] font-normal text-gray-900 shadow over:bg[#4AA76F]">
-                                            <option class="text-[14px] font-normal text-gray-900 hover:bg[#4AA76F] w-7/10 ">
-                                                Male
-                                            </option>
-                                            <option class="text-[14px] font-normal text-gray-900 hover:bg[#4AA76F]  w-7/10 ">
-                                                Female
-                                            </option>
-                                        </select>
+                                        <div class="relative w-7/10 custom-select rounded-md border hover:shadow-md">
+                                            <select  name="sex_id" id="sex_id"
+                                                     class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-7/10 rounded-md bg-none text-[14px] font-normal text-gray-900 shadow over:bg[#4AA76F]">
+                                                <option class="text-[14px] font-normal text-gray-900 hover:bg[#4AA76F] w-7/10 ">
+                                                    Male
+                                                </option>
+                                                <option class="text-[14px] font-normal text-gray-900 hover:bg[#4AA76F]  w-7/10 ">
+                                                    Female
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="grid grid-cols-2 mb-10 space-x-6 px-4 ">
-                                    <!--Role-->
-                                    <div class="flex gap-4 p-2 w-full">
-                                        <label for="role" class="w-2/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
-                                            Role
-                                        </label>
-                                        <input type="text" name="role_id" id="role_id"
-                                               class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-7/10 rounded-md bg-none text-[14px] font-normal text-gray-900 shadow"
-                                               placeholder="Patcher" readonly>
-                                    </div>
-                                    <!--Email Address-->
-                                    <div class="flex gap-4 p-2 w-full">
-                                        <label for="email" class="w-2/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
-                                            Email Address
-                                        </label>
-                                        <input type="email" name="email" id="email"
-                                               class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-7/10 rounded-md bg-none text-[14px] font-normal text-gray-900 shadow"
-                                               placeholder="admin@example.com" >
-                                    </div>
-                                </div>
 
-                                <div class="float-right pr-8">
+                                </div>
+{{--                                <div class="grid sm:grid-cols-2 grid-cols-1 mb-10 space-x-6 px-4 ">--}}
+{{--                                    <!--Email Address-->--}}
+{{--                                    <div class="flex gap-4 p-2 w-full">--}}
+{{--                                        <label for="email" class="w-2/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">--}}
+{{--                                            Email Address--}}
+{{--                                        </label>--}}
+{{--                                        <input type="email" name="email" id="email"--}}
+{{--                                               class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-7/10 rounded-md bg-none text-[14px] font-normal text-gray-900 shadow"--}}
+{{--                                               placeholder="admin@example.com" >--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+
+                                <div class="float-right pr-8 pt-[68px] pb-0">
                                     <button type="submit" name="saveChanges" id="saveChanges" value="saveChanges"
                                             class="w-auto gap-x-[8px] text-[14px] bg-[#4AA76F] px-[12px] py-[8px] font-normal tracking-wider text-white rounded-full hover:drop-shadow hover:scale-105 hover:ease-in-out hover:transition-transform hover:bg-[#4D9B62] hover:shadow-xl">
                                         <span class="mt-[2px] px-2">Save Changes</span>
@@ -196,74 +194,88 @@
 
                         <div x-show="activeTab === 'access-control'">
                             <!-- Access Control Information -->
-                            <div class="mt-8 pl-5 text-[13px] italic text-gray-900">
+                            <div class="mt-6 text-[16px] font-semibold text-gray-900 flex items-center space-x-2">
+                                Access Control Information
+                            </div>
+                            <div class="mt-2 text-[12px] italic text-gray-900 pb-2">
                                 Below is your access control information as an admin of iRoadCheck.
                             </div>
                             <form action="" method="POST"
+                                  class="border-t border-gray-300"
                                   x-transition:enter="transition ease-out duration-300"
                                   x-transition:enter-start="opacity-0 transform scale-80"
                                   x-transition:enter-end="opacity-100 transform scale-100">
                                 @csrf
                                 @method('PUT')
 
-                                <div class="grid mt-6 space-x-6 px-4">
-                                    <!-- User Type -->
-                                    <div class="w-full p-2">
-                                        <div class="flex items-center space-x-2 mb-2">
-                                            <label for="userType" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
-                                                User Type
-                                            </label>
-                                            <input type="text" id="userType" value="Admin"
-                                                   readonly
-                                                   class="mb-2 flex-1 border border-gray-300 focus:outline-none block rounded-md bg-gray-200 text-[14px] font-normal text-gray-900 shadow">
-                                        </div>
+                                <div x-data="{ permissions: ['Manage Users', 'Access Reports', 'Configure Settings'] }" class="grid grid-cols-2 gap-6 mt-6 px-4">
+                                    <!-- Assigned Permissions -->
+                                    <div class="flex flex-col space-y-2">
+                                        <label for="permissions" class="text-[13px] font-medium text-gray-900">
+                                            Permissions
+                                        </label>
+                                        <ul class="list-disc list-inside bg-gray-200 rounded-md p-3 text-[14px] font-normal text-gray-900 shadow min-h-[180px] max-h-[180px] overflow-y-scroll">
+                                            <template x-for="permission in permissions" :key="permission">
+                                                <li x-text="permission"></li>
+                                            </template>
+                                        </ul>
                                     </div>
 
-                                    <!-- Assigned Permissions -->
-                                    <div class="w-full p-2">
-                                        <div class="flex items-center space-x-2 mb-2">
-                                            <label for="permissions" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
-                                                Permissions
-                                            </label>
-                                            <textarea id="permissions" rows="3" readonly
-                                                  class="mb-2 flex-1 border border-gray-300 focus:outline-none block rounded-md bg-gray-200 text-[14px] font-normal text-gray-900 shadow">
-                                                - Manage Users
-                                                - Access Reports
-                                                - Configure Settings
-                                            </textarea>
-                                        </div>
+                                    <!-- User Type -->
+                                    <div class="flex flex-col space-y-2">
+                                        <label for="userType" class="text-[13px] font-medium text-gray-900">
+                                            User Type
+                                        </label>
+                                        <input type="text" id="userType" value="Admin" readonly
+                                               class="w-full border border-gray-300 rounded-md bg-gray-200 text-[14px] font-normal text-gray-900 shadow focus:outline-none px-3 py-2">
                                     </div>
+
                                 </div>
 
-                                <div class="float-right pr-8">
+
+                                <div class="float-right pr-8 bottom-0">
                                     <button type="submit" name="saveChanges" id="saveChanges" value="saveChanges"
                                             class="w-auto gap-x-[8px] text-[14px] bg-[#4AA76F] px-[12px] py-[8px] font-normal tracking-wider text-white rounded-full hover:drop-shadow hover:scale-105 hover:ease-in-out hover:transition-transform hover:bg-[#4D9B62] hover:shadow-xl">
                                         <span class="mt-[2px] px-2">Save Changes</span>
                                     </button>
                                 </div>
                             </form>
+
                         </div>
 
                         <div  x-show="activeTab === 'account-info'">
+
                             <!-- Account Information -->
-                            <div class="mt-8 pl-5 text-[13px] italic text-gray-900">
+                            <div class="mt-6 text-[16px] font-semibold text-gray-900 flex items-center space-x-2">
+                                Account Settings Information
+                            </div>
+                            <div class="mt-2 text-[12px] italic text-gray-900 pb-2">
                                 Below is your account information as the staff of iRoadCheck.
                             </div>
                             <form action="" method="POST"
+                                  class="border-t border-gray-300 relative "
                                   x-transition:enter="transition ease-out duration-300"
                                   x-transition:enter-start="opacity-0 transform scale-80"
                                   x-transition:enter-end="opacity-100 transform scale-100">
                                 @csrf
                                 @method('PUT')
-                                <div class="grid grid-cols-2 mt-6 space-x-6 px-4 ">
-                                    <div class="w-full p-2">
+                                <div class="grid grid-cols-2 mt-6 space-x-6 px-4 pb-0 z-0 ">
+                                    <div class="w-full p-2 z-0">
+{{--                                        <div class="flex items-center space-x-2 mb-2">--}}
+{{--                                            <label for="idNum" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">--}}
+{{--                                                ID Number--}}
+{{--                                            </label>--}}
+{{--                                            <input type="number" id="idNum"--}}
+{{--                                                   class="mb-2 flex-1 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow"--}}
+{{--                                                   placeholder="Enter ID Number">--}}
+{{--                                        </div>--}}
                                         <div class="flex items-center space-x-2 mb-2">
-                                            <label for="idNum" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
-                                                ID Number
+                                            <label for="email" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
+                                                Email Address
                                             </label>
-                                            <input type="number" id="idNum"
+                                            <input type="email" name="email" id="email"
                                                    class="mb-2 flex-1 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow"
-                                                   placeholder="Enter ID Number">
+                                                   placeholder="Enter Email Address">
                                         </div>
                                         <div class="flex items-center space-x-2 mb-2">
                                             <label for="currentPassword" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
@@ -356,9 +368,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="w-full">
+                                    <div class="w-full z-0">
                                         <!-- Password requirements -->
-                                        <div class="w-full pb-6 px-6">
+                                        <div class="w-full px-6">
                                             <div class="text-gray-600 text-[14px] font-semibold mb-4">Password Requirements</div>
                                             <div class="text-[13px] text-gray-500 mb-1">Please follow this guide for a strong password:</div>
                                             <ul class="list-disc pl-10 leading-6">
@@ -372,7 +384,7 @@
                                     </div>
                                 </div>
 
-                                <div class="float-right pr-8">
+                                <div class="absolute right-0 pr-8 -mt-6 z-50">
                                     <button type="submit" name="updateAccount" id="updateAccount" value="updateAccount"
                                             class="w-auto gap-x-[8px] text-[14px] bg-[#4AA76F] px-[12px] py-[8px] font-normal tracking-wider text-white rounded-full hover:drop-shadow hover:scale-105 hover:ease-in-out hover:transition-transform hover:bg-[#4D9B62] hover:shadow-xl">
                                         <span class="mt-[2px] px-2">Update Account</span>
