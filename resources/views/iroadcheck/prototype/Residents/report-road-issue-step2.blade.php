@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="min-h-screen flex flex-col items-center bg-white">
+    <div class="min-h-screen flex flex-col items-center bg-white" x-data="{ currentStep: 1 }">
         <!-- White Background Header Container -->
         <div class="w-full bg-white shadow-sm p-4 border-b-2 border-gray-200 lg:w-full">
             <!-- Header -->
@@ -32,11 +32,16 @@
             <p class="text-red-500 text-sm font-medium mt-6">Step 2: Capture actual road condition.</p>
         </div>
 
-        <div class="relative mt-8 bg-white w-[90%] max-w-md shadow-md rounded-lg overflow-hidden" style="height: 445px;">
-            <script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
-
-            <dotlottie-player src="https://lottie.host/90b58433-c5af-47fe-a65a-911601208077/2jRvRvYMIR.json" background="transparent" speed="1"
-                class="absolute w-full h-full object-cover left-0 top-0 transform scale-125" direction="1" playMode="normal" loop autoplay></dotlottie-player>
+        <div x-data="{ animation: null }" x-init="animation = lottie.loadAnimation({
+                container: $refs.lottieAnimation, // the DOM element
+                renderer: 'svg', // render as SVG
+                loop: true, // loop the animation
+                autoplay: true, // start playing the animation
+                path: '{{ asset("animations/Animation - Capturing.json") }}'
+            })" class="relative mt-8 bg-white w-[90%] max-w-md shadow-md rounded-lg overflow-hidden" style="height: 445px;">
+            
+            <div x-ref="lottieAnimation" background="transparent" speed="1"
+                class="absolute w-full h-full object-cover left-0 top-0 transform scale-125" direction="1" playMode="normal" loop autoplay></div>
         </div>
 
 
@@ -56,6 +61,5 @@
                 NEXT
             </button>
         </div>
-    </div>
 
 </x-app-layout>
