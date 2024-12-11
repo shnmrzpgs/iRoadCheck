@@ -58,7 +58,6 @@
         </aside>
 
         <!-- Hamburger Button -->
-        <!-- Hamburger Button -->
         <button
             class="fixed z-50 p-2 bg-gray-800 text-red-500 rounded-md block md:hidden top-4 left-4"
             @click="open = !open"
