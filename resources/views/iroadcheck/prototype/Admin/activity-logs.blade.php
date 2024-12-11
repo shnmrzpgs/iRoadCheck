@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-admin.admin-navigation  page_title="Activity Logs">>
-        <div class="text-[#202020] bg-[#FBFBFB] -mt-6 pt-4 px-4 pb-4 rounded-lg drop-shadow"
+        <div class="text-[#202020] bg-[#FBFBFB] pt-4 lg:px-2 px-0 pb-4 rounded-lg w-full min-w-[40vh] max-w-full h-full min-h-[50vh] max-h-full "
             x-data="{
                 currentPage: 1,
                 totalPages: 20,
@@ -25,14 +25,12 @@
             ">
 
             <!--Page description and Add button-->
-            <!--Page description and Add button-->
             <div class="px-6" >
                 <div class="mr-auto">
-
                     <div class="flex flex-col">
                         <!--Page description-->
                         <div class="sm:flex-auto">
-                            <p class="mt-2 text-sm text-[#656565]">
+                            <p class="mt-2 lg:text-sm text-xs text-[#656565]">
                                 A list of all users in iRoadCheck System.
                             </p>
                         </div>
@@ -107,7 +105,6 @@
                 </div>
             </div>
 
-            <!--Table Content-->
             <div x-data="{
                     activities: [
                         { transactionId: 'TRX001', activity: 'Logged into account successfully', dateTime: '2024-10-23 08:15 AM' },
@@ -123,7 +120,7 @@
                 <!-- Table Content -->
                 <div class="mt-2 px-5 mb-2 ">
                     <div class="overflow-x-auto m-0 border border-t-gray-300 rounded-lg inset-0 p-0">
-                        <div class="min-w-full inline-block max-h-[56vh] min-h-[56vh] overflow-y-auto align-middle p-0 z-0">
+                        <div class="min-w-full inline-block max-h-[60vh] min-h-[60vh] overflow-y-auto align-middle p-0 z-0">
                             <table class="min-w-full min-h-full divide-y divide-gray-300 gap-y-5">
                                 <thead>
                                 <tr>
@@ -145,7 +142,7 @@
                                 <template x-for="(activity, index) in activities" :key="index">
                                     <tr :class="index % 2 == 0 ? 'bg-white' : 'bg-slate-50'" class="hover:bg-slate-200 text-left">
                                         <!-- No. Column -->
-                                        <td class="whitespace-nowrap pl-4 py-3 text-[12px] pl-4">
+                                        <td class="whitespace-nowrap pl-4 py-3 text-[12px]">
                                             <div class="ml-2">
                                                 <div class="mt-[1px] text-[12px]" x-text="index + 1"></div>
                                             </div>
@@ -175,62 +172,62 @@
             </div>
 
             <!-- Pagination Layout -->
-            <div class="flex items-center justify-between mt-4 px-6">
-                <!-- Total Logs -->
-                <div class="text-xs text-gray-500 font-semibold">
-                    Total Logs: <span x-text="totalLogs"></span>
-                </div>
+            <div class="mt-4 px-6">
+                <div class="flex flex-wrap items-center justify-between space-y-2 sm:space-y-0 sm:flex-nowrap">
+                    <!-- Total Users -->
+                    <div class="w-full sm:w-auto text-center sm:text-left text-xs text-gray-500 font-semibold">
+                        Total Users: <span x-text="totalUsers"></span>
+                    </div>
 
-
-                <!-- Pagination Controls -->
-                <div>
-                    <nav aria-label="Page navigation" class="flex items-center text-xs space-x-1">
-                        <!-- First Page -->
-                        <button
-                            @click="goToPage(1)"
-                            :disabled="currentPage === 1"
-                            class="px-3 h-8 text-green-600 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
-                            First
-                        </button>
-                        <!-- Previous Page -->
-                        <button
-                            @click="prevPage()"
-                            :disabled="currentPage === 1"
-                            class="px-3 h-8 text-green-600 bg-white border border-gray-300 hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
-                            &lt; Prev
-                        </button>
-                        <!-- Page Numbers -->
-                        <template x-for="page in pages" :key="page">
+                    <!-- Pagination Controls -->
+                    <div class="w-full sm:w-auto">
+                        <nav aria-label="Page navigation" class="flex justify-center sm:justify-start items-center text-xs space-x-1">
+                            <!-- First Page -->
                             <button
-                                @click="goToPage(page)"
-                                :class="{'bg-green-100 text-green-600': page === currentPage, 'text-gray-500 hover:bg-gray-100': page !== currentPage}"
-                                class="px-3 h-8 border border-gray-300">
-                                <span x-text="page"></span>
+                                @click="goToPage(1)"
+                                :disabled="currentPage === 1"
+                                class="px-3 h-8 text-green-600 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
+                                First
                             </button>
-                        </template>
-                        <!-- Next Page -->
-                        <button
-                            @click="nextPage()"
-                            :disabled="currentPage === totalPages"
-                            class="px-3 h-8 text-green-600 bg-white border border-gray-300 hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
-                            Next &gt;
-                        </button>
-                        <!-- Last Page -->
-                        <button
-                            @click="goToPage(totalPages)"
-                            :disabled="currentPage === totalPages"
-                            class="px-3 h-8 text-green-600 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
-                            Last
-                        </button>
-                    </nav>
-                </div>
+                            <!-- Previous Page -->
+                            <button
+                                @click="prevPage()"
+                                :disabled="currentPage === 1"
+                                class="px-3 h-8 text-green-600 bg-white border border-gray-300 hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
+                                &lt; Prev
+                            </button>
+                            <!-- Page Numbers -->
+                            <template x-for="page in pages" :key="page">
+                                <button
+                                    @click="goToPage(page)"
+                                    :class="{'bg-green-100 text-green-600': page === currentPage, 'text-gray-500 hover:bg-gray-100': page !== currentPage}"
+                                    class="px-3 h-8 border border-gray-300">
+                                    <span x-text="page"></span>
+                                </button>
+                            </template>
+                            <!-- Next Page -->
+                            <button
+                                @click="nextPage()"
+                                :disabled="currentPage === totalPages"
+                                class="px-3 h-8 text-green-600 bg-white border border-gray-300 hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
+                                Next &gt;
+                            </button>
+                            <!-- Last Page -->
+                            <button
+                                @click="goToPage(totalPages)"
+                                :disabled="currentPage === totalPages"
+                                class="px-3 h-8 text-green-600 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 disabled:text-gray-300 disabled:hover:bg-white">
+                                Last
+                            </button>
+                        </nav>
+                    </div>
 
-                <!-- Page Information -->
-                <div class="text-xs text-gray-500 font-semibold">
-                    Page <span x-text="currentPage"></span> of <span x-text="totalPages"></span>
+                    <!-- Page Information -->
+                    <div class="w-full sm:w-auto text-center sm:text-right text-xs text-gray-500 font-semibold">
+                        Page <span x-text="currentPage"></span> of <span x-text="totalPages"></span>
+                    </div>
                 </div>
             </div>
-
 
         </div>
     </x-admin.admin-navigation>

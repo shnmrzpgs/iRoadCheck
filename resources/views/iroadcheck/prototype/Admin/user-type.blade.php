@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-admin.admin-navigation page_title="User Type">
-        <div class="text-[#202020] bg-[#FBFBFB]  pt-6 px-4 pb-4 rounded-lg"
+        <div class="text-[#202020] bg-[#FBFBFB] pt-4 lg:px-2 px-0 pb-4 rounded-lg w-full min-w-[40vh] max-w-full h-full min-h-[60vh] max-h-full "
              x-data="{
                 showAddModal: false,
                 openAddSuccessModal: false,
@@ -9,7 +9,7 @@
                     permissions: [], // Selected permission IDs
                 },
                 userTypes: [
-                    { userType: 'Admin', permissions: ['Manage Users', 'Edit Settings', 'View Logs'], status: 'Enabled' },
+                    { userType: 'admin', permissions: ['Manage Users', 'Edit Settings', 'View Logs'], status: 'Enabled' },
                     { userType: 'Editor', permissions: ['Edit Settings', 'Generate Reports'], status: 'Disabled' },
                     { userType: 'Viewer', permissions: ['View Dashboard', 'View Reports'], status: 'Enabled' },
                     { userType: 'Manager', permissions: ['Approve Requests', 'Assign Roles'], status: 'Active' },
@@ -67,18 +67,74 @@
                     if (this.currentPage < this.totalPages) this.currentPage++;
                 }
             }">
+
             <!--Page description and Add button-->
             <div class="px-6" >
-                <div class="flex justify-between">
-                    <!--Page description-->
-                    <div class="sm:flex-auto mr-auto mt-3">
-                        <p class="text-sm text-[#656565]">
-                            A list of all user types in iRoadCheck System.
-                        </p>
+                <div class="mr-auto">
+                    <div class="flex flex-col">
+                        <!--Page description-->
+                        <div class="sm:flex-auto">
+                            <p class="mt-2 lg:text-sm text-xs text-[#656565]">
+                                A list of all user types in iRoadCheck System.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-start ">
+
+                    <!--Dropdown Filters-->
+                    <div class="flex lg:gap-2 gap-1 mr-auto mb-0 mt-4"
+                         x-data="{
+                             filters: {
+                                 status: '',
+                                 userType: '',
+                             }
+                         }">
+                        <!-- All Users Option -->
+                        <div class="relative rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md"
+                             :class="{
+                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] ': filters.sort === '' && filters.status === ''  && filters.userType === '',  /* Active state */
+                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort !== '' || filters.status !== '' || filters.userType !== ''  /* Default and hover state */
+                             }"
+                             @click="filters.sort = ''; filters.status = ''; filters.userType = '';">
+                            <span class="text-[12px] block appearance-none w-full text-center px-2 py-2 rounded">
+                                All Users
+                            </span>
+                        </div>
+
+                        <!-- User Type Filter -->
+                        <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
+                             :class="{
+                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.userType !== '',  /* Active state */
+                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.userType === ''  /* Default and hover state */
+                             }">
+                            <select x-model="filters.userType" @change="console.log('Filters:', filters)"
+                                    class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
+                                <option value="" class="text-gray-400 text-[12px]">User Type</option>
+                                <option value="patcher" class="text-gray-700">Patcher</option>
+                                <option value="user-type-2" class="text-gray-700">User Type 2</option>
+                                <option value="user-type-3" class="text-gray-700">User Type 3</option>
+                            </select>
+                        </div>
+
+                        <!-- Status Filter -->
+                        <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
+                             :class="{
+                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.status !== '',  /* Active state */
+                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.status === ''  /* Default and hover state */
+                             }">
+                            <select x-model="filters.status" @change="console.log('Filters:', filters)"
+                                    class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
+                                <option value="" class="text-gray-400 text-[12px]">Status</option>
+                                <option value="enabled" class="text-gray-700">Enabled</option>
+                                <option value="disabled" class="text-gray-700">Disabled</option>
+                            </select>
+                        </div>
                     </div>
 
                     <!--Add Button-->
-                    <div class="sm:ml-16 sm:mt-0 sm:flex-none">
+                    <div class="sm:mt-0 sm:flex-none -mt-8">
                         <div class="flex w-full items-center px-4 py-2 md:mx-auto md:max-w-3xl lg:mx-0 lg:max-w-none xl:px-0">
                             <div class="w-full">
                                 <div @click="showAddModal = true">
@@ -104,9 +160,7 @@
                     </div>
 
                     <!-- Add User Type Modal -->
-                    <div x-show="showAddModal"
-                         class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
-                    >
+                    <div x-show="showAddModal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                         <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full max-w-lg mx-10 my-4">
                             <div class="bg-[#FBFBFB] rounded-[10px] relative">
 
@@ -235,37 +289,30 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-
             </div>
 
             <!-- Table Content -->
             <div class="mt-2 px-5 mb-2">
-                <div class="overflow-x-auto m-0 border border-t-gray-300 rounded-lg inset-0 p-0">
-                    <div class="min-w-full inline-block max-h-[56vh] min-h-[56vh] overflow-y-auto align-middle p-0 z-0">
-                        <table class="min-w-full min-h-full divide-y divide-gray-300 gap-y-5">
+                <div class="overflow-x-auto border border-t-gray-300 rounded-lg">
+                    <div class="inline-block min-w-full max-h-[56vh] min-h-[48vh] overflow-y-auto align-middle">
+                        <table class="min-w-full text-left divide-y divide-gray-300">
 
                             <thead>
                             <tr>
-                                <th scope="col"
-                                    class="sticky top-0 z-10 border-white bg-white py-3.5 pl-4 pr-3 text-left text-[12px] font-semibold text-[#757575] rounded-tl-lg">
+                                <th scope="col" class="sticky top-0 z-10 border-white bg-white py-3.5 pl-4 pr-3 text-left text-[12px] font-semibold text-[#757575] rounded-tl-lg">
                                     No.
                                 </th>
-                                <th scope="col"
-                                    class="sticky top-0 z-10 border-white bg-white py-3.5 pl-4 pr-3 text-left text-[12px] font-semibold text-[#757575]">
+                                <th scope="col" class="sticky top-0 z-10 border-white bg-white py-3.5 pl-4 pr-3 text-left text-[12px] font-semibold text-[#757575]">
                                     User Type Name
                                 </th>
-                                <th scope="col"
-                                    class="sticky top-0 z-10 border-white bg-white py-3.5 pl-4 pr-3 text-left text-[12px] font-semibold text-[#757575]">
+                                <th scope="col" class="sticky top-0 z-10 border-white bg-white py-3.5 pl-4 pr-3 text-left text-[12px] font-semibold text-[#757575]">
                                     Permissions
                                 </th>
-                                <th scope="col"
-                                    class="sticky top-0 z-10 border-white bg-white py-3.5 pr-7 pr-3 text-left text-[12px] font-semibold text-[#757575]">
+                                <th scope="col" class="sticky top-0 z-10 border-white bg-white py-3.5 pr-7 pr-3 text-left text-[12px] font-semibold text-[#757575]">
                                     Status
                                 </th>
-                                <th scope="col"
-                                    class="sticky top-0 z-10 border-white bg-white py-3.5 px-2 text-left text-[12px] font-semibold text-[#757575] rounded-tr-lg">
+                                <th scope="col" class="sticky top-0 z-10 border-white bg-white py-3.5 px-2 text-left text-[12px] font-semibold text-[#757575] rounded-tr-lg">
                                     Actions
                                 </th>
                             </tr>

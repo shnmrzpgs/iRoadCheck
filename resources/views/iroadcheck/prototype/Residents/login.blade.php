@@ -42,8 +42,15 @@
                     <a href="{{ route('forgotPassword') }}" class="text-[#5A915E] text-[14px] italic underline hover:underline">Forgot Password?</a>
                 </div>
 
-                <button @click="window.location.href = '{{ route('dashboard') }}'" class="w-full bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white text-[14px] p-3 font-semibold rounded-full">Log In</button>
-                <button @click="window.location.href = '{{ route('signup') }}'" class="w-full p-3 rounded-lg font-semibold text-[14px] text-[#F8A15E] border border-transparent">Sign Up</button>
+                <button @click="window.location.href = '{{ route('dashboard') }}'" class="w-3/4 hover:scale-105 bg-gradient-to-r from-[#5A915E] to-[#F8A15E] hover:drop-shadow-md text-white p-3 font-semibold mt-6 mb-3 rounded-full hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier (0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">Log In</button>
+               {{-- <button @click="window.location.href = '{{ route('signup') }}'" class="w-3/4 p-3 rounded-lg font-semibold text-[14px] text-[#F8A15E] border border-transparent">Sign Up</button> --}}
+                <button @click="window.location.href = '{{ route('signup') }}'" class="w-3/4 group relative inline-flex h-[calc(48px+4px)] items-center justify-center rounded-full bg-none border-none text-[#F8A15E] hover:text-white py-1 pl-6 pr-6 font-medium transition active:scale-95"><span class="z-10 pr-2">Sign Up</span>
+                    <div class="absolute right-1 inline-flex h-10 w-10 items-center justify-end rounded-full bg-[#F8A15E] transition-[width] group-hover:w-[calc(100%-8px)]">
+                        <div class="mr-3 flex items-center justify-center">
+                            <svg width="6" height="6" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-neutral-50"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                        </div>
+                    </div>
+                </button>
             </form>
         </div>
     </div>

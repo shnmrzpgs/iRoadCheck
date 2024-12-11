@@ -2,25 +2,25 @@
 
 use Illuminate\Support\Facades\Route;
 
-//Route::view('/prototype/Admin/Admin-signup', 'iroadcheck.prototype.Admin.Admin-signup');
+//Route::view('/prototype/admin/admin-signup', 'iroadcheck.prototype.admin.admin-signup');
 
 Route::view('/prototype/landing-page', 'iroadcheck.prototype.landing-page');
 Route::view('/prototype/email-message', 'iroadcheck.prototype.email-message');
 
-Route::view('/prototype/Admin/login', 'iroadcheck.prototype.Admin.login');
-Route::view('/prototype/Admin/forgot-password-send-code', 'iroadcheck.prototype.Admin.forgot-password-send-code');
-Route::view('/prototype/Admin/forgot-password-verify-otp', 'iroadcheck.prototype.Admin.forgot-password-verify-otp');
-Route::view('/prototype/Admin/create-new-password', 'iroadcheck.prototype.Admin.create-new-password');
-Route::view('/prototype/Admin/verify-account-send-code', 'iroadcheck.prototype.Admin.verify-account-send-code');
-Route::view('/prototype/Admin/verify-account-verify-otp', 'iroadcheck.prototype.Admin.verify-account-verify-otp');
+Route::view('/prototype/admin/login', 'iroadcheck.prototype.Admin.login');
+Route::view('/prototype/admin/forgot-password-send-code', 'iroadcheck.prototype.Admin.forgot-password-send-code');
+Route::view('/prototype/admin/forgot-password-verify-otp', 'iroadcheck.prototype.Admin.forgot-password-verify-otp');
+Route::view('/prototype/admin/create-new-password', 'iroadcheck.prototype.Admin.create-new-password');
+Route::view('/prototype/admin/verify-account-send-code', 'iroadcheck.prototype.Admin.verify-account-send-code');
+Route::view('/prototype/admin/verify-account-verify-otp', 'iroadcheck.prototype.Admin.verify-account-verify-otp');
 
-//Admin
-Route::view('/component/Admin/dashboard', 'iroadcheck.prototype.Admin.dashboard')->name('Admin.dashboard');
-Route::view('/component/Admin/manage-users', 'iroadcheck.prototype.Admin.manage-users')->name('Admin.manage-users');
-Route::view('/component/Admin/user-type', 'iroadcheck.prototype.Admin.user-type')->name('Admin.user-type');
-Route::view('/component/Admin/activity-logs', 'iroadcheck.prototype.Admin.activity-logs')->name('Admin.activity-logs');
-Route::view('/component/Admin/notifications', 'iroadcheck.prototype.Admin.notifications')->name('Admin.notifications');
-Route::view('/component/Admin/profile-settings', 'iroadcheck.prototype.Admin.profile-settings')->name('Admin.profile-settings');
+//admin
+Route::view('/component/admin/dashboard', 'iroadcheck.prototype.Admin.dashboard')->name('admin.dashboard');
+Route::view('/component/admin/manage-users', 'iroadcheck.prototype.Admin.manage-users')->name('admin.manage-users');
+Route::view('/component/admin/user-type', 'iroadcheck.prototype.Admin.user-type')->name('admin.user-type');
+Route::view('/component/admin/activity-logs', 'iroadcheck.prototype.Admin.activity-logs')->name('admin.activity-logs');
+Route::view('/component/admin/notifications', 'iroadcheck.prototype.Admin.notifications')->name('admin.notifications');
+Route::view('/component/admin/profile-settings', 'iroadcheck.prototype.Admin.profile-settings')->name('admin.profile-settings');
 
 //User
 Route::view('/component/User/dashboard', 'iroadcheck.prototype.User.dashboard')->name('User.dashboard');
@@ -29,7 +29,7 @@ Route::view('/component/User/reports', 'iroadcheck.prototype.User.reports')->nam
 Route::view('/component/User/activity-logs', 'iroadcheck.prototype.User.activity-logs')->name('User.activity-logs');
 Route::view('/component/User/profile-settings', 'iroadcheck.prototype.User.profile-settings')->name('User.profile-settings');
 Route::view('/component/User/notifications', 'iroadcheck.prototype.User.notifications')->name('User.notifications');
-Route::view('/component/Admin/practice', 'iroadcheck.prototype.Admin.practice');
+Route::view('/component/admin/practice', 'iroadcheck.prototype.Admin.practice');
 
 //Residents
 Route::view('/prototype/residents/login', 'iroadcheck.prototype.Residents.login')->name('residents-login');
@@ -50,4 +50,7 @@ Route::view('/prototype/residents/profile-info', 'iroadcheck.prototype.Residents
 Route::view('/prototype/residents/profile-contact-info', 'iroadcheck.prototype.Residents.profile-contact-info')->name('profile-contact-info');
 Route::view('/prototype/residents/profile-changePass', 'iroadcheck.prototype.Residents.profile-changePass')->name('profile-changePass');
 Route::view('/prototype/residents/notifications', 'iroadcheck.prototype.Residents.notifications')->name('notifications');
+
+//practice
+Route::view('/prototype/residents/camera-practice', 'iroadcheck.prototype.Residents.camera-practice');
 
