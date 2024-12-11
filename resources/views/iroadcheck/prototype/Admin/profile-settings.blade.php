@@ -185,13 +185,21 @@
                                 @method('PUT')
                                 <div class="grid grid-cols-2 mt-6 space-x-6 px-4 ">
                                     <div class="w-full p-2">
+{{--                                        <div class="flex items-center space-x-2 mb-2">--}}
+{{--                                            <label for="idNum" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">--}}
+{{--                                                ID Number--}}
+{{--                                            </label>--}}
+{{--                                            <input type="number" id="idNum"--}}
+{{--                                                   class="mb-2 flex-1 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow"--}}
+{{--                                                   placeholder="Enter ID Number">--}}
+{{--                                        </div>--}}
                                         <div class="flex items-center space-x-2 mb-2">
-                                            <label for="idNum" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
-                                                ID Number
+                                            <label for="email" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
+                                                Email Address
                                             </label>
-                                            <input type="number" id="idNum"
+                                            <input type="email" name="email" id="email"
                                                    class="mb-2 flex-1 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow"
-                                                   placeholder="Enter ID Number">
+                                                   placeholder="Enter Email Address">
                                         </div>
                                         <div class="flex items-center space-x-2 mb-2">
                                             <label for="currentPassword" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">

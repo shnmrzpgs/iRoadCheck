@@ -1,6 +1,6 @@
 <x-app-layout >
 
-    <x-admin.admin-navigation page_title="Manage Users" >
+    <x-Admin.admin-navigation page_title="Manage Users" >
         <div class="text-[#202020] bg-[#FBFBFB] pt-4 lg:px-2 px-0 pb-4 rounded-lg w-full min-w-[40vh] max-w-full h-full min-h-[60vh] max-h-full "
              x-data="{
                 isPasswordVisible: false,
@@ -100,16 +100,16 @@
                 openAddSuccessModal: false,
                 showViewModal: false,
                 users: [
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'john@example.com', userType: 'Admin', status: 'Disabled', firstName: 'John', middleName: 'A.', lastName: 'Doe', gender: 'Male' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'jane@example.com', userType: 'User', status: 'Enabled', firstName: 'Jane', middleName: '', lastName: 'Smith', gender: 'Female' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'michael.brown@example.com', userType: 'Moderator', status: 'Enabled', firstName: 'Michael', middleName: 'T.', lastName: 'Brown', gender: 'Male' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'emily.davis@example.com', userType: 'User', status: 'Enabled', firstName: 'Emily', middleName: 'R.', lastName: 'Davis', gender: 'Female' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'chris.johnson@example.com', userType: 'Admin', status: 'Disabled', firstName: 'Chris', middleName: '', lastName: 'Johnson', gender: 'Non-binary' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'sarah.wilson@example.com', userType: 'User', status: 'Disabled', firstName: 'Sarah', middleName: 'E.', lastName: 'Wilson', gender: 'Female' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'david.martinez@example.com', userType: 'User', status: 'Enabled', firstName: 'David', middleName: 'L.', lastName: 'Martinez', gender: 'Male' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'sophia.garcia@example.com', userType: 'Moderator', status: 'Enabled', firstName: 'Sophia', middleName: '', lastName: 'Garcia', gender: 'Female' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'ethan.lee@example.com', userType: 'Admin', status: 'Enabled', firstName: 'Ethan', middleName: 'H.', lastName: 'Lee', gender: 'Male' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'olivia.anderson@example.com', userType: 'User', status: 'Disabled', firstName: 'Olivia', middleName: 'M.', lastName: 'Anderson', gender: 'Female' }
+                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'john@example.com', userType: 'admin', status: 'Disabled', firstName: 'John', middleName: 'A.', lastName: 'Doe', gender: 'Male' },
+                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'jane@example.com', userType: 'User', status: 'Enabled', firstName: 'Jane', middleName: '', lastName: 'Smith', gender: 'Female' },
+                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'michael.brown@example.com', userType: 'Moderator', status: 'Enabled', firstName: 'Michael', middleName: 'T.', lastName: 'Brown', gender: 'Male' },
+                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'emily.davis@example.com', userType: 'User', status: 'Enabled', firstName: 'Emily', middleName: 'R.', lastName: 'Davis', gender: 'Female' },
+                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'chris.johnson@example.com', userType: 'admin', status: 'Disabled', firstName: 'Chris', middleName: '', lastName: 'Johnson', gender: 'Non-binary' },
+                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'sarah.wilson@example.com', userType: 'User', status: 'Disabled', firstName: 'Sarah', middleName: 'E.', lastName: 'Wilson', gender: 'Female' },
+                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'david.martinez@example.com', userType: 'User', status: 'Enabled', firstName: 'David', middleName: 'L.', lastName: 'Martinez', gender: 'Male' },
+                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'sophia.garcia@example.com', userType: 'Moderator', status: 'Enabled', firstName: 'Sophia', middleName: '', lastName: 'Garcia', gender: 'Female' },
+                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'ethan.lee@example.com', userType: 'admin', status: 'Enabled', firstName: 'Ethan', middleName: 'H.', lastName: 'Lee', gender: 'Male' },
+                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'olivia.anderson@example.com', userType: 'User', status: 'Disabled', firstName: 'Olivia', middleName: 'M.', lastName: 'Anderson', gender: 'Female' }
                 ],
                 selectedUser: {},
                 viewUser(user) {
@@ -165,7 +165,6 @@
             <!--Page description and Add button-->
             <div class="px-6" >
                 <div class="mr-auto">
-
                     <div class="flex flex-col">
                         <!--Page description-->
                         <div class="sm:flex-auto">
@@ -256,7 +255,7 @@
 
                     <!-- Add User/Staff Modal -->
                     <div x-show="showAddModal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                        <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full max-w-lg max-h-lg">
+                        <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full min-w-md max-w-lg min-h-md max-h-lg mx-auto">
                             <div class="bg-[#FBFBFB] rounded-[10px] relative">
 
                                 <!-- X Button -->
@@ -274,9 +273,9 @@
                                 </button>
 
                                 <!-- Modal Header -->
-                                <div class="bg-gray-100 rounded-t-[8px] w-full text-[14px] px-4 py-3">
+                                <div class="bg-gray-100 rounded-t-[8px] w-full text-md px-4 py-3">
                                     <!-- Modal Title -->
-                                    <div class="text-[#3AA76F] font-medium text-lg">Adding User</div>
+                                    <div class="text-[#3AA76F] font-medium">Adding User</div>
                                 </div>
 
                                 <!-- Modal Body -->
@@ -339,7 +338,7 @@
                                                 <!-- Tab Label -->
                                                 <div class="relative">
                                                     <button
-                                                        class="font-medium relative z-10"
+                                                        class="text-xs font-medium relative z-10"
                                                         :class="activeTab === tab.key
                                                             ? 'text-[#676767] font-semibold'
                                                             : 'text-gray-400' && visitedTabs.includes(tab.key)
@@ -373,19 +372,19 @@
                                                 <label class="block font-medium text-gray-700">First Name</label>
                                                 <input x-model="formData.firstName"
                                                        placeholder="First name" type="text"
-                                                       class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm sm:text-sm">
+                                                       class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm md:text-sm text-xs">
                                             </div>
                                             <div>
                                                 <label class="block font-medium text-gray-700">Middle Name</label>
                                                 <input x-model="formData.middleName"
                                                        placeholder="Middle name" type="text"
-                                                       class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm sm:text-sm">
+                                                       class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm md:text-sm text-xs">
                                             </div>
                                             <div>
                                                 <label class="block font-medium text-gray-700">Last Name</label>
                                                 <input x-model="formData.lastName"
                                                        placeholder="Last name" type="text"
-                                                       class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm sm:text-sm">
+                                                       class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm md:text-sm text-xs">
                                             </div>
                                         </div>
                                         <!-- Other Fields -->
@@ -393,7 +392,7 @@
                                             <div>
                                                 <label class="block font-medium text-gray-700">Gender</label>
                                                 <select x-model="formData.gender"
-                                                        class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm sm:text-sm">
+                                                        class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm md:text-sm text-xs">
                                                     <option value="" disabled selected>Select Gender</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
@@ -405,7 +404,7 @@
                                                 <label class="block text-xs font-medium text-gray-700">Email address</label>
                                                 <input x-model="formData.email"
                                                        placeholder="Enter your email" type="email"
-                                                       class="w-full border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm sm:text-sm">
+                                                       class="w-full border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm md:text-sm text-xs">
                                             </div>
                                         </div>
                                     </form>
@@ -616,8 +615,8 @@
                     >
                         <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full max-w-sm">
                             <div
-                            @click.away="openAddSuccessModal = false"
-                            class="bg-white rounded-lg shadow-lg"
+                                @click.away="openAddSuccessModal = false"
+                                class="bg-white rounded-lg shadow-lg"
                             >
 
                                 <!-- Modal Body -->
@@ -628,13 +627,12 @@
                                         SUCCESS
                                     </p>
 
-                                    <!-- Success Icon -->
                                     <!-- Lottie Animation Container -->
                                     <div x-ref="lottieAnimation" class="w-28 sm:w-28 md:w-28 lg:w-32 max-w-[110px] mt-4 mb-0 drop-shadow-lg"></div>
 
                                     <!-- Success Message -->
                                     <p class="text-center text-gray-600 text-sm">
-                                        User Account added successfully!
+                                        Add User successfully!
                                     </p>
                                 </div>
 
@@ -695,11 +693,11 @@
                                         <div :class="user.status === 'Enabled' ? 'text-green-600 font-bold' : 'text-red-600 font-bold'" x-text="user.status"></div>
                                     </td>
                                     <td class="whitespace-nowrap py-3 px-4 flex space-x-4">
-                                        <button class="mr-4 flex items-center text-orange-500 hover:underline hover:text-orange-600 font-medium text-xs transition active:scale-95">
+                                        <button class="flex items-center text-orange-500 hover:text-orange-600 font-medium text-xs transition active:scale-95 hover:bg-orange-50 hover:shadow py-1 px-3.5 rounded-md">
                                             <img src="{{ asset('storage/icons/edit-icon.png') }}" alt="Edit Icon" class="w-4 h-4 mr-2" />
                                             Edit
                                         </button>
-                                        <button @click="viewUser(user)" class="mr-4 pr-4 flex items-center text-[#3251FF] hover:underline hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95">
+                                        <button @click="viewUser(user)" class="flex items-center text-[#3251FF] hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95 hover:bg-blue-50 hover:shadow py-1 px-3 rounded-md">
                                             <img src="{{ asset('storage/icons/view-icon.png') }}" alt="View Icon" class="w-5 h-5 mr-2" />
                                             View
                                         </button>
@@ -712,33 +710,33 @@
                         <!-- Mobile View -->
                         <div class="md:hidden">
                             <template x-for="(user, index) in users" :key="index">
-                                <div class="mb-4 p-4 border border-gray-300 rounded-lg">
+                                <div class="mb-4 p-5 border border-gray-300 rounded-lg">
                                     <div class="flex items-center mb-2">
                                         <span class="text-xs font-bold text-[#757575] mr-2">No.:</span>
                                         <span x-text="index + 1" class="text-xs"></span>
                                     </div>
-                                    <div class="flex items-center mb-2">
-                                        <img :src="user.profileImage" alt="Profile Image" class="h-8 w-8 rounded-full flex-shrink-0 mr-2" />
-                                        <div class="text-xs font-normal text-primary-800" x-text="`${user.firstName} ${user.middleName ? user.middleName + ' ' : ''}${user.lastName}`"></div>
+                                    <div class="flex items-center mb-4">
+                                        <img :src="user.profileImage" alt="Profile Image" class="border border-green-600 h-8 w-8 rounded-full flex-shrink-0 mr-2" />
+                                        <div class="text-sm font-medium text-primary-800" x-text="`${user.firstName} ${user.middleName ? user.middleName + ' ' : ''}${user.lastName}`"></div>
                                     </div>
-                                    <div class="flex items-center mb-2">
+                                    <div class="flex items-center mb-2 ml-5">
                                         <span class="text-xs font-bold text-[#757575] mr-2">Email:</span>
                                         <span x-text="user.email" class="text-xs"></span>
                                     </div>
-                                    <div class="flex items-center mb-2">
+                                    <div class="flex items-center mb-2 ml-5">
                                         <span class="text-xs font-bold text-[#757575] mr-2">User Type:</span>
                                         <span x-text="user.userType" class="text-xs"></span>
                                     </div>
-                                    <div class="flex items-center mb-2">
+                                    <div class="flex items-center mb-4 ml-5">
                                         <span class="text-xs font-bold text-[#757575] mr-2">Status:</span>
                                         <span :class="user.status === 'Enabled' ? 'text-green-600 font-bold' : 'text-red-600 font-bold'" x-text="user.status" class="text-xs"></span>
                                     </div>
-                                    <div class="flex space-x-4">
-                                        <button class="flex items-center text-orange-500 hover:underline hover:text-orange-600 font-medium text-xs transition active:scale-95">
+                                    <div class="flex space-x-2 float-right -mt-4">
+                                        <button class="flex items-center text-orange-500 hover:text-orange-600 font-medium text-xs transition active:scale-95 hover:bg-orange-100 hover:shadow py-1 px-3.5 rounded-md">
                                             <img src="{{ asset('storage/icons/edit-icon.png') }}" alt="Edit Icon" class="w-4 h-4 mr-2" />
                                             Edit
                                         </button>
-                                        <button @click="viewUser(user)" class="flex items-center text-[#3251FF] hover:underline hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95">
+                                        <button @click="viewUser(user)" class="flex items-center text-[#3251FF] hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95 hover:bg-blue-100 hover:shadow py-1 px-3 rounded-md">
                                             <img src="{{ asset('storage/icons/view-icon.png') }}" alt="View Icon" class="w-5 h-5 mr-2" />
                                             View
                                         </button>
@@ -807,7 +805,6 @@
                     </div>
                 </div>
             </div>
-
 
             <!-- View User Modal -->
             <div x-show="showViewModal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -933,5 +930,5 @@
                 </div>
             </div>
         </div>
-    </x-admin.admin-navigation>
+    </x-Admin.admin-navigation>
 </x-app-layout>

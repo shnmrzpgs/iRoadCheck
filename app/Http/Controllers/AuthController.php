@@ -19,7 +19,7 @@ class AuthController extends Controller
         // Attempt to log the user in
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'user_type' => 1])) {
             // Authentication passed, redirect to intended location
-            return redirect()->route('admin-dashboard'); // Change this to your desired route
+            return redirect()->route('admin.dashboard'); // Change this to your desired route
         }
 
         // If authentication fails, throw a validation exception

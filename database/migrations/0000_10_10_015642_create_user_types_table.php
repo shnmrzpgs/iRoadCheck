@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('type');
         });
         DB::table('user_types')->insert([
-            ['type' => 'Admin'],
+            ['type' => 'admin'],
             ['type' => 'resident'],
         ]);
     }

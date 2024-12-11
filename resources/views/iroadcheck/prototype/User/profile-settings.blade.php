@@ -229,15 +229,6 @@
                                         <input type="text" id="userType" value="Admin" readonly
                                                class="w-full border border-gray-300 rounded-md bg-gray-200 text-[14px] font-normal text-gray-900 shadow focus:outline-none px-3 py-2">
                                     </div>
-
-                                </div>
-
-
-                                <div class="float-right pr-8 bottom-0">
-                                    <button type="submit" name="saveChanges" id="saveChanges" value="saveChanges"
-                                            class="w-auto gap-x-[8px] text-[14px] bg-[#4AA76F] px-[12px] py-[8px] font-normal tracking-wider text-white rounded-full hover:drop-shadow hover:scale-105 hover:ease-in-out hover:transition-transform hover:bg-[#4D9B62] hover:shadow-xl">
-                                        <span class="mt-[2px] px-2">Save Changes</span>
-                                    </button>
                                 </div>
                             </form>
 

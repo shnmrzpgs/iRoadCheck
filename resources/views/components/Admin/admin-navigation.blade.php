@@ -1,6 +1,6 @@
 @props(['page_title' => '', 'main_class' => ''])
 
-<div class="bg-none mx-4 mt-3 font-pop text-white 0 p-0 "
+<div class="bg-none mx-4 mt-0 pt-3 font-pop text-white 0 p-0 "
      x-data="{
         open: false,
         activeLink: localStorage.getItem('activeLink') || '',
@@ -21,7 +21,7 @@
         <!-- Web screens Sidebar -->
         <aside
            :class="expanded ? 'w-64' : 'w-24'"
-           class="bg-[#FBFBFB] hidden h-auto py-4 lg:block rounded-xl mr-5 drop-shadow-md transition-all duration-300 ease-in-out">
+           class="bg-[#FBFBFB] hidden h-[96vh] py-4 lg:block rounded-xl mr-5 drop-shadow-md transition-all duration-300 ease-in-out">
 
             <!-- Arrow Icon -->
             <svg @click="toggleSidebar"
@@ -46,7 +46,7 @@
             <nav class="mt-4 space-y-4 flex-1 text-[13px] overflow-x-auto h-[76vh] px-4 leading-6">
 
                 <!-- Dashboard -->
-                <a href="{{ route('admin-dashboard') }}"
+                <a href="{{ route('admin.dashboard') }}"
                    @click="activeLink = 'dashboard'; activeChildLink = ''; localStorage.setItem('activeLink', 'dashboard'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'dashboard',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'dashboard'}"
@@ -69,7 +69,7 @@
 
 
                 <!-- Manage Users -->
-                <a href="{{ route('admin-manage-user') }}"
+                <a href="{{ route('admin.manage-users-table') }}"
                    @click="activeLink = 'manageUsers'; activeChildLink = ''; localStorage.setItem('activeLink', 'manageUsers'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'manageUsers',
                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'manageUsers'}"
@@ -91,7 +91,7 @@
                 </a>
 
                 <!-- User Type -->
-                <a href="{{ route('admin-user-type') }}"
+                <a href=""
                    @click="activeLink = 'userType'; activeChildLink = ''; localStorage.setItem('activeLink', 'userType'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'userType',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'userType'}"
@@ -113,7 +113,7 @@
                 </a>
 
                 <!-- Activity Logs -->
-                <a href="{{ route('admin-activity-logs') }}"
+                <a href=""
                    @click="activeLink = 'activityLogs'; activeChildLink = ''; localStorage.setItem('activeLink', 'activityLogs'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'activityLogs',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'activityLogs'}"
@@ -135,7 +135,7 @@
                 </a>
 
                 <!-- Logout -->
-                <a href="{{route('admin-logout')}}" @click="activeLink = 'logOut'; activeChildLink = ''; localStorage.setItem('activeLink', 'logOut'); localStorage.setItem('activeChildLink', '')"
+                <a href="" @click="activeLink = 'logOut'; activeChildLink = ''; localStorage.setItem('activeLink', 'logOut'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'logOut',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'logOut'}"
                    class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
@@ -205,7 +205,7 @@
                     <nav class="mt-4 space-y-4 flex-1 text-[13px] overflow-x-auto h-[46vh] px-4 leading-6">
 
                         <!-- Dashboard -->
-                        <a href="{{ route('admin-dashboard') }}"
+                        <a href="{{ route('admin.dashboard') }}"
                            @click="activeLink = 'dashboard'; activeChildLink = ''; localStorage.setItem('activeLink', 'dashboard'); localStorage.setItem('activeChildLink', '')"
                            :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'dashboard',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'dashboard'}"
@@ -227,7 +227,7 @@
 
 
                         <!-- Manage Users -->
-                        <a href="{{ route('admin-manage-user') }}"
+                        <a href=""
                            @click="activeLink = 'manageUsers'; activeChildLink = ''; localStorage.setItem('activeLink', 'manageUsers'); localStorage.setItem('activeChildLink', '')"
                            :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'manageUsers',
                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'manageUsers'}"
@@ -248,7 +248,7 @@
                         </a>
 
                         <!-- User Type -->
-                        <a href="{{ route('admin-user-type') }}"
+                        <a href=""
                            @click="activeLink = 'userType'; activeChildLink = ''; localStorage.setItem('activeLink', 'userType'); localStorage.setItem('activeChildLink', '')"
                            :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'userType',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'userType'}"
@@ -269,7 +269,7 @@
                         </a>
 
                         <!-- Activity Logs -->
-                        <a href="{{ route('admin-activity-logs') }}"
+                        <a href=""
                            @click="activeLink = 'activityLogs'; activeChildLink = ''; localStorage.setItem('activeLink', 'activityLogs'); localStorage.setItem('activeChildLink', '')"
                            :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'activityLogs',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'activityLogs'}"
@@ -290,7 +290,7 @@
                         </a>
 
                         <!-- Logout -->
-                        <a href="{{route('admin-logout')}}" @click="activeLink = 'logOut'; activeChildLink = ''; localStorage.setItem('activeLink', 'logOut'); localStorage.setItem('activeChildLink', '')"
+                        <a href="" @click="activeLink = 'logOut'; activeChildLink = ''; localStorage.setItem('activeLink', 'logOut'); localStorage.setItem('activeChildLink', '')"
                            :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'logOut',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'logOut'}"
                            class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
@@ -454,7 +454,7 @@
                                         </li>
                                     </ul>
                                     <!-- View All Notifications Link -->
-                                    <a href="{{ route('Admin.notifications') }}"
+                                    <a href="{{ route('admin.notifications') }}"
                                        @click="activeLink = 'notifications'; isClicked = true; localStorage.setItem('activeLink', 'notifications')"
                                        class="flex justify-center items-center">
                                         <div class="fixed -mt-10 px-24 py-1 bg-[#4AA76F] text-sm text-white hover:bg-[#2AA76F] font-medium rounded-[4px]" role="menuitem">
@@ -514,7 +514,7 @@
 
                             <!-- Profile Icon with Click and Bounce Microinteraction -->
                             <a x-ref="content"
-                               href="{{ route('Admin.profile-settings') }}"
+                               href="{{ route('admin.profile-settings') }}"
                                @click="activeLink = 'profile'; localStorage.setItem('activeLink', 'profile'); handleClick()"
                                :class="{ 'scale-105 animate-bounce-once': isClicked }"
                                class="-m-1.5 flex items-center p-1.5 transition-transform duration-150 ease-in-out transform"

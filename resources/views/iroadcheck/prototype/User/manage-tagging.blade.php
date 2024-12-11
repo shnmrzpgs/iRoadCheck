@@ -372,18 +372,7 @@
                         });
                     },
 
-                    filterMarkers(query) {
-                        this.map.closePopup(); // Close any open popups before filtering
-                        console.log('filterMarkers called with query:', query); // Debugging line
-
-                        const searchQuery = query.toLowerCase();
-
-                        this.markerLayers.forEach(({ marker, report }) => {
-                            const searchableContent = [
-                                report.defect.toLowerCase(),
-                                report.location.toLowerCase(),
-                                report.status.toLowerCase(),
-                                report.date.toLowerCase()
+                oLowerCase()
                             ].join(' ');
 
                             if (searchableContent.includes(searchQuery)) {

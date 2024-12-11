@@ -1,5 +1,5 @@
 {{--<div>--}}
-{{--    <x-Admin.crud-modal-content-base modal_name="add-course-modal">--}}
+{{--    <x-admin.crud-modal-content-base modal_name="add-course-modal">--}}
 
 {{--        <x-slot:trigger>--}}
 {{--            <button--}}
@@ -109,5 +109,5 @@
 {{--        </script>--}}
 {{--        @endscript--}}
 
-{{--    </x-Admin.crud-modal-content-base>--}}
+{{--    </x-admin.crud-modal-content-base>--}}
 {{--</div>--}}
