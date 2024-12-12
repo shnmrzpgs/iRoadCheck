@@ -18,7 +18,7 @@
                             </span>
         </div>
 
-        <!-- User Type Filter -->
+        <!-- user Type Filter -->
         <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
              :class="{
                                 'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.userType !== '',  /* Active state */
@@ -119,7 +119,7 @@
                             </td>
                             <td class="px-0 py-3 text-xs">
                                 <div class="flex">
-                                    <!-- Button to Open Edit User Type Modal -->
+                                    <!-- Button to Open Edit user Type Modal -->
                                     <button class="flex items-center text-orange-500 hover:text-orange-600 font-medium text-xs transition active:scale-95 hover:bg-orange-100 hover:shadow py-1 px-3.5 rounded-md"
                                             wire:click="editUserType({{ $userType->id }})"
                                             wire:loading.attr="disabled"
@@ -134,7 +134,7 @@
                                         />
                                     </button>
 
-                                    <!-- Button to Open View User Type Modal -->
+                                    <!-- Button to Open View user Type Modal -->
                                     <button class="flex items-center text-[#3251FF] hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95 hover:bg-blue-100 hover:shadow py-1 px-3 rounded-md"
                                             wire:click="viewUserType({{ $userType->id }})"
                                             wire:loading.attr="disabled"
@@ -176,14 +176,14 @@
     </x-slot:pagination_container>
 
     <x-slot:modal_container>
-        <!-- Edit User Modal -->
+        <!-- Edit user Modal -->
 {{--        <livewire:modals.admin.users-modal.edit-user-modal--}}
 {{--            wire:model.live="user_to_edited"--}}
 {{--            :users="$users"--}}
 {{--            @user_updated="$refresh"--}}
 {{--        />--}}
 
-        <!-- View User Modal -->
+        <!-- View user Modal -->
         <livewire:modals.admin.users-modal.view-user-modal
             wire:model.live="user_to_viewed"
         />

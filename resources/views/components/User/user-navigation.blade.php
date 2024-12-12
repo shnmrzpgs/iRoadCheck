@@ -46,7 +46,7 @@
             <nav class="mt-4 space-y-4 flex-1 text-[13px] overflow-x-auto h-[76vh] px-4 leading-6">
 
                 <!-- Dashboard -->
-                <a href="{{ route('User.dashboard') }}"
+                <a href="{{ route('user.dashboard') }}"
                    @click="activeLink = 'dashboard'; activeChildLink = ''; localStorage.setItem('activeLink', 'dashboard'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'dashboard',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'dashboard'}"
@@ -69,7 +69,7 @@
 
 
                 <!-- Manage Tagging-->
-                <a href="{{ route('User.manage-tagging') }}"
+                <a href="{{ route('user.manage-tagging') }}"
                    @click="activeLink = 'manageTagging'; activeChildLink = ''; localStorage.setItem('activeLink', 'manageTagging'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'manageTagging',
                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'manageTagging'}"
@@ -91,7 +91,7 @@
                 </a>
 
                 <!-- Reports -->
-                <a href="{{ route('User.reports') }}"
+                <a href="{{ route('user.reports') }}"
                    @click="activeLink = 'reports'; activeChildLink = ''; localStorage.setItem('activeLink', 'reports'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'reports',
                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'reports'}"
@@ -115,7 +115,7 @@
                 </a>
 
                 <!-- Activity Logs -->
-                <a href="{{ route('User.activity-logs') }}"
+                <a href="{{ route('user.activity-logs') }}"
                    @click="activeLink = 'activityLogs'; activeChildLink = ''; localStorage.setItem('activeLink', 'activityLogs'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'activityLogs',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'activityLogs'}"
@@ -337,7 +337,7 @@
 
                 <h1 class="text-[22px] mt-2 font-semibold text-[#6AA76F]">{{$page_title}}</h1>
                 <!--Search-->
-                @if (in_array(Route::currentRouteName(), ['User.dashboard', 'User.activity-logs']))
+                @if (in_array(Route::currentRouteName(), ['user.dashboard', 'user.activity-logs']))
                     <x-search-bar action="{{ route('search') }}" method="GET" placeholder="Search..." />
                 @endif
 
@@ -463,7 +463,7 @@
                                         </li>
                                     </ul>
                                     <!-- View All Notifications Link -->
-                                    <a href="{{ route('User.notifications') }}"
+                                    <a href="{{ route('user.notifications') }}"
                                        @click="activeLink = 'notifications'; isClicked = true; localStorage.setItem('activeLink', 'notifications')"
                                        class="flex justify-center items-center">
                                         <div class="fixed -mt-10 px-24 py-1 bg-[#4AA76F] text-sm text-white hover:bg-[#2AA76F] font-medium rounded-[4px]" role="menuitem">
@@ -524,7 +524,7 @@
 
                             <!-- Profile Icon with Click and Bounce Microinteraction -->
                             <a x-ref="content"
-                               href="{{ route('User.profile-settings') }}"
+                               href="{{ route('user.profile-settings') }}"
                                @click="activeLink = 'profile'; localStorage.setItem('activeLink', 'profile'); handleClick()"
                                :class="{ 'scale-105 animate-bounce-once': isClicked }"
                                class="-m-1.5 flex items-center p-1.5 transition-transform duration-150 ease-in-out transform"

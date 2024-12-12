@@ -142,7 +142,7 @@
             <!-- Access Control Page -->
             <div x-show="activeTab === 'access-info'" class="min-h-[35vh] max-h-[35vh] overflow-y-auto mt-4 bg-[#FBFBFB] shadow px-3 py-4 text-sm">
 
-                <!-- User Type Dropdown -->
+                <!-- user Type Dropdown -->
                 <div class="px-2 mb-4">
                     <label for="userType" class="block font-medium text-gray-700">User Role</label>
                     <select id="userType" x-model="formData.userType" @change="assignPermissions"

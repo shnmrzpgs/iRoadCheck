@@ -58,7 +58,7 @@
                         <span class="ml-2">Back</span>
                     </button>
 
-                    <!-- Add User Button -->
+                    <!-- Add user Button -->
                     <button
                         type="button"
                         @click="showAddModal = false; openAddSuccessModal = true"

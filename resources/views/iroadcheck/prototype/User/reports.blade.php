@@ -313,7 +313,7 @@
                                 </select>
                             </div>
 
-                            <!-- User Type Filter -->
+                            <!-- user Type Filter -->
                             <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
                                  :class="{
                                 'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.userType !== '',  /* Active state */

@@ -8,6 +8,7 @@ use Livewire\Component;
 class ReportsMap extends Component
 {
     public $reports = [];
+
     public function mount()
     {
         // Fetch reports when the component is mounted

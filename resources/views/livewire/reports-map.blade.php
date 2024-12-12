@@ -6,6 +6,13 @@
         return {
 
             reports: @json($reports),
+            severityMap: {
+                1: 'Shallow',
+                2: 'Tolerable',
+                3: 'Serious',
+                4: 'Dangerous',
+                // Add more mappings as needed
+            },
             markerLayers: [],
             newStatus: '',
             selectedReport: { status: 'Ongoing' },
@@ -13,6 +20,9 @@
 
 
             init() {
+                this.reports.forEach(report => {
+                    report.severity = this.severityMap[report.id] || 'Unknown';
+                });
                 // Correct bounding box for Tagum City
                 const bounds = [
                     [7.3843, 125.7267], // Southwest corner
@@ -235,7 +245,7 @@
         switch (status) {
             // case 'Repaired':
             //     return '#28a745'; // Green
-            case 'Ongoing':
+            case 'On Going':
                 return '#ffc107'; // Yellow
             case 'Unfixed':
                 return '#dc3545'; // Red

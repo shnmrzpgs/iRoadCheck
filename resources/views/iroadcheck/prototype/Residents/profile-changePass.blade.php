@@ -184,7 +184,7 @@
         <div class="flex-grow -mb-2"></div>
 
         <!-- Report Road Issue Button -->
-         <div class="w-[75%] text-center mb-12 lg:w-[20%]"> 
+         <div class="w-[75%] text-center mb-12 lg:w-[20%]">
             <button class="px-6 py-4 w-full lg:text-[16px] lg:py-2 lg:mb-2 bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-xl font-semibold text-white shadow-md rounded-full">
                 Update Password
             </button>

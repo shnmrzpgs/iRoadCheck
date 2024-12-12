@@ -103,7 +103,7 @@
                             </span>
                         </div>
 
-                        <!-- User Type Filter -->
+                        <!-- user Type Filter -->
                         <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
                              :class="{
                                 'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.userType !== '',  /* Active state */
@@ -159,7 +159,7 @@
                         </div>
                     </div>
 
-                    <!-- Add User Type Modal -->
+                    <!-- Add user Type Modal -->
                     <div x-show="showAddModal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                         <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full max-w-lg mx-10 my-4">
                             <div class="bg-[#FBFBFB] rounded-[10px] relative">
@@ -178,7 +178,7 @@
 
                                 <!-- Modal Body -->
                                 <div class="bg-[#FBFBFB] p-5 rounded-b-[8px] text-gray-600 space-y-6">
-                                    <!-- User Type Input -->
+                                    <!-- user Type Input -->
                                     <div class="px-2">
                                         <label class="block font-medium text-gray-700">User Type</label>
                                         <input x-model="formData.userType"
@@ -371,7 +371,7 @@
 
             <!-- Pagination Layout -->
             <div class="flex items-center justify-between mt-4 px-6">
-                <!-- Total User Types -->
+                <!-- Total user Types -->
                 <div class="text-xs text-gray-500 font-semibold">
                     Total UserTypes: <span x-text="totalUserTypes"></span>
                 </div>
