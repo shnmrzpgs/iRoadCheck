@@ -49,12 +49,12 @@
     </x-slot:dropdown_filters_container>
 
     <x-slot:action_buttons_container>
-{{--        <div class="mt-6">--}}
+        <div class="mt-6">
 {{--            <livewire:modals.admin.users-modal.add-user-modal--}}
 {{--                :users="$users"--}}
 {{--                @user_added="$refresh"--}}
 {{--            />--}}
-{{--        </div>--}}
+        </div>
     </x-slot:action_buttons_container>
 
     <x-slot:table_container>
@@ -108,9 +108,9 @@
                     @forelse ($userTypes as $userType)
                         <tr class="{{ $loop->iteration % 2 === 0 ? 'bg-white' : 'bg-gray-50' }} hover:bg-gray-100">
                             <td class="px-4 py-3 text-xs">{{ $userType->id }}</td>
-                            <td class="px-4 py-3 text-xs">{{ $userType->name }}</td>
+                            <td class="px-4 py-3 text-xs">{{ $userType->role}}</td>
                             <td class="px-4 py-3 text-xs truncate max-w-[150px]">
-                                {{ implode(', ', $userType->permissions) ?? 'No permissions' }}
+{{--                                {{ implode(', ', $userType->permissions) ?? 'No permissions' }}--}}
                             </td>
                             <td class="px-4 py-3 text-xs font-medium">
                             <span class="{{ $userType->status === 'Enabled' ? 'text-green-600 font-bold' : 'text-red-600 font-bold' }}">
@@ -172,21 +172,21 @@
     </x-slot:table_container>
 
     <x-slot:pagination_container  wire:key="{{ now() }}">
-        {{ $users->links('vendor.pagination.custom') }}
+{{--        {{ $userType->links('vendor.pagination.custom') }}--}}
     </x-slot:pagination_container>
 
     <x-slot:modal_container>
-{{--        <!-- Edit User Modal -->--}}
+        <!-- Edit User Modal -->
 {{--        <livewire:modals.admin.users-modal.edit-user-modal--}}
 {{--            wire:model.live="user_to_edited"--}}
 {{--            :users="$users"--}}
 {{--            @user_updated="$refresh"--}}
 {{--        />--}}
 
-{{--        <!-- View User Modal -->--}}
-{{--        <livewire:modals.admin.users-modal.view-user-modal--}}
-{{--            wire:model.live="user_to_viewed"--}}
-{{--        />--}}
+        <!-- View User Modal -->
+        <livewire:modals.admin.users-modal.view-user-modal
+            wire:model.live="user_to_viewed"
+        />
     </x-slot:modal_container>
 
 </x-admin.crud-page-content-base>

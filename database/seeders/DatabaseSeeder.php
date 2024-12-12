@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Report;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -45,10 +46,33 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ],
         ]);
+        DB::table('user_roles')->insert([
+            [
+                'role' => 'Patcher',
+            ],
+            [
+                'role' => 'John',
+            ],
+        ]);
+        DB::table('severities')->insert([
+            [
+                'severity' => 'Shallow',
+            ],
+            [
+                'severity' => 'Tolerable',
+            ],
+            [
+                'severity' => 'Serious',
+            ],
+            [
+                'severity' => 'Dangerous',
+            ],
+        ]);
 
         $this->call([
             UserSeeder::class,
-            ActivityLogSeeder::class
+            ActivityLogSeeder::class,
+            ReportSeeder::class
         ]);
     }
 }
