@@ -333,7 +333,7 @@
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col">
             <!-- Header for large screens -->
-            <header class="flex w-full my-6 mx-2">
+            <header class="flex w-full my-4 mx-2">
 
                 <h1 class="text-[22px] mt-2 font-semibold text-[#6AA76F]">{{$page_title}}</h1>
                 <!--Search-->
@@ -539,7 +539,7 @@
 
             </header>
             <!-- Content Area -->
-            <main class="flex-1 rounded-md mx-1 mb-4 {{ ' '.$main_class }}">
+            <main class="flex-1 rounded-md mx-1 mb-0 {{ ' '.$main_class }}">
                 <!-- Main content here -->
                 {{ $slot }}
             </main>
