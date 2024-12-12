@@ -1,6 +1,6 @@
-<x-app-layout >
+<x-app-layout>
 
-    <x-Admin.admin-navigation page_title="Manage Users" >
+    <x-Admin.admin-navigation page_title="Manage Users" action="{{ route('users.search') }}" placeholder="Search users..." name="user_search">
         <div class="text-[#202020] bg-[#FBFBFB] pt-4 lg:px-2 px-0 pb-4 rounded-lg w-full min-w-[40vh] max-w-full h-full min-h-[60vh] max-h-full "
              x-data="{
                 isPasswordVisible: false,
@@ -101,15 +101,15 @@
                 showViewModal: false,
                 users: [
                     { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'john@example.com', userType: 'admin', status: 'Disabled', firstName: 'John', middleName: 'A.', lastName: 'Doe', gender: 'Male' },
-                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'jane@example.com', userType: 'User', status: 'Enabled', firstName: 'Jane', middleName: '', lastName: 'Smith', gender: 'Female' },
-                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'michael.brown@example.com', userType: 'Moderator', status: 'Enabled', firstName: 'Michael', middleName: 'T.', lastName: 'Brown', gender: 'Male' },
-                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'emily.davis@example.com', userType: 'User', status: 'Enabled', firstName: 'Emily', middleName: 'R.', lastName: 'Davis', gender: 'Female' },
-                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'chris.johnson@example.com', userType: 'admin', status: 'Disabled', firstName: 'Chris', middleName: '', lastName: 'Johnson', gender: 'Non-binary' },
-                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'sarah.wilson@example.com', userType: 'User', status: 'Disabled', firstName: 'Sarah', middleName: 'E.', lastName: 'Wilson', gender: 'Female' },
-                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'david.martinez@example.com', userType: 'User', status: 'Enabled', firstName: 'David', middleName: 'L.', lastName: 'Martinez', gender: 'Male' },
-                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'sophia.garcia@example.com', userType: 'Moderator', status: 'Enabled', firstName: 'Sophia', middleName: '', lastName: 'Garcia', gender: 'Female' },
-                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'ethan.lee@example.com', userType: 'admin', status: 'Enabled', firstName: 'Ethan', middleName: 'H.', lastName: 'Lee', gender: 'Male' },
-                    { profileImage: 'adminset("storage/icons/profile-graphics.png") }}', email: 'olivia.anderson@example.com', userType: 'User', status: 'Disabled', firstName: 'Olivia', middleName: 'M.', lastName: 'Anderson', gender: 'Female' }
+                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'jane@example.com', userType: 'User', status: 'Enabled', firstName: 'Jane', middleName: '', lastName: 'Smith', gender: 'Female' },
+                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'michael.brown@example.com', userType: 'Moderator', status: 'Enabled', firstName: 'Michael', middleName: 'T.', lastName: 'Brown', gender: 'Male' },
+                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'emily.davis@example.com', userType: 'User', status: 'Enabled', firstName: 'Emily', middleName: 'R.', lastName: 'Davis', gender: 'Female' },
+                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'chris.johnson@example.com', userType: 'admin', status: 'Disabled', firstName: 'Chris', middleName: '', lastName: 'Johnson', gender: 'Non-binary' },
+                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'sarah.wilson@example.com', userType: 'User', status: 'Disabled', firstName: 'Sarah', middleName: 'E.', lastName: 'Wilson', gender: 'Female' },
+                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'david.martinez@example.com', userType: 'User', status: 'Enabled', firstName: 'David', middleName: 'L.', lastName: 'Martinez', gender: 'Male' },
+                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'sophia.garcia@example.com', userType: 'Moderator', status: 'Enabled', firstName: 'Sophia', middleName: '', lastName: 'Garcia', gender: 'Female' },
+                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'ethan.lee@example.com', userType: 'admin', status: 'Enabled', firstName: 'Ethan', middleName: 'H.', lastName: 'Lee', gender: 'Male' },
+                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'olivia.anderson@example.com', userType: 'User', status: 'Disabled', firstName: 'Olivia', middleName: 'M.', lastName: 'Anderson', gender: 'Female' }
                 ],
                 selectedUser: {},
                 viewUser(user) {
@@ -138,15 +138,15 @@
                     { id: 19, name: 'Add New Entries' },
                     { id: 20, name: 'Archive Data' }
                 ],
-                 userTypePermissions: {
+                userTypePermissions: {
                     Admin: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // Full permissions
                     Moderator: [1, 4, 8, 9], // Limited permissions
                     User: [1, 4, 10], // Basic permissions
-                 },
-                 get filteredPermissions() {
+                },
+                get filteredPermissions() {
                     if (this.formData.userType && this.userTypePermissions[this.formData.userType]) {
                         return this.permissions.filter(permission =>
-                            this.userTypePermissions[this.formData.userType].includes(permission.id)
+                        this.userTypePermissions[this.formData.userType].includes(permission.id)
                         );
                     }
                     return [];
@@ -154,9 +154,9 @@
                 assignPermissions() {
                     if (this.formData.userType && this.userTypePermissions[this.formData.userType]) {
                         this.formData.assignedPermissions = [...this.userTypePermissions[this.formData.userType]];
-                    } else {
-                        this.formData.assignedPermissions = [];
-                    }
+                        } else {
+                            this.formData.assignedPermissions = [];
+                        }
                 },
 
               }"
@@ -362,7 +362,6 @@
                                             </div>
                                         </template>
                                     </div>
-
 
                                     <!-- Basic Information Page -->
                                     <form x-show="activeTab === 'basic-info'" class="min-h-[35vh] max-h-[35vh] overflow-y-auto space-y-6 mt-4 bg-[#FBFBFB] shadow px-3 py-10 text-xs">

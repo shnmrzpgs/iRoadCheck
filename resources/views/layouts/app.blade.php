@@ -36,7 +36,7 @@
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     </head>
 
-    <body class="font-pop mx-auto min-w-screen-md max-w-screen-2xl antialiased bg-[#F5F5F5] overflow-x-hidden h-screen">
+    <body class="font-pop mx-auto mr-1 min-w-screen-md max-w-screen-2xl antialiased bg-[#F5F5F5] overflow-x-hidden h-screen">
         <!-- Page Content -->
         <main>
             {{ $slot }}

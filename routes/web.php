@@ -30,6 +30,6 @@ Route::get('/search', function () {
 })->name('search');
 
 // admin Routes
-Route::get('/admin/activity-logs', function () {
-    return view('iroadcheck.prototype.Admin.activity-logs');
-})->name('admin.activity-logs');
+//Route::get('/admin/activity-logs', function () {
+//    return view('iroadcheck.prototype.Admin.activity-logs');
+//})->name('admin.activity-logs');
