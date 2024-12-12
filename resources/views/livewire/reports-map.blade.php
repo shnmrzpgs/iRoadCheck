@@ -85,6 +85,32 @@
                     marker.on('mouseout', function () {
                         this.closePopup();
                     });
+
+                    // Create the legend container
+                    const legend = L.control({ position: 'topright' });
+
+                    legend.onAdd = function () {
+                        const div = L.DomUtil.create('div', 'legend absolute top-0 right-4 z-50 w-32');
+                        div.innerHTML = `
+                                <div class="bg-[#3F4243] bg-opacity-90 text-white px-3 py-1 mt-2 rounded shadow-lg text-[12px]">
+                                    <h3 class="font-semibold mb-2 text-center border-b border-b-white p-1">Legend</h3>
+                                    <ul>
+                                        <li class="leading-6">
+                                            <span class="inline-block w-3 h-3 bg-yellow-500 mr-2 rounded-full"></span>On Going
+                                        </li>
+                                        <li class="leading-6">
+                                            <span class="inline-block w-3 h-3 bg-blue-500 mr-2 rounded-full"></span>Unfixed
+                                        </li>
+                                        <li class="leading-6">
+                                            <span class="inline-block w-3 h-3 bg-red-500 mr-2 rounded-full"></span>Not Found
+                                        </li>
+                                    </ul>
+                                </div>
+                            `;
+                        return div;
+                    };
+
+                    legend.addTo(this.map);
                 });
 
                 // Handle map view updates on move
