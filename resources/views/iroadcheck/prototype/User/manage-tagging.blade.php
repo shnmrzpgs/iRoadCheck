@@ -26,7 +26,6 @@
                 <div class="bg-[#3F4243] bg-opacity-90 text-white px-3 py-1 mt-2 rounded shadow-lg text-[12px]">
                     <h3 class="font-semibold mb-2 text-center border-b border-b-white p-1">Legend</h3>
                     <ul>
-                        <li class="leading-6"><span class="inline-block w-3 h-3 bg-green-500 mr-2 rounded-full"></span>Repaired</li>
                         <li class="leading-6"><span class="inline-block w-3 h-3 bg-yellow-500 mr-2 rounded-full"></span>On Going</li>
                         <li class="leading-6"><span class="inline-block w-3 h-3 bg-blue-500 mr-2 rounded-full"></span>Unfixed</li>
                         <li class="leading-6"><span class="inline-block w-3 h-3 bg-red-500 mr-2 rounded-full"></span>Not Found</li>
@@ -285,8 +284,8 @@
                     ],
                     markerLayers: [],
                     newStatus: '',
-                    selectedReport: { status: 'Repaired' },
-                    statuses: ['Repaired', 'Ongoing', 'Unfixed', 'Not Found'], // Fixed array syntax
+                    selectedReport: { status: 'Ongoing' },
+                    statuses: ['Ongoing', 'Unfixed', 'Not Found'], // Fixed array syntax
 
 
                     init() {
@@ -324,7 +323,7 @@
                                 fillOpacity: 1,
                             }).addTo(this.map);
 
-                        const popupContent = `
+                            const popupContent = `
                                 <div class="max-w-[400px] h-auto rounded-lg shadow-lg text-[12px] font-sans text-white grid grid-row-2">
                                     <div class="max-h-[300px] bg-white text-gray-700 rounded-t-xl leading-4">
                                         <div class="px-3 py-2 flex items-center space-x-2 border-b border-gray-300">
@@ -333,7 +332,7 @@
                                         </div>
                                         <div class="px-3 py-2">
                                             <div>Type of Road Defect: ${report.defect}</div>
-                                            <div>Reported Date: ${report.date}</div>
+                                            <div>Date Reported: ${report.date}</div>
                                             <div class="font-semibold">Location: ${report.location}</div>
                                         </div>
                                     </div>
@@ -362,7 +361,7 @@
                             marker.on('mouseout', function () {
                                 this.closePopup();
                             });
-                    });
+                        });
 
                         // Handle map view updates on move
                         this.map.on('moveend', () => {
@@ -372,7 +371,18 @@
                         });
                     },
 
-                oLowerCase()
+                    filterMarkers(query) {
+                        this.map.closePopup(); // Close any open popups before filtering
+                        console.log('filterMarkers called with query:', query); // Debugging line
+
+                        const searchQuery = query.toLowerCase();
+
+                        this.markerLayers.forEach(({ marker, report }) => {
+                            const searchableContent = [
+                                report.defect.toLowerCase(),
+                                report.location.toLowerCase(),
+                                report.status.toLowerCase(),
+                                report.date.toLowerCase()
                             ].join(' ');
 
                             if (searchableContent.includes(searchQuery)) {
@@ -473,8 +483,8 @@
             }
             function getStatusColor(status) {
                 switch (status) {
-                    case 'Repaired':
-                        return '#28a745'; // Green
+                    // case 'Repaired':
+                    //     return '#28a745'; // Green
                     case 'Ongoing':
                         return '#ffc107'; // Yellow
                     case 'Unfixed':
@@ -496,13 +506,13 @@
                 notification.innerHTML = `
                     <div class="mr-3">
                         <svg class="w-5 h-5 ${
-                                type === 'success' ? 'text-green-300' : 'text-red-300'
-                            }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    type === 'success' ? 'text-green-300' : 'text-red-300'
+                }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             ${
-                                type === 'success'
-                                    ? '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />'
-                                    : '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm4-9a1 1 0 00-1-1H7a1 1 0 000 2h6a1 1 0 001-1z" clip-rule="evenodd" />'
-                            }
+                    type === 'success'
+                        ? '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />'
+                        : '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm4-9a1 1 0 00-1-1H7a1 1 0 000 2h6a1 1 0 001-1z" clip-rule="evenodd" />'
+                }
                         </svg>
                     </div>
                     <div>${message}</div>

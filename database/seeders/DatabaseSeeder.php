@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'admin@example.com',
                 'password' => Hash::make('password'), // Hashing the password
                 'user_type' => 1, // User type for admin
+                'status' => 'Active', // User status for admin
                 'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -38,10 +39,16 @@ class DatabaseSeeder extends Seeder
                 'email' => 'resident@example.com',
                 'password' => Hash::make('password'), // Hashing the password
                 'user_type' => 2, // User type for resident
+                'status' => 'Active', // User status for resident
                 'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+        ]);
+
+        $this->call([
+            UserSeeder::class,
+            ActivityLogSeeder::class
         ]);
     }
 }

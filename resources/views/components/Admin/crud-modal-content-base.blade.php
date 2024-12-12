@@ -1,9 +1,9 @@
-@props(['modal_name', 'body_width' => 'max-w-2xl'])
+@props(['modal_name', 'body_width' => 'max-w-4xl'])
 
 <div x-data="{ open: false }" class="flex justify-center">
     <!-- Trigger -->
     <span x-on:click="open = true">
-
+        {{ $trigger }}
     </span>
 
     <!-- Modal -->
@@ -28,34 +28,42 @@
             <div
                 x-on:click.stop
                 x-trap.noscroll.inert="open"
-                class="relative w-full  overflow-y-auto rounded-xl bg-transparent p-0 shadow-lg"
+                class="relative w-full {{ $body_width }} overflow-y-auto rounded-xl bg-none p-0"
             >
                 <div class="w-full h-full">
                     <div class="flex items-center justify-center z-50">
-                        <div
-                            class="pt-5 px-3 pb-3 bg-[#303030] border-gray-600 rounded-[20px] shadow-xl w-full pointer-events-auto">
-                            <div class="bg-[#202020] shadow shadow-gray-400 rounded-[8px]">
+                        <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full min-w-md max-w-lg min-h-md max-h-lg mx-auto">
+                            <div class="bg-[#FBFBFB] rounded-[10px] relative">
+
+                                <!-- X Button -->
+                                <button x-on:click="open = false" class="absolute top-2 right-2 text-gray-600 hover:text-red-500 focus:outline-none hover:bg-gray-200 hover:rounded-full p-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="h-6 w-6"
+                                         fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor">
+                                        <path stroke-linecap="round"
+                                              stroke-linejoin="round"
+                                              stroke-width="2"
+                                              d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
 
                                 <!-- Modal Header -->
-                                <div class="flex justify-between items-center px-2">
-                                    <h2 class="absolute top-0 left-1/2 transform -translate-x-1/2 py-3 px-6 text-[22px] text-[#E37575] font-semibold bg-[#202020] rounded-md">
-
-                                    </h2>
-                                    <button x-on:click="open = false"
-                                            class="absolute right-0 top-0 w-16 h-16 bg-[#202020] text-gray-400 hover:text-white hover:bg-red-700 rounded-tl-full rounded-b-full text-[45px] transition-colors duration-300 ease-in-out">
-                                        &times;
-                                    </button>
+                                <div class="bg-gray-100 rounded-t-[8px] w-full text-md px-4 py-3">
+                                    <div class="text-[#3AA76F] font-medium">{{ $header }}</div>
                                 </div>
 
                                 <!-- Modal Body -->
-                                <div class="px-10 pt-2 pb-0 mt-4">
-
+                                <div class="bg-[#FBFBFB] p-5 rounded-b-[8px] text-gray-600">
+                                    {{  $body }}
                                 </div>
 
                                 <!-- Modal Footer -->
-                                <div class="flex justify-center p-5">
-
+                                <div class="flex items-center justify-end pb-2 px-2 space-x-4">
+                                    {{ $footer }}
                                 </div>
+
                             </div>
                         </div>
                     </div>

@@ -24,18 +24,38 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
+//    public function definition(): array
+//    {
+//        return [
+//            'name' => fake()->name(),
+//            'email' => fake()->unique()->safeEmail(),
+//            'email_verified_at' => now(),
+//            'password' => static::$password ??= Hash::make('password'),
+//            'two_factor_secret' => null,
+//            'two_factor_recovery_codes' => null,
+//            'remember_token' => Str::random(10),
+//            'profile_photo_path' => null,
+//            'current_team_id' => null,
+//        ];
+//    }
+
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            'first_name' => $this->faker->firstName,
+            'middle_name' => $this->faker->optional()->firstName,
+            'last_name' => $this->faker->lastName,
+            'date_of_birth' => $this->faker->date('Y-m-d', '2005-01-01'),
+            'sex' => $this->faker->randomElement(['Male', 'Female']),
             'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
-            'profile_photo_path' => null,
-            'current_team_id' => null,
+            'status' => $this->faker->randomElement(['Active', 'Inactive']),
+            'user_type' => $this->faker->numberBetween(1, 2), // Adjust based on user_types table
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 

@@ -50,6 +50,10 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public static function where(string $string, string $string1, string $string2)
+    {
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -62,4 +66,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function userType(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(UserType::class, 'user_type');
+    }
+
 }
+
