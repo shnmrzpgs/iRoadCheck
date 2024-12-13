@@ -5,7 +5,8 @@
     <div class="grid md:grid-cols-3 gap-6 mb-5">
 
         <!-- Total Reports Card -->
-        <div class="relative bg-white rounded-lg shadow-md py-0 px-2 overflow-hidden w-auto min-h-[115px]
+        <a href="{{ route('admin.manage-users-table') }}"
+            class="relative bg-white rounded-lg shadow-md py-0 px-2 overflow-hidden w-auto min-h-[115px]
            hover:drop-shadow-lg transition-all duration-500 ease-out
            transform-gpu group ">
 
@@ -18,7 +19,7 @@
 
             <div class="flex flex-col text-[#FFAD00] pl-2 pr-3 pt-7 relative z-10">
                 <!-- Card Title -->
-                <div class="font-semibold text-md opacity-90 transform group-hover:scale-110 group-hover:translate-y-1 group-hover:translate-x-3 transition-all duration-500 ease-in-out">
+                <div class="font-semibold text-md opacity-90 transform group-hover:scale-110 group-hover:translate-y-1 group-hover:translate-x-4 transition-all duration-500 ease-in-out">
                     Total User Accounts
                 </div>
                 <!-- Card Counts with gentle scale on hover -->
@@ -26,11 +27,12 @@
                     12
                 </div>
             </div>
-        </div>
+        </a>
 
 
         <!-- Active Accounts Card -->
-        <div class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden w-auto min-h-[115px]
+        <a href="{{ route('admin.manage-users-table') }}"
+            class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden w-auto min-h-[115px]
            hover:drop-shadow-lg transition-all duration-500 ease-out
            transform-gpu group ">
 
@@ -53,10 +55,11 @@
                 </div>
             </div>
 
-        </div>
+        </a>
 
         <!-- Inactive Accounts Card -->
-        <div class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden w-auto min-h-[115px]
+        <a href="{{ route('admin.manage-users-table') }}"
+            class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden w-auto min-h-[115px]
            hover:drop-shadow-lg transition-all duration-500 ease-out
            transform-gpu group ">
 
@@ -78,7 +81,7 @@
                     7
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 
     <!-- Road Maintenance Worker -->
@@ -172,7 +175,7 @@
                     <!-- Bar Graph Section -->
                     <div class="w-full xl:w-7/10 max-h-[330px] overflow-auto">
                         <div class="rounded-lg">
-                            <div class="relative h-full">
+                            <div class="relative h-auto">
                                 <div id="chart"></div>
                             </div>
                         </div>
@@ -195,12 +198,10 @@
 <script>
     // Define the members for each user type
     const members = {
-        "Patcher": ["Jane Smith", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe"],
-        "User Type 2": ["Alice Johnson", "Bob Brown"],
-        "User Type 3": ["Charlie Green", "Dana White"],
-        "User Type 4": ["Eve Black", "Frank White"],
-        "User Type 5": ["Grace Hopper", "Ivy Ross"],
-        "User Type 6": ["Jack King", "Liam Green"]
+        "Pothole Patchers": ["Jane Smith", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe"],
+        "Crack Sealers": ["Alice Johnson", "Bob Brown"],
+        "Asphalt Layers": ["Charlie Green", "Dana White"],
+        "Concrete Road Repair Crews": ["Eve Black", "Frank White"],
     };
 
     // Function to display members in the specified container
@@ -242,11 +243,11 @@
     // Chart options
     var options = {
         series: [{
-            data: [2, 2, 2, 2, 1, 1] // The values for each bar
+            data: [2, 2, 2, 2, 2, 2, 2, 2,2, 2, 2, 2, 2, 2, 2, 2] // The values for each bar
         }],
         chart: {
             type: 'bar',
-            height: 400,
+            height: 'auto',
             minWidth: 100,
             maxWidth: 300,
             events: {
@@ -261,7 +262,7 @@
         plotOptions: {
             bar: {
                 horizontal: true,
-                barHeight: '90%',
+                barHeight: 90,
                 borderRadius: 20,
                 borderRadiusApplication: 'end',
                 dataLabels: {
@@ -281,18 +282,19 @@
         colors: ['#FBFBFB'],
         dataLabels: {
             enabled: true,
-            textAnchor: 'start',
             style: {
                 colors: ['#FBFBFB'],
-
+                fontSize: '13px',
             },
             formatter: function(val, opt) {
                 return `${opt.w.globals.labels[opt.dataPointIndex]}   ${val}`;
             },
-            offsetX: 20,
+            position: 'start', // Places the label at the start of the bar
+            offsetX:0, // Adds space to the left side
+            align: 'left', // Align the label to the right side of the bar
         },
         xaxis: {
-            categories: ["Patcher", "User Type 2", "User Type 3", "User Type 4", "User Type 5", "User Type 6"],
+            categories: ["Pothole Patchers", "Crack Sealers", "Asphalt Layers", "Concrete Road Repair Crews"],
             labels: {
                 show: false
             }

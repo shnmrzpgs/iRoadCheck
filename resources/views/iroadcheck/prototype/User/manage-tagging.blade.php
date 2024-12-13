@@ -40,7 +40,7 @@
                                 <svg :class="expanded ? 'rotate-90' : '-rotate-90'" class="w-4 h-4 mr-1 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 3a1 1 0 00-.707.293l-6 6a1 1 0 001.414 1.414L10 5.414l5.293 5.293a1 1 0 001.414-1.414l-6-6A1 1 0 0010 3z" clip-rule="evenodd" />
                                 </svg>
-                               <span class="text-xs">View Report</span>
+                               <span class="text-xs">View Report Information</span>
                             </button>
 
                             <!-- Map Information Sidebar -->

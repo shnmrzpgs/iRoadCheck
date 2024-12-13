@@ -9,7 +9,7 @@ class ReportsMap extends Component
 {
     public $reports = [];
 
-    public function mount()
+    public function mount(): void
     {
         // Fetch reports when the component is mounted
         $this->reports = Report::all();
