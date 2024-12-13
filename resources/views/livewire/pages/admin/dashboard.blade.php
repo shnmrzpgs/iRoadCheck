@@ -5,7 +5,7 @@
     <div class="grid md:grid-cols-3 gap-6 mb-5">
 
         <!-- Total Reports Card -->
-        <div class="relative bg-white rounded-lg shadow-md py-0 px-2 overflow-hidden
+        <div class="relative bg-white rounded-lg shadow-md py-0 px-2 overflow-hidden w-auto min-h-[115px]
            hover:drop-shadow-lg transition-all duration-500 ease-out
            transform-gpu group ">
 
@@ -22,7 +22,7 @@
                     Total User Accounts
                 </div>
                 <!-- Card Counts with gentle scale on hover -->
-                <div class="px-5 py-1 -mt-1 mb-3 ml-auto text-lg text-[#FFAD00] rounded-full bg-[#FBFBFB] font-bold transform group-hover:scale-105 group-hover:translate-x-1 duration-500 ease-in-out">
+                <div class="px-5 py-1 mt-2 mb-3 ml-auto text-lg text-[#FFAD00] rounded-full bg-[#FBFBFB] font-bold transform group-hover:scale-105 group-hover:translate-x-1 duration-500 ease-in-out">
                     12
                 </div>
             </div>
@@ -30,7 +30,7 @@
 
 
         <!-- Active Accounts Card -->
-        <div class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden
+        <div class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden w-auto min-h-[115px]
            hover:drop-shadow-lg transition-all duration-500 ease-out
            transform-gpu group ">
 
@@ -48,7 +48,7 @@
                 </div>
 
                 <!-- Card Counts -->
-                <div class="px-5 py-1 -mt-1 mb-3 ml-auto text-lg text-[#4AA76F] rounded-full bg-[#FBFBFB] font-bold transform group-hover:scale-105 group-hover:translate-x-1 duration-500 ease-in-out">
+                <div class="px-5 py-1 mt-2 mb-3 ml-auto text-lg text-[#4AA76F] rounded-full bg-[#FBFBFB] font-bold transform group-hover:scale-105 group-hover:translate-x-1 duration-500 ease-in-out">
                     5
                 </div>
             </div>
@@ -56,7 +56,7 @@
         </div>
 
         <!-- Inactive Accounts Card -->
-        <div class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden
+        <div class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden w-auto min-h-[115px]
            hover:drop-shadow-lg transition-all duration-500 ease-out
            transform-gpu group ">
 
@@ -74,7 +74,7 @@
                 </div>
 
                 <!-- Card Counts -->
-                <div class="px-5 py-1 -mt-1 mb-3 ml-auto text-lg text-[#E26161] rounded-full bg-[#FBFBFB] font-bold transform group-hover:scale-105 group-hover:translate-x-1 duration-500 ease-in-out">
+                <div class="px-5 py-1 mt-2 mb-3 ml-auto text-lg text-[#E26161] rounded-full bg-[#FBFBFB] font-bold transform group-hover:scale-105 group-hover:translate-x-1 duration-500 ease-in-out">
                     7
                 </div>
             </div>
@@ -82,72 +82,69 @@
     </div>
 
     <!-- Road Maintenance Worker -->
-    <div class="text-[#202020] bg-[#FBFBFB] px-4 pb-4 rounded-lg drop-shadow">
+    <div class="flex flex-col text-[#202020] bg-[#FBFBFB] px-4 pb-4 rounded-lg drop-shadow">
 
-        <!--Page description-->
-        <div class="flex px-0 border-b border-b-gray-300 py-2 " >
+        <!-- Page Description -->
+        <div class="flex px-0 border-b border-b-gray-300 py-2">
             <div class="mt-4 mr-auto">
-
                 <div class="flex flex-col">
-                    <!--Card Title-->
-                    <div class="text-[#4D4F50] font-semibold">Road Maintenance Workers</div>
+                    <!-- Card Title -->
+                    <div class="text-[#4D4F50] font-semibold text-lg sm:text-xl">
+                        Road Maintenance Workers
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!--Content-->
-        <div class="mt-2 mb-2 overflow-hidden h-[55vh] ">
+        <!-- Content -->
+        <div class="mt-2 mb-2 overflow-hidden h-auto xl:h-[55vh]">
 
             <div class="m-0 rounded-lg inset-0 p-0">
 
-                <!--Dropdown Filters-->
-                <div class="flex gap-2 mr-auto mb-0 py-3 pl-3 mt-4"
+                <!-- Dropdown Filters -->
+                <div class="flex flex-wrap gap-2 mb-4 mt-4"
                      x-data="{
-                 filters: {
-                     status: '',
-                     sort: '',
-                     userType: '',
-                 }
-             }">
+                    filters: {
+                        status: '',
+                        sort: '',
+                        userType: '',
+                    }
+                }">
                     <!-- All Users Option -->
-                    <div class="relative rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md"
+                    <div class="relative inline-flex rounded-[4px] border text-center transition-all duration-200 transform hover:scale-105 hover:shadow-md"
                          :class="{
-                    'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] ': filters.sort === '' && filters.status === ''  && filters.userType === '',  /* Active state */
-                    'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort !== '' || filters.status !== '' || filters.userType !== ''  /* Default and hover state */
-                 }"
+                        'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': filters.sort === '' && filters.status === ''  && filters.userType === '',
+                        'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort !== '' || filters.status !== '' || filters.userType !== ''
+                    }"
                          @click="filters.sort = ''; filters.status = ''; filters.userType = '';">
-                <span class="text-[12px] block appearance-none w-full text-center px-2 py-2 rounded">
-                    All Users
-                </span>
+                    <span class="text-[12px] block w-full px-2 py-2 rounded">
+                        All Users
+                    </span>
                     </div>
 
                     <!-- Sort Filter -->
-                    <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select"
+                    <div class="relative inline-flex rounded-[4px] border hover:shadow-md custom-select"
                          :class="{
-                    'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.sort !== '',  /* Active state */
-                    'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort === ''  /* Default and hover state */
-                 }">
+                        'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': filters.sort !== '',
+                        'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort === ''
+                    }">
                         <select x-model="filters.sort" @change="console.log('Filters:', filters)"
-                                class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-6 rounded shadow-none focus:outline-none focus:scale-105">
-                            <option value="" class="text-gray-400 text-[12px]">Sort by</option>
-                            <option value="asc" class="text-gray-700">
-                                Ascending
-                            </option>
-                            <option value="desc" class="text-gray-700">
-                                Descending
-                            </option>
+                                class="text-[12px] block w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-6 rounded">
+                            <option value="" class="text-gray-400">Sort by</option>
+                            <option value="asc" class="text-gray-700">Ascending</option>
+                            <option value="desc" class="text-gray-700">Descending</option>
                         </select>
                     </div>
 
                     <!-- User Type Filter -->
-                    <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
+                    <div class="relative inline-flex rounded-[4px] border hover:shadow-md custom-select"
                          :class="{
-                    'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.userType !== '',  /* Active state */
-                    'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.userType === ''  /* Default and hover state */
-                 }">
+                        'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': filters.userType !== '',
+                        'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.userType === ''
+                    }">
                         <select x-model="filters.userType" @change="console.log('Filters:', filters)"
-                                class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
-                            <option value="" class="text-gray-400 text-[12px]">User Type</option>
+                                class="text-[12px] block w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-6 rounded">
+                            <option value="" class="text-gray-400">User Type</option>
                             <option value="patcher" class="text-gray-700">Patcher</option>
                             <option value="user-type-2" class="text-gray-700">User Type 2</option>
                             <option value="user-type-3" class="text-gray-700">User Type 3</option>
@@ -155,37 +152,35 @@
                     </div>
 
                     <!-- Status Filter -->
-                    <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
+                    <div class="relative inline-flex rounded-[4px] border hover:shadow-md custom-select"
                          :class="{
-                    'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.status !== '',  /* Active state */
-                    'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.status === ''  /* Default and hover state */
-                 }">
+                        'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': filters.status !== '',
+                        'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.status === ''
+                    }">
                         <select x-model="filters.status" @change="console.log('Filters:', filters)"
-                                class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
-                            <option value="" class="text-gray-400 text-[12px]">Status</option>
+                                class="text-[12px] block w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-6 rounded">
+                            <option value="" class="text-gray-400">Status</option>
                             <option value="enabled" class="text-gray-700">Enabled</option>
                             <option value="disabled" class="text-gray-700">Disabled</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Road maintenance workers data -->
-                <div class="flex mb-2 px-3 pb-3 ">
+                <!-- Road Maintenance Workers Data -->
+                <div class="flex flex-col xl:flex-row mb-2 px-3 pb-3 gap-4">
 
-                    <!-- Bar Graph for the Number of Counts of User types -->
-                    <div class="w-7/10 max-h-[330px] overflow-auto">
-                        <!-- Charts Section -->
-                        <div class="rounded-full">
+                    <!-- Bar Graph Section -->
+                    <div class="w-full xl:w-7/10 max-h-[330px] overflow-auto">
+                        <div class="rounded-lg">
                             <div class="relative h-full">
                                 <div id="chart"></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- People belongs in the user types -->
-                    <div class="w-3/10 mx-8 -mt-10 bg-[#FBFBFB] h-[50vh] drop-shadow relative p-2">
+                    <!-- User Types Section -->
+                    <div class="w-full xl:w-3/10 mx-0 xl:mx-4 bg-[#FBFBFB] h-[50vh] drop-shadow p-2 mt-4 xl:-mt-8">
                         <div class="inline-block w-full min-h-[48vh] max-h-[48vh] overflow-y-auto align-middle z-0">
-                            <!-- Non-striped -->
                             <div id="members-list" class="text-left"></div>
                         </div>
                     </div>
@@ -194,6 +189,7 @@
             </div>
         </div>
     </div>
+
 </main>
 
 <script>

@@ -1,6 +1,6 @@
-@props(['page_title' => '', 'main_class' => ''])
+@props(['page_title' => '','action' => '', 'placeholder' => '', 'name' => '', 'main_class' => ''])
 
-<div class="bg-none mx-4 mt-0 pt-3 font-pop text-white 0 p-0 "
+<div class="bg-none ml-4 mr-2 mt-0 pt-3 font-pop text-white 0 p-0 "
      x-data="{
         open: false,
         activeLink: localStorage.getItem('activeLink') || '',
@@ -91,7 +91,7 @@
                 </a>
 
                 <!-- User Type -->
-                <a href=""
+                <a href="{{ route('admin.user-type-table') }}"
                    @click="activeLink = 'userType'; activeChildLink = ''; localStorage.setItem('activeLink', 'userType'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'userType',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'userType'}"
@@ -113,7 +113,7 @@
                 </a>
 
                 <!-- Activity Logs -->
-                <a href=""
+                <a href="{{ route('admin.activity-logs-table') }}"
                    @click="activeLink = 'activityLogs'; activeChildLink = ''; localStorage.setItem('activeLink', 'activityLogs'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'activityLogs',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'activityLogs'}"
@@ -322,17 +322,18 @@
                 <div class="lg:flex lg:items-start lg:justified-start lg:ml-0 lg:mr-auto lg:flex-row flex flex-col items-center justify-center mx-auto ">
                     <h1 class="lg:text-[22px] text-md md:text-lg mt-1 font-semibold text-[#4AA76F]">{{$page_title}}</h1>
 
-                    <!--Search-->
+                    <!-- Search Bar -->
                     <div class="flex mt-2 lg:mt-0 w-60 lg:w-80 items-center px-0 lg:px-5">
-                        <form class="relative flex flex-1 h-8 rounded-full border-[#F8F7F7]" action="#" method="GET">
+                        <form class="relative flex flex-1 h-8 rounded-full border-[#F8F7F7]" action="{{ $action ?? '#' }}" method="GET">
                             <label for="search-field" class="sr-only">Search</label>
                             <svg class="pointer-events-none absolute inset-y-0 left-1 h-full w-4 text-gray-400 ml-2 z-10" viewBox="0 0 20 20" fill="#4AA76F" aria-hidden="false">
                                 <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
                             </svg>
                             <input id="search-field"
                                    class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] drop-shadow-md focus:bg-white bg-white rounded-full border-none block h-full w-full py-0 pl-8 text-gray-900 placeholder:text-gray-400 text-xs lg:text-[14px]"
-                                   placeholder="Search" type="search" name="search">
+                                   wire:model="userSearch" placeholder="{{ $placeholder ?? 'Search' }}" type="search" name="{{ $name ?? 'search' }}" value="{{ request($name ?? 'search') }}">
                         </form>
+
                     </div>
                 </div>
                 <div class="flex">

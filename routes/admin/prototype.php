@@ -22,14 +22,14 @@ Route::view('/component/admin/activity-logs', 'iroadcheck.prototype.Admin.activi
 Route::view('/component/admin/notifications', 'iroadcheck.prototype.Admin.notifications')->name('admin.notifications');
 Route::view('/component/admin/profile-settings', 'iroadcheck.prototype.Admin.profile-settings')->name('admin.profile-settings');
 
-//User
-Route::view('/component/User/dashboard', 'iroadcheck.prototype.User.dashboard')->name('User.dashboard');
-Route::view('/component/User/manage-tagging', 'iroadcheck.prototype.User.manage-tagging')->name('User.manage-tagging');
-Route::view('/component/User/reports', 'iroadcheck.prototype.User.reports')->name('User.reports');
-Route::view('/component/User/activity-logs', 'iroadcheck.prototype.User.activity-logs')->name('User.activity-logs');
-Route::view('/component/User/profile-settings', 'iroadcheck.prototype.User.profile-settings')->name('User.profile-settings');
-Route::view('/component/User/notifications', 'iroadcheck.prototype.User.notifications')->name('User.notifications');
-Route::view('/component/admin/practice', 'iroadcheck.prototype.Admin.practice');
+//user
+Route::view('/component/user/dashboard', 'iroadcheck.prototype.User.dashboard')->name('user.dashboard');
+Route::view('/component/user/manage-tagging', 'iroadcheck.prototype.User.manage-tagging')->name('user.manage-tagging');
+Route::view('/component/user/reports', 'iroadcheck.prototype.User.reports')->name('user.reports');
+Route::view('/component/user/activity-logs', 'iroadcheck.prototype.User.activity-logs')->name('user.activity-logs');
+Route::view('/component/user/profile-settings', 'iroadcheck.prototype.User.profile-settings')->name('user.profile-settings');
+Route::view('/component/user/notifications', 'iroadcheck.prototype.User.notifications')->name('user.notifications');
+Route::view('/component/user/report-road-issue', 'iroadcheck.prototype.User.report-road-issue')->name('user.report-road-issue');
 
 //Residents
 Route::view('/prototype/residents/login', 'iroadcheck.prototype.Residents.login')->name('residents-login');
@@ -44,6 +44,7 @@ Route::view('/prototype/residents/dashboard', 'iroadcheck.prototype.Residents.da
 Route::view('/prototype/residents/report-road-issue', 'iroadcheck.prototype.Residents.report-road-issue')->name('report-road-issue');
 Route::view('/prototype/residents/report-road-issue-step2', 'iroadcheck.prototype.Residents.report-road-issue-step2')->name('report-road-issue-step2');
 Route::view('/prototype/residents/report-road-issue-step3', 'iroadcheck.prototype.Residents.report-road-issue-step3')->name('report-road-issue-step3');
+Route::view('/prototype/residents/report-road-issues', 'iroadcheck.prototype.Residents.report-road-issues')->name('report-road-issues');
 Route::view('/prototype/residents/suggestion-reports', 'iroadcheck.prototype.Residents.suggestion-reports')->name('suggestion-reports');
 Route::view('/prototype/residents/report-history', 'iroadcheck.prototype.Residents.report-history')->name('report-history');
 Route::view('/prototype/residents/profile-info', 'iroadcheck.prototype.Residents.profile-info')->name('profile-info');
@@ -53,4 +54,6 @@ Route::view('/prototype/residents/notifications', 'iroadcheck.prototype.Resident
 
 //practice
 Route::view('/prototype/residents/camera-practice', 'iroadcheck.prototype.Residents.camera-practice');
+Route::view('/component/admin/practice', 'iroadcheck.prototype.Admin.practice');
+
 

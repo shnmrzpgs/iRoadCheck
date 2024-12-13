@@ -23,7 +23,7 @@
             <div class="flex items-center">
                 <img src="{{ asset('storage/icons/profile-graphics.png') }}" alt="Profile Image" class="w-20 h-20 rounded-full border border-customGreen bg-green-500">
 
-                <!-- User Greeting -->
+                <!-- user Greeting -->
                 <div class="ml-4 text-left">
                     <p class="text-xl text-customGreen font-semibold">Sheena Mariz Pagas</p>
                     <p class="text-gray-600">Resident</p>
