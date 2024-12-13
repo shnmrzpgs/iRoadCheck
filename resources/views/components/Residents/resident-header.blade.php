@@ -1,11 +1,11 @@
 @props(['page_title' => '', 'main_class' => ''])
 
-<div class="w-full bg-white shadow-sm p-4 border-b-2 border-gray-200">
+<div class="w-full bg-white shadow-sm p-4 border-b-2 border-gray-200 fixed top-0 left-0 z-50">
     <div class="flex justify-between items-center">
         <div class="flex -mb-2 ml-2">
             <img src="{{ asset('storage/images/IRoadCheck_Logo.png') }}" alt="graphicsLogo"
-                class="w-28 sm:w-36 md:w-48 lg:w-56 max-w-[40px]" />
-            <div class="mt-2 text-[#4D4F50] font-bold text-[17px]">iRoadCheck</div>
+                class="w-28 sm:w-32 md:w-48 lg:w-56 max-w-[40px]" />
+            <div class="mt-2 text-[#4D4F50] font-bold text-[15px]">iRoadCheck</div>
         </div>
         <div class="flex items-center space-x-2">
             <svg class="w-6 h-6 text-[#6AA76F]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
