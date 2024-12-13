@@ -1,34 +1,11 @@
 <x-app-layout>
     <div class="min-h-screen flex flex-col items-center bg-white">
-        <!-- White Background Header Container -->
-        <div class="w-full lg:w-full bg-white shadow-sm p-4 border-b-2 border-gray-200 fixed top-0 z-10">
-            <!-- Header -->
-            <div class="flex justify-between items-center ">
-                <div class="flex -mb-2 ml-2">
-                    <img src="{{ asset('storage/images/IRoadCheck_Logo.png') }}" alt="graphicsLogo"
-                        class="w-28 sm:w-36 md:w-48 lg:w-56 max-w-[40px]" />
-                    <div class="mt-2 text-[#4D4F50] font-bold text-[17px]">iRoadCheck</div>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <svg class="w-6 h-6 text-[#6AA76F]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                    </svg>
-                    <a href="{{ route('profile-info') }}"><img src="{{ asset('storage/icons/profile-graphics.png') }}" alt="Profile Image" class="w-6 h-6 rounded-full border border-customGreen bg-green-500"></a>
-                </div>
-            </div>
-        </div>
+        <!--  header -->
+        <x-residents.resident-header />
+        <!--  Navigation Tabs -->
+        <x-residents.residents-navigation-tab />
 
-        <!-- Navigation Tabs -->
-        <div class="w-full lg:w-full bg-white py-6 fixed top-[60px] shadow-sm">
-            <div class="flex overflow-x-auto whitespace-nowrap p-1" style="scrollbar-width: none; -ms-overflow-style: none; overflow-x: auto;">
-                <button x-data @click="window.location.href='{{ route('dashboard') }}'" class="px-4 py-1 bg-white text-[14px] text-customGreen border border-customGreen rounded-full ml-6 shadow-md">Dashboard</button>
-                <button x-data @click="window.location.href='{{ route('report-road-issue-step1') }}'" class="px-4 py-1 bg-white text-[14px] text-customGreen border border-customGreen rounded-full ml-2 shadow-md">Report Road Issue</button>
-                <button class="px-4 py-1 bg-customGreen text-[14px] text-white border border-customGreen rounded-full ml-2 shadow-md">Suggestion Report</button>
-                <button x-data @click="window.location.href='{{ route('report-history') }}'" class="px-4 py-1 bg-white text-[14px] text-customGreen border border-customGreen rounded-full ml-2 shadow-md">Report History</button>
-            </div>
-        </div>
-
-        <div class="w-[90%] overflow-y-auto mt-[140px]">
+        <div class="w-[90%] overflow-y-auto mt-20">
             <!-- Flex container for aligning items vertically on mobile and horizontally on web -->
             <div class="flex flex-col lg:flex-row lg:flex-wrap lg:space-x-4 lg:justify-center">
                 <!-- Report History Section -->
@@ -68,7 +45,12 @@
                         <!-- Yes and No Buttons -->
                         <div class="flex justify-center space-x-4 mt-4 px-4 mb-2">
                             <button class="px-4 py-2 bg-customGreen text-white w-full font-semibold rounded-full shadow-md hover:bg-green-600">YES</button>
-                            <button class="px-4 py-2 bg-[#FF7070] text-white w-full font-semibold rounded-full shadow-md hover:bg-red-600">NO</button>
+                            <button class="px-4 py-2 bg-[#FF7070] text-white w-full font-semibold rounded-full shadow-md hover:bg-red-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="h-6 w-6 inline-block mr-1 lg:h-6 lg:w-6" fill="currentColor" viewBox="0 0 45 45">
+                                    <path d="M 11.5 6 C 8.4802259 6 6 8.4802259 6 11.5 L 6 36.5 C 6 39.519774 8.4802259 42 11.5 42 L 36.5 42 C 39.519774 42 42 39.519774 42 36.5 L 42 11.5 C 42 8.4802259 39.519774 6 36.5 6 L 11.5 6 z M 11.5 9 L 36.5 9 C 37.898226 9 39 10.101774 39 11.5 L 39 36.5 C 39 37.898226 37.898226 39 36.5 39 L 11.5 39 C 10.101774 39 9 37.898226 9 36.5 L 9 11.5 C 9 10.101774 10.101774 9 11.5 9 z M 30.486328 15.978516 A 1.50015 1.50015 0 0 0 29.439453 16.439453 L 24 21.878906 L 18.560547 16.439453 A 1.50015 1.50015 0 0 0 17.484375 15.984375 A 1.50015 1.50015 0 0 0 16.439453 18.560547 L 21.878906 24 L 16.439453 29.439453 A 1.50015 1.50015 0 1 0 18.560547 31.560547 L 24 26.121094 L 29.439453 31.560547 A 1.50015 1.50015 0 1 0 31.560547 29.439453 L 26.121094 24 L 31.560547 18.560547 A 1.50015 1.50015 0 0 0 30.486328 15.978516 z"></path>
+                                </svg>
+                                NO
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -110,7 +92,12 @@
                         <!-- Yes and No Buttons -->
                         <div class="flex justify-center space-x-4 mt-4 px-4 mb-2">
                             <button class="px-4 py-2 bg-customGreen text-white w-full font-semibold rounded-full shadow-md hover:bg-green-600">YES</button>
-                            <button class="px-4 py-2 bg-[#FF7070] text-white w-full font-semibold rounded-full shadow-md hover:bg-red-600">NO</button>
+                            <button class="px-4 py-2 bg-[#FF7070] text-white w-full font-semibold rounded-full shadow-md hover:bg-red-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="h-6 w-6 inline-block mr-1 lg:h-6 lg:w-6" fill="currentColor" viewBox="0 0 45 45">
+                                    <path d="M 11.5 6 C 8.4802259 6 6 8.4802259 6 11.5 L 6 36.5 C 6 39.519774 8.4802259 42 11.5 42 L 36.5 42 C 39.519774 42 42 39.519774 42 36.5 L 42 11.5 C 42 8.4802259 39.519774 6 36.5 6 L 11.5 6 z M 11.5 9 L 36.5 9 C 37.898226 9 39 10.101774 39 11.5 L 39 36.5 C 39 37.898226 37.898226 39 36.5 39 L 11.5 39 C 10.101774 39 9 37.898226 9 36.5 L 9 11.5 C 9 10.101774 10.101774 9 11.5 9 z M 30.486328 15.978516 A 1.50015 1.50015 0 0 0 29.439453 16.439453 L 24 21.878906 L 18.560547 16.439453 A 1.50015 1.50015 0 0 0 17.484375 15.984375 A 1.50015 1.50015 0 0 0 16.439453 18.560547 L 21.878906 24 L 16.439453 29.439453 A 1.50015 1.50015 0 1 0 18.560547 31.560547 L 24 26.121094 L 29.439453 31.560547 A 1.50015 1.50015 0 1 0 31.560547 29.439453 L 26.121094 24 L 31.560547 18.560547 A 1.50015 1.50015 0 0 0 30.486328 15.978516 z"></path>
+                                </svg>
+                                NO
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -152,7 +139,12 @@
                         <!-- Yes and No Buttons -->
                         <div class="flex justify-center space-x-4 mt-4 px-4 mb-2">
                             <button class="px-4 py-2 bg-customGreen text-white w-full font-semibold rounded-full shadow-md hover:bg-green-600">YES</button>
-                            <button class="px-4 py-2 bg-[#FF7070] text-white w-full font-semibold rounded-full shadow-md hover:bg-red-600">NO</button>
+                            <button class="px-4 py-2 bg-[#FF7070] text-white w-full font-semibold rounded-full shadow-md hover:bg-red-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="h-6 w-6 inline-block mr-1 lg:h-6 lg:w-6" fill="currentColor" viewBox="0 0 45 45">
+                                    <path d="M 11.5 6 C 8.4802259 6 6 8.4802259 6 11.5 L 6 36.5 C 6 39.519774 8.4802259 42 11.5 42 L 36.5 42 C 39.519774 42 42 39.519774 42 36.5 L 42 11.5 C 42 8.4802259 39.519774 6 36.5 6 L 11.5 6 z M 11.5 9 L 36.5 9 C 37.898226 9 39 10.101774 39 11.5 L 39 36.5 C 39 37.898226 37.898226 39 36.5 39 L 11.5 39 C 10.101774 39 9 37.898226 9 36.5 L 9 11.5 C 9 10.101774 10.101774 9 11.5 9 z M 30.486328 15.978516 A 1.50015 1.50015 0 0 0 29.439453 16.439453 L 24 21.878906 L 18.560547 16.439453 A 1.50015 1.50015 0 0 0 17.484375 15.984375 A 1.50015 1.50015 0 0 0 16.439453 18.560547 L 21.878906 24 L 16.439453 29.439453 A 1.50015 1.50015 0 1 0 18.560547 31.560547 L 24 26.121094 L 29.439453 31.560547 A 1.50015 1.50015 0 1 0 31.560547 29.439453 L 26.121094 24 L 31.560547 18.560547 A 1.50015 1.50015 0 0 0 30.486328 15.978516 z"></path>
+                                </svg>
+                                NO
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -194,7 +186,12 @@
                         <!-- Yes and No Buttons -->
                         <div class="flex justify-center space-x-4 mt-4 px-4 mb-2">
                             <button class="px-4 py-2 bg-customGreen text-white w-full font-semibold rounded-full shadow-md hover:bg-green-600">YES</button>
-                            <button class="px-4 py-2 bg-[#FF7070] text-white w-full font-semibold rounded-full shadow-md hover:bg-red-600">NO</button>
+                            <button class="px-4 py-2 bg-[#FF7070] text-white w-full font-semibold rounded-full shadow-md hover:bg-red-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="h-6 w-6 inline-block mr-1 lg:h-6 lg:w-6" fill="currentColor" viewBox="0 0 45 45">
+                                    <path d="M 11.5 6 C 8.4802259 6 6 8.4802259 6 11.5 L 6 36.5 C 6 39.519774 8.4802259 42 11.5 42 L 36.5 42 C 39.519774 42 42 39.519774 42 36.5 L 42 11.5 C 42 8.4802259 39.519774 6 36.5 6 L 11.5 6 z M 11.5 9 L 36.5 9 C 37.898226 9 39 10.101774 39 11.5 L 39 36.5 C 39 37.898226 37.898226 39 36.5 39 L 11.5 39 C 10.101774 39 9 37.898226 9 36.5 L 9 11.5 C 9 10.101774 10.101774 9 11.5 9 z M 30.486328 15.978516 A 1.50015 1.50015 0 0 0 29.439453 16.439453 L 24 21.878906 L 18.560547 16.439453 A 1.50015 1.50015 0 0 0 17.484375 15.984375 A 1.50015 1.50015 0 0 0 16.439453 18.560547 L 21.878906 24 L 16.439453 29.439453 A 1.50015 1.50015 0 1 0 18.560547 31.560547 L 24 26.121094 L 29.439453 31.560547 A 1.50015 1.50015 0 1 0 31.560547 29.439453 L 26.121094 24 L 31.560547 18.560547 A 1.50015 1.50015 0 0 0 30.486328 15.978516 z"></path>
+                                </svg>
+                                NO
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -236,7 +233,12 @@
                         <!-- Yes and No Buttons -->
                         <div class="flex justify-center space-x-4 mt-4 px-4 mb-2">
                             <button class="px-4 py-2 bg-customGreen text-white w-full font-semibold rounded-full shadow-md hover:bg-green-600">YES</button>
-                            <button class="px-4 py-2 bg-[#FF7070] text-white w-full font-semibold rounded-full shadow-md hover:bg-red-600">NO</button>
+                            <button class="px-4 py-2 bg-[#FF7070] text-white w-full font-semibold rounded-full shadow-md hover:bg-red-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="h-6 w-6 inline-block mr-1 lg:h-6 lg:w-6" fill="currentColor" viewBox="0 0 45 45">
+                                    <path d="M 11.5 6 C 8.4802259 6 6 8.4802259 6 11.5 L 6 36.5 C 6 39.519774 8.4802259 42 11.5 42 L 36.5 42 C 39.519774 42 42 39.519774 42 36.5 L 42 11.5 C 42 8.4802259 39.519774 6 36.5 6 L 11.5 6 z M 11.5 9 L 36.5 9 C 37.898226 9 39 10.101774 39 11.5 L 39 36.5 C 39 37.898226 37.898226 39 36.5 39 L 11.5 39 C 10.101774 39 9 37.898226 9 36.5 L 9 11.5 C 9 10.101774 10.101774 9 11.5 9 z M 30.486328 15.978516 A 1.50015 1.50015 0 0 0 29.439453 16.439453 L 24 21.878906 L 18.560547 16.439453 A 1.50015 1.50015 0 0 0 17.484375 15.984375 A 1.50015 1.50015 0 0 0 16.439453 18.560547 L 21.878906 24 L 16.439453 29.439453 A 1.50015 1.50015 0 1 0 18.560547 31.560547 L 24 26.121094 L 29.439453 31.560547 A 1.50015 1.50015 0 1 0 31.560547 29.439453 L 26.121094 24 L 31.560547 18.560547 A 1.50015 1.50015 0 0 0 30.486328 15.978516 z"></path>
+                                </svg>
+                                NO
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -278,7 +280,12 @@
                         <!-- Yes and No Buttons -->
                         <div class="flex justify-center space-x-4 mt-4 px-4 mb-2">
                             <button class="px-4 py-2 bg-customGreen text-white w-full font-semibold rounded-full shadow-md hover:bg-green-600">YES</button>
-                            <button class="px-4 py-2 bg-[#FF7070] text-white w-full font-semibold rounded-full shadow-md hover:bg-red-600">NO</button>
+                            <button class="px-4 py-2 bg-[#FF7070] text-white w-full font-semibold rounded-full shadow-md hover:bg-red-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="h-6 w-6 inline-block mr-1 lg:h-6 lg:w-6" fill="currentColor" viewBox="0 0 45 45">
+                                    <path d="M 11.5 6 C 8.4802259 6 6 8.4802259 6 11.5 L 6 36.5 C 6 39.519774 8.4802259 42 11.5 42 L 36.5 42 C 39.519774 42 42 39.519774 42 36.5 L 42 11.5 C 42 8.4802259 39.519774 6 36.5 6 L 11.5 6 z M 11.5 9 L 36.5 9 C 37.898226 9 39 10.101774 39 11.5 L 39 36.5 C 39 37.898226 37.898226 39 36.5 39 L 11.5 39 C 10.101774 39 9 37.898226 9 36.5 L 9 11.5 C 9 10.101774 10.101774 9 11.5 9 z M 30.486328 15.978516 A 1.50015 1.50015 0 0 0 29.439453 16.439453 L 24 21.878906 L 18.560547 16.439453 A 1.50015 1.50015 0 0 0 17.484375 15.984375 A 1.50015 1.50015 0 0 0 16.439453 18.560547 L 21.878906 24 L 16.439453 29.439453 A 1.50015 1.50015 0 1 0 18.560547 31.560547 L 24 26.121094 L 29.439453 31.560547 A 1.50015 1.50015 0 1 0 31.560547 29.439453 L 26.121094 24 L 31.560547 18.560547 A 1.50015 1.50015 0 0 0 30.486328 15.978516 z"></path>
+                                </svg>
+                                NO
+                            </button>
                         </div>
                     </div>
                 </div>
