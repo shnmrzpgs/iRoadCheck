@@ -41,7 +41,7 @@
                         <!-- <p class="text-red-500 text-sm font-medium mt-6">Step 1: Choose the name of the road defect issue.</p> -->
 
                         <!-- Report History Section -->
-                        <div x-data="{ selected: null }" class="mt-4 mb-2 bg-white shadow-sm rounded-lg w-[350px] mx-auto border-2 border-gray-300 h-[450px] lg:h-[450px]">
+                        <div x-data="{ selected: null }" class="mt-4 mb-2 bg-white shadow-sm rounded-lg w-[350px] mx-auto border-2 border-gray-300 h-[455px] lg:h-[450px]">
                             <div class="w-full bg-white shadow-lg rounded-t-lg p-4">
                                 <h2 class=" text-[14px] text-center font-semibold">Type of Road Issue Concern</h2>
                             </div>
@@ -76,7 +76,7 @@
 
 
                         <!-- Report Road Issue Button -->
-                        <div class="mt-6 w-[75%] text-center mx-auto max-w-lg lg:absolute lg:top-16 lg:right-0 lg:left-[85%] lg:m-6 lg:w-[auto] lg:max-w-[200px] md:mb-50 sm:mb-50">
+                        <div class="mt-14 w-[75%] text-center mx-auto max-w-lg lg:absolute lg:top-16 lg:right-0 lg:left-[85%] lg:m-6 lg:w-[auto] lg:max-w-[200px] md:mb-50 sm:mb-50">
                             <button @click="step = 2"
                                 class="px-4 py-3 lg:py-1 lg:text-[14px] w-full bg-customGreen text-lg font-semibold text-white shadow-md rounded-full border-2 hover:bg-green-600 md:mb-50">
                                 Next
