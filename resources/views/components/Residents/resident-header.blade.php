@@ -1,6 +1,6 @@
 @props(['page_title' => '', 'main_class' => ''])
 
-<div class="w-full bg-white shadow-sm p-4 border-b-2 border-gray-200 fixed top-0 left-0 z-50">
+<div class="w-full bg-white shadow-sm p-4 border-b-2 border-gray-200 sticky top-0 left-0 z-50">
     <div class="flex justify-between items-center">
         <div class="flex -mb-2 ml-2">
             <img src="{{ asset('storage/images/IRoadCheck_Logo.png') }}" alt="graphicsLogo"
