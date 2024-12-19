@@ -51,8 +51,9 @@ class DatabaseSeeder extends Seeder
                 'role' => 'Patcher',
             ],
             [
-                'role' => 'John',
+                'role' => 'Graveller',
             ],
+
         ]);
         DB::table('severities')->insert([
             [

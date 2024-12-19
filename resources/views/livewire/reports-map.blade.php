@@ -109,10 +109,10 @@
                                             <span class="inline-block w-3 h-3 bg-yellow-500 mr-2 rounded-full"></span>On Going
                                         </li>
                                         <li class="leading-6">
-                                            <span class="inline-block w-3 h-3 bg-blue-500 mr-2 rounded-full"></span>Unfixed
+                                            <span class="inline-block w-3 h-3 bg-red-500 mr-2 rounded-full"></span>Unfixed
                                         </li>
                                         <li class="leading-6">
-                                            <span class="inline-block w-3 h-3 bg-red-500 mr-2 rounded-full"></span>Not Found
+                                            <span class="inline-block w-3 h-3 bg-[#6c757d] mr-2 rounded-full"></span>Not Found
                                         </li>
                                     </ul>
                                 </div>

@@ -484,7 +484,7 @@
                                 $refs.content.addEventListener('mouseenter', () => { tooltipVisible = true; });
                                 $refs.content.addEventListener('mouseleave', () => { tooltipVisible = false; });
                             "
-                            class="relative mt-[4px] mr-5">
+                            class="relative mt-[4px] mr-auto">
 
                             <!-- Tooltip -->
                             <div x-ref="tooltip" x-show="tooltipVisible" :class="{

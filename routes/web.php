@@ -11,6 +11,7 @@ require __DIR__ . '/admin/prototype.php';
 require __DIR__ . '/admin/auth.php';
 require __DIR__ . '/admin/web.php';
 
+require __DIR__ . '/resident/residentRoute.php';
 
 require __DIR__ . '/user/userRoute.php';
 
@@ -24,9 +25,7 @@ require __DIR__ . '/user/userRoute.php';
 
 
 //practice
-Route::get('/user/activity-logs', function () {
-    return view('iroadcheck.prototype.User.activity-logs');
-})->name('activity-logs');
+
 
 Route::get('/search', function () {
     return view('components.search-bar');
