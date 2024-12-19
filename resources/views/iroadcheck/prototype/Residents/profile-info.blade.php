@@ -20,11 +20,35 @@
             <div class="w-full bg-white py-6 lg:w-full mx-auto">
                 <!-- Navigation Tabs -->
                 <div class="flex whitespace-nowrap lg:w-full">
-                    <button @click="step = 1" class="px-3 py-1 bg-customGreen text-white  text-[13px] border rounded-full shadow-md">Personal Info</button>
-                    <button @click="step = 2" class="px-3 py-1 bg-white text-customGreen border text-xs border-customGreen rounded-full ml-1 shadow-md">Contact Info</button>
-                    <button @click="step = 3" class="px-3 py-1 bg-white text-customGreen border border-customGreen rounded-full ml-1 text-xs shadow-md">Change Password</button>
+                    <!-- Personal Info Button -->
+                    <button
+                        @click="step = 1"
+                        :class="step === 1 ? 'bg-customGreen text-white' : 'bg-white text-customGreen border-customGreen'"
+                        type="button"
+                        class="px-3 py-1 border text-[13px] rounded-full shadow-md">
+                        Personal Info
+                    </button>
+
+                    <!-- Contact Info Button -->
+                    <button
+                        @click="step = 2"
+                        :class="step === 2 ? 'bg-customGreen text-white' : 'bg-white text-customGreen border-customGreen'"
+                        type="button"
+                        class="px-3 py-1 border text-xs rounded-full ml-1 shadow-md">
+                        Contact Info
+                    </button>
+
+                    <!-- Change Password Button -->
+                    <button
+                        @click="step = 3"
+                        :class="step === 3 ? 'bg-customGreen text-white' : 'bg-white text-customGreen border-customGreen'"
+                        type="button"
+                        class="px-3 py-1 border text-xs rounded-full ml-1 shadow-md">
+                        Change Password
+                    </button>
                 </div>
             </div>
+
 
             <template x-if="step === 1">
                 <div>
@@ -115,10 +139,35 @@
 
 
                     <!-- Report Road Issue Button -->
-                    <div class="mt-12 w-[75%] text-center lg:w-[20%] mx-auto">
-                        <button x-data @click="window.location.href='{{ route('report-road-issue') }}'" class="px-4 py-3 w-full bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-lg font-semibold lg:text-[16px] lg:py-2 lg:mb-2 text-white shadow-md rounded-full">
+                    <div x-data="{ showModal: false }"   class="mt-12 w-[75%] text-center lg:w-[20%] mx-auto">
+                        <button @click="showModal = true" class="px-4 py-3 w-full bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-lg font-semibold lg:text-[16px] lg:py-2 lg:mb-2 text-white shadow-md rounded-full">
                             Save Changes
                         </button>
+
+                        <div
+                            x-show="showModal"
+                            x-transition:enter="ease-out duration-300"
+                            x-transition:enter-start="opacity-0 scale-90"
+                            x-transition:enter-end="opacity-100 scale-100"
+                            x-transition:leave="ease-in duration-200"
+                            x-transition:leave-start="opacity-100 scale-100"
+                            x-transition:leave-end="opacity-0 scale-90"
+                            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                            <div class="bg-white w-[90%] max-w-md p-6 rounded-lg shadow-lg">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="text-lg font-semibold text-[#5A915E]">Changes Saved</h3>
+                                    <button @click="showModal = false" class="text-gray-500 hover:text-gray-700">
+                                        &times;
+                                    </button>
+                                </div>
+                                <p class="mt-4 text-sm text-gray-600">Your changes have been successfully saved.</p>
+                                <div class="mt-6 text-right">
+                                    <button @click="showModal = false" class="px-4 py-2 bg-[#5A915E] text-white rounded-lg shadow hover:bg-[#4B804D]">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </template>
@@ -185,7 +234,7 @@
             <template x-if="step === 3">
                 <div>
                     <!-- Personal information Section -->
-                    <div class="mt-6 bg-white w-[80%] shadow-lg rounded-lg p-1 border border-gray-100 lg:h-[200px]">
+                    <div class="mt-6 bg-white w-[80%] shadow-lg rounded-lg p-1 border border-gray-100 lg:h-[200px] mx-auto">
                         <div class="w-full bg-transparent h-10 py-2 px-3 border-b-2 border-[#F8A15E] items-center">
                             <p class="text-[#F8A15E] font-semibold text-center">Change Password</p>
                         </div>
