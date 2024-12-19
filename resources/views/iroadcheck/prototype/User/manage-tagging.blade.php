@@ -37,16 +37,16 @@
                             <!-- Sidebar Toggle Button -->
                             <button @click="expanded = !expanded"
                                     class="flex fixed top-3 right-4 z-[1000] p-2 bg-[#4AA76F] text-white rounded-full shadow-lg hover:bg-[#3AA76F] transition-all duration-300 mx-2 px-2">
-                                <svg :class="expanded ? 'rotate-90' : '-rotate-90'" class="w-4 h-4 mr-1 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
+                                <svg :class="expanded ? '-rotate-90' : 'rotate-90' " class="w-4 h-4 mr-1 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 3a1 1 0 00-.707.293l-6 6a1 1 0 001.414 1.414L10 5.414l5.293 5.293a1 1 0 001.414-1.414l-6-6A1 1 0 0010 3z" clip-rule="evenodd" />
                                 </svg>
-                               <span class="text-xs">View Report Information</span>
+                                <span class="text-xs" x-text="expanded ? 'View Report Information' : 'Hide Report Information'"></span>
                             </button>
 
                             <!-- Map Information Sidebar -->
                             <div
-                                 class="h-[68vh] bg-white transition-all duration-300 overflow-hidden"
-                                 :class="expanded ? 'w-5/10 block' : 'w-0 hidden'">
+                                 class="h-[75vh] bg-white transition-all duration-300 overflow-hidden"
+                                 :class="expanded ? 'w-0 hidden' : 'w-5/10 block' ">
 
                                 <!-- Sidebar Content -->
                                 <div class="p-4 block">
@@ -68,7 +68,7 @@
                                     <!-- Report Information -->
                                     <h2 class="font-semibold text-md mt-5 text-[#4D4F50] fixed px-4">Road Defect Report Information</h2>
 
-                                    <div class="mt-16 h-[50vh] overflow-y-auto pb-16 px-6">
+                                    <div class="mt-16 h-[65vh] overflow-y-auto pb-16 px-6">
 
                                         <!-- Show this content when no report is selected -->
                                         <template x-if="!selectedReport.id || Object.keys(selectedReport).length === 0">

@@ -72,7 +72,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             ActivityLogSeeder::class,
-            ReportSeeder::class
+            ReportSeeder::class,
+            UserRolesSeeder::class
         ]);
     }
 }

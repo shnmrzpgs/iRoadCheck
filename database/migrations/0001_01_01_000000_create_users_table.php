@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->foreignId('user_type')->references('id')->on('user_types');
+//            $table->foreignId('role')->references('id')->on('user_roles');
             $table->string('status');
             $table->rememberToken();
             $table->timestamps();

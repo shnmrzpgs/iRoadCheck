@@ -39,6 +39,11 @@ select {
     padding: 0;
   }
 
+body {
+    margin: 0;
+    padding: 0;
+  }
+
 .fixed.inset-0 {
     margin: 0;
     padding: 0;
@@ -253,6 +258,9 @@ input:invalid {
     transform: translateX(0) scale(1);
 }
 
+[x-cloak] {
+    display: none !important;
+}
 
 
 

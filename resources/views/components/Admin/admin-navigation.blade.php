@@ -1,6 +1,8 @@
+@php use Illuminate\Support\Facades\Route; @endphp
 @props(['page_title' => '','action' => '', 'placeholder' => '', 'name' => '', 'main_class' => ''])
 
-<div class="bg-none ml-4 mr-2 mt-0 pt-3 font-pop text-white 0 p-0 "
+<div
+    class="bg-none font-pop mx-0 px-0"
      x-data="{
         open: false,
         activeLink: localStorage.getItem('activeLink') || '',
@@ -20,8 +22,8 @@
 
         <!-- Web screens Sidebar -->
         <aside
-           :class="expanded ? 'w-64' : 'w-24'"
-           class="bg-[#FBFBFB] hidden h-[96vh] py-4 lg:block rounded-xl mr-5 drop-shadow-md transition-all duration-300 ease-in-out">
+           :class="expanded ? 'w-60' : 'w-24'"
+           class="bg-[#FBFBFB] hidden h-[95vh] lg:block rounded-xl drop-shadow-md transition-all duration-300 ease-in-out mx-4 mt-5">
 
             <!-- Arrow Icon -->
             <svg @click="toggleSidebar"
@@ -159,20 +161,23 @@
         </aside>
 
         <!-- Hamburger Menu for Mobile -->
-        <div class="lg:hidden">
-            <button @click="toggleMobileSidebar" class="text-gray-700 mt-5 hover:bg-gray-200 flex items-center justified-center flex-col p-2 rounded-md">
-                <div class="text-xs">Menu</div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+        <div class="lg:hidden z-20">
+            <button @click="toggleMobileSidebar" class="ml-2 fixed text-gray-700 mt-5 hover:bg-gray-200 flex items-center justified-center flex-col p-2 rounded-md">
+                <div class="text-xs font-medium">Menu</div>
+{{--                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" >--}}
+{{--                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />--}}
+{{--                </svg>--}}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                    <path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/>
                 </svg>
             </button>
         </div>
 
         <!-- Mobile Sidebar -->
-        <div
+        <div x-cloak
             x-show="mobileOpen"
             @click.away="mobileOpen = false"
-            class="fixed inset-0 bg-gray-800 bg-opacity-50 z-50 lg:hidden"
+            class="fixed z-20 inset-0 bg-gray-800 bg-opacity-50 lg:hidden"
         >
             <aside
                 class="bg-[#FBFBFB] w-64 h-full py-4 rounded-xl drop-shadow-md transition-all duration-300 ease-in-out animate-wipe-right"
@@ -202,7 +207,7 @@
                     <div class="relative pb-[16px]">
                         <div class="absolute w-full h-[1px] bg-gray-300"></div>
                     </div>
-                    <nav class="mt-4 space-y-4 flex-1 text-[13px] overflow-x-auto h-[46vh] px-4 leading-6">
+                    <nav class="mt-4 space-y-4 flex-1 text-[13px] overflow-x-auto h-[76vh] px-4 leading-6 z-50">
 
                         <!-- Dashboard -->
                         <a href="{{ route('admin.dashboard') }}"
@@ -227,7 +232,7 @@
 
 
                         <!-- Manage Users -->
-                        <a href=""
+                        <a href="{{ route('admin.manage-users-table') }}"
                            @click="activeLink = 'manageUsers'; activeChildLink = ''; localStorage.setItem('activeLink', 'manageUsers'); localStorage.setItem('activeChildLink', '')"
                            :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'manageUsers',
                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'manageUsers'}"
@@ -248,7 +253,7 @@
                         </a>
 
                         <!-- User Type -->
-                        <a href=""
+                        <a href="{{ route('admin.user-type-table') }}"
                            @click="activeLink = 'userType'; activeChildLink = ''; localStorage.setItem('activeLink', 'userType'); localStorage.setItem('activeChildLink', '')"
                            :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'userType',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'userType'}"
@@ -269,7 +274,7 @@
                         </a>
 
                         <!-- Activity Logs -->
-                        <a href=""
+                        <a href="{{ route('admin.activity-logs-table') }}"
                            @click="activeLink = 'activityLogs'; activeChildLink = ''; localStorage.setItem('activeLink', 'activityLogs'); localStorage.setItem('activeChildLink', '')"
                            :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'activityLogs',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'activityLogs'}"
@@ -317,25 +322,29 @@
         <div class="flex-1 flex flex-col" x-data="{ isClicked: false }"
         >
             <!-- Header-->
-            <header class="flex w-full lg:my-6 my-4 mx-2">
+            <header class="bg-white lg:bg-transparent fixed z-0 lg:relative flex py-5 shadow-lg lg:shadow-none lg:pr-5 w-full">
 
-                <div class="lg:flex lg:items-start lg:justified-start lg:ml-0 lg:mr-auto lg:flex-row flex flex-col items-center justify-center mx-auto ">
-                    <h1 class="lg:text-[22px] text-md md:text-lg mt-1 font-semibold text-[#4AA76F]">{{$page_title}}</h1>
+                <!-- Page Title and Search Bar-->
+                <div class="pl-10 mx-auto md:pl-0 md:ml-20 md:flex md:items-start md:justified-start lg:ml-0 md:flex-row flex flex-col items-center justify-center">
+
+                    <h1 class="lg:text-[22px] text-md md:text-lg mt-0 font-semibold text-[#4AA76F] md:mt-3 md:mr-3 lg:mr-1">{{$page_title}}</h1>
 
                     <!-- Search Bar -->
-                    <div class="flex mt-2 lg:mt-0 w-60 lg:w-80 items-center px-0 lg:px-5">
+                    <div class="flex mt-2 lg:mt-3 w-48 lg:w-80 items-center px-0 lg:px-5">
                         <form class="relative flex flex-1 h-8 rounded-full border-[#F8F7F7]" action="{{ $action ?? '#' }}" method="GET">
                             <label for="search-field" class="sr-only">Search</label>
                             <svg class="pointer-events-none absolute inset-y-0 left-1 h-full w-4 text-gray-400 ml-2 z-10" viewBox="0 0 20 20" fill="#4AA76F" aria-hidden="false">
                                 <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
                             </svg>
                             <input id="search-field"
-                                   class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] drop-shadow-md focus:bg-white bg-white rounded-full border-none block h-full w-full py-0 pl-8 text-gray-900 placeholder:text-gray-400 text-xs lg:text-[14px]"
+                                   class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] shadow-[0px_1px_5px_rgba(0,0,0,0.2)] focus:bg-white bg-white rounded-full border-none block h-full w-full py-0 pl-8 text-gray-900 placeholder:text-gray-400 text-xs lg:text-[14px] w-auto"
                                    wire:model="userSearch" placeholder="{{ $placeholder ?? 'Search' }}" type="search" name="{{ $name ?? 'search' }}" value="{{ request($name ?? 'search') }}">
                         </form>
 
                     </div>
                 </div>
+
+                <!-- Notification and Profile Icons -->
                 <div class="flex">
                         <!-- Notification -->
                         <div x-data="{
@@ -355,13 +364,13 @@
 
                             <!-- Tooltip -->
                             <div x-ref="tooltip" x-show="tooltipVisible" :class="{
-                                    'top-0 left-1/2 -translate-x-1/2 -mt-0.5 -translate-y-full' : tooltipPosition == 'top',
-                                    'top-1/2 -translate-y-1/2 -ml-0.5 left-0 -translate-x-full' : tooltipPosition == 'left',
+                                    'top-1 left-1/2 -translate-x-1/2 -mt-0.5 -translate-y-full' : tooltipPosition == 'top',
+                                    'top-1.5 -translate-y-1/2 -ml-1 left-0 -translate-x-full' : tooltipPosition == 'left',
                                     'bottom-0 left-1/2 -translate-x-1/2 -mb-0.5 translate-y-full' : tooltipPosition == 'bottom',
-                                    'top-1/2 -translate-y-1/2 -mr-0.5 right-0 translate-x-full' : tooltipPosition == 'right'
+                                    'top-0 -translate-y-1/2 -mr-0.5 right-0 translate-x-full' : tooltipPosition == 'right'
                                 }" class="absolute w-auto text-sm" x-cloak>
                                 <div x-show="tooltipVisible" x-transition
-                                     class="relative px-2 py-1 rounded bg-white text-[#4AA76F] border border-[#4AA76F] shadow-lg bg-opacity-100">
+                                     class="relative px-2 py-0 rounded bg-white text-[#4AA76F] border border-[#4AA76F] shadow-lg bg-opacity-100">
                                     <p x-text="tooltipText" class="flex-shrink-0 block text-xs whitespace-nowrap"></p>
                                     <div x-ref="tooltipArrow" x-show="tooltipArrow" :class="{
                                             'bottom-0 -translate-x-1/2 left-1/2 w-2.5 translate-y-full' : tooltipPosition == 'top',
@@ -398,7 +407,7 @@
                             </svg>
 
                             <!-- Dropdown Notification -->
-                            <div x-show="dropdownVisible"
+                            <div x-show="dropdownVisible" x-cloak
                                  x-transition:enter="transition ease-out duration-200"
                                  x-transition:enter-start="transform opacity-0 scale-100"
                                  x-transition:enter-end="transform opacity-100 scale-100"
@@ -467,6 +476,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <!-- Profile -->
                         <div
                             x-data="{
@@ -484,17 +494,17 @@
                                 $refs.content.addEventListener('mouseenter', () => { tooltipVisible = true; });
                                 $refs.content.addEventListener('mouseleave', () => { tooltipVisible = false; });
                             "
-                            class="relative mt-[4px] mr-auto">
+                            class="relative mt-[4px]">
 
                             <!-- Tooltip -->
                             <div x-ref="tooltip" x-show="tooltipVisible" :class="{
-                                    'top-0 left-1/2 -translate-x-1/2 -mt-2 -translate-y-full' : tooltipPosition == 'top',
-                                    'top-1/2 -translate-y-1/2 -ml-1 left-0 -translate-x-full' : tooltipPosition == 'left',
+                                    'top-0 left-5 -translate-x-1/2 -mt-1 -translate-y-full' : tooltipPosition == 'top',
+                                    'top-0 -translate-y-1/2 -ml-3 left-0 -translate-x-full' : tooltipPosition == 'left',
                                     'bottom-0 left-1/2 -translate-x-1/2 -mb-0.5 translate-y-full' : tooltipPosition == 'bottom',
-                                    'top-1/2 -translate-y-1/2 -mr-1 right-0 translate-x-full' : tooltipPosition == 'right'
+                                    'top-1/2 -translate-y-1/2 mr-0 right-0 translate-x-full' : tooltipPosition == 'right'
                                 }" class="absolute w-auto text-sm" x-cloak>
                                 <div x-show="tooltipVisible" x-transition
-                                     class="relative px-2 py-1 rounded bg-white text-[#4AA76F] border border-[#4AA76F] shadow-lg bg-opacity-100">
+                                     class="relative px-2 py-0 rounded bg-white text-[#4AA76F] border border-[#4AA76F] shadow-lg bg-opacity-100">
                                     <p x-text="tooltipText" class="flex-shrink-0 block text-xs whitespace-nowrap"></p>
                                     <div x-ref="tooltipArrow" x-show="tooltipArrow" :class="{
                                             'bottom-0 -translate-x-1/2 left-1/2 w-2.5 translate-y-full' : tooltipPosition == 'top',
@@ -518,11 +528,17 @@
                                href="{{ route('admin.profile-settings') }}"
                                @click="activeLink = 'profile'; localStorage.setItem('activeLink', 'profile'); handleClick()"
                                :class="{ 'scale-105 animate-bounce-once': isClicked }"
-                               class="-m-1.5 flex items-center p-1.5 transition-transform duration-150 ease-in-out transform"
+                               class="-my-1.5 flex items-center p-1.5 transition-transform duration-150 ease-in-out transform"
                                id="profile">
                                 <img class="h-8 w-8 rounded-full bg-gray-50 mr-2 border border-[#4AA76F]"
                                      src="{{ asset('storage/icons/profile-graphics.png') }}"
                                      alt="Profile Picture">
+                                <span class="flex flex-col items-left justify-left">
+                                    <span class="text-sm font-semibold leading-4 text-[#202020] hidden lg:block"
+                                    >Howard Glen Gloria</span>
+                                    <span class="text-xs leading-4 text-[#202020] hidden lg:block"
+                                    >Administrator</span>
+                                </span>
                             </a>
                         </div>
                     </div>
@@ -530,11 +546,13 @@
 
 
             <!-- Content Area -->
-            <main class="flex-1 rounded-md lg:mx-1 mb-4 -ml-12 pr-5 flex items-center justify-center {{ ' '.$main_class }}">
+            <main class="z-0 mt-32 md:mt-24 lg:mt-0 overflow-hidden flex-1 rounded-md mb-4 mx-1 lg:mx-0 lg:mr-5 bg-none{{ ' '.$main_class }}">
                 <!-- Main content here -->
                 {{ $slot }}
             </main>
 
         </div>
+
+
     </div>
 </div>

@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Team;
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -42,18 +43,34 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+//            'first_name' => $this->faker->firstName,
+//            'middle_name' => $this->faker->optional()->firstName,
+//            'last_name' => $this->faker->lastName,
+//            'date_of_birth' => $this->faker->date('Y-m-d', '2005-01-01'),
+//            'sex' => $this->faker->randomElement(['Male', 'Female']),
+//            'email' => fake()->unique()->safeEmail(),
+//            'password' => static::$password ??= Hash::make('password'),
+//            'two_factor_secret' => null,
+//            'two_factor_recovery_codes' => null,
+//            'remember_token' => Str::random(10),
+//            'status' => $this->faker->randomElement(['Active', 'Inactive']),
+//            'user_type' => $this->faker->numberBetween(1, 2), // Adjust based on user_types table
+//            'created_at' => now(),
+//            'updated_at' => now(),
+
             'first_name' => $this->faker->firstName,
             'middle_name' => $this->faker->optional()->firstName,
             'last_name' => $this->faker->lastName,
             'date_of_birth' => $this->faker->date('Y-m-d', '2005-01-01'),
             'sex' => $this->faker->randomElement(['Male', 'Female']),
-            'email' => fake()->unique()->safeEmail(),
+            'email' => $this->faker->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
             'status' => $this->faker->randomElement(['Active', 'Inactive']),
-            'user_type' => $this->faker->numberBetween(1, 2), // Adjust based on user_types table
+            'user_type' => $this->faker->numberBetween(1, 2), // Adjust based on your logic
+//            'role_id' => UserRole::inRandomOrder()->first()?->id ?? 1, // Assign a random role or default to 1
             'created_at' => now(),
             'updated_at' => now(),
         ];
