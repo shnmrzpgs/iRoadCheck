@@ -55,37 +55,8 @@
 
                 <!-- Step 2 -->
                 <template x-if="step === 2">
-                    <div>
-                        <p class="text-red-500 text-sm font-medium mt-6">Step 2: Capture actual road condition.</p>
+                    <livewire:camera-capture/>
 
-                        <div class="camera-wrapper p-6 bg-gray-800 rounded-lg shadow-lg" x-data="camera()" x-init="initializeCamera()">
-                            <!-- Camera Stream -->
-                            <video id="camera-stream" class="w-full rounded-lg border border-gray-700" autoplay></video>
-
-                            <!-- Capture Button -->
-                            <div class="flex justify-center gap-4 mt-4">
-                                <button @click="takePicture()" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded shadow">
-                                    Take Picture
-                                </button>
-                                <button @click="resetCamera()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded shadow">
-                                    Retry
-                                </button>
-                            </div>
-
-                            <!-- Hidden Canvas -->
-                            <canvas id="snapshot" class="hidden"></canvas>
-
-                            <!-- Image Preview -->
-                            <img id="captured-image" class="mt-4 w-full rounded-lg hidden" />
-
-                            <!-- Next Button -->
-                            <button @click="confirmPicture()"
-                                    x-bind:disabled="!imagePreviewElement || imagePreviewElement.classList.contains('hidden')"
-                                    class="mt-6 bg-customGreen hover:bg-green-400 text-white px-6 py-4 rounded-full shadow">
-                                NEXT
-                            </button>
-                        </div>
-                    </div>
                 </template>
 
                 <!-- Step 3 -->
