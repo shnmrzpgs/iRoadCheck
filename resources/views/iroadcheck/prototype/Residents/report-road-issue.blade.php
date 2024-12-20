@@ -2,16 +2,15 @@
     <x-residents.resident-header />
     <x-residents.residents-navigation-tab>
         <!-- Main Content -->
-        <main class="flex-1" x-data="{ step: 1 }">
-            <div class="flex flex-col items-center justify-center w-full px-2 lg:px-0">
-                <div class="min-h-[100vh] max-h-[150vh] flex flex-col items-center w-full overflow-y-auto mt-4 lg:mt-8 mb-20">
-
+        <main class="flex flex-col h-[60vh] pb-10 overflow-y-auto" x-data="{ step: 1 }">
+            <div class="flex flex-col items-center w-full px-2 lg:px-0">
+                <div class="flex flex-col items-center w-full overflow-y-auto mt-4 lg:mt-8 pb-20">
                     <!-- Breadcrumb -->
                     <nav class="flex justify-center items-center py-2 w-full text-gray-700 rounded-lg sm:flex bg-transparent" aria-label="Breadcrumb">
                         <ol class="inline-flex items-center mb-2 space-x-1 md:space-x-2 rtl:space-x-reverse sm:mb-0">
                             <li>
                                 <div class="flex items-center">
-                                    <a href="#" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">flowbite.com</a>
+                                    <a href="#" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">Step 1</a>
                                 </div>
                             </li>
                             <li aria-current="page">
@@ -19,7 +18,7 @@
                                     <svg class="rtl:rotate-180 w-3 h-3 mx-1 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                                     </svg>
-                                    <a href="#" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">develop</a>
+                                    <a href="#" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">Step 2</a>
                                 </div>
                             </li>
                             <li aria-current="page">
@@ -27,7 +26,7 @@
                                     <svg class="rtl:rotate-180 w-3 h-3 mx-1 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                                     </svg>
-                                    <span class="mx-1 text-sm font-medium text-gray-500 md:mx-2 dark:text-gray-400">Issue #312</span><span class="bg-blue-100 text-blue-600 text-xs font-semibold me-2 px-2 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 hidden sm:flex">docs</span>
+                                    <span class="mx-1 text-sm font-medium text-gray-500 md:mx-2 dark:text-gray-400">Step 3</span><span class="bg-blue-100 text-blue-600 text-xs font-semibold me-2 px-2 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 hidden sm:flex">docs</span>
                                 </div>
                             </li>
                         </ol>
@@ -35,11 +34,11 @@
 
                     <!-- Step 1 -->
                     <template x-if="step === 1">
-                        <div class="w-[50vh] md:w-[100vh]">
-                            <!-- <p class="text-red-500 text-sm font-medium mt-6">Step 1: Choose the name of the road defect issue.</p> -->
+                        <div class="flex justify-center items-center flex-col">
+                            <p class="text-red-500 text-sm font-medium text-center mt-6">Choose the name of the road defect issue.</p>
 
                             <!-- Report Selection Section -->
-                            <div x-data="{ selected: null }" class="mt-4 mb-2 bg-white shadow-sm rounded-lg w-[100%] lg:w-[90%] border-2 border-gray-300 h-[455px] lg:h-[450px]">
+                            <div x-data="{ selected: null }" class="mt-4 mb-2 bg-white shadow-sm rounded-lg w-[75%] lg:w-[90%] border-2 border-gray-300 h-[455px] overflow-y-auto">
                                 <div class="w-full bg-white shadow-lg rounded-t-lg p-4">
                                     <h2 class=" text-[14px] text-center text-gray-800 font-semibold">Type of Road Issue Concern</h2>
                                 </div>
@@ -74,7 +73,7 @@
 
 
                             <!-- Report Road Issue Button -->
-                            <div class="mt-14 w-[75%] text-center mx-auto max-w-lg lg:absolute lg:top-16 lg:right-0 lg:left-[85%] lg:m-6 lg:w-[auto] lg:max-w-[200px] md:mb-50 sm:mb-50">
+                            <div class="mt-14 w-[65%] text-center mx-auto max-w-lg lg:absolute lg:top-16 lg:right-0 lg:left-[85%] lg:m-6 lg:w-[auto] lg:max-w-[200px] md:mb-50 sm:mb-50">
                                 <button @click="step = 2"
                                     class="px-4 py-3 lg:py-1 lg:text-[14px] w-full bg-customGreen text-lg font-semibold text-white shadow-md rounded-full border-2 hover:bg-green-600 md:mb-50">
                                     Next
@@ -85,23 +84,24 @@
 
                     <!-- Step 2 -->
                     <template x-if="step === 2">
-                        <div class="w-[65%] ">
+                        <div class="w-[70%]">
 
-                            <!-- <p class="text-red-500 text-sm font-medium mt-6">Step 2: Capture actual road condition.</p> -->
+                            <p class="text-red-500 text-sm font-medium text-center mt-2">Capture actual road condition.</p>
+
                             <div x-data="{ animation: null }" x-init="animation = lottie.loadAnimation({
                                 container: $refs.lottieAnimation, // the DOM element
                                 renderer: 'svg', // render as SVG
                                 loop: true, // loop the animation
                                 autoplay: true, // start playing the animation
                                 path: '{{ asset("animations/Animation - Capturing.json") }}'
-                                })" class="relative mt-8 bg-white w-full shadow-md rounded-lg overflow-hidden" style="height: 380px;">
+                                })" class="relative mt-4 bg-white w-full shadow-md rounded-lg overflow-hidden" style="height: 380px;">
 
                                 <div x-ref="lottieAnimation" background="transparent" speed="1"
                                     class="w-full h-full object-cover left-0 top-0 transform scale-125" direction="1" playMode="normal" loop autoplay></div>
                             </div>
 
                             <!-- Report Road Issue Button -->
-                            <div class="mt-14 w-[85%] text-center mx-auto max-w-lg lg:absolute lg:top-16 lg:right-0 lg:left-[75%] lg:m-6 lg:w-[auto] lg:max-w-[400px] md:mb-50 sm:mb-50">
+                            <div class="mt-12 w-[85%] text-center mx-auto max-w-lg lg:absolute lg:top-16 lg:right-0 lg:left-[75%] lg:m-6 lg:w-[auto] lg:max-w-[400px] md:mb-50 sm:mb-50">
                                 <button class="px-4 text-[12px] py-3 w-full bg-customGreen text-lg lg:py-1 lg:text-[14px] font-semibold text-white shadow-md rounded-full border-2 hover:bg-green-600 flex items-center justify-center space-x-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline-block mr-2" fill="currentColor" viewBox="0 0 30 30">
                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M15 12.8125C15.5178 12.8125 15.9375 13.2323 15.9375 13.75V15.3125H17.5C18.0178 15.3125 18.4375 15.7323 18.4375 16.25C18.4375 16.7678 18.0178 17.1875 17.5 17.1875H15.9375V18.75C15.9375 19.2678 15.5178 19.6875 15 19.6875C14.4823 19.6875 14.0625 19.2678 14.0625 18.75V17.1875H12.5C11.9822 17.1875 11.5625 16.7678 11.5625 16.25C11.5625 15.7323 11.9822 15.3125 12.5 15.3125H14.0625V13.75C14.0625 13.2323 14.4823 12.8125 15 12.8125Z" />
@@ -122,11 +122,12 @@
 
                     <!-- Step 3 -->
                     <template x-if="step === 3">
-                        <div>
+                        <div class="w-full min-h-[100vh] max-h-[300vh] overflow-y-auto lg:overflow-hidden">
+
                             <p class="text-black text-center text-sm font-semibold mt-2">REPORT ROAD INFORMATION</p>
 
                             <!-- Report History Section -->
-                            <div class="mt-6 mx-auto bg-white w-full max-w-md shadow-sm rounded-lg border-2 border-gray-300 p-4 h-auto lg:h-[600px] px-4">
+                            <div class="mt-4 mx-auto bg-white w-full max-w-md shadow-sm rounded-lg border-2 border-gray-300 p-4 h-auto lg:h-[600px] px-4">
 
                                 <!-- Captured Road Photo -->
                                 <div class="flex flex-col text-center">
@@ -163,7 +164,7 @@
                             </div>
 
                             <!-- Report Road Issue Button -->
-                            <div class="mt-14 w-[75%] text-center mx-auto max-w-lg lg:absolute lg:top-16 lg:right-0 lg:left-[75%] lg:m-6 lg:w-[auto] lg:max-w-[400px] md:mb-50 sm:mb-50">
+                            <div class="mt-12 w-[75%] text-center mx-auto max-w-lg lg:absolute lg:top-16 lg:right-0 lg:left-[75%] lg:m-6 lg:w-[auto] lg:max-w-[400px] md:mb-50 sm:mb-50">
                                 <button x-data @click="window.location.href='{{ route('suggestion-reports') }}'" class="px-4 py-3 lg:py-1 lg:text-[14px] w-full bg-customGreen text-lg font-semibold text-white shadow-md rounded-full border-2 hover:bg-green-600 md:mb-50">
                                     SUBMIT REPORT
                                 </button>
