@@ -20,7 +20,10 @@ class ManageUsersTable extends Component
 {
     use WithoutUrlPagination, WithPagination;
 
-    public int $rows_per_page = 10;
+    //Search
+    public $search = '';
+
+    public int $rowsPerPage = 10;
 
     public Collection $user_statuses;
 
@@ -36,8 +39,8 @@ class ManageUsersTable extends Component
 
     public string $sort_direction = 'asc'; // 'asc' or 'desc'
 
-    //Search
-    public string $search = '';
+    // Listening for changes in pagination
+    protected $updatesQueryString = ['rowsPerPage'];
 
 
     public function mount(): void
@@ -92,7 +95,6 @@ class ManageUsersTable extends Component
         }
     }
 
-
     public function resetFilterAndSearch(): void
     {
         $this->search = '';
@@ -100,45 +102,37 @@ class ManageUsersTable extends Component
         $this->sort_by = '';
     }
 
-//    public function render(): Factory|View|Application
-//    {
-//        $query = $this->search;
-//
-//        $users = User::query()
-//            ->when($query, function ($q) use ($query) {
-//                $q->where(function ($subQuery) use ($query) {
-//                    $subQuery->where('', 'like', '%' . $query . '%')
-//                        ->orWhere('last_name', 'like', '%' . $query . '%')
-//                        ->orWhere('email', 'like', '%' . $query . '%');
-//                });
-//            })
-//            ->orderBy($this->sort_by, $this->sort_direction)
-//            ->paginate($this->rowsPerPage);
-//
-//        return view('livewire.pages.admin.manage-users-table', [
-//            'users' => $users,
-//        ]);
-//    }
+    public function updatedRowsPerPage(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingRowsPerPage(): void
+    {
+        // Reset pagination when rows per page is updated
+        $this->resetPage();
+    }
 
     public function render(): Factory|View|Application|\Illuminate\View\View
     {
 
         $query = User::with([
-            'user_type',
+            'userRole',
+            'user_type'
         ])->select('users.*');
 
         //Apply search
         if ($this->search) {
             $query->where(function ($q) {
-                $q->where('users.id', 'like', "%{$this->search}%")
-                    ->orWhereHas('user_type', function ($userQuery) {
-                        $userQuery->where('first_name', 'like', "%{$this->search}%")
-                            ->orWhere('middle_name', 'like', "%{$this->search}%")
-                            ->orWhere('last_name', 'like', "%{$this->search}%")
-                            ->orWhere('email', 'like', "%{$this->search}%");
-                    });
+                $q->where('id', 'like', "%{$this->search}%")
+                    ->orWhere('first_name', 'like', "%{$this->search}%")
+                    ->orWhere('middle_name', 'like', "%{$this->search}%")
+                    ->orWhere('last_name', 'like', "%{$this->search}%")
+                    ->orWhere('email', 'like', "%{$this->search}%")
+                    ->orWhere('user_role', 'like', "%{$this->search}%");
             });
         }
+
 
         //Apply sorting
         if ($this->sort_by) {
@@ -168,13 +162,12 @@ class ManageUsersTable extends Component
 
         //Apply Filter
         if (! empty($this->user_status_filter)) {
-            $query->whereHas('user', function ($q) {
-                $q->where('status', $this->user_status_filter);
-            });
+            $query->where('status', $this->user_status_filter);
         }
 
-        $users = $query->paginate($this->rows_per_page);
+        $users = $query->paginate($this->rowsPerPage);
 
-        return view('livewire.pages.admin.manage-users-table', ['users' => $users]);
+
+        return view('livewire.pages.admin.manage-users-table', ['users' => $users ]);
     }
 }

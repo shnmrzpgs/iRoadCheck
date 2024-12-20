@@ -37,14 +37,11 @@
     </head>
 
     <body class="z-0 font-pop mx-auto max-w-screen-2xl antialiased bg-[#F5F5F5] overflow-hidden">
-
     <!-- Page Content -->
         <main>
             {{ $slot }}
         </main>
     </body>
-
-
 
     @livewireStyles
     @livewireScripts

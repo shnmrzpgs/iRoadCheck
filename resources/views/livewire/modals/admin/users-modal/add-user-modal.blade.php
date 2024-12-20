@@ -1,5 +1,10 @@
-<div class="z-50">
-    <x-admin.crud-modal-content-base modal_name="add-user-modal">
+<div class="z-50"
+     x-data="{
+        tabs: @js($tabs),
+        activeTab: @entangle('activeTab'),
+        visitedTabs: @entangle('visitedTabs')
+    }">
+    <x-admin.crud-modal-content-base modal_name="add-user-modal" >
 
         <x-slot:trigger>
             <button type="button"
@@ -25,6 +30,247 @@
 
         <x-slot:body>
 
+            <div>
+                <!-- Profile Picture Section -->
+                <div class="flex mb-5">
+                    <!-- Profile Picture -->
+                    <div class="relative h-16 w-16 flex-shrink-0 -mt-2">
+                        <img
+                            src="{{ asset('storage/icons/profile-graphics.png') }}"
+                            alt="Profile Image"
+                            class="h-16 w-16 rounded-full bg-gradient-to-r from-blue-500 to-green-500 p-[1px]"
+                        />
+                        <!-- Upload Photo Button -->
+                        <label for="upload-photo" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer text-white text-xs hover:bg-opacity-60">
+                            Upload
+                            <input
+                                id="upload-photo"
+                                type="file"
+                                class="hidden"
+                                wire:model="formData.photo"
+                            />
+                        </label>
+                    </div>
+
+                    <!-- Full Name and Email Preview -->
+                    <div class="pl-4">
+                        <div class="block text-lg font-medium text-gray-700">
+                            {{ trim(($formData['firstName'] ?? '') . ' ' . ($formData['middleName'] ?? '') . ' ' . ($formData['lastName'] ?? '')) ?: 'Full Name Preview' }}
+                        </div>
+                        <div class="block text-xs font-normal text-gray-700 italic">
+                            {{ $formData['email'] ?? 'Email Preview' }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="flex text-xs mb-4" >
+                    <template x-for="(tab, index) in tabs" :key="index">
+                        <div class="flex items-center space-x-1 mr-6">
+                            <!-- Tab Indicator (Number or Check Icon) -->
+                            <div
+                                class="flex items-center justify-center h-6 w-6 rounded-full p-[1px] font-medium"
+                                :class="visitedTabs.includes(tab.key)
+                                    ? 'bg-gradient-to-r from-blue-500 to-green-500'
+                                    : 'bg-gray-400'">
+                                <span class="text-white">
+                                    <template x-if="visitedTabs.includes(tab.key)">
+                                        <span class="text-sm">&#10003;</span>
+                                    </template>
+                                    <template x-if="!visitedTabs.includes(tab.key)">
+                                        <span x-text="index + 1"></span>
+                                    </template>
+                                </span>
+                            </div>
+                            <!-- Tab Label -->
+                            <div class="relative">
+                                <button
+                                    class="text-xs font-medium relative z-10"
+                                    :class="activeTab === tab.key
+                                        ? 'text-[#676767] font-semibold'
+                                        : 'text-gray-400' && visitedTabs.includes(tab.key)
+                                        ? 'text-green-600'
+                                        : 'text-gray-400'"
+                                    @click="$wire.activateTab(tab.key)">
+                                    <span x-text="tab.label"></span>
+                                </button>
+                                <!-- Highlight Line -->
+                                <span
+                                    class="absolute left-0 right-0 bottom-[-2px] h-[3px] bg-[#4AA76F] rounded-full transition-all duration-300"
+                                    x-show="activeTab === tab.key"
+                                    x-transition:enter="transition ease-out duration-300 transform opacity-0 translate-y-1"
+                                    x-transition:enter-start="opacity-0 transform translate-y-1"
+                                    x-transition:enter-end="opacity-100 transform translate-y-0"
+                                    x-transition:leave="transition ease-in duration-200 transform opacity-100 translate-y-0"
+                                    x-transition:leave-start="opacity-100 transform translate-y-0"
+                                    x-transition:leave-end="opacity-0 transform translate-y-1">
+                                </span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+
+                <div class="mt-6">
+
+                    <!-- Basic Info Tab -->
+                    @if($activeTab === 'basic-info')
+                        <form wire:submit.prevent="validateAndSubmit" class="space-y-6">
+                            <!-- Name Fields -->
+                            <div class="grid grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block font-medium text-gray-700">First Name</label>
+                                    <input wire:model.defer="formData.first_name"
+                                           placeholder="First name"
+                                           type="text"
+                                           class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm">
+                                        @error('formData.first_name') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+                                </div>
+                                <div>
+                                    <label class="block font-medium text-gray-700">Middle Name</label>
+                                    <input wire:model.defer="formData.middle_name"
+                                           placeholder="Middle name"
+                                           type="text"
+                                           class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block font-medium text-gray-700">Last Name</label>
+                                    <input wire:model.defer="formData.last_name"
+                                           placeholder="Last name"
+                                           type="text"
+                                           class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm">
+                                    @error('formData.last_name') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+
+                            <!-- Sex and Email -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block font-medium text-gray-700">Gender</label>
+{{--                                    <select wire:model.defer="formData.sex"--}}
+{{--                                            class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm">--}}
+{{--                                        <option value="" disabled>Select Gender</option>--}}
+{{--                                        @foreach($sexes as $sex)--}}
+{{--                                            <option value="{{ $sex['id'] }}">{{ $sex['value'] }}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                    @error('formData.sex') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror--}}
+                                </div>
+                                <div>
+                                    <label class="block font-medium text-gray-700">Email Address</label>
+                                    <input wire:model.defer="formData.email"
+                                           placeholder="Email address"
+                                           type="email"
+                                           class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm">
+                                    @error('formData.email') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+                        </form>
+                    @endif
+
+                    <!-- Access Control Tab -->
+                    @if($activeTab === 'access-info')
+                        <div>
+                            <label class="block font-medium text-gray-700">User Role</label>
+                            <select wire:model="formData.user_type"
+                                    class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm">
+                                <option value="" disabled>Select User Role</option>
+{{--                                @foreach($userStatuses as $status)--}}
+{{--                                    <option value="{{ $status['id'] }}">{{ $status['value'] }}</option>--}}
+{{--                                @endforeach--}}
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-medium text-gray-700">Permissions</label>
+                            <ul class="list-disc pl-6 mt-2">
+{{--                                @foreach($formData['assigned_permissions'] as $permission)--}}
+{{--                                    <li>{{ $permission }}</li>--}}
+{{--                                @endforeach--}}
+                            </ul>
+                        </div>
+                    @endif
+
+
+                    <!-- Account Info Tab -->
+                    @if($activeTab === 'account-info')
+                        <div class="min-h-[35vh] max-h-[35vh] overflow-y-auto bg-[#FBFBFB] shadow px-3 py-4 text-xs">
+                            <!-- Account Status -->
+                            <div class="mb-6 border-b border-gray-300">
+                                <label class="block font-medium text-gray-700 mb-1">Account Status</label>
+                                @if(isset($formData['is_disabled']) && $formData['is_disabled'])
+                                    <div class="flex items-center justify-between w-full sm:text-sm p-2 space-x-24">
+                                        <div class="text-sm font-semibold text-red-500">
+                                            Disabled
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" wire:model="formData.is_disabled" class="sr-only">
+                                            <div class="w-10 h-5 bg-red-500 rounded-full transition-colors duration-300"></div>
+                                            <div class="absolute top-0.5 right-0.5 w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-300 -translate-x-5"></div>
+                                        </label>
+                                    </div>
+                                @else
+                                    <div class="flex items-center justify-between w-full sm:text-sm p-2 space-x-24">
+                                        <div class="text-sm font-semibold text-green-500">
+                                            Enabled
+                                        </div>
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" wire:model="formData.is_disabled" class="sr-only">
+                                            <div class="w-10 h-5 bg-green-500 rounded-full transition-colors duration-300"></div>
+                                            <div class="absolute top-0.5 right-0.5 w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-300"></div>
+                                        </label>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- ID Number Input -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">ID Number</label>
+                                @if(!empty($formData['id_number']))
+                                    <input wire:model="formData.id_number"
+                                           type="text"
+                                           class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm sm:text-sm"
+                                           value="{{ $formData['id_number'] }}">
+                                @else
+                                    <input wire:model="formData.id_number"
+                                           type="text"
+                                           placeholder="Enter ID number"
+                                           class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm sm:text-sm">
+                                @endif
+                            </div>
+
+                            <!-- Password Field with Toggle Visibility -->
+                            <div class="relative mt-6">
+                                <label class="block text-sm font-medium text-gray-700">New Password</label>
+                                @if(!empty($formData['password']))
+                                    <div class="flex space-x-4">
+                                        <input type="{{ $isPasswordVisible ? 'text' : 'password' }}"
+                                               wire:model="formData.password"
+                                               class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm sm:text-sm bg-gray-100 pr-10"
+                                               value="{{ $formData['password'] }}">
+                                        <button type="button" wire:click="$toggle('isPasswordVisible')" class="text-gray-500 hover:text-gray-700">
+                                            @if($isPasswordVisible)
+                                                <svg class="w-5 h-5 text-gray-600 hover:text-gray-700 transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-6-6"></path></svg>
+                                            @else
+                                                <svg class="w-5 h-5 text-gray-600 hover:text-gray-700 transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18m-2.59-2.59A10 10 0 013.11 6.11M13 9.88l.88-.88M21 21l-9-9M15 15m6-6"></path></svg>
+                                            @endif
+                                        </button>
+                                    </div>
+                                @else
+                                    <div class="flex space-x-4">
+                                        <input type="text"
+                                               placeholder="Generated password will appear here"
+                                               class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm sm:text-sm bg-gray-100 pr-10"
+                                               readonly>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+
+                </div>
+            </div>
+
+
         </x-slot:body>
 
 
@@ -48,7 +294,7 @@
                     <!-- Back Button -->
                     <button
                         type="button"
-                        @click="previousTab"
+                        wire:click="previousTab"
                         class="flex items-center px-4 py-2 bg-gray-100 text-sm rounded hover:bg-gray-200 transition active:scale-95"
                         x-show="tabs.findIndex(tab => tab.key === activeTab) > 0">
                         <!-- Back Arrow Icon -->
@@ -61,7 +307,7 @@
                     <!-- Add user Button -->
                     <button
                         type="button"
-                        @click="showAddModal = false; openAddSuccessModal = true"
+                        wire:click="validateAndSubmit"
                         class="px-4 py-2 bg-gradient-to-b from-[#84D689] to-green-500 text-white text-sm rounded hover:bg-[#4AA76F] shadow-lg shadow-neutral-500/20 transition active:scale-95 hover:scale-105"
                         x-show="tabs.findIndex(tab => tab.key === activeTab) === tabs.length - 1">
                         Add User
@@ -71,7 +317,7 @@
                 <!-- Next Button -->
                 <button
                     type="button"
-                    @click="nextTab"
+                    wire:click="nextTab"
                     class="flex items-center px-4 py-2 bg-[#3AA76F] text-white text-sm rounded hover:bg-[#4AA76F] transition active:scale-95"
                     x-show="tabs.findIndex(tab => tab.key === activeTab) < tabs.length - 1">
                     <span class="mr-2">Next</span>

@@ -3,13 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\UserRole;
 
 class User extends Authenticatable
 {
@@ -73,13 +73,18 @@ class User extends Authenticatable
         return $this->belongsTo(UserType::class, 'user_types');
     }
 
-    public function user_roles(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(UserRole::class, 'user_roles');
-    }
+//    public function user_roles(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+//    {
+//        return $this->belongsTo(UserRole::class, 'user_roles');
+//    }
+//    public function user_role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+//    {
+//        return $this->belongsTo(UserRole::class, 'user_roles');
+//    }
+
     public function userRole(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(UserRole::class, 'user_role');
+        return $this->belongsTo(UserRole::class, 'user_roles');
     }
 
 }

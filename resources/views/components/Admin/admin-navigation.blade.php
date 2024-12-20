@@ -92,26 +92,26 @@
                        class="ml-2">Manage Users</p>
                 </a>
 
-                <!-- User Type -->
-                <a href="{{ route('admin.user-type-table') }}"
-                   @click="activeLink = 'userType'; activeChildLink = ''; localStorage.setItem('activeLink', 'userType'); localStorage.setItem('activeChildLink', '')"
-                   :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'userType',
-                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'userType'}"
+                <!-- User Role -->
+                <a href="{{ route('admin.user-role-table') }}"
+                   @click="activeLink = 'userRole'; activeChildLink = ''; localStorage.setItem('activeLink', 'userRole'); localStorage.setItem('activeChildLink', '')"
+                   :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'userRole',
+                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'userRole'}"
                    class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
 
                     <!-- Icon always visible -->
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
-                         :class="{ 'text-white': activeLink === 'userType', 'text-[#4D4F50]': activeLink !== 'userType',
-                         'group-hover:text-[#4AA76F] group-hover:scale-105 duration-200 ease-in-out' : activeLink !== 'userType'}"
+                         :class="{ 'text-white': activeLink === 'userRole', 'text-[#4D4F50]': activeLink !== 'userRole',
+                         'group-hover:text-[#4AA76F] group-hover:scale-105 duration-200 ease-in-out' : activeLink !== 'userRole'}"
                          class="w-5 h-5 fill-current">
                         <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
                     </svg>
 
                     <!-- Text only when expanded -->
                     <p x-show="expanded"
-                       :class="{ 'text-white': activeLink === 'userType', 'text-[#4D4F50]': activeLink !== 'userType',
-                          'group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out': activeLink !== 'userType'}"
-                       class="ml-2">User Type</p>
+                       :class="{ 'text-white': activeLink === 'userRole', 'text-[#4D4F50]': activeLink !== 'userRole',
+                          'group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out': activeLink !== 'userRole'}"
+                       class="ml-2">User Role</p>
                 </a>
 
                 <!-- Activity Logs -->
@@ -252,25 +252,26 @@
                                class="ml-2">Manage Users</p>
                         </a>
 
-                        <!-- User Type -->
-                        <a href="{{ route('admin.user-type-table') }}"
-                           @click="activeLink = 'userType'; activeChildLink = ''; localStorage.setItem('activeLink', 'userType'); localStorage.setItem('activeChildLink', '')"
-                           :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'userType',
-                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'userType'}"
+                        <!-- User Role -->
+                        <a href="{{ route('admin.user-role-table') }}"
+                           @click="activeLink = 'userRole'; activeChildLink = ''; localStorage.setItem('activeLink', 'userRole'); localStorage.setItem('activeChildLink', '')"
+                           :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'userRole',
+                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'userRole'}"
                            class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
 
                             <!-- Icon always visible -->
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
-                                 :class="{ 'text-white': activeLink === 'userType', 'text-[#4D4F50]': activeLink !== 'userType',
-                         'group-hover:text-[#4AA76F] group-hover:scale-105 duration-200 ease-in-out' : activeLink !== 'userType'}"
+                                 :class="{ 'text-white': activeLink === 'userRole', 'text-[#4D4F50]': activeLink !== 'userRole',
+                         'group-hover:text-[#4AA76F] group-hover:scale-105 duration-200 ease-in-out' : activeLink !== 'userRole'}"
                                  class="w-5 h-5 fill-current">
                                 <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
                             </svg>
 
                             <!-- Text only when expanded -->
-                            <p :class="{ 'text-white': activeLink === 'userType', 'text-[#4D4F50]': activeLink !== 'userType',
-                          'group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out': activeLink !== 'userType'}"
-                               class="ml-2">User Type</p>
+                            <p x-show="expanded"
+                               :class="{ 'text-white': activeLink === 'userRole', 'text-[#4D4F50]': activeLink !== 'userRole',
+                          'group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out': activeLink !== 'userRole'}"
+                               class="ml-2">User Role</p>
                         </a>
 
                         <!-- Activity Logs -->
@@ -322,7 +323,7 @@
         <div class="flex-1 flex flex-col" x-data="{ isClicked: false }"
         >
             <!-- Header-->
-            <header class="bg-white lg:bg-transparent fixed z-0 lg:relative flex py-5 shadow-lg lg:shadow-none lg:pr-5 w-full">
+            <header class="bg-white lg:bg-transparent fixed lg:relative flex py-5 shadow-lg lg:shadow-none lg:pr-5 w-full">
 
                 <!-- Page Title and Search Bar-->
                 <div class="pl-10 mx-auto md:pl-0 md:ml-20 md:flex md:items-start md:justified-start lg:ml-0 md:flex-row flex flex-col items-center justify-center">
@@ -331,17 +332,30 @@
 
                     <!-- Search Bar -->
                     <div class="flex mt-2 lg:mt-3 w-48 lg:w-80 items-center px-0 lg:px-5">
-                        <form class="relative flex flex-1 h-8 rounded-full border-[#F8F7F7]" action="{{ $action ?? '#' }}" method="GET">
+                        <div class="relative flex flex-1 h-8 rounded-full">
                             <label for="search-field" class="sr-only">Search</label>
-                            <svg class="pointer-events-none absolute inset-y-0 left-1 h-full w-4 text-gray-400 ml-2 z-10" viewBox="0 0 20 20" fill="#4AA76F" aria-hidden="false">
-                                <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+                            <svg
+                                class="pointer-events-none absolute inset-y-0 left-1 h-full w-4 text-gray-400 ml-2 z-0"
+                                viewBox="0 0 20 20"
+                                fill="#4AA76F"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                                    clip-rule="evenodd"
+                                />
                             </svg>
-                            <input id="search-field"
-                                   class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] shadow-[0px_1px_5px_rgba(0,0,0,0.2)] focus:bg-white bg-white rounded-full border-none block h-full w-full py-0 pl-8 text-gray-900 placeholder:text-gray-400 text-xs lg:text-[14px] w-auto"
-                                   wire:model="userSearch" placeholder="{{ $placeholder ?? 'Search' }}" type="search" name="{{ $name ?? 'search' }}" value="{{ request($name ?? 'search') }}">
-                        </form>
-
+                            <input
+                                id="search-field"
+                                class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] shadow-[0px_1px_5px_rgba(0,0,0,0.2)] focus:bg-white bg-white rounded-full block h-full w-full py-0 pl-8 text-gray-900 placeholder:text-gray-400 text-xs lg:text-[14px]"
+                                wire:model.live="search"
+                                placeholder="{{ $placeholder ?? 'Search...' }}"
+                                type="search"
+                            />
+                        </div>
                     </div>
+
                 </div>
 
                 <!-- Notification and Profile Icons -->
@@ -414,10 +428,10 @@
                                  x-transition:leave="transition ease-in duration-75"
                                  x-transition:leave-start="transform opacity-100 scale-100"
                                  x-transition:leave-end="transform opacity-0 scale-95"
-                                 class="absolute right-1 mt-2 w-[350px] rounded-md shadow-[0px_5px_40px_rgba(0,0,0,0.3)]  bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
+                                 class="absolute right-1 mt-2 w-[350px] rounded-md shadow-[0px_5px_40px_rgba(0,0,0,0.3)]  bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
                                  aria-orientation="vertical" aria-labelledby="notifications-info">
 
-                                <div class="py-1 px-4 z-50">
+                                <div class="py-1 px-4">
                                     <h1 class="text-[14px] pt-4 pb-2 px-1 border-b-[#4AA76F] border-b-[2px] text-[#4AA76F] font-semibold">Notifications</h1>
 
                                     <!-- Notification List -->
@@ -546,7 +560,7 @@
 
 
             <!-- Content Area -->
-            <main class="z-0 mt-32 md:mt-24 lg:mt-0 overflow-hidden flex-1 rounded-md mb-4 mx-1 lg:mx-0 lg:mr-5 bg-none{{ ' '.$main_class }}">
+            <main class="mt-32 md:mt-24 lg:mt-0 flex-1 rounded-md mb-4 mx-1 lg:mx-0 lg:mr-5 bg-none {{ ' '.$main_class }}">
                 <!-- Main content here -->
                 {{ $slot }}
             </main>

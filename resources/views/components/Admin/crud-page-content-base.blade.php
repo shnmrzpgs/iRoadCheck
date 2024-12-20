@@ -1,4 +1,4 @@
-<div class="z-0 text-[#202020] bg-[#FBFBFB] rounded-[6px] pt-5 h-auto shadow-[0px_1px_5px_rgba(0,0,0,0.2)] w-[46vh] md:w-full">
+<div class="text-[#202020] bg-[#FBFBFB] rounded-[6px] pt-5 h-auto shadow-[0px_1px_5px_rgba(0,0,0,0.2)] w-[46vh] md:w-full">
 
     {{-- Header --}}
     <div class="px-4 text-center md:text-start" >

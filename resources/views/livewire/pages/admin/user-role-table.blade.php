@@ -1,52 +1,13 @@
-<div class="flex justify-center items-center sm:justify-start sm:items-start">
+<x-Admin.admin-navigation page_title="User Role" action="{{ route('admin.user-role-table') }}" placeholder="Search..." name="search">
+
+    <div class="flex justify-center items-center sm:justify-start sm:items-start">
     <x-admin.crud-page-content-base>
 
         <x-slot:page_description>
-            A list of all users in iRoadCheck System.
+            A list of all user type in iRoadCheck System.
         </x-slot:page_description>
 
         <x-slot:dropdown_filters_container>
-
-{{--            <!-- All Users Option -->--}}
-{{--            <div class="relative rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md"--}}
-{{--                 :class="{--}}
-{{--                            'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] ': filters.sort === '' && filters.status === ''  && filters.userType === '',  /* Active state */--}}
-{{--                            'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort !== '' || filters.status !== '' || filters.userType !== ''  /* Default and hover state */--}}
-{{--                         }"--}}
-{{--                 @click="filters.sort = ''; filters.status = ''; filters.userType = '';">--}}
-{{--                        <span class="text-[12px] block appearance-none w-full text-center px-2 py-2 rounded">--}}
-{{--                            All Users--}}
-{{--                        </span>--}}
-{{--            </div>--}}
-
-{{--            <!-- User Type Filter -->--}}
-{{--            <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "--}}
-{{--                 :class="{--}}
-{{--                            'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.userType !== '',  /* Active state */--}}
-{{--                            'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.userType === ''  /* Default and hover state */--}}
-{{--                         }">--}}
-{{--                <select x-model="filters.userType" @change="console.log('Filters:', filters)"--}}
-{{--                        class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">--}}
-{{--                    <option value="" class="text-gray-400 text-[12px]">User Type</option>--}}
-{{--                    <option value="patcher" class="text-gray-700">Patcher</option>--}}
-{{--                    <option value="user-type-2" class="text-gray-700">User Type 2</option>--}}
-{{--                    <option value="user-type-3" class="text-gray-700">User Type 3</option>--}}
-{{--                </select>--}}
-{{--            </div>--}}
-
-{{--            <!-- Status Filter -->--}}
-{{--            <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "--}}
-{{--                 :class="{--}}
-{{--                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.status !== '',  /* Active state */--}}
-{{--                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.status === ''  /* Default and hover state */--}}
-{{--                             }">--}}
-{{--                <select x-model="filters.status" @change="console.log('Filters:', filters)"--}}
-{{--                        class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">--}}
-{{--                    <option value="" class="text-gray-400 text-[12px]">Status</option>--}}
-{{--                    <option value="active" class="text-gray-700">Active</option>--}}
-{{--                    <option value="inactive" class="text-gray-700">Inactive</option>--}}
-{{--                </select>--}}
-{{--            </div>--}}
         </x-slot:dropdown_filters_container>
 
         <x-slot:action_buttons_container>
@@ -74,7 +35,7 @@
                         </th>
                         <th scope="col" class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">
                             <button class="flex items-end" wire:click="toggleSorting('name')">
-                                User Type Name
+                                User Role Name
                                 <div x-cloak x-show="$wire.sort_by === 'name'">
                                     <x-arrow-up x-cloak x-show="$wire.sort_direction === 'asc'" />
                                     <x-arrow-down x-cloak x-show="$wire.sort_direction === 'desc'" />
@@ -105,16 +66,16 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-300 bg-white relative">
-                    @forelse ($userTypes as $userType)
+                    @forelse ($userRoles as $userRole)
                         <tr class="{{ $loop->iteration % 2 === 0 ? 'bg-white' : 'bg-gray-50' }} hover:bg-gray-100">
-                            <td class="px-4 py-3 text-xs">{{ $userType->id }}</td>
-                            <td class="px-4 py-3 text-xs">{{ $userType->role}}</td>
+                            <td class="px-4 py-3 text-xs">{{ $userRole->id }}</td>
+                            <td class="px-4 py-3 text-xs">{{ $userRole->role}}</td>
                             <td class="px-4 py-3 text-xs truncate max-w-[150px]">
                                 {{--                                {{ implode(', ', $userType->permissions) ?? 'No permissions' }}--}}
                             </td>
                             <td class="px-4 py-3 text-xs font-medium">
-                            <span class="{{ $userType->status === 'Enabled' ? 'text-green-600 font-bold' : 'text-red-600 font-bold' }}">
-                                {{ $userType->status }}
+                            <span class="{{ $userRole->status === 'Enabled' ? 'text-green-600 font-bold' : 'text-red-600 font-bold' }}">
+                                {{ $userRole->status }}
                             </span>
                             </td>
                             <td class="pr-5 py-3 text-xs">
@@ -171,23 +132,17 @@
         </x-slot:table_container>
 
         <x-slot:pagination_container  wire:key="{{ now() }}">
-{{--            {{ $userType->links('vendor.pagination.custom') }}--}}
+            {{ $userRoles->links('vendor.pagination.custom') }}
         </x-slot:pagination_container>
 
         <x-slot:modal_container>
-{{--            <!-- Edit User Modal -->--}}
-{{--            <livewire:modals.admin.users-modal.edit-user-modal--}}
-{{--                wire:model.live="user_to_edited"--}}
-{{--                :users="$users"--}}
-{{--                @user_updated="$refresh"--}}
-{{--            />--}}
-
 {{--            <!-- View User Modal -->--}}
-{{--            <livewire:modals.admin.users-modal.view-user-modal--}}
-{{--                wire:model.live="user_to_viewed"--}}
+{{--            <livewire:modals.admin.user-role-modal.view-user-role-modal--}}
+{{--                wire:model.live="user_role_to_viewed"--}}
 {{--            />--}}
         </x-slot:modal_container>
 
     </x-admin.crud-page-content-base>
 </div>
 
+</x-Admin.admin-navigation>

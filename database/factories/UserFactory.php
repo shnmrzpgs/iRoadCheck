@@ -65,12 +65,12 @@ class UserFactory extends Factory
             'sex' => $this->faker->randomElement(['Male', 'Female']),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
+            'user_role' => $this->faker->numberBetween(1, 2),
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
             'status' => $this->faker->randomElement(['Active', 'Inactive']),
             'user_type' => $this->faker->numberBetween(1, 2), // Adjust based on your logic
-//            'role_id' => UserRole::inRandomOrder()->first()?->id ?? 1, // Assign a random role or default to 1
             'created_at' => now(),
             'updated_at' => now(),
         ];
