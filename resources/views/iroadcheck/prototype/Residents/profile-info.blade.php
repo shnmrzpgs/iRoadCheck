@@ -5,11 +5,11 @@
 
         <form>
             <div class="w-full bg-transparent rounded-lg p-6 mt-6 lg:-ml-22 lg:w-full">
-                <!-- Flex container to align image and text horizontally -->
-                <div class="flex justify-start items-center">
+                <!-- Flex container to align image and text horizontally (Profile Image & User Greeting at the top) -->
+                <div class="flex justify-start items-center mb-6">
                     <img src="{{ asset('storage/icons/profile-graphics.png') }}" alt="Profile Image" class="w-20 h-20 rounded-full border border-customGreen bg-green-500">
 
-                    <!-- user Greeting -->
+                    <!-- User Greeting -->
                     <div class="ml-4 text-left">
                         <p class="text-xl text-customGreen font-semibold">Sheena Mariz Pagas</p>
                         <p class="text-sm text-gray-600">Resident</p>
@@ -17,33 +17,29 @@
                 </div>
             </div>
 
+
+
             <div class="w-full bg-white py-6 lg:w-full mx-auto">
                 <!-- Navigation Tabs -->
                 <div class="flex whitespace-nowrap lg:w-full">
                     <!-- Personal Info Button -->
                     <button
-                        @click="step = 1"
-                        :class="step === 1 ? 'bg-customGreen text-white' : 'bg-white text-customGreen border-customGreen'"
-                        type="button"
-                        class="px-3 py-1 border text-[13px] rounded-full shadow-md">
+                        @click="step = 1" :class="step === 1 ? 'bg-customGreen text-white' : 'bg-white text-customGreen border-customGreen'"
+                        type="button" class="px-3 py-1 border text-[13px] rounded-full shadow-md">
                         Personal Info
                     </button>
 
                     <!-- Contact Info Button -->
                     <button
-                        @click="step = 2"
-                        :class="step === 2 ? 'bg-customGreen text-white' : 'bg-white text-customGreen border-customGreen'"
-                        type="button"
-                        class="px-3 py-1 border text-xs rounded-full ml-1 shadow-md">
+                        @click="step = 2" :class="step === 2 ? 'bg-customGreen text-white' : 'bg-white text-customGreen border-customGreen'"
+                        type="button" class="px-3 py-1 border text-xs rounded-full ml-1 shadow-md">
                         Contact Info
                     </button>
 
                     <!-- Change Password Button -->
                     <button
-                        @click="step = 3"
-                        :class="step === 3 ? 'bg-customGreen text-white' : 'bg-white text-customGreen border-customGreen'"
-                        type="button"
-                        class="px-3 py-1 border text-xs rounded-full ml-1 shadow-md">
+                        @click="step = 3" :class="step === 3 ? 'bg-customGreen text-white' : 'bg-white text-customGreen border-customGreen'"
+                        type="button" class="px-3 py-1 border text-xs rounded-full ml-1 shadow-md">
                         Change Password
                     </button>
                 </div>
@@ -139,11 +135,12 @@
 
 
                     <!-- Report Road Issue Button -->
-                    <div x-data="{ showModal: false }"   class="mt-12 w-[75%] text-center lg:w-[20%] mx-auto">
+                    <div x-data="{ showModal: false }" class="mt-12 w-[75%] text-center lg:w-[20%] mx-auto">
                         <button @click="showModal = true" class="px-4 py-3 w-full bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-lg font-semibold lg:text-[16px] lg:py-2 lg:mb-2 text-white shadow-md rounded-full">
                             Save Changes
                         </button>
 
+                        <!-- Modal -->
                         <div
                             x-show="showModal"
                             x-transition:enter="ease-out duration-300"
@@ -152,7 +149,8 @@
                             x-transition:leave="ease-in duration-200"
                             x-transition:leave-start="opacity-100 scale-100"
                             x-transition:leave-end="opacity-0 scale-90"
-                            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+                            @click.away="showModal = false">
                             <div class="bg-white w-[90%] max-w-md p-6 rounded-lg shadow-lg">
                                 <div class="flex justify-between items-center">
                                     <h3 class="text-lg font-semibold text-[#5A915E]">Changes Saved</h3>
@@ -221,10 +219,37 @@
                     </div>
 
                     <!-- Report Road Issue Button -->
-                    <div class="mt-12 w-[75%] text-center lg:w-[20%] lg:mt-9 mx-auto">
-                        <button class="px-4 py-3 w-full lg:text-[16px] lg:py-2 lg:mb-2 bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-lg font-semibold text-white shadow-md rounded-full">
+                    <div x-data="{ showModal: false }" class="mt-12 w-[75%] text-center lg:w-[20%] lg:mt-9 mx-auto">
+                        <button @click="showModal = true" class="px-4 py-3 w-full lg:text-[16px] lg:py-2 lg:mb-2 bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-lg font-semibold text-white shadow-md rounded-full">
                             Save Changes
                         </button>
+
+                        <!-- Modal -->
+                        <div
+                            x-show="showModal"
+                            x-transition:enter="ease-out duration-300"
+                            x-transition:enter-start="opacity-0 scale-90"
+                            x-transition:enter-end="opacity-100 scale-100"
+                            x-transition:leave="ease-in duration-200"
+                            x-transition:leave-start="opacity-100 scale-100"
+                            x-transition:leave-end="opacity-0 scale-90"
+                            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+                            @click.away="showModal = false">
+                            <div class="bg-white w-[90%] max-w-md p-6 rounded-lg shadow-lg">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="text-lg font-semibold text-[#5A915E]">Changes Saved</h3>
+                                    <button @click="showModal = false" class="text-gray-500 hover:text-gray-700">
+                                        &times;
+                                    </button>
+                                </div>
+                                <p class="mt-4 text-sm text-gray-600">Your changes have been successfully saved.</p>
+                                <div class="mt-6 text-right">
+                                    <button @click="showModal = false" class="px-4 py-2 bg-[#5A915E] text-white rounded-lg shadow hover:bg-[#4B804D]">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -375,10 +400,37 @@
                     </div>
 
                     <!-- Report Road Issue Button -->
-                    <div class="w-[75%] text-center mb-12 lg:w-[20%] mt-12 mx-auto">
-                        <button class="px-4 py-3 w-full lg:text-[16px] lg:py-2 lg:mb-2 bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-lg font-semibold text-white shadow-md rounded-full">
+                    <div x-data="{ showModal: false }" class="w-[75%] text-center mb-12 lg:w-[20%] mt-12 mx-auto">
+                        <button @click="showModal = true" class="px-4 py-3 w-full lg:text-[16px] lg:py-2 lg:mb-2 bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-lg font-semibold text-white shadow-md rounded-full">
                             Update Password
                         </button>
+
+                        <!-- Modal -->
+                        <div
+                            x-show="showModal"
+                            x-transition:enter="ease-out duration-300"
+                            x-transition:enter-start="opacity-0 scale-90"
+                            x-transition:enter-end="opacity-100 scale-100"
+                            x-transition:leave="ease-in duration-200"
+                            x-transition:leave-start="opacity-100 scale-100"
+                            x-transition:leave-end="opacity-0 scale-90"
+                            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+                            @click.away="showModal = false">
+                            <div class="bg-white w-[90%] max-w-md p-6 rounded-lg shadow-lg">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="text-lg font-semibold text-[#5A915E]">Changes Saved</h3>
+                                    <button @click="showModal = false" class="text-gray-500 hover:text-gray-700">
+                                        &times;
+                                    </button>
+                                </div>
+                                <p class="mt-4 text-sm text-gray-600">Your password changes have been successfully saved.</p>
+                                <div class="mt-6 text-right">
+                                    <button @click="showModal = false" class="px-4 py-2 bg-[#5A915E] text-white rounded-lg shadow hover:bg-[#4B804D]">
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </template>
