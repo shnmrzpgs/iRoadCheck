@@ -1,6 +1,6 @@
 @props(['modal_name', 'body_width' => 'max-w-4xl'])
 
-<div x-data="{ open: false }" class="flex justify-center">
+<div x-data="{ open: false }" class="z-50 flex justify-center">
     <!-- Trigger -->
     <span x-on:click="open = true">
         {{ $trigger }}

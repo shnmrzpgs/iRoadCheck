@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\UserRole;
 
 class User extends Authenticatable
 {
@@ -67,9 +68,14 @@ class User extends Authenticatable
         ];
     }
 
-    public function userType(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user_type(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(UserType::class, 'user_type');
+        return $this->belongsTo(UserType::class, 'user_types');
+    }
+
+    public function user_roles(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(UserRole::class, 'user_roles');
     }
     public function userRole(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

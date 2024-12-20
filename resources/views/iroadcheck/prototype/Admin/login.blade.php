@@ -1,11 +1,10 @@
 <x-app-layout>
-    <div class="bg-[#000000]">
-        <div class="absolute inset-0 flex items-center justify-center z-0 opacity-50">
-            <img src="{{ asset('storage/images/bg-tagumRoad-image.jpg') }}" class="object-cover w-full h-full" alt="">
+        <div class="absolute bg-[#000000] inset-0 flex items-center justify-center z-0">
+            <img src="{{ asset('storage/images/bg-tagumRoad-image.jpg') }}" class=" opacity-50 object-cover w-full h-full" alt="">
         </div>
 
         <div class="flex justify-center items-center h-screen">
-            <div class="w-[400px] py-5 bg-[#FFFFF9] bg-blend-multiply drop-shadow-lg rounded-[15px] z-10 px-10 mx-6">
+            <div class="w-[400px] py-5 bg-[#FFFFF9] bg-blend-multiply drop-shadow-lg rounded-[15px] z-10 px-10 mx-10">
                 <form action="{{route('admin-sign-in')}}" method="POST" class="flex flex-col items-center w-full" x-data="{ showPassword: false }">
                     @csrf
 
@@ -18,6 +17,7 @@
                                name="email" id="email" type="email" placeholder="Email address" required>
                         <img src="{{ asset('storage/icons/user.svg') }}" class="absolute left-2.5 top-3 h-4 w-4" alt="user">
                     </div>
+
 
                     <div class="relative">
                         <input :type="showPassword ? 'text' : 'password'" class="rounded border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] text-sm text-gray-600 w-full py-2 pl-10 pr-10 bg-[#FFFFF9]"
@@ -58,6 +58,6 @@
                 </form>
             </div>
         </div>
-    </div>
+
 </x-app-layout>
 

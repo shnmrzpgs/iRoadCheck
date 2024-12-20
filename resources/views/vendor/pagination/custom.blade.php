@@ -1,18 +1,18 @@
-<div class="flex flex-wrap items-center justify-between space-y-2 sm:space-y-0 sm:flex-nowrap">
+<div class="mb-0 pb-3 flex flex-wrap items-center justify-between space-y-2 xl:space-y-0 ">
     <!-- Total Users -->
-    <div class="w-full sm:w-auto text-center sm:text-left text-xs text-gray-500 font-semibold">
+    <div class="w-full  xl:w-auto text-center  xl:text-left text-[11px] md:text-xs text-gray-500 font-semibold">
         Showing {{ $paginator->firstItem() }} to {{ $paginator->lastItem() }} of {{ $paginator->total() }} results
     </div>
 
     <!-- Pagination Controls -->
-    <div class="w-full sm:w-auto">
+    <div class="w-full  xl:w-auto">
         @if ($paginator->hasPages())
-            <nav aria-label="Page navigation" class="flex justify-center sm:justify-start items-center text-xs space-x-1">
+            <nav aria-label="Page navigation" class="flex justify-center xl:justify-start items-center text-[10px] md:text-xs space-x-1">
                 <!-- First Page -->
                 <button
                     wire:click="gotoPage(1)"
                     wire:loading.attr="disabled"
-                    class="px-3 h-8 text-green-600 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 {{ $paginator->onFirstPage() ? 'disabled:text-gray-300 disabled:hover:bg-white' : '' }}"
+                    class="hidden md:block px-3 h-8 text-green-600 bg-white border border-gray-300 rounded-l-xl hover:bg-gray-100 {{ $paginator->onFirstPage() ? 'disabled:text-gray-300 disabled:hover:bg-white' : '' }}"
                     {{ $paginator->onFirstPage() ? 'disabled' : '' }}>
                     First
                 </button>
@@ -57,7 +57,7 @@
                 <button
                     wire:click="gotoPage({{ $paginator->lastPage() }})"
                     wire:loading.attr="disabled"
-                    class="px-3 h-8 text-green-600 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 {{ !$paginator->hasMorePages() ? 'disabled:text-gray-300 disabled:hover:bg-white' : '' }}"
+                    class="hidden md:block px-3 h-8 text-green-600 bg-white border border-gray-300 rounded-r-xl hover:bg-gray-100 {{ !$paginator->hasMorePages() ? 'disabled:text-gray-300 disabled:hover:bg-white' : '' }}"
                     {{ !$paginator->hasMorePages() ? 'disabled' : '' }}>
                     Last
                 </button>
@@ -66,8 +66,8 @@
     </div>
 
     <!-- Rows Per Page -->
-    <div class="w-full sm:w-auto flex sm:justify-start justify-center items-center space-x-2">
-        <label for="rowsPerPage" class="text-xs text-gray-500 font-semibold">Rows per page:</label>
+    <div class="w-full xl:w-auto flex xl:justify-start justify-center items-center space-x-2">
+        <label for="rowsPerPage" class="text-[11px] md:text-xs text-gray-500 font-semibold">Rows per page:</label>
         <select id="rowsPerPage" name="rowsPerPage" wire:model="rowsPerPage"
                 class="w-20 h-8 border border-gray-300 rounded bg-white text-xs text-gray-500">
             <option value="10">10</option>

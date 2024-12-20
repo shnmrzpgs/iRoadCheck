@@ -1,9 +1,9 @@
-<div>
+<div class="z-50">
     <x-admin.crud-modal-content-base modal_name="add-user-modal">
 
         <x-slot:trigger>
             <button type="button"
-                    class="flex gap-x-[8px] w-auto text-xs px-[14px] py-[8px] font-normal tracking-wider text-[#FFFFFF]  bg-gradient-to-b from-[#84D689] to-green-500 rounded-full hover:drop-shadow hover:bg-[#4AA76F] hover:scale-105 hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier (0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
+                    class="flex justify-center items-center gap-x-[8px] w-60 sm:w-auto text-sm md:text-[12px] px-[14px] py-[6px] font-normal tracking-wider text-[#FFFFFF]  bg-gradient-to-b from-[#84D689] to-green-500 rounded-full hover:drop-shadow hover:bg-[#4AA76F] hover:scale-105 hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier (0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" viewBox="0 0 594.95996 595.499987" height="15" preserveAspectRatio="xMidYMid meet" class="mt-1 mr-0 hidden sm:block">
                         <defs>
                             <clipPath id="9bb67f9de8">
@@ -15,7 +15,7 @@
                                   fill-opacity="1" fill-rule="nonzero"/>
                         </g>
                     </svg>
-                    <span class="ml-0 mt-[2px] text-[#FFFFFF] text-md">Add User</span>
+                    <span class="ml-0 mt-[2px] text-[#FFFFFF]">Add User</span>
             </button>
         </x-slot:trigger>
 

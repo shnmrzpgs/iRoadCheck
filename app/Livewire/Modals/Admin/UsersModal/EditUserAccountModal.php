@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Livewire\Modals\Admin\UsersModal;
+use App\Models\User;
 
 use Livewire\Component;
 
-class EditUserModal extends Component
+class EditUserAccountModal extends Component
 {
     public function render()
     {

@@ -10,7 +10,7 @@ use Livewire\Attributes\Modelable;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class ViewUserModal extends Component
+class ViewUserAccountModal extends Component
 {
     #[Modelable]
     public ?User $user = null;
