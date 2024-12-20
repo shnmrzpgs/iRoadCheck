@@ -15,6 +15,7 @@ class ReportSeeder extends Seeder
     {
         DB::table('reports')->insert([
             [
+                'resident_id' => 2,
                 'defect' => 'Pothole',
                 'location' => 'Apokon Road, Tagum City',
                 'date' => '2024-10-10',
@@ -26,7 +27,8 @@ class ReportSeeder extends Seeder
 
             ],
             [
-                'defect' => 'Lubak',
+                'resident_id' => 2,
+                'defect' => 'Pothole',
                 'location' => 'Magugpo',
                 'date' => '2024-10-10',
                 'severity' => 3,
