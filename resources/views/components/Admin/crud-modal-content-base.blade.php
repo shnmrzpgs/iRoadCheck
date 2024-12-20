@@ -1,6 +1,6 @@
 @props(['modal_name', 'body_width' => 'max-w-4xl'])
 
-<div x-data="{ open: false }" class="z-50 flex justify-center">
+<div x-data="{ open: false }" class="z-0 flex justify-center">
     <!-- Trigger -->
     <span x-on:click="open = true">
         {{ $trigger }}
@@ -33,7 +33,7 @@
                 <div class="w-full h-full">
                     <div class="flex items-center justify-center z-50">
                         <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full min-w-md max-w-lg min-h-md max-h-lg mx-auto">
-                            <div class="bg-[#FBFBFB] rounded-[10px] relative">
+                            <div class="bg-[#FBFBFB] rounded-[10px] relative" >
 
                                 <!-- X Button -->
                                 <button x-on:click="open = false" class="absolute top-2 right-2 text-gray-600 hover:text-red-500 focus:outline-none hover:bg-gray-200 hover:rounded-full p-1">

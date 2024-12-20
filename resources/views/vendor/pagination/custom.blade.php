@@ -66,10 +66,10 @@
     </div>
 
     <!-- Rows Per Page -->
-    <div class="w-full xl:w-auto flex xl:justify-start justify-center items-center space-x-2">
+    <div  class="w-full xl:w-auto flex xl:justify-start justify-center items-center space-x-2">
         <label for="rowsPerPage" class="text-[11px] md:text-xs text-gray-500 font-semibold">Rows per page:</label>
-        <select id="rowsPerPage" name="rowsPerPage" wire:model="rowsPerPage"
-                class="w-20 h-8 border border-gray-300 rounded bg-white text-xs text-gray-500">
+        <select id="rowsPerPage" name="rowsPerPage" wire:model.live="rowsPerPage"
+                class="w-20 h-8 border border-gray-300 rounded bg-white text-xs text-gray-500  focus:border-green-600 focus:ring-1 focus:ring-green-600 ">
             <option value="10">10</option>
             <option value="25">25</option>
             <option value="50">50</option>

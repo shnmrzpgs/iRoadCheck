@@ -7,7 +7,7 @@
                 <div class="min-h-[100vh] max-h-[150vh] flex flex-col items-center w-full overflow-y-auto mt-4 lg:mt-8 mb-20">
 
                     <!-- Breadcrumb -->
-                    <nav class="justify-between py-2 w-full text-gray-700 rounded-lg sm:flex bg-transparent lg:justify-start lg:items-start" aria-label="Breadcrumb">
+                    <nav class="flex justify-center items-center py-2 w-full text-gray-700 rounded-lg sm:flex bg-transparent" aria-label="Breadcrumb">
                         <ol class="inline-flex items-center mb-2 space-x-1 md:space-x-2 rtl:space-x-reverse sm:mb-0">
                             <li>
                                 <div class="flex items-center">
@@ -35,11 +35,11 @@
 
                     <!-- Step 1 -->
                     <template x-if="step === 1">
-                        <div class="w-[100vh]">
+                        <div class="w-[50vh] md:w-[100vh]">
                             <!-- <p class="text-red-500 text-sm font-medium mt-6">Step 1: Choose the name of the road defect issue.</p> -->
 
                             <!-- Report Selection Section -->
-                            <div x-data="{ selected: null }" class="mt-4 mb-2 bg-white shadow-sm rounded-lg w-[85%] lg:w-[90%] border-2 border-gray-300 h-[455px] lg:h-[450px]">
+                            <div x-data="{ selected: null }" class="mt-4 mb-2 bg-white shadow-sm rounded-lg w-[100%] lg:w-[90%] border-2 border-gray-300 h-[455px] lg:h-[450px]">
                                 <div class="w-full bg-white shadow-lg rounded-t-lg p-4">
                                     <h2 class=" text-[14px] text-center text-gray-800 font-semibold">Type of Road Issue Concern</h2>
                                 </div>

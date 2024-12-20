@@ -51,7 +51,7 @@ class DatabaseSeeder extends Seeder
                 'role' => 'Patcher',
             ],
             [
-                'role' => 'Graveller',
+                'role' => 'Gravel Spreader',
             ],
 
         ]);

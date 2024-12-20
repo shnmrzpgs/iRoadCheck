@@ -1,9 +1,8 @@
 <x-app-layout>
     <x-User.user-navigation page_title="Report Road Issue">
 
-        <div class="min-h-screen flex flex-col items-center bg-white" x-data="{ step: 1 }">
-
-            <div class="ml-4 text-center">
+        <div class="min-h-screen  flex flex-col items-center bg-white" x-data="{ step: 1 }">
+            <div class="ml-4 text-center w-[85%] lg:w-[90%] ">
                 <template x-if="step === 1">
                     <div>
                         <p class="text-red-500 text-sm font-medium mt-6">Step 1: Choose the name of the road defect issue.</p>
