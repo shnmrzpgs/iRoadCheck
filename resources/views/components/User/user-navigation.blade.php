@@ -557,7 +557,7 @@
                                     </li>
                                 </ul>
                                 <!-- View All Notifications Link -->
-                                <a href="{{ route('admin.notifications') }}"
+                                <a href="{{ route('User.notifications') }}"
                                    @click="activeLink = 'notifications'; isClicked = true; localStorage.setItem('activeLink', 'notifications')"
                                    class="flex justify-center items-center">
                                     <div class="fixed -mt-10 px-24 py-1 bg-[#4AA76F] text-sm text-white hover:bg-[#2AA76F] font-medium rounded-[4px]" role="menuitem">
@@ -617,13 +617,13 @@
 
                         <!-- Profile Icon with Click and Bounce Microinteraction -->
                         <a x-ref="content"
-                           href="{{ route('admin.profile-settings') }}"
+                           href="{{ route('User.profile-settings') }}"
                            @click="activeLink = 'profile'; localStorage.setItem('activeLink', 'profile'); handleClick()"
                            :class="{ 'scale-105 animate-bounce-once': isClicked }"
                            class="-m-1.5 flex items-center p-1.5 transition-transform duration-150 ease-in-out transform"
                            id="profile">
                             <img class="h-8 w-8 rounded-full bg-gray-50 mr-2 border border-[#4AA76F]"
-                                 src="{{ asset('storage/icons/profile-graphics.png') }}"
+                                 src="{{ asset('storage/icons/profile2-graphics.png') }}"
                                  alt="Profile Picture">
                         </a>
                     </div>

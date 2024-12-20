@@ -115,7 +115,8 @@
                                 </td>
                                 <td class="px-4 py-3 text-xs">{{ $user->email }}</td>
                                 <td class="px-4 py-3 text-xs">
-                                    {{ $user->user_role ?? 'No role assigned' }}
+{{--                                    {{ $user->user_roles->role ?? 'No role assigned' }}--}}
+                                    {{ $user->user_role == 1 ? 'Patcher' : ($user->user_role == 2 ? 'Graveller' : 'No role assigned') }}
                                 </td>
                                 <td class="px-4 py-3 text-xs font-medium">
                                         <span class="{{ $user->status === 'Active' ? 'text-green-600 font-bold' : 'text-red-600 font-bold' }}">
