@@ -183,141 +183,141 @@
         </div>
 
     </main>
-{{--    <script>--}}
-{{--        // Define the members for each user type--}}
-{{--        const members = {--}}
-{{--            "Pothole Patchers": ["Jane Smith", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe"],--}}
-{{--            "Crack Sealers": ["Alice Johnson", "Bob Brown"],--}}
-{{--            "Asphalt Layers": ["Charlie Green", "Dana White"],--}}
-{{--            "Concrete Road Repair Crews": ["Eve Black", "Frank White"],--}}
-{{--        };--}}
+    <script>
+        // Define the members for each user type
+        const members = {
+            "Pothole Patchers": ["Jane Smith", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe", "John Doe"],
+            "Crack Sealers": ["Alice Johnson", "Bob Brown"],
+            "Asphalt Layers": ["Charlie Green", "Dana White"],
+            "Concrete Road Repair Crews": ["Eve Black", "Frank White"],
+        };
 
-{{--        // Function to display members in the specified container--}}
-{{--        function displayMembers(userType, memberList) {--}}
-{{--            const membersContainer = document.getElementById('members-list');--}}
-{{--            membersContainer.classList.add('text-md', 'text-gray-700', 'relative', 'px-4');--}}
-{{--            membersContainer.innerHTML = '';--}}
+        // Function to display members in the specified container
+        function displayMembers(userType, memberList) {
+            const membersContainer = document.getElementById('members-list');
+            membersContainer.classList.add('text-md', 'text-gray-700', 'relative', 'px-4');
+            membersContainer.innerHTML = '';
 
-{{--            // Create a sticky header for the user type label--}}
-{{--            const userTypeLabelDiv = document.createElement('div');--}}
-{{--            userTypeLabelDiv.classList.add('font-bold', 'text-[15px]', 'text-gray-700', 'bg-white', 'p-2', 'w-full', 'sticky', 'top-0', 'border', 'border-b-gray-500', 'border-x-transparent', 'border-t-transparent');--}}
-{{--            userTypeLabelDiv.textContent = `All ${userType}`;--}}
-{{--            membersContainer.appendChild(userTypeLabelDiv);--}}
+            // Create a sticky header for the user type label
+            const userTypeLabelDiv = document.createElement('div');
+            userTypeLabelDiv.classList.add('font-bold', 'text-[15px]', 'text-gray-700', 'bg-white', 'p-2', 'w-full', 'sticky', 'top-0', 'border', 'border-b-gray-500', 'border-x-transparent', 'border-t-transparent');
+            userTypeLabelDiv.textContent = `All ${userType}`;
+            membersContainer.appendChild(userTypeLabelDiv);
 
-{{--            // Create a scrollable wrapper for the list items--}}
-{{--            const scrollableListDiv = document.createElement('div');--}}
-{{--            scrollableListDiv.classList.add('overflow-y-auto', 'max-h-[50vh]', 'mt-2'); // Adjust max height as needed--}}
-{{--            membersContainer.appendChild(scrollableListDiv);--}}
+            // Create a scrollable wrapper for the list items
+            const scrollableListDiv = document.createElement('div');
+            scrollableListDiv.classList.add('overflow-y-auto', 'max-h-[50vh]', 'mt-2'); // Adjust max height as needed
+            membersContainer.appendChild(scrollableListDiv);
 
 
-{{--            memberList.forEach(member => {--}}
-{{--                const memberDiv = document.createElement('div');--}}
-{{--                memberDiv.classList.add('hover:bg-gray-100', 'flex', 'items-center', 'py-2', 'px-4', 'leading-10', 'hover:rounded-[6px]');--}}
+            memberList.forEach(member => {
+                const memberDiv = document.createElement('div');
+                memberDiv.classList.add('hover:bg-gray-100', 'flex', 'items-center', 'py-2', 'px-4', 'leading-10', 'hover:rounded-[6px]');
 
-{{--                const avatarDiv = document.createElement('div');--}}
-{{--                avatarDiv.classList.add('h-8', 'w-8', 'flex-shrink-0');--}}
-{{--                avatarDiv.innerHTML = `<img class="h-8 w-8 bg-[#4AA76F] rounded-full p-[0.4px]" src="{{ asset('storage/icons/profile-graphics.png') }}" alt="User Avatar">`;--}}
+                const avatarDiv = document.createElement('div');
+                avatarDiv.classList.add('h-8', 'w-8', 'flex-shrink-0');
+                avatarDiv.innerHTML = `<img class="h-8 w-8 bg-[#4AA76F] rounded-full p-[0.4px]" src="{{ asset('storage/icons/profile-graphics.png') }}" alt="User Avatar">`;
 
-{{--                const nameDiv = document.createElement('div');--}}
-{{--                nameDiv.classList.add('ml-3');--}}
-{{--                nameDiv.innerHTML = `<div class="font-normal text-gray-700  text-[12.5px]">${member}</div>`;--}}
+                const nameDiv = document.createElement('div');
+                nameDiv.classList.add('ml-3');
+                nameDiv.innerHTML = `<div class="font-normal text-gray-700  text-[12.5px]">${member}</div>`;
 
-{{--                memberDiv.appendChild(avatarDiv);--}}
-{{--                memberDiv.appendChild(nameDiv);--}}
-{{--                membersContainer.appendChild(memberDiv);--}}
-{{--            });--}}
-{{--        }--}}
+                memberDiv.appendChild(avatarDiv);
+                memberDiv.appendChild(nameDiv);
+                membersContainer.appendChild(memberDiv);
+            });
+        }
 
-{{--        // Chart options--}}
-{{--        var options = {--}}
-{{--            series: [{--}}
-{{--                data: [2, 2,] // The values for each bar--}}
-{{--            }],--}}
-{{--            chart: {--}}
-{{--                type: 'bar',--}}
-{{--                height: 'auto',--}}
-{{--                minWidth: 100,--}}
-{{--                maxWidth: 300,--}}
-{{--                events: {--}}
-{{--                    dataPointSelection: function(event, chartContext, config) {--}}
-{{--                        const selectedIndex = config.dataPointIndex;--}}
-{{--                        const selectedUserType = options.xaxis.categories[selectedIndex];--}}
-{{--                        const selectedMembers = members[selectedUserType] || [];--}}
-{{--                        displayMembers(selectedUserType, selectedMembers);--}}
-{{--                    }--}}
-{{--                }--}}
-{{--            },--}}
-{{--            plotOptions: {--}}
-{{--                bar: {--}}
-{{--                    horizontal: true,--}}
-{{--                    barHeight: 90,--}}
-{{--                    borderRadius: 20,--}}
-{{--                    borderRadiusApplication: 'end',--}}
-{{--                    dataLabels: {--}}
-{{--                        position: 'bottom'--}}
-{{--                    },--}}
-{{--                    colors: {--}}
-{{--                        ranges: [--}}
-{{--                            {--}}
-{{--                                from: 0,--}}
-{{--                                to: 100,--}}
-{{--                                color: '#4e8e3a' // Hover color--}}
-{{--                            }--}}
-{{--                        ]--}}
-{{--                    }--}}
-{{--                }--}}
-{{--            },--}}
-{{--            colors: ['#FBFBFB'],--}}
-{{--            dataLabels: {--}}
-{{--                enabled: true,--}}
-{{--                style: {--}}
-{{--                    colors: ['#FBFBFB'],--}}
-{{--                    fontSize: '13px',--}}
-{{--                },--}}
-{{--                formatter: function(val, opt) {--}}
-{{--                    return `${opt.w.globals.labels[opt.dataPointIndex]}   ${val}`;--}}
-{{--                },--}}
-{{--                position: 'start', // Places the label at the start of the bar--}}
-{{--                offsetX:0, // Adds space to the left side--}}
-{{--                align: 'left', // Align the label to the right side of the bar--}}
-{{--            },--}}
-{{--            xaxis: {--}}
-{{--                categories: ["Pothole Patchers", "Crack Sealers", "Asphalt Layers", "Concrete Road Repair Crews"],--}}
-{{--                labels: {--}}
-{{--                    show: false--}}
-{{--                }--}}
-{{--            },--}}
-{{--            yaxis: {--}}
-{{--                labels: {--}}
-{{--                    show: false--}}
-{{--                }--}}
-{{--            },--}}
-{{--            grid: {--}}
-{{--                show: true--}}
-{{--            },--}}
-{{--            tooltip: {--}}
-{{--                enabled: false--}}
-{{--            },--}}
-{{--            title: {--}}
-{{--                text: undefined--}}
-{{--            },--}}
-{{--            subtitle: {--}}
-{{--                text: undefined--}}
-{{--            },--}}
-{{--            stroke: {--}}
-{{--                width: 0--}}
-{{--            }--}}
-{{--        };--}}
+        // Chart options
+        var options = {
+            series: [{
+                data: [2, 3, 2, 4] // The values for each bar
+            }],
+            chart: {
+                type: 'bar',
+                height: 'auto',
+                minWidth: 100,
+                maxWidth: 300,
+                events: {
+                    dataPointSelection: function(event, chartContext, config) {
+                        const selectedIndex = config.dataPointIndex;
+                        const selectedUserType = options.xaxis.categories[selectedIndex];
+                        const selectedMembers = members[selectedUserType] || [];
+                        displayMembers(selectedUserType, selectedMembers);
+                    }
+                }
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                    barHeight: 100,
+                    borderRadius: 20,
+                    borderRadiusApplication: 'end',
+                    dataLabels: {
+                        position: 'bottom'
+                    },
+                    colors: {
+                        ranges: [
+                            {
+                                from: 0,
+                                to: 100,
+                                color: '#4e8e3a' // Hover color
+                            }
+                        ]
+                    }
+                }
+            },
+            colors: ['#FBFBFB'],
+            dataLabels: {
+                enabled: true,
+                style: {
+                    colors: ['#FBFBFB'],
+                    fontSize: '14px',
+                },
+                formatter: function(val, opt) {
+                    return `${opt.w.globals.labels[opt.dataPointIndex]}   ${val}`;
+                },
+                position: 'end', // Places the label at the start of the bar
+                offsetX:0, // Adds space to the left side
+                align: 'right', // Align the label to the right side of the bar
+            },
+            xaxis: {
+                categories: ["Pothole Patchers", "Crack Sealers", "Asphalt Layers", "Concrete Road Repair Crews"],
+                labels: {
+                    show: false
+                }
+            },
+            yaxis: {
+                labels: {
+                    show: false
+                }
+            },
+            grid: {
+                show: false
+            },
+            tooltip: {
+                enabled: false
+            },
+            title: {
+                text: undefined
+            },
+            subtitle: {
+                text: undefined
+            },
+            stroke: {
+                width: 0
+            }
+        };
 
-{{--        var chart = new ApexCharts(document.querySelector("#chart"), options);--}}
-{{--        chart.render();--}}
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
 
-{{--        // Display the default members for the first user type after rendering the chart--}}
-{{--        document.addEventListener("DOMContentLoaded", function() {--}}
-{{--            const defaultUserType = options.xaxis.categories[0];--}}
-{{--            const defaultMembers = members[defaultUserType] || [];--}}
-{{--            displayMembers(defaultUserType, defaultMembers);--}}
-{{--        });--}}
-{{--    </script>--}}
+        // Display the default members for the first user type after rendering the chart
+        document.addEventListener("DOMContentLoaded", function() {
+            const defaultUserType = options.xaxis.categories[0];
+            const defaultMembers = members[defaultUserType] || [];
+            displayMembers(defaultUserType, defaultMembers);
+        });
+    </script>
 
 </x-Admin.admin-navigation>

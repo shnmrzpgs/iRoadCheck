@@ -295,25 +295,7 @@
                             </span>
                             </div>
 
-                            <!-- Sort Filter -->
-                            <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select"
-                                 :class="{
-                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.sort !== '',  /* Active state */
-                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort === ''  /* Default and hover state */
-                             }">
-                                <select x-model="filters.sort" @change="console.log('Filters:', filters)"
-                                        class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-6 rounded shadow-none focus:outline-none focus:scale-105">
-                                    <option value="" class="text-gray-400 text-[12px]">Sort by</option>
-                                    <option value="asc" class="text-gray-700">
-                                        Ascending
-                                    </option>
-                                    <option value="desc" class="text-gray-700">
-                                        Descending
-                                    </option>
-                                </select>
-                            </div>
-
-                            <!-- user Type Filter -->
+                            <!-- user Role Filter -->
                             <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
                                  :class="{
                                 'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.userType !== '',  /* Active state */
@@ -321,7 +303,7 @@
                              }">
                                 <select x-model="filters.userType" @change="console.log('Filters:', filters)"
                                         class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
-                                    <option value="" class="text-gray-400 text-[12px]">User Type</option>
+                                    <option value="" class="text-gray-400 text-[12px]">User Role</option>
                                     <option value="patcher" class="text-gray-700">Patcher</option>
                                     <option value="user-type-2" class="text-gray-700">User Type 2</option>
                                     <option value="user-type-3" class="text-gray-700">User Type 3</option>
@@ -337,8 +319,8 @@
                                 <select x-model="filters.status" @change="console.log('Filters:', filters)"
                                         class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
                                     <option value="" class="text-gray-400 text-[12px]">Status</option>
-                                    <option value="enabled" class="text-gray-700">Enabled</option>
-                                    <option value="disabled" class="text-gray-700">Disabled</option>
+                                    <option value="enabled" class="text-gray-700">Active</option>
+                                    <option value="disabled" class="text-gray-700">Inactive</option>
                                 </select>
                             </div>
                         </div>
@@ -376,6 +358,7 @@
                                         <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-[#757575]">Date Reported</th>
                                         <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-10 text-left text-xs font-semibold text-[#757575]">Severity</th>
                                         <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-10 text-left text-xs font-semibold text-[#757575]">Current Status</th>
+                                        <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-10 text-left text-xs font-semibold text-[#757575]">Updated By</th>
                                         <th class="sticky top-0 z-10 bg-white py-3.5 px-2 text-left text-xs font-semibold text-[#757575] rounded-tr-lg">Actions</th>
                                     </tr>
                                     </thead>
@@ -416,6 +399,11 @@
                                                     'text-gray-600 font-bold': report.status === 'Not Found'
                                                 }" x-text="report.status">
                                                 </div>
+                                            </td>
+
+                                            <!-- Updated By Whom Column -->
+                                            <td class="whitespace-nowrap py-3 pl-4 text-xs">
+                                                <div x-text=""></div>
                                             </td>
 
                                             <!-- Actions Column -->
