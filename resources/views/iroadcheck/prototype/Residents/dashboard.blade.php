@@ -6,16 +6,16 @@
             <div class="flex flex-col items-center justify-center w-full px-2 lg:px-0">
                 <div class="min-h-[100vh] max-h-[150vh] flex flex-col items-center w-full overflow-y-auto mt-10 mb-20">
 
-                    <!-- Profile container -->
-                    <div class="w-full lg:w-[90%] bg-gray-100 rounded-lg p-6 lg:-ml-22" style="box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.25);">
-                        <div class="flex items-center">
-                            <img src="{{ asset('storage/icons/profile-graphics.png') }}" alt="Profile Image" class="w-20 h-20 rounded-full border border-customGreen bg-green-500">
-                            <div class="ml-4 text-left">
-                                <p class="text-xl text-customGreen font-semibold">Hello!</p>
-                                <p class="text-gray-600 text-sm">Sheena Mariz</p>
-                            </div>
+                <!-- Flex container to align image and text horizontally -->
+                <div class="w-[90%] bg-gray-100 rounded-lg p-6 lg:-ml-22" style="box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.25);">
+                    <div class="flex items-center">
+                        <img src="{{ asset('storage/icons/profile-graphics.png') }}" alt="Profile Image" class="w-20 h-20 rounded-full border border-customGreen bg-green-500">
+                        <div class="ml-4 text-left">
+                            <p class="text-xl text-customGreen font-semibold">Hello!</p>
+                            <p class="text-gray-600 text-sm">{{ Auth::user()->first_name }}</p>
                         </div>
                     </div>
+                </div>
 
                     <!-- Report History container -->
                     <div class="mt-6 bg-white w-full lg:w-[90%] shadow-lg rounded-lg h-[400px] p-1 border border-gray-100">
@@ -49,3 +49,4 @@
         </main>
     </x-residents.residents-navigation-tab>
 </x-app-layout>
+

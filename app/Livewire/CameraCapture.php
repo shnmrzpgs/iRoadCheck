@@ -11,15 +11,22 @@ class CameraCapture extends Component
     public $longitude;
 
     // Method to handle the captured image and location
-    public function storeCapture($image, $latitude, $longitude)
+    public function storeData($latitude, $longitude, $photo)
     {
-        // You can save the image and location here (e.g., to the database)
-        $this->image = $image;
+        // Assign the data to the public properties
         $this->latitude = $latitude;
         $this->longitude = $longitude;
+        $this->image = $photo;
 
-        // You can trigger other actions here
-        session()->flash('message', 'Capture saved successfully!');
+        // Here you could save the data to the database or perform other actions
+        // For example:
+        // Capture::create([
+        //     'image' => $photo,
+        //     'latitude' => $latitude,
+        //     'longitude' => $longitude,
+        // ]);
+
+        session()->flash('message', 'Data saved successfully!');
     }
     public function render()
     {
