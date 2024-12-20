@@ -2,4 +2,3 @@
 
     <livewire:camera-capture/>
 </x-app-layout>
-
