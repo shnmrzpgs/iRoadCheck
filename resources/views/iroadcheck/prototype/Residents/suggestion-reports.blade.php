@@ -1,11 +1,9 @@
 <x-app-layout>
     <div class="min-h-screen flex flex-col items-center bg-white">
-        <!--  header -->
-        <x-residents.resident-header />
-        <!--  Navigation Tabs -->
-        <x-residents.residents-navigation-tab />
 
-        <div class=" flex flex-col items-center w-auto mb-10">
+        <x-residents.residents-navigation>
+
+            <div class=" flex flex-col items-center w-auto mb-10">
             <div class="min-h-[100vh] max-h-[150vh] flex flex-col items-center w-full overflow-y-auto mt-0 mb-20 px-4">
 
                 <!-- Report History Section -->
@@ -273,5 +271,7 @@
                 </div>
             </div>
         </div>
+
+        </x-residents.residents-navigation>
     </div>
 </x-app-layout>

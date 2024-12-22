@@ -17,3 +17,10 @@ document.addEventListener('alpine:init', () => {
     });
 });
 
+document.addEventListener('alpine:init', () => {
+    Alpine.data('navigation', () => ({
+        activeLink: localStorage.getItem('activeLink') || '',
+        activeChildLink: localStorage.getItem('activeChildLink') || ''
+    }));
+});
+

@@ -1,88 +1,111 @@
-<div>
-    <div class="min-h-screen flex flex-col items-center bg-white" x-data="{ step: 1 }">
-        <!--  header -->
-        <x-residents.resident-header />
-        <!--  Navigation Tabs -->
-        <x-residents.residents-navigation-tab />
+<x-residents.residents-navigation>
+    <div class="flex flex-col items-center justify-center w-full mb-28" x-data="{ step: 1, selected: '' }">
+        <div class="w-full md:w-[85%] flex flex-col justify-center items-center">
 
-        <div class=" flex flex-col items-center w-auto">
-            <div class="min-h-[100vh] max-h-[150vh] flex flex-col items-center w-full overflow-y-auto mt-6 mb-20 px-4">
+            <!-- Breadcrumbs Report Road Issue Steps -->
+            <nav class="sticky -top-3 py-5 overflow-hidden bg-[#F5F5F5] left-0 w-full flex flex-col justify-center items-center text-gray-700 rounded-lg lg:items-start lg:text-start lg:pl-4">
 
-                {{--                <!-- Breadcrumb -->--}}
-                {{--                <nav class="justify-between py-2 text-gray-700 rounded-lg sm:flex bg-transparent" aria-label="Breadcrumb">--}}
-                {{--                    <ol class="inline-flex items-center mb-2 space-x-1 md:space-x-2 rtl:space-x-reverse sm:mb-0">--}}
-                {{--                        <li>--}}
-                {{--                            <div class="flex items-center">--}}
-                {{--                                <a href="#" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">flowbite.com</a>--}}
-                {{--                            </div>--}}
-                {{--                        </li>--}}
-                {{--                        <li aria-current="page">--}}
-                {{--                            <div class="flex items-center">--}}
-                {{--                                <svg class="rtl:rotate-180 w-3 h-3 mx-1 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">--}}
-                {{--                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />--}}
-                {{--                                </svg>--}}
-                {{--                                <a href="#" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">develop</a>--}}
-                {{--                            </div>--}}
-                {{--                        </li>--}}
-                {{--                        <li aria-current="page">--}}
-                {{--                            <div class="flex items-center ">--}}
-                {{--                                <svg class="rtl:rotate-180 w-3 h-3 mx-1 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">--}}
-                {{--                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />--}}
-                {{--                                </svg>--}}
-                {{--                                <span class="mx-1 text-sm font-medium text-gray-500 md:mx-2 dark:text-gray-400">Issue #312</span><span class="bg-blue-100 text-blue-600 text-xs font-semibold me-2 px-2 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 hidden sm:flex">docs</span>--}}
-                {{--                            </div>--}}
-                {{--                        </li>--}}
-                {{--                    </ol>--}}
-                {{--                </nav>--}}
-
-                <!-- Step 1 -->
-                <template x-if="step === 1">
+                <!-- Steps Count -->
+                <div class="w-full flex justify-center items-center lg:justify-start space-x-2 mb-2">
+                    <!-- Step 1 -->
+                    <div :class="step === 1 ? 'text-green-600 font-bold' : 'text-gray-700'"
+                         class="text-md">
+                            Step 1
+                    </div>
+                    <!-- Separator -->
                     <div>
-                        <!-- <p class="text-red-500 text-sm font-medium mt-6">Step 1: Choose the name of the road defect issue.</p> -->
+                        <svg class="w-3 h-3 text-gray-400 mx-1 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10" fill="none" aria-hidden="true">
+                            <path d="M1 9L5 5 1 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <!-- Step 2 -->
+                    <div :class="step === 2 ? 'text-green-600 font-bold' : 'text-gray-700'"
+                         class="text-md">
+                            Step 2
+                    </div>
+                    <!-- Separator -->
+                    <div>
+                        <svg class="w-3 h-3 text-gray-400 mx-1 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 10" fill="none" aria-hidden="true">
+                            <path d="M1 9L5 5 1 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <!-- Step 3 -->
+                    <div :class="step === 3 ? 'text-green-600 font-bold' : 'text-gray-700'"
+                         class="text-md">
+                            Step 3
+                    </div>
+                </div>
 
-                        <!-- Report History Section -->
-                        <form id="step1Form">
-                            <div x-data="{ selected: '' }" class="mt-4 mb-2 bg-white shadow-sm rounded-lg w-[350px] mx-auto border-2 border-gray-300 h-[455px]">
+                <!-- Steps Description -->
+                <div class="text-center lg:text-start lg:float-left">
+                    <div :class="step === 1 ? 'text-gray-500 text-sm font-medium lg:float-left' : 'hidden'">Choose name of the road defect issue.</div>
+                    <div :class="step === 3 ? 'text-gray-500 text-sm font-medium lg:float-left' : 'hidden'">View your Report Road Concern Information</div>
+                </div>
+
+
+            </nav>
+
+            <!-- Steps Content -->
+            <div class="w-full flex justify-center items-center mx-auto z-10">
+
+                <!-- Step 1 | Choose Road Defect Issue -->
+                <template x-if="step === 1">
+
+                    <div class="flex flex-col w-full">
+                        <!-- Step 1 Content -->
+                        <form id="step1">
+                            <div class="mt-4 mb-2 bg-white shadow-sm rounded-lg w-full mx-auto border-2 border-gray-300 h-[60vh]">
                                 <div class="w-full bg-white shadow-lg rounded-t-lg p-4">
-                                    <h2 class="text-[14px] text-center font-semibold">Type of Road Issue Concern</h2>
+                                    <h2 class="text-[14px] text-center font-semibold text-gray-600">Type of Road Issue Concern</h2>
                                 </div>
                                 <div class="h-[50vh] overflow-y-auto overflow-x-hidden w-full">
-                                    <div @click="selected = 'pothole'" :class="{ 'bg-gray-100': selected === 'pothole' }" class="flex items-center border-b-2 border-gray-300 py-6 cursor-pointer">
-                                        <img src="{{ asset('storage/images/pothole.png') }}" alt="Pothole" class="w-16 h-16 rounded mr-2 ml-4">
-                                        <p class="text-[13px] text-gray-800 ml-2">Pothole</p>
+                                    <div @click="selected = 'pothole'" :class="{ 'bg-gray-100': selected === 'pothole' }" class="flex items-center justify-between border-b-2 border-gray-300 py-6 cursor-pointer px-4">
+                                        <div class="flex items-center">
+                                            <img src="{{ asset('storage/images/pothole.png') }}" alt="Pothole" class="w-16 h-16 rounded mr-2">
+                                            <p class="text-[13px] text-gray-800">Pothole</p>
+                                        </div>
+                                        <input type="radio" name="roadIssue" value="pothole" class="h-5 w-5 cursor-pointer accent-[#4AA76F]" :checked="selected === 'pothole'" style="accent-color: #4AA76F;" />
                                     </div>
-                                    <div @click="selected = 'raveling'" :class="{ 'bg-gray-100': selected === 'raveling' }" class="flex items-center border-b-2 border-gray-300 py-6 cursor-pointer">
-                                        <img src="{{ asset('storage/images/raveling.png') }}" alt="Raveling" class="w-16 h-16 rounded mr-2 ml-4">
-                                        <p class="text-[13px] text-gray-800 ml-2">Raveling</p>
+                                    <div @click="selected = 'raveling'" :class="{ 'bg-gray-100': selected === 'raveling' }" class="flex items-center justify-between border-b-2 border-gray-300 py-6 cursor-pointer px-4">
+                                        <div class="flex items-center">
+                                            <img src="{{ asset('storage/images/raveling.png') }}" alt="Raveling" class="w-16 h-16 rounded mr-2">
+                                            <p class="text-[13px] text-gray-800">Raveling</p>
+                                        </div>
+                                        <input type="radio" name="roadIssue" value="raveling" class="h-5 w-5 cursor-pointer accent-[#4AA76F]" :checked="selected === 'raveling'" style="accent-color: #4AA76F;" />
                                     </div>
-                                    <div @click="selected = 'block-cracking'" :class="{ 'bg-gray-100': selected === 'block-cracking' }" class="flex items-center border-b-2 border-gray-300 py-6 cursor-pointer">
-                                        <img src="{{ asset('storage/images/block-craking.png') }}" alt="Block Cracking" class="w-16 h-16 rounded mr-2 ml-4">
-                                        <p class="text-[13px] text-gray-800 ml-2">Block Cracking</p>
+                                    <div @click="selected = 'block-cracking'" :class="{ 'bg-gray-100': selected === 'block-cracking' }" class="flex items-center justify-between border-b-2 border-gray-300 py-6 cursor-pointer px-4">
+                                        <div class="flex items-center">
+                                            <img src="{{ asset('storage/images/block-craking.png') }}" alt="Block Cracking" class="w-16 h-16 rounded mr-2">
+                                            <p class="text-[13px] text-gray-800">Block Cracking</p>
+                                        </div>
+                                        <input type="radio" name="roadIssue" value="block-cracking" class="h-5 w-5 cursor-pointer accent-[#4AA76F]" :checked="selected === 'block-cracking'" style="accent-color: #4AA76F;" />
+                                    </div>
+                                    <div @click="selected = 'slippage-cracking'" :class="{ 'bg-gray-100': selected === 'slippage-cracking' }" class="flex items-center justify-between border-b-2 border-gray-300 py-6 cursor-pointer px-4">
+                                        <div class="flex items-center">
+                                            <img src="{{ asset('storage/images/slippage-cracking.png') }}" alt="Slippage Cracking" class="w-16 h-16 rounded mr-2">
+                                            <p class="text-[13px] text-gray-800">Slippage Cracking</p>
+                                        </div>
+                                        <input type="radio" name="roadIssue" value="slippage-cracking" class="h-5 w-5 cursor-pointer accent-[#4AA76F]" :checked="selected === 'slippage-cracking'" style="accent-color: #4AA76F;" />
                                     </div>
                                 </div>
                                 <input type="hidden" name="defect_type" :value="selected">
                             </div>
-                            <div class="mt-4 text-center">
-                                <button @click.prevent="step = 2" class="bg-customGreen text-white px-4 py-2 rounded-full">
-                                    Next
-                                </button>
-                            </div>
                         </form>
 
-
-                        <!-- Report Road Issue Button -->
-                        <div class="mt-14 w-[75%] text-center mx-auto max-w-lg lg:absolute lg:top-16 lg:right-0 lg:left-[85%] lg:m-6 lg:w-[auto] lg:max-w-[200px] md:mb-50 sm:mb-50">
-{{--                            <button @click="step = 2"--}}
-{{--                                    class="px-4 py-3 lg:py-1 lg:text-[14px] w-full bg-customGreen text-lg font-semibold text-white shadow-md rounded-full border-2 hover:bg-green-600 md:mb-50">--}}
-{{--                                Next--}}
-{{--                            </button>--}}
+                        <!-- Next Button-->
+                        <div class="mt-10 w-[75%] text-center mx-auto max-w-lg md:mb-50 sm:mb-50">
+                            <button @click.prevent="step = 2"
+                                    class="px-4 py-3 w-full bg-customGreen text-lg font-semibold text-white shadow-md rounded-full border-2 hover:bg-green-600 md:mb-50">
+                                Next
+                            </button>
                         </div>
                     </div>
+
                 </template>
 
+                <!-- Step 2 | Capture Road Defect -->
                 <template x-if="step === 2">
                     <div>
-                        <div>
                             <p class="text-red-500 text-sm font-medium mt-6">Step 2: Capture photo and location.</p>
 
                             <!-- Location and Photo Capture -->
@@ -109,11 +132,11 @@
                                     <img :src="photo" class="w-full max-w-md mx-auto rounded-lg shadow">
                                 </div>
 
-{{--                                <!-- Next Button -->--}}
-{{--                                <button @click="if (photoCaptured && locationCaptured) { step = 3; } else { alert('Please capture a photo and location first.'); }"--}}
-{{--                                        class="mt-6 bg-customGreen hover:bg-green-400 text-white px-6 py-4 rounded-full shadow">--}}
-{{--                                    NEXT--}}
-{{--                                </button>--}}
+                                {{--                                <!-- Next Button -->--}}
+                                {{--                                <button @click="if (photoCaptured && locationCaptured) { step = 3; } else { alert('Please capture a photo and location first.'); }"--}}
+                                {{--                                        class="mt-6 bg-customGreen hover:bg-green-400 text-white px-6 py-4 rounded-full shadow">--}}
+                                {{--                                    NEXT--}}
+                                {{--                                </button>--}}
                                 <!-- Next Button -->
                                 <button @click="confirmCapture();"
                                         class="mt-6 bg-customGreen hover:bg-green-400 text-white px-6 py-4 rounded-full shadow">
@@ -123,11 +146,6 @@
 
                             </div>
                         </div>
-
-
-                    </div>
-
-
                 </template>
 
                 <!-- Step 3 -->
@@ -170,9 +188,10 @@
                 </template>
 
             </div>
+
         </div>
     </div>
-</div>
+</x-residents.residents-navigation>
 
 <script>
     function captureHandler() {
@@ -270,3 +289,5 @@
         };
     }
 </script>
+
+

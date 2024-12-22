@@ -1,440 +1,384 @@
 <x-app-layout>
-    <div class="min-h-screen flex flex-col items-center bg-white " x-data="{ step: 1 }">
-        <!--  header -->
-        <x-residents.resident-header />
+     <x-residents.residents-navigation>
+         <div class="flex flex-col items-center justify-center w-full"
+              x-data="{
+                step: 1,
+                showModal: false,
+                showCurrentPassword: false,
+                showNewPassword: false,
+                showConfirmPassword: false,
+                currentPassword: '',
+                newPassword: '',
+                confirmPassword: '',
+                requirements: [
+                    { text: 'At least 1 uppercase letter', isValid: false },
+                    { text: 'At least 1 lowercase letter', isValid: false },
+                    { text: 'At least 1 number', isValid: false },
+                    { text: 'At least 1 special character (!@#$%^&*)', isValid: false },
+                    { text: 'At least 8 characters', isValid: false },
+                ],
+                validatePassword() {
+                    this.requirements[0].isValid = /[A-Z]/.test(this.newPassword);
+                    this.requirements[1].isValid = /[a-z]/.test(this.newPassword);
+                    this.requirements[2].isValid = /[0-9]/.test(this.newPassword);
+                    this.requirements[3].isValid = /[!@#$%^&*]/.test(this.newPassword);
+                    this.requirements[4].isValid = this.newPassword.length >= 8;
+                },
+                checkConfirmPassword() {
+                    return this.newPassword === this.confirmPassword;
+                },
+                firstInvalidRequirementIndex() {
+                    return this.requirements.findIndex(req => !req.isValid);
+                }
+            }" >
+             <div class="w-full md:w-[85%] lg:w-[90%]flex flex-col md:flex-row justify-center pb-20">
+                 <form>
+                     <!-- Profile Name and Role Preview -->
+                     <div class="rounded-lg lg:-ml-22 bg-[#4AA76F] pl-2 md:px-4 lg:pl-8 py-4 lg:py-6 mb-4 shadow">
+                            <div class="flex justify-start items-center">
+                                <!-- Profile Picture -->
+                                <div class="relative mr-2 lg:mr-3">
+                                    <!-- Profile Picture -->
+                                    <img id="profileImage"
+                                         src="{{ asset('storage/icons/profile-graphics.png') }}"
+                                         alt="Profile Image"
+                                         class="w-16 h-16 md:w-20 md:h-20 rounded-full border border-customGreen bg-[#F5F5F5] object-cover">
 
-        <form>
-            <div class="w-full bg-transparent rounded-lg p-6 mt-6 lg:-ml-22 lg:w-full">
-                <!-- Flex container to align image and text horizontally (Profile Image & User Greeting at the top) -->
-                <div class="flex justify-start items-center mb-6">
-                    <img src="{{ asset('storage/icons/profile-graphics.png') }}" alt="Profile Image" class="w-20 h-20 rounded-full border border-customGreen bg-green-500">
+                                    <!-- Edit Button -->
+                                    <label title="Edit Profile" for="profileUpload" class="absolute bottom-0 right-0 w-5 h-5 md:w-6 md:h-6 bg-gray-500 border border-gray-300 text-white flex justify-center items-center rounded-full cursor-pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 013.536 3.536L9 19l-4 1 1-4L16.732 3.732z" />
+                                        </svg>
+                                    </label>
 
-                    <!-- User Greeting -->
-                    <div class="ml-4 text-left">
-                        <p class="text-xl text-customGreen font-semibold">Sheena Mariz Pagas</p>
-                        <p class="text-sm text-gray-600">Resident</p>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <div class="w-full bg-white py-6 lg:w-full mx-auto">
-                <!-- Navigation Tabs -->
-                <div class="flex whitespace-nowrap lg:w-full">
-                    <!-- Personal Info Button -->
-                    <button
-                        @click="step = 1" :class="step === 1 ? 'bg-customGreen text-white' : 'bg-white text-customGreen border-customGreen'"
-                        type="button" class="px-3 py-1 border text-[13px] rounded-full shadow-md">
-                        Personal Info
-                    </button>
-
-                    <!-- Contact Info Button -->
-                    <button
-                        @click="step = 2" :class="step === 2 ? 'bg-customGreen text-white' : 'bg-white text-customGreen border-customGreen'"
-                        type="button" class="px-3 py-1 border text-xs rounded-full ml-1 shadow-md">
-                        Contact Info
-                    </button>
-
-                    <!-- Change Password Button -->
-                    <button
-                        @click="step = 3" :class="step === 3 ? 'bg-customGreen text-white' : 'bg-white text-customGreen border-customGreen'"
-                        type="button" class="px-3 py-1 border text-xs rounded-full ml-1 shadow-md">
-                        Change Password
-                    </button>
-                </div>
-            </div>
-
-
-            <template x-if="step === 1">
-                <div>
-                    <!-- Personal information Section -->
-                    <div class="mt-6 bg-white w-[80%] shadow-lg rounded-lg h-auto px-2 pt-2 pb-4 border border-gray-100 lg:h-[200px] mx-auto">
-                        <div class="w-full bg-transparent h-10 py-2 px-3 border-b-2 border-[#F8A15E] items-center">
-                            <p class="text-[#F8A15E] font-semibold text-center">Personal Information</p>
-                        </div>
-                        <div class="mt-6 flex flex-col items-center justify-center lg:flex-row lg:flex-wrap lg:space-x-4 lg:justify-center">
-                            <div x-data="{ isFocused: false, inputValue: '' }" class="relative mb-4">
-                                <!-- Floating Label -->
-                                <label :class="{
-                            'text-[#6AA76F]': isFocused || inputValue.length > 0,
-                            'absolute': true,
-                            'top-[50%] left-3 -translate-y-[50%]': !isFocused && inputValue.length === 0,  /* Center vertically */
-                            'text-xs top-[-10px] left-3 text-[#6AA76F]': isFocused || inputValue.length > 0 }"
-                                    class="transition-all duration-200 bg-white px-1">
-                                    First Name
-                                </label>
-
-                                <!-- Input Field -->
-                                <input type="text"
-                                    x-model="inputValue"
-                                    @focus="isFocused = true"
-                                    @blur="isFocused = false"
-                                    class="w-full text-[13px] py-2 pl-10 pr-10  border font-medium rounded-lg focus:outline-none focus:ring-1 focus:ring-[#5A915E] focus:border-[#5A915E] bg-white transition-all capitalize">
-
-                            </div>
-
-                            <div x-data="{ isFocused: false, inputValue: '' }" class="relative mb-4">
-                                <label :class="{
-                                'text-[#6AA76F]': isFocused || inputValue.length > 0,
-                                'absolute': true,
-                                'top-[50%] left-3 -translate-y-[50%]': !isFocused && inputValue.length === 0,
-                                'text-xs top-[-10px] left-3': isFocused || inputValue.length > 0
-                            }"
-                                    class="transition-all duration-200 bg-white px-1">
-                                    Middle Name
-                                </label>
-                                <input type="text"
-                                    x-model="inputValue"
-                                    @focus="isFocused = true"
-                                    @blur="isFocused = false"
-                                    class="w-full text-[13px] py-2 pl-10 pr-10 border font-medium rounded-lg focus:outline-none focus:ring-1 focus:ring-[#5A915E] focus:border-[#5A915E] bg-white transition-all capitalize">
-                            </div>
-
-                            <div x-data="{ isFocused: false, inputValue: '' }" class="relative mb-4">
-                                <!-- Floating Label -->
-                                <label :class="{
-                            'text-[#6AA76F]': isFocused || inputValue.length > 0,
-                            'absolute': true,
-                            'top-[50%] left-3 -translate-y-[50%]': !isFocused && inputValue.length === 0,  /* Center vertically */
-                            'text-xs top-[-10px] left-3 text-[#6AA76F]': isFocused || inputValue.length > 0 }"
-                                    class="transition-all duration-200 bg-white px-1">
-                                    Last Name
-                                </label>
-
-                                <!-- Input Field -->
-                                <input type="text"
-                                    x-model="inputValue"
-                                    @focus="isFocused = true"
-                                    @blur="isFocused = false"
-                                    class="w-full text-[13px] py-2 pl-10 pr-10 border font-medium rounded-lg focus:outline-none focus:ring-1 focus:ring-[#5A915E] focus:border-[#5A915E] bg-white transition-all capitalize">
-
-                            </div>
-
-                            <div x-data="{ isFocused: false, inputValue: '' }" class="relative mb-4">
-                                <!-- Floating Label -->
-                                <label :class="{
-                            'text-[#6AA76F]': isFocused || inputValue.length > 0,
-                            'absolute': true,
-                            'top-[50%] left-3 -translate-y-[50%]': !isFocused && inputValue.length === 0,  /* Center vertically */
-                            'text-xs top-[-10px] left-3 text-[#6AA76F]': isFocused || inputValue.length > 0 }"
-                                    class="transition-all duration-200 bg-white px-1">
-                                    Gender
-                                </label>
-
-                                <!-- Input Field -->
-                                <input type="text"
-                                    x-model="inputValue"
-                                    @focus="isFocused = true"
-                                    @blur="isFocused = false"
-                                    class="w-full text-[13px] py-2 pl-10 pr-10 border font-medium rounded-lg focus:outline-none focus:ring-1 focus:ring-[#5A915E] focus:border-[#5A915E] bg-white transition-all capitalize">
-
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- Report Road Issue Button -->
-                    <div x-data="{ showModal: false }" class="mt-12 w-[75%] text-center lg:w-[20%] mx-auto">
-                        <button @click="showModal = true" class="px-4 py-3 w-full bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-lg font-semibold lg:text-[16px] lg:py-2 lg:mb-2 text-white shadow-md rounded-full">
-                            Save Changes
-                        </button>
-
-                        <!-- Modal -->
-                        <div
-                            x-show="showModal"
-                            x-transition:enter="ease-out duration-300"
-                            x-transition:enter-start="opacity-0 scale-90"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="ease-in duration-200"
-                            x-transition:leave-start="opacity-100 scale-100"
-                            x-transition:leave-end="opacity-0 scale-90"
-                            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-                            @click.away="showModal = false">
-                            <div class="bg-white w-[90%] max-w-md p-6 rounded-lg shadow-lg">
-                                <div class="flex justify-between items-center">
-                                    <h3 class="text-lg font-semibold text-[#5A915E]">Changes Saved</h3>
-                                    <button @click="showModal = false" class="text-gray-500 hover:text-gray-700">
-                                        &times;
-                                    </button>
+                                    <!-- Hidden File Input -->
+                                    <input id="profileUpload" type="file" accept="image/*" class="hidden"
+                                           onchange="uploadProfilePicture(event)">
                                 </div>
-                                <p class="mt-4 text-sm text-gray-600">Your changes have been successfully saved.</p>
-                                <div class="mt-6 text-right">
-                                    <button @click="showModal = false" class="px-4 py-2 bg-[#5A915E] text-white rounded-lg shadow hover:bg-[#4B804D]">
-                                        Close
-                                    </button>
+
+                                <!-- User Name -->
+                                <div class="text-left">
+                                    <p class="text-lg md:text-xl lg:text-2xl text-[F5F5F5] font-semibold">Sheena Mariz Pagas</p>
+                                    <p class="text-xs md:text-sm font-normal italic text-gray-100">Resident</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </template>
 
-            <!-- Step 2 -->
-            <template x-if="step === 2">
-                <div>
-                    <div class="mt-6 bg-white w-[80%] shadow-lg rounded-lg h-auto px-2 pt-2 pb-4 border border-gray-100 lg:h-[200px] mx-auto">
-                        <div class="w-full bg-transparent h-10 py-2 px-3 border-b-2 border-[#F8A15E] items-center">
-                            <p class="text-[#F8A15E] font-semibold text-center">Contact Information</p>
+                     <!-- Profile Navigation Tabs -->
+                     <div class="w-full bg-none mx-auto">
+                        <div id="scrollableTabs" class="custom-scroll-hidden py-6 px-1 flex overflow-x-auto whitespace-nowrap lg:w-full scrollbar-hide">
+
+                            <!-- Personal Info -->
+                            <button
+                                @click="scrollToButton(1); step = 1" :class="step === 1 ? 'bg-green-50 font-medium text-[#4AA76F] border border-[#4AA76F] shadow shadow-green-200' : 'bg-white  hover:bg-gray-100 text-customGreen shadow'"
+                                type="button" class="p-2.5 border text-xs lg:text-sm rounded-full flex-shrink-0 md:px-4 mr-2">
+                                Personal Info
+                            </button>
+
+                            <!-- Contact Info -->
+                            <button
+                                @click="scrollToButton(2); step = 2" :class="step === 2 ? 'bg-green-50 font-medium text-[#4AA76F] border border-[#4AA76F] shadow shadow-green-200' : 'bg-white  hover:bg-gray-100 text-customGreen shadow'"
+                                type="button" class="p-2.5 border text-xs lg:text-sm rounded-full flex-shrink-0 md:px-4 mr-2">
+                                Contact Info
+                            </button>
+
+                            <!-- Change Password -->
+                            <button
+                                @click="scrollToButton(3); step = 3" :class="step === 3 ? 'bg-green-50 font-medium text-[#4AA76F] border border-[#4AA76F] shadow shadow-green-200' : 'bg-white  hover:bg-gray-100 text-customGreen shadow'"
+                                type="button" class="p-2.5 border text-xs lg:text-sm rounded-full flex-shrink-0 md:px-4 mr-2">
+                                Change Password
+                            </button>
                         </div>
+                     </div>
 
-                        <div class="mt-6 flex flex-col items-center justify-center lg:flex-row lg:flex-wrap lg:space-x-4 lg:justify-center">
-                            <div x-data="{ isFocused: false, inputValue: '' }" class="relative mb-4">
-                                <!-- Floating Label -->
-                                <label :class="{
-                            'text-[#6AA76F]': isFocused || inputValue.length > 0,
-                            'absolute': true,
-                            'top-[50%] left-3 -translate-y-[50%]': !isFocused && inputValue.length === 0,  /* Center vertically */
-                            'text-xs top-[-10px] left-3 text-[#6AA76F]': isFocused || inputValue.length > 0 }"
-                                    class="transition-all duration-200 bg-white px-1">
-                                    Phone Number
-                                </label>
+                     <!-- Step 1 -->
+                    <template x-if="step === 1">
+                        <!-- Personal information Section -->
+                        <div class="mt-2 bg-white w-full shadow rounded-lg h-auto p-4 md:px-6 border border-gray-100 mx-auto">
 
-                                <!-- Input Field -->
-                                <input type="text"
-                                    x-model="inputValue"
-                                    @focus="isFocused = true"
-                                    @blur="isFocused = false"
-                                    class="w-full text-[14px] py-4 pl-10 pr-10 border font-medium rounded-lg focus:outline-none focus:ring-1 focus:ring-[#5A915E] focus:border-[#5A915E] bg-white transition-all capitalize">
-
+                            <!-- Header -->
+                            <div class="w-full bg-transparent h-10 py-2 border-b-2 border-[#F8A15E] items-center">
+                                <p class="text-[#F8A15E] font-semibold text-center md:text-start">Personal Information</p>
                             </div>
 
-                            <div x-data="{ isFocused: false, inputValue: '' }" class="relative mb-4">
-                                <label :class="{
-                                'text-[#6AA76F]': isFocused || inputValue.length > 0,
-                                'absolute': true,
-                                'top-[50%] left-3 -translate-y-[50%]': !isFocused && inputValue.length === 0,
-                                'text-xs top-[-10px] left-3': isFocused || inputValue.length > 0
-                            }"
-                                    class="transition-all duration-200 bg-white px-1">
-                                    Email Address
-                                </label>
-                                <input type="text"
-                                    x-model="inputValue"
-                                    @focus="isFocused = true"
-                                    @blur="isFocused = false"
-                                    class="w-full text-[14px] py-4 pl-10 pr-10 border font-medium rounded-lg focus:outline-none focus:ring-1 focus:ring-[#5A915E] focus:border-[#5A915E] bg-white transition-all">
-                            </div>
-                        </div>
-                    </div>
+                            <!-- Body/Input Fields-->
+                            <div class="mt-6 flex flex-col items-center justify-center md:flex-row md:flex-wrap md:grid md:grid-cols-2 lg:justify-center">
 
-                    <!-- Report Road Issue Button -->
-                    <div x-data="{ showModal: false }" class="mt-12 w-[75%] text-center lg:w-[20%] lg:mt-9 mx-auto">
-                        <button @click="showModal = true" class="px-4 py-3 w-full lg:text-[16px] lg:py-2 lg:mb-2 bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-lg font-semibold text-white shadow-md rounded-full">
-                            Save Changes
-                        </button>
-
-                        <!-- Modal -->
-                        <div
-                            x-show="showModal"
-                            x-transition:enter="ease-out duration-300"
-                            x-transition:enter-start="opacity-0 scale-90"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="ease-in duration-200"
-                            x-transition:leave-start="opacity-100 scale-100"
-                            x-transition:leave-end="opacity-0 scale-90"
-                            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-                            @click.away="showModal = false">
-                            <div class="bg-white w-[90%] max-w-md p-6 rounded-lg shadow-lg">
-                                <div class="flex justify-between items-center">
-                                    <h3 class="text-lg font-semibold text-[#5A915E]">Changes Saved</h3>
-                                    <button @click="showModal = false" class="text-gray-500 hover:text-gray-700">
-                                        &times;
-                                    </button>
+                                <!--First Name-->
+                                <div class="relative md:mr-3 lg:mr-5 mb-3.5">
+                                    <input type="text" id="first_name" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
+                                    <label for="first_name" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">First Name</label>
                                 </div>
-                                <p class="mt-4 text-sm text-gray-600">Your changes have been successfully saved.</p>
-                                <div class="mt-6 text-right">
-                                    <button @click="showModal = false" class="px-4 py-2 bg-[#5A915E] text-white rounded-lg shadow hover:bg-[#4B804D]">
-                                        Close
-                                    </button>
+
+                                <!--Middle Name-->
+                                <div class="relative md:mr-3 lg:mr-5 mb-3.5">
+                                    <input type="text" id="middle_name" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
+                                    <label for="middle_name" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Middle Name</label>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
 
-                </div>
-            </template>
+                                <!--Last Name-->
+                                <div class="relative md:mr-3 lg:mr-5 mb-3.5">
+                                    <input type="text" id="last_name" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
+                                    <label for="last_name" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Last Name</label>
+                                </div>
 
-            <!-- Step 3 -->
-            <template x-if="step === 3">
-                <div>
-                    <!-- Personal information Section -->
-                    <div class="mt-6 bg-white w-[80%] shadow-lg rounded-lg p-1 border border-gray-100 lg:h-[200px] mx-auto">
-                        <div class="w-full bg-transparent h-10 py-2 px-3 border-b-2 border-[#F8A15E] items-center">
-                            <p class="text-[#F8A15E] font-semibold text-center">Change Password</p>
-                        </div>
-                        <div class="mt-6 flex flex-col items-center justify-center lg:flex-row lg:flex-wrap lg:space-x-4"
-                            x-data="{
-                        showPassword: false,
-                        showConfirmPassword: false,
-                        password: '',
-                        confirmPassword: '',
-                        requirements: [
-                            { text: 'At least 8 characters', isValid: false },
-                            { text: 'At least 1 uppercase letter', isValid: false },
-                            { text: 'At least 1 lowercase letter', isValid: false },
-                            { text: 'At least 1 number', isValid: false },
-                            { text: 'At least 1 special character (!@#$%^&*)', isValid: false }
-                        ],
-                        validatePassword() {
-                            this.requirements[0].isValid = this.password.length >= 8;
-                            this.requirements[1].isValid = /[A-Z]/.test(this.password);
-                            this.requirements[2].isValid = /[a-z]/.test(this.password);
-                            this.requirements[3].isValid = /[0-9]/.test(this.password);
-                            this.requirements[4].isValid = /[!@#$%^&*]/.test(this.password);
-                        },
-                        checkConfirmPassword() {
-                            return this.password === this.confirmPassword;
-                        },
-                        firstInvalidRequirementIndex() {
-                            return this.requirements.findIndex(req => !req.isValid);
-                        }
-                    }">
+                                <!-- Sex -->
+                                <div class="relative mb-5 lg:mr-5 custom-select w-[195px] md:w-auto border-2 border-gray-300 rounded-lg md:mr-3">
+                                    <select id="sex" required
+                                            class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 rounded-lg bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-[#4AA76F] focus:border-[#4AA76F] peer invalid:border-red-500 transition-all">
+                                        <option value="" disabled selected class="text-gray-500 hover:bg-gray-100">Select Sex</option>
+                                        <option value="male" class="text-gray-700 hover:bg-gray-100">Male</option>
+                                        <option value="female" class="text-gray-700 hover:bg-gray-100">Female</option>
+                                    </select>
+                                    <label for="sex"
+                                           class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4">
+                                        Sex
+                                    </label>
+                                </div>
 
-                            <!-- Password Input -->
-                            <div x-data="{ isFocused: false }" class="relative mb-4">
-                                <label :class="{
-                                'text-[#6AA76F]': isFocused || password.length > 0,
-                                'absolute': true,
-                                'top-[50%] left-3 -translate-y-[50%]': !isFocused && password.length === 0,
-                                'text-xs top-[-10px] left-3': isFocused || password.length > 0
-                            }"
-                                    class="transition-all duration-200 bg-white px-1 pointer-events-none">
-                                    Current Password
-                                </label>
-                                <input :type="showPassword ? 'text' : 'password'"
-                                    x-model="password"
-                                    @focus="isFocused = true"
-                                    @blur="isFocused = false"
-                                    required @input="validatePassword()"
-                                    class="w-full text-[14px] py-4 pl-10 pr-10 border font-medium rounded-lg focus:outline-none focus:ring-1 focus:ring-[#5A915E] focus:border-[#5A915E] bg-white transition-all ">
-
-                                <!-- Show/Hide Password Toggle -->
-                                <img src="{{ asset('storage/icons/show-password.png') }}"
-                                    class="absolute right-2.5 top-[10px] h-5 w-5 cursor-pointer "
-                                    x-show="!showPassword"
-                                    @click="showPassword = true"
-                                    alt="Show Password">
-                                <img src="{{ asset('storage/icons/hide-password.png') }}"
-                                    class="absolute right-2.5 top-[10px] h-5 w-5 cursor-pointer"
-                                    x-show="showPassword"
-                                    @click="showPassword = false"
-                                    alt="Hide Password">
                             </div>
 
-                            <!-- Password Input -->
-                            <div x-data="{ isFocused: false }" class="relative mb-2">
-                                <label :class="{
-                                'text-[#6AA76F]': isFocused || password.length > 0,
-                                'absolute': true,
-                                'top-[50%] left-3 -translate-y-[50%]': !isFocused && password.length === 0,
-                                'text-xs top-[-10px] left-3': isFocused || password.length > 0
-                            }"
-                                    class="transition-all duration-200 bg-white px-1 pointer-events-none">
-                                    New Password
-                                </label>
-                                <input :type="showPassword ? 'text' : 'password'"
-                                    x-model="password"
-                                    @focus="isFocused = true"
-                                    @blur="isFocused = false"
-                                    required @input="validatePassword()"
-                                    class="w-full text-[14px] py-4 pl-10 pr-10 border font-medium rounded-lg focus:outline-none focus:ring-1 focus:ring-[#5A915E] focus:border-[#5A915E] bg-white transition-all ">
+                            <!-- Footer/Button -->
+                            <div class="my-4 w-[75%] mx-auto lg:my-2 lg:mx-0 lg:ml-auto md:w-[30%] lg:w-[25%]">
+                                <!-- Save Button -->
+                                <button @click="showModal = true" class="px-4 py-3 w-full bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-sm font-medium lg:text-[15px] lg:py-3 lg:mb-2 text-white shadow-md rounded-full transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
+                                    Save Changes
+                                </button>
 
-                                <!-- Show/Hide Password Toggle -->
-                                <img src="{{ asset('storage/icons/show-password.png') }}"
-                                    class="absolute right-2.5 top-[10px] h-5 w-5 cursor-pointer"
-                                    x-show="!showPassword"
-                                    @click="showPassword = true"
-                                    alt="Show Password">
-                                <img src="{{ asset('storage/icons/hide-password.png') }}"
-                                    class="absolute right-2.5 top-[10px] h-5 w-5 cursor-pointer"
-                                    x-show="showPassword"
-                                    @click="showPassword = false"
-                                    alt="Hide Password">
-                            </div>
-                            <div class="relative text-sm mb-2">
-                                <div x-show="password.length > 0 && firstInvalidRequirementIndex() !== -1">
-                                    <span :class="{
-                                    'text-red-500': !requirements[firstInvalidRequirementIndex()].isValid,
-                                    'text-green-500': requirements[firstInvalidRequirementIndex()].isValid
-                                }"
-                                        x-text="requirements[firstInvalidRequirementIndex()].text">
-                                    </span>
+                                <!-- Save Button Modal -->
+                                <div
+                                    x-show="showModal"
+                                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+                                    @click.away="showModal = false">
+                                    <div class="bg-white w-[90%] max-w-md p-6 rounded-lg shadow-lg">
+                                        <div class="flex justify-between items-center">
+                                            <h3 class="text-lg font-semibold text-[#5A915E]">Changes Saved</h3>
+                                            <button @click="showModal = false" class="text-gray-500 hover:text-gray-700">
+                                                &times;
+                                            </button>
+                                        </div>
+                                        <p class="mt-4 text-sm text-gray-600">Your changes have been successfully saved.</p>
+                                        <div class="mt-6 text-right">
+                                            <button @click="showModal = false" class="px-4 py-2 bg-[#5A915E] text-white rounded-lg shadow hover:bg-[#4B804D]">
+                                                Close
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Confirm Password Input -->
-                            <div x-data="{ isFocused: false }" class="relative mb-4">
-                                <label :class="{
-                                'text-[#6AA76F]': isFocused || confirmPassword.length > 0,
-                                'absolute': true,
-                                'top-[50%] left-3 -translate-y-[50%]': !isFocused && confirmPassword.length === 0,
-                                'text-xs top-[-10px] left-3 text-[#6AA76F]': isFocused || confirmPassword.length > 0 }"
-                                    class="transition-all duration-200 bg-white px-1">
-                                    Confirm Password
-                                </label>
-                                <input :type="showConfirmPassword ? 'text' : 'password'"
-                                    x-model="confirmPassword"
-                                    @focus="isFocused = true"
-                                    @blur="isFocused = false"
-                                    required
-                                    class="w-full text-[14px] py-4 pl-10 pr-10 border font-medium rounded-lg focus:outline-none focus:ring-1 focus:ring-[#5A915E] focus:border-[#5A915E] bg-white transition-all">
-
-                                <!-- Show/Hide Confirm Password Toggle -->
-                                <img src="{{ asset('storage/icons/show-password.png') }}"
-                                    class="absolute right-2.5 top-[10px] h-5 w-5 cursor-pointer"
-                                    x-show="!showConfirmPassword"
-                                    @click="showConfirmPassword = true"
-                                    alt="Show Confirm Password">
-                                <img src="{{ asset('storage/icons/hide-password.png') }}"
-                                    class="absolute right-2.5 top-[10px] h-5 w-5 cursor-pointer"
-                                    x-show="showConfirmPassword"
-                                    @click="showConfirmPassword = false"
-                                    alt="Hide Confirm Password">
-                            </div>
-                            <div class="text-center relative text-sm">
-                                <p x-show="confirmPassword && !checkConfirmPassword()" class="text-red-500 text-sm mb-2">Passwords do not match.</p>
-
-                            </div>
                         </div>
-                    </div>
+                    </template>
 
-                    <!-- Report Road Issue Button -->
-                    <div x-data="{ showModal: false }" class="w-[75%] text-center mb-12 lg:w-[20%] mt-12 mx-auto">
-                        <button @click="showModal = true" class="px-4 py-3 w-full lg:text-[16px] lg:py-2 lg:mb-2 bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-lg font-semibold text-white shadow-md rounded-full">
-                            Update Password
-                        </button>
+                    <!-- Step 2 -->
+                    <template x-if="step === 2">
+                        <!-- Contact information Section -->
+                        <div class="mt-2 bg-white w-full shadow rounded-lg h-auto p-4 md:px-6 border border-gray-100 mx-auto">
 
-                        <!-- Modal -->
-                        <div
-                            x-show="showModal"
-                            x-transition:enter="ease-out duration-300"
-                            x-transition:enter-start="opacity-0 scale-90"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="ease-in duration-200"
-                            x-transition:leave-start="opacity-100 scale-100"
-                            x-transition:leave-end="opacity-0 scale-90"
-                            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-                            @click.away="showModal = false">
-                            <div class="bg-white w-[90%] max-w-md p-6 rounded-lg shadow-lg">
-                                <div class="flex justify-between items-center">
-                                    <h3 class="text-lg font-semibold text-[#5A915E]">Changes Saved</h3>
-                                    <button @click="showModal = false" class="text-gray-500 hover:text-gray-700">
-                                        &times;
-                                    </button>
+                            <!-- Header -->
+                            <div class="w-full bg-transparent h-10 py-2 border-b-2 border-[#F8A15E] items-center">
+                                <p class="text-[#F8A15E] font-semibold text-center md:text-start">Contact Information</p>
+                            </div>
+
+                            <!-- Body/Input Fields-->
+                            <div class="mt-6 flex flex-col items-center justify-center md:flex-row md:flex-wrap md:grid md:grid-cols-2 lg:justify-center">
+
+                                <!--Phone Number-->
+                                <div class="relative md:mr-3 lg:mr-5 mb-3.5">
+                                    <input type="number" id="phone_number" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
+                                    <label for="phone_number" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Phone Number</label>
                                 </div>
-                                <p class="mt-4 text-sm text-gray-600">Your password changes have been successfully saved.</p>
-                                <div class="mt-6 text-right">
-                                    <button @click="showModal = false" class="px-4 py-2 bg-[#5A915E] text-white rounded-lg shadow hover:bg-[#4B804D]">
-                                        Close
-                                    </button>
+
+                                <!--Email Address-->
+                                <div class="relative md:mr-3 mb-3.5">
+                                    <input type="email" id="email_address" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
+                                    <label for="email_address" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Email Address</label>
+                                </div>
+
+                            </div>
+
+                            <!-- Footer/Button -->
+                            <div class="my-4 w-[75%] mx-auto lg:my-3 lg:mx-0 lg:ml-auto md:w-[30%] lg:w-[25%]">
+                                <!-- Save Button -->
+                                <button @click="showModal = true" class="px-4 py-3 w-full bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-sm font-medium lg:text-[15px] lg:py-3 lg:mb-2 text-white shadow-md rounded-full transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
+                                    Save Changes
+                                </button>
+
+                                <!-- Save Button Modal -->
+                                <div x-show="showModal"
+                                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+                                    @click.away="showModal = false">
+                                    <div class="bg-white w-[90%] max-w-md p-6 rounded-lg shadow-lg">
+                                        <div class="flex justify-between items-center">
+                                            <h3 class="text-lg font-semibold text-[#5A915E]">Changes Saved</h3>
+                                            <button @click="showModal = false" class="text-gray-500 hover:text-gray-700">
+                                                &times;
+                                            </button>
+                                        </div>
+                                        <p class="mt-4 text-sm text-gray-600">Your changes have been successfully saved.</p>
+                                        <div class="mt-6 text-right">
+                                            <button @click="showModal = false" class="px-4 py-2 bg-[#5A915E] text-white rounded-lg shadow hover:bg-[#4B804D]">
+                                                Close
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </template>
+                    </template>
 
-        </form>
-    </div>
+                    <!-- Step 3 -->
+                    <template x-if="step === 3">
+                        <!-- Change Password Section -->
+                        <div class="mt-2 bg-white w-full shadow rounded-lg h-auto p-4 md:px-6 border border-gray-100 mx-auto">
+
+                            <!-- Header -->
+                            <div class="w-full bg-transparent h-10 py-2 border-b-2 border-[#F8A15E] items-center">
+                                <p class="text-[#F8A15E] font-semibold text-center md:text-start">Change Password</p>
+                            </div>
+
+                            <!-- Body/Input Fields-->
+                            <div class="w-full mt-4 flex flex-col items-center justify-between md:flex-row md:flex-wrap">
+
+                                <div class="md:w-4/10">
+
+                                    <!-- Current Password Input -->
+                                    <div class="relative w-full md:mr-3 lg:mr-5 lg:mb-6 mb-4 border-2 border-gray-300 rounded-lg">
+                                        <input :type="showCurrentPassword ? 'text' : 'password'" id="currentPassword" class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] peer" placeholder=" " />
+                                        <label for="currentPassword" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Current Password</label>
+
+                                        <!-- Show/Hide Password Toggle -->
+                                        <img src="{{ asset('storage/icons/show-password.png') }}" class="absolute right-2.5 top-[10px] h-5 w-5 cursor-pointer" x-show="showCurrentPassword" @click="showCurrentPassword = false" alt="Show Password">
+                                        <img src="{{ asset('storage/icons/hide-password.png') }}" class="absolute right-2.5 top-[10px] h-5 w-5 cursor-pointer" x-show="!showCurrentPassword" @click="showCurrentPassword = true" alt="Hide Password">
+                                    </div>
+
+                                    <!-- New Password Input -->
+                                    <div class="relative w-full md:mr-3 lg:mr-5 lg:mb-6 mb-4">
+                                        <input :type="showNewPassword ? 'text' : 'password'" x-model="newPassword" @input="validatePassword()" id="newPassword" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] peer" placeholder=" " />
+                                        <label for="newPassword" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">New Password</label>
+
+                                        <!-- Show/Hide Password Toggle -->
+                                        <img src="{{ asset('storage/icons/show-password.png') }}" class="absolute right-2.5 top-[10px] h-5 w-5 cursor-pointer" x-show="showNewPassword" @click="showNewPassword = false" alt="Show Password">
+                                        <img src="{{ asset('storage/icons/hide-password.png') }}" class="absolute right-2.5 top-[10px] h-5 w-5 cursor-pointer" x-show="!showNewPassword" @click="showNewPassword = true" alt="Hide Password">
+                                    </div>
+
+                                    <!-- Create Password - Password Requirements Message -->
+                                    <div class="text-sm mb-4 text-center block md:hidden">
+                                        <div x-show="newPassword.length > 0 && firstInvalidRequirementIndex() !== -1">
+                                            <span :class="{
+                                                    'text-red-500 text-xs': !requirements[firstInvalidRequirementIndex()].isValid,
+                                                    'text-green-500 text-xs': requirements[firstInvalidRequirementIndex()].isValid
+                                                  }"
+                                                  x-text="requirements[firstInvalidRequirementIndex()].text">
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Confirm Password Input -->
+                                    <div class="flex flex-col">
+                                        <div class="relative w-full md:mr-3 lg:mr-5 md:mb-0 mb-4">
+                                            <input :type="showConfirmPassword ? 'text' : 'password'" x-model="confirmPassword" id="confirmPassword" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
+                                            <label  for="confirmPassword"  class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Confirm Password</label>
+
+                                            <!-- Show/Hide Confirm Password Toggle -->
+                                            <img src="{{ asset('storage/icons/show-password.png') }}"
+                                                 class="absolute right-2.5 top-[10px] h-5 w-5 cursor-pointer"
+                                                 x-show="showConfirmPassword"
+                                                 @click="showConfirmPassword = false"
+                                                 alt="Show Confirm Password">
+                                            <img src="{{ asset('storage/icons/hide-password.png') }}"
+                                                 class="absolute right-2.5 top-[10px] h-5 w-5 cursor-pointer"
+                                                 x-show="!showConfirmPassword"
+                                                 @click="showConfirmPassword = true"
+                                                 alt="Hide Confirm Password">
+                                        </div>
+
+                                        <!-- Confirm Password Error Message -->
+                                        <p x-show="confirmPassword && !checkConfirmPassword()" class="text-red-500 text-xs mb-2 text-center md:text-start">Passwords do not match.</p>
+                                    </div>
+
+                                </div>
+
+                                <!-- Create Password - Password Requirements Message -->
+                                <div class="relative shadow md:w-5/10 hidden md:block md:mr-3 mb-3.5 mt-6">
+                                    <div class="w-full">
+                                        <!-- Password requirements -->
+                                        <div class="w-full pb-6 pl-6 pt-2 rounded">
+                                            <div class="text-gray-600 text-[14px] font-semibold mb-4">Password Requirements</div>
+                                            <div class="text-[13px] text-gray-500 mb-1">Please follow this guide for a strong password:</div>
+                                            <ul class="list-disc pl-10 leading-6">
+                                                <li :class="{'text-green-500': requirements[0].isValid, 'text-gray-500': !requirements[0].isValid}" class="text-[13px]">At least one uppercase letter</li>
+                                                <li :class="{'text-green-500': requirements[1].isValid, 'text-gray-500': !requirements[1].isValid}" class="text-[13px]">At least one lowercase letter</li>
+                                                <li :class="{'text-green-500': requirements[2].isValid, 'text-gray-500': !requirements[2].isValid}" class="text-[13px]">At least one number</li>
+                                                <li :class="{'text-green-500': requirements[3].isValid, 'text-gray-500': !requirements[3].isValid}" class="text-[13px]">At least one special character</li>
+                                                <li :class="{'text-green-500': requirements[4].isValid, 'text-gray-500': !requirements[4].isValid}" class="text-[13px]">Minimum 8 characters</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Footer/Button -->
+                            <div class="my-4 w-[75%] mx-auto lg:my-3 lg:mx-0 lg:ml-auto md:w-[30%] lg:w-[25%]">
+                                <!-- Save Button -->
+                                <button @click="showModal = true" class="px-4 py-3 w-full bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-sm font-medium lg:text-[15px] lg:py-3 lg:mb-2 text-white shadow-md rounded-full transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
+                                    Update Account
+                                </button>
+
+                                <!-- Update Button Modal -->
+                                <div  x-show="showModal"
+                                      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+                                      @click.away="showModal = false">
+                                    <div class="bg-white w-[90%] max-w-md p-6 rounded-lg shadow-lg">
+                                        <div class="flex justify-between items-center">
+                                            <h3 class="text-lg font-semibold text-[#5A915E]">Changes Saved</h3>
+                                            <button @click="showModal = false" class="text-gray-500 hover:text-gray-700">
+                                                &times;
+                                            </button>
+                                        </div>
+                                        <p class="mt-4 text-sm text-gray-600">Your password changes have been successfully saved.</p>
+                                        <div class="mt-6 text-right">
+                                            <button @click="showModal = false" class="px-4 py-2 bg-[#5A915E] text-white rounded-lg shadow hover:bg-[#4B804D]">
+                                                Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </form>
+             </div>
+         </div>
+
+         <script>
+             function uploadProfilePicture(event) {
+                 const file = event.target.files[0];
+                 if (file) {
+                     const reader = new FileReader();
+                     reader.onload = function (e) {
+                         const profileImage = document.getElementById('profileImage');
+                         profileImage.src = e.target.result;
+                         profileImage.classList.add('object-cover'); // Maintain aspect ratio
+
+                         // Ensure the image is displayed at its highest quality
+                         profileImage.style.imageRendering = 'auto';
+                     };
+                     reader.readAsDataURL(file);
+                 }
+             }
+             function scrollToButton(step) {
+                 const tabsContainer = document.getElementById('scrollableTabs');
+                 const button = tabsContainer.querySelector(`button:nth-child(${step})`);
+
+                 if (button) {
+                     tabsContainer.scrollTo({
+                         left: button.offsetLeft - 16, // Offset for spacing
+                         behavior: 'smooth', // Smooth scrolling effect
+                     });
+                 }
+             }
+         </script>
+
+     </x-residents.residents-navigation>
 </x-app-layout>
