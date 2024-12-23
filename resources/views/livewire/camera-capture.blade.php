@@ -334,7 +334,9 @@
                         </div>
 
                         <!-- Submit Report Button -->
-                        <button x-on:click="openSuccessModal = true; $event.preventDefault();" class="w-2/4 text-sm md:text-md: bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">
+                        <button
+                            x-on:click="openSuccessModal = true; setTimeout(() => location.reload(), 2000);"
+                            class="w-2/4 text-sm md:text-md: bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">
                             Submit Report
                         </button>
 
