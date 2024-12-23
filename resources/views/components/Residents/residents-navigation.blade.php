@@ -47,15 +47,45 @@
                     </svg>
                 </a>
 
-                <!-- Profile Icon -->
-                <a href="{{ route('profile-info') }}"
-                   @click="activeLink = ''; localStorage.setItem('activeLink', '');">
-                    <img src="{{ asset('storage/icons/profile-graphics.png') }}" alt="Profile Image"
-                         class="w-8 h-8 rounded-full hover:bg-customGreen {{ request()->routeIs('profile-info') ? 'border border-customGreen bg-customGreen w-8 h-8' : 'border border-gray-400' }}"
+                <div x-data="{ openDropdown: false }" class="relative">
+                    <!-- Profile Icon -->
+                    <a @click="openDropdown = !openDropdown; activeLink = ''; localStorage.setItem('activeLink', '');"
+                        class="cursor-pointer " >
+                        <div :class="{
+                                'border-2 border-customGreen rounded-full': openDropdown
+                             }">
+                            <img src="{{ asset('storage/icons/profile-graphics.png') }}" alt="Profile Image"
 
-                         @click="handleClick()"
-                         :class="{ 'scale-105 animate-bounce-once': isClicked }">
-                </a>
+                                 class="w-8 h-8 rounded-full hover:bg-customGreen
+                            {{ request()->routeIs('profile-info') ? 'border-2 border-customGreen bg-customGreen' : 'border border-gray-400' }}">
+                        </div>
+                    </a>
+
+                    <!-- Dropdown Menu -->
+                    <div x-show="openDropdown"
+                         x-transition
+                         class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-50">
+
+                        <ul class="space-y-2">
+                            <!-- Profile Info Link -->
+                            <li>
+                                <a href="{{ route('profile-info') }}"
+                                   class="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-t-lg border-b border-gray-300">
+                                    Profile Information
+                                </a>
+                            </li>
+                            <!-- Logout Option -->
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST" class="block rounded-b-lg px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                    @csrf
+                                    <button type="submit" class="w-full text-left">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
             </div>
         </div>
 
@@ -346,7 +376,7 @@
             </div>
 
             <!-- Main Content Area -->
-            <main class="flex-1 flex flex-col overflow-y-auto mt-10 pt-2 pb-10 h-[83vh] lg:mx-1 mb-4 ml-4 lg:-ml-12 pr-5 {{ ' '.$main_class }}">
+            <main class="flex-1 flex flex-col overflow-y-auto mt-10 pt-2 pb-10 h-[75vh] lg:mx-1 mb-4 ml-4 lg:-ml-12 pr-5 {{ ' '.$main_class }}">
                 {{ $slot }}
             </main>
         </div>

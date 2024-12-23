@@ -1,9 +1,11 @@
 <x-app-layout>
      <x-residents.residents-navigation>
          <div class="flex flex-col items-center justify-center w-full"
+              x-cloak
               x-data="{
+                openSuccessModal: false,
+                openErrorModal: false,
                 step: 1,
-                showModal: false,
                 showCurrentPassword: false,
                 showNewPassword: false,
                 showConfirmPassword: false,
@@ -34,7 +36,7 @@
              <div class="w-full md:w-[85%] lg:w-[90%]flex flex-col md:flex-row justify-center pb-20">
                  <form>
                      <!-- Profile Name and Role Preview -->
-                     <div class="rounded-lg lg:-ml-22 bg-[#4AA76F] pl-2 md:px-4 lg:pl-8 py-4 lg:py-6 mb-4 shadow">
+                     <div class="rounded-lg lg:-ml-22 bg-gradient-to-r from-[#2C8B4A] via-[#4AA76F] to-[#4AA76F] pl-2 md:px-4 lg:pl-8 py-4 lg:py-6 mb-4 shadow">
                             <div class="flex justify-start items-center">
                                 <!-- Profile Picture -->
                                 <div class="relative mr-2 lg:mr-3">
@@ -123,7 +125,7 @@
                                 </div>
 
                                 <!-- Sex -->
-                                <div class="relative mb-5 lg:mr-5 custom-select w-[195px] md:w-auto border-2 border-gray-300 rounded-lg md:mr-3">
+                                <div class="relative mb-5 lg:mr-5 custom-select w-[195px] sm:w-[290px] md:w-auto border-2 border-gray-300 rounded-lg md:mr-3">
                                     <select id="sex" required
                                             class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 rounded-lg bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-[#4AA76F] focus:border-[#4AA76F] peer invalid:border-red-500 transition-all">
                                         <option value="" disabled selected class="text-gray-500 hover:bg-gray-100">Select Sex</option>
@@ -141,32 +143,16 @@
                             <!-- Footer/Button -->
                             <div class="my-4 w-[75%] mx-auto lg:my-2 lg:mx-0 lg:ml-auto md:w-[30%] lg:w-[25%]">
                                 <!-- Save Button -->
-                                <button @click="showModal = true" class="px-4 py-3 w-full bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-sm font-medium lg:text-[15px] lg:py-3 lg:mb-2 text-white shadow-md rounded-full transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
+                                <button x-on:click="openSuccessModal = true; $event.preventDefault();" class="px-4 py-3 w-full bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-sm font-medium lg:text-[15px] lg:py-3 lg:mb-2 text-white shadow-md rounded-full transition-all duration-300">
                                     Save Changes
                                 </button>
 
-                                <!-- Save Button Modal -->
-                                <div
-                                    x-show="showModal"
-                                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-                                    @click.away="showModal = false">
-                                    <div class="bg-white w-[90%] max-w-md p-6 rounded-lg shadow-lg">
-                                        <div class="flex justify-between items-center">
-                                            <h3 class="text-lg font-semibold text-[#5A915E]">Changes Saved</h3>
-                                            <button @click="showModal = false" class="text-gray-500 hover:text-gray-700">
-                                                &times;
-                                            </button>
-                                        </div>
-                                        <p class="mt-4 text-sm text-gray-600">Your changes have been successfully saved.</p>
-                                        <div class="mt-6 text-right">
-                                            <button @click="showModal = false" class="px-4 py-2 bg-[#5A915E] text-white rounded-lg shadow hover:bg-[#4B804D]">
-                                                Close
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                <!-- Success Modal -->
+                                <x-success-modal successMessage="Your changes have been successfully saved." x-show="openSuccessModal"></x-success-modal>
 
+                                <!-- Error Modal | This should be pop up if the user inputs is not valid-->
+                                {{--<x-error-modal errorMessage='Oops! Something went wrong. Please try again.' x-show="openErrorModal"></x-error-modal>--}}
+                            </div>
                         </div>
                     </template>
 
@@ -200,29 +186,15 @@
                             <!-- Footer/Button -->
                             <div class="my-4 w-[75%] mx-auto lg:my-3 lg:mx-0 lg:ml-auto md:w-[30%] lg:w-[25%]">
                                 <!-- Save Button -->
-                                <button @click="showModal = true" class="px-4 py-3 w-full bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-sm font-medium lg:text-[15px] lg:py-3 lg:mb-2 text-white shadow-md rounded-full transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
+                                <button x-on:click="openSuccessModal = true; $event.preventDefault();" class="px-4 py-3 w-full bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-sm font-medium lg:text-[15px] lg:py-3 lg:mb-2 text-white shadow-md rounded-full transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
                                     Save Changes
                                 </button>
 
-                                <!-- Save Button Modal -->
-                                <div x-show="showModal"
-                                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-                                    @click.away="showModal = false">
-                                    <div class="bg-white w-[90%] max-w-md p-6 rounded-lg shadow-lg">
-                                        <div class="flex justify-between items-center">
-                                            <h3 class="text-lg font-semibold text-[#5A915E]">Changes Saved</h3>
-                                            <button @click="showModal = false" class="text-gray-500 hover:text-gray-700">
-                                                &times;
-                                            </button>
-                                        </div>
-                                        <p class="mt-4 text-sm text-gray-600">Your changes have been successfully saved.</p>
-                                        <div class="mt-6 text-right">
-                                            <button @click="showModal = false" class="px-4 py-2 bg-[#5A915E] text-white rounded-lg shadow hover:bg-[#4B804D]">
-                                                Close
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!-- Success Modal -->
+                                <x-success-modal successMessage="Your contact information changes have been successfully saved." x-show="openSuccessModal"></x-success-modal>
+
+                                <!-- Error Modal | This should be pop up if the user inputs is not valid-->
+                                {{--<x-error-modal errorMessage='Oops! Something went wrong. Please try again.' x-show="openErrorModal"></x-error-modal>--}}
                             </div>
                         </div>
                     </template>
@@ -321,29 +293,15 @@
                             <!-- Footer/Button -->
                             <div class="my-4 w-[75%] mx-auto lg:my-3 lg:mx-0 lg:ml-auto md:w-[30%] lg:w-[25%]">
                                 <!-- Save Button -->
-                                <button @click="showModal = true" class="px-4 py-3 w-full bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-sm font-medium lg:text-[15px] lg:py-3 lg:mb-2 text-white shadow-md rounded-full transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
+                                <button x-on:click="openSuccessModal = true; $event.preventDefault();" class="px-4 py-3 w-full bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-sm font-medium lg:text-[15px] lg:py-3 lg:mb-2 text-white shadow-md rounded-full transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
                                     Update Account
                                 </button>
 
-                                <!-- Update Button Modal -->
-                                <div  x-show="showModal"
-                                      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-                                      @click.away="showModal = false">
-                                    <div class="bg-white w-[90%] max-w-md p-6 rounded-lg shadow-lg">
-                                        <div class="flex justify-between items-center">
-                                            <h3 class="text-lg font-semibold text-[#5A915E]">Changes Saved</h3>
-                                            <button @click="showModal = false" class="text-gray-500 hover:text-gray-700">
-                                                &times;
-                                            </button>
-                                        </div>
-                                        <p class="mt-4 text-sm text-gray-600">Your password changes have been successfully saved.</p>
-                                        <div class="mt-6 text-right">
-                                            <button @click="showModal = false" class="px-4 py-2 bg-[#5A915E] text-white rounded-lg shadow hover:bg-[#4B804D]">
-                                                Close
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!-- Success Modal -->
+                                <x-success-modal successMessage="Your password changes have been successfully saved." x-show="openSuccessModal"></x-success-modal>
+
+                                <!-- Error Modal | This should be pop up if the user inputs is not valid-->
+                                {{--<x-error-modal errorMessage='Oops! Something went wrong. Please try again.' x-show="openErrorModal"></x-error-modal>--}}
                             </div>
                         </div>
                     </template>

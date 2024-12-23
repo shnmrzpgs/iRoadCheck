@@ -34,7 +34,7 @@
                     <input wire:model="email"
                            class="w-full text-[14px] py-2 pl-10 pr-10 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#5A915E] focus:border-[#5A915E]"
                            type="email"
-                           placeholder="Email"
+                           placeholder="Email Address"
                            required>
                     <img src="{{ asset('storage/icons/user.svg') }}" class="absolute left-2.5 top-3 h-4 w-4" alt="user">
                 </div>

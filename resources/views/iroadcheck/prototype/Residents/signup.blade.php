@@ -95,9 +95,9 @@
                 <!-- Go to Log In Page Button -->
                 <button
                     @click="window.location.href = '{{ route('residents-login') }}'"
-                    class="relative overflow-hidden w-full p-3 text-[14px] rounded-full font-semibold text-[#F8A15E] border border-transparent bg-transparent group">
+                    class="mt-2 relative overflow-hidden w-full p-3 text-[14px] rounded-full font-normal hover:font-semibold text-[#F8A15E] border border-transparent bg-transparent group">
                     <span class="relative z-10 transition-[width] group-hover:text-white">
-                        Log in
+                        Go to Log in
                     </span>
                     <span class="absolute inset-0 bg-[#F8A15E] transform rounded-full scale-x-0 origin-center transition-transform duration-200 group-hover:scale-x-100"></span>
                 </button>
@@ -105,6 +105,16 @@
             </div>
 
             <div x-show="step === 2" class="bg-white shadow-lg rounded-2xl px-10 py-8 w-full max-w-xs sm:max-w-sm text-center relative z-10">
+                <!-- Back Button Icon, visible when step is 2 -->
+                <div
+                     class="absolute top-4 flex left-4 cursor-pointer text-gray-600 hover:text-green-600 hover:scale-110"
+                     @click="step = 1">
+                    <!-- You can replace this with an actual icon like an arrow or chevron -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    <span>Back</span>
+                </div>
 
                 <img src="{{ asset('/storage/images/IRoadCheck_Logo.png') }}" alt="iRoadCheck" class="mx-auto mb-1 xs:-my-2 md:mb-1 md:mt-4 w-28 sm:w-36 md:w-48 lg:w-56 max-w-[40px]">
                 <div class="text-[#4D4F50] mb-4 font-semibold text-[18px]">iRoadCheck</div>
@@ -176,9 +186,9 @@
                 <!-- Go to Log In Page Button -->
                 <button
                     @click="window.location.href = '{{ route('residents-login') }}'"
-                    class="relative overflow-hidden w-full p-3 text-[14px] rounded-full font-semibold text-[#F8A15E] border border-transparent bg-transparent group">
+                    class="relative overflow-hidden w-full p-3 text-[14px] rounded-full font-normal hover:font-semibold text-[#F8A15E] border border-transparent bg-transparent group">
                     <span class="relative z-10 transition-[width] group-hover:text-white">
-                        Log in
+                        Go to Log in
                     </span>
                     <span class="absolute inset-0 bg-[#F8A15E] transform rounded-full scale-x-0 origin-center transition-transform duration-200 group-hover:scale-x-100"></span>
                 </button>

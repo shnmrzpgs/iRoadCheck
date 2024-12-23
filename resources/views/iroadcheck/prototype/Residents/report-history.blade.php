@@ -241,6 +241,9 @@
                             <div class="w-2/4 md:w-1/4 lg:w-2/5 text-gray-600">Location:</div>
                             <div class="w-2/4 md:w-3/4 lg:w-3/5 font-semibold text-[#4AA76F]">Apokon Street, Tagum City</div>
                         </div>
+
+                        <!--Longitude-->
+                        <!--Latitude-->
                     </div>
 
                 </div>
@@ -258,6 +261,8 @@
             });
             function reportData() {
                 return {
+
+                    //uncomment the report data array to see data in the table to the UI/UX
                     reports: [
                         // { id: '0001', defectType: 'Pothole', status: 'On-going', date: '07/10/24' },
                         // { id: '0002', defectType: 'Crack', status: 'On-going', date: '07/10/24' },

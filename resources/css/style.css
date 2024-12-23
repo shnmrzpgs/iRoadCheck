@@ -274,5 +274,10 @@ input[type="radio"] {
     display: none !important;
 }
 
+[aria-hidden="true"] {
+    display: none;
+    pointer-events: none;
+}
+
 
 
