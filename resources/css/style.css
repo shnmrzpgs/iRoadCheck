@@ -21,6 +21,17 @@
     border-radius: 100px; /* Ensure hover state has rounded corners */
 }
 
+/* Completely hide scrollbar but keep scroll functionality */
+.custom-scroll-hidden {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.custom-scroll-hidden::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
 /* Firefox scrollbar styles */
 * {
     scrollbar-width: thin; /* Makes the scrollbar thinner */
@@ -209,7 +220,6 @@ input:invalid {
 .flatpickr-calendar {
     font-size: 12px; /* Smaller font size */
     padding: 2px 0 2px 0;
-    background: #FBFBFB;
 }
 
 .flatpickr-day {
@@ -235,7 +245,9 @@ input:invalid {
     padding: 5px;
 }
 
-
+input[type="radio"] {
+    accent-color: #4AA76F; /* Custom green color */
+}
 
 .pop-in {
     opacity: 0;
@@ -260,6 +272,11 @@ input:invalid {
 
 [x-cloak] {
     display: none !important;
+}
+
+[aria-hidden="true"] {
+    display: none;
+    pointer-events: none;
 }
 
 

@@ -12,6 +12,8 @@
                          class="xs:-my-2 md:mb-1 md:mt-4 w-28 sm:w-36 md:w-48 lg:w-56 max-w-[40px]"/>
                     <div class="text-[#4D4F50] font-semibold text-[18px]">iRoadCheck</div>
                     <h2 class="text-[#4D4F50] text-[25px] font-bold mt-8 mb-4">Log in</h2>
+
+                    <!-- Email Address -->
                     <div class="relative mb-2">
                         <input class="rounded border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] text-sm text-gray-600 w-full py-2 pl-10 pr-10 bg-[#FFFFF9]"
                                name="email" id="email" type="email" placeholder="Email address" required>
@@ -19,6 +21,7 @@
                     </div>
 
 
+                    <!-- Password -->
                     <div class="relative">
                         <input :type="showPassword ? 'text' : 'password'" class="rounded border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] text-sm text-gray-600 w-full py-2 pl-10 pr-10 bg-[#FFFFF9]"
                                name="password" id="password" placeholder="Password" required>
@@ -38,7 +41,7 @@
                              alt="Hide Password">
                     </div>
 
-
+                    <!-- Error Message -->
                     @if ($errors->any())
                         <div class="animate-bounce-once bg-red-100 border border-red-400 text-red-700 py-3 rounded relative text-sm mt-4 px-4" role="alert">
                             <div class="flex border-b border-red-300 mb-2">
@@ -52,6 +55,7 @@
                             </ul>
                         </div>
                     @endif
+
 
                     <button class="w-3/4 hover:scale-105 bg-gradient-to-r from-[#5A915E] to-[#F8A15E] hover:drop-shadow-md text-white p-3 font-semibold my-6 rounded-full hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier (0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">Log In</button>
                     <a href="" class="hover:font-medium text-[#6AA76F] text-[12px] font-light italic underline mt-2 mb-1">Forgot Password?</a>
