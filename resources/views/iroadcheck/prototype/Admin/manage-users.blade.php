@@ -1,7 +1,7 @@
 <x-app-layout>
 
-    <x-Admin.admin-navigation page_title="Manage Users" action="{{ route('users.search') }}" placeholder="Search users..." name="user_search">
-        <div class="text-[#202020] bg-[#FBFBFB] pt-4 lg:px-2 px-0 pb-4 rounded-lg w-full min-w-[40vh] max-w-full h-full min-h-[60vh] max-h-full "
+    <x-Admin.admin-navigation page_title="Manage Users">
+        <div class="z-0 text-[#202020] bg-[#FBFBFB] pt-4 lg:px-2 px-0 pb-4 rounded-lg w-full min-w-[40vh] max-w-full h-full min-h-[60vh] max-h-full "
              x-data="{
                 isPasswordVisible: false,
                 generatePassword() {
@@ -662,7 +662,7 @@
             </div>
 
             <!-- Table Content -->
-            <div class="mt-2 px-6 mb-2">
+            <div class="mt-2 px-6 mb-2 z-0">
                 <div class="overflow-x-auto border border-t-gray-300 rounded-lg">
                     <div class="inline-block min-w-full max-h-[56vh] min-h-[48vh] overflow-y-auto align-middle">
                         <table class="min-w-full text-left divide-y divide-gray-300 hidden md:table">

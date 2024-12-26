@@ -6,7 +6,7 @@
 
             <!-- Notifications Header -->
             <div class="sticky -top-2 py-4 w-full bg-[#4AA76F] shadow rounded-b-md z-10">
-                <p class="text-xl text-white font-semibold text-center">Notifications</p>
+                <p class="text-md md:text-lg text-white font-medium text-center tracking-wider">Notifications</p>
             </div>
 
             <!-- Scrollable Content -->
@@ -14,7 +14,7 @@
 
                 <!-- Today Section -->
                 <div class="w-full">
-                    <p class="text-[16px] text-black font-semibold">Today</p>
+                    <p class="text-[14px] text-black font-semibold">Today</p>
 
                     <!-- Notification 1 -->
                     <div class="flex items-center bg-white border border-gray-200 rounded-lg shadow-md p-4 mt-4">
@@ -56,7 +56,7 @@
                 <div class="mt-8 w-full">
 
                     <!-- Section Title -->
-                    <p class="text-lg font-normal text-gray-800 mb-4">Earlier</p>
+                    <p class="text-[14px    ] font-normal text-gray-800 mb-4">Earlier</p>
 
                     <!-- Notification Cards -->
                     <div class="space-y-4">
