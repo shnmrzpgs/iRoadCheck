@@ -202,7 +202,7 @@
 //        if ($user) {
 //            $this->logUserAction('User added successfully.');
 //            $this->resetForm();
-//            $this->dispatchBrowserEvent('userAdded', ['message' => 'User added successfully!']);
+//            $this->dispatch('userAdded', ['message' => 'User added successfully!']);
 //        }
 //    }
 //
@@ -243,15 +243,20 @@ namespace App\Livewire\Modals\Admin\UsersModal;
 
 use App\Enums\User\UserSex;
 use App\Enums\User\UserStatus;
+use App\Models\UserRole;
+use Livewire\WithFileUploads;
+use App\Models\User;
 use App\Livewire\Forms\AddUserAccountForm;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class AddUserAccountModal extends Component
 {
+    use WithFileUploads;
     public string $identifier = '';
 
     public Collection $sexes;
@@ -259,6 +264,10 @@ class AddUserAccountModal extends Component
     public AddUserAccountForm $form;
 
     public Collection $user_status;
+
+    public $user_roles;
+    public $selectedPermissions = [];
+    public $photo; 
 
     public function mount(): void
     {
@@ -284,12 +293,20 @@ class AddUserAccountModal extends Component
                 'value' => 'Inactive',
             ],
         ]);
+
+        $this->user_roles = UserRole::all();
+        $this->formData['user_role'] = $this->form->user_role;
+        $this->selectedPermissions = [];
     }
 
     public array $tabs = [
         ['key' => 'basic-info', 'label' => 'Basic Information'],
         ['key' => 'access-info', 'label' => 'Access Control'],
         ['key' => 'account-info', 'label' => 'Account Settings'],
+    ];
+
+    public array $formData = [
+        'user_role' => '',
     ];
 
     public string $activeTab = 'basic-info';
@@ -324,19 +341,107 @@ class AddUserAccountModal extends Component
 
     public function save(): void
     {
+      
+
         $form_saved = $this->form->save();
 
         if ($form_saved) {
-            $this->form->clear();
+
+           
+
             $this->dispatch($this->identifier . 'sex_force_clear');
-            $this->dispatch('user_account_added');
+            $this->dispatch('alert', [
+                'title' => 'User Account Added!',
+                'message' => 'User account added successfully!',
+                'type' => 'success',
+            ]);
         } else {
-            $this->dispatch('user_account_not_added');
+            $this->dispatch('alert', [
+                'title' => 'User Account Not Added!',
+                'message' => 'Failed to save the user account. Please try again.',
+                'type' => 'danger',
+            ]);
         }
     }
 
+    public function updatedFormDataUserRole($roleId): void
+    {
+        $this->form->user_role = $roleId;
+
+        $role = UserRole::find($roleId);
+
+        if ($role) {
+            $this->selectedPermissions = $role->getPermissions();
+        } else {
+            $this->selectedPermissions = [];
+        }
+    }
+
+    public function validateAndSubmit()
+    {
+        Log::info('validateAndSubmit triggered.');
+
+        $this->validate([
+            'photo' => 'nullable|image|max:1024',
+        ]);
+    
+        if ($this->photo) {
+            $path = $this->photo->store('profile_photos', 'public');
+            $this->form->photo_path = $path; // Pass the path to the form
+        }
+
+        if (!$this->form) {
+            Log::error('Form instance is not initialized.');
+            $this->dispatch('user_account_not_added', [
+                'message' => 'Form instance is not initialized.'
+            ]);
+            return;
+        }
+
+        Log::info('Attempting to call save on the form instance.');
+
+        try {
+            $result = $this->form->save();
+
+            if ($result) {
+                Log::info('Form saved successfully.');
+                $this->dispatch('alert', [
+                    'title' => 'User Account Added!',
+                    'message' => 'User account added successfully!',
+                    'type' => 'success',
+                ]);
+                $this->form->clear();
+                $this->photo = null; // Clear the uploaded photo after saving
+                // $this->dispatch('reload-page');
+                $this->dispatch('reload-page');
+            } else {
+                Log::warning('Form save failed.');
+                $this->dispatch('alert', [
+                    'title' => 'User Account Not Added!',
+                    'message' => 'Failed to save the user account. Please try again.',
+                    'type' => 'danger',
+                ]);
+            }
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Validation failed.', ['errors' => $e->errors()]);
+            $this->dispatch('user_account_not_added', [
+                'message' => 'Validation error: ' . collect($e->errors())->flatten()->first()
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error during validateAndSubmit.', ['exception' => $e]);
+            $this->dispatch('user_account_not_added', [
+                'message' => 'An unexpected error occurred. Please try again.'
+            ]);
+        }
+    }
+
+
+
+
     public function render(): Factory|View|Application|\Illuminate\View\View
     {
-        return view('livewire.modals.admin.users-modal.add-user-modal');
+        return view('livewire.modals.admin.users-modal.add-user-modal', [
+            'user_roles' => $this->user_roles,
+        ]);
     }
 }
