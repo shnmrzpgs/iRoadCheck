@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -12,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_types', function (Blueprint $table) {
+        Schema::create('user_profile_photos', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('photo_path');
+            $table->timestamps();
         });
-        DB::table('user_types')->insert([
-            ['type' => 'admin'],
-            ['type' => 'resident'],
-            ['type' => 'staff'],
-        ]);
     }
 
     /**
@@ -28,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_types');
+        Schema::dropIfExists('user_profile_photos');
     }
 };
