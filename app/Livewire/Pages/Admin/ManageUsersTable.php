@@ -118,7 +118,8 @@ class ManageUsersTable extends Component
 
         $query = User::with([
             'userRole',
-            'user_type'
+            'user_type',
+            'profilePhoto',
         ])->select('users.*');
 
         //Apply search

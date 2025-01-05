@@ -7,6 +7,7 @@ use App\Models\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -25,9 +26,16 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'date_of_birth',
+        'sex',
         'email',
         'password',
+        'user_type',
+        'user_role',
+        'status'
     ];
 
     /**
@@ -35,6 +43,12 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $casts = [
+        'user_role' => 'integer',
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
     protected $hidden = [
         'password',
         'remember_token',
@@ -51,9 +65,7 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
-    public static function where(string $string, string $string1, string $string2)
-    {
-    }
+    public static function where(string $string, string $string1, string $string2) {}
 
     /**
      * Get the attributes that should be cast.
@@ -65,27 +77,22 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'date_of_birth' => 'date',
         ];
     }
 
-    public function user_type(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user_type(): BelongsTo
     {
         return $this->belongsTo(UserType::class, 'user_types');
     }
 
-//    public function user_roles(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-//    {
-//        return $this->belongsTo(UserRole::class, 'user_roles');
-//    }
-//    public function user_role(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-//    {
-//        return $this->belongsTo(UserRole::class, 'user_roles');
-//    }
-
-    public function userRole(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function userRole(): BelongsTo
     {
-        return $this->belongsTo(UserRole::class, 'user_roles');
+        return $this->belongsTo(UserRole::class, 'user_role');
     }
 
+    public function profilePhoto()
+    {
+        return $this->hasOne(UserProfilePhoto::class);
+    }
 }
-

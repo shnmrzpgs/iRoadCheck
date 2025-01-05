@@ -4,8 +4,10 @@ namespace App\Livewire\Forms;
 
 use App\Enums\User\UserStatus;
 use App\Models\User;
+use App\Models\UserProfilePhoto;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Form;
 use Ramsey\Collection\Collection;
@@ -21,40 +23,41 @@ class AddUserAccountForm extends Form
 
     public string $sex = '';
 
+    public ?string $date_of_birth = null;
+
     public string $email = '';
 
+    // public string $id_number = '';
+    public string $position = '';
 
     // Access Control Information
-    public string $user_role;
+    // public string $user_role;
 
     //Permission
 
-
+    public ?string $user_role = null;
     //Account information
 
     public string $password = '';
 
     public bool $user_status = true;
+    public $form;
+    public $photo_path; 
+
 
     public function rules(): array
     {
         return [
-
-            //basic information
             'first_name' => ['required', 'string'],
             'middle_name' => ['nullable', 'string'],
             'last_name' => ['required', 'string'],
-            'sex' => ['required', 'in:male,female,other'],
-            'email' => ['email', 'required', 'unique:users,email'],
-
-            //access information
-            //userrole and permissions
-
-            //Account information
-            'id_number' => ['required', 'unique:users,id_number'],
+            'sex' => ['required', 'in:male,female'],
+            'date_of_birth' => ['nullable', 'date', 'date_format:Y-m-d'],
+            'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'string', Password::default()],
         ];
     }
+
 
     public function messages(): array
     {
@@ -69,13 +72,10 @@ class AddUserAccountForm extends Form
             'email.unique' => 'The email field has already been taken.',
             'email.exists' => 'The email field is invalid.',
 
-            // Access Control information
-            //user role
-
             // Account information
-            'id_number.required' => 'The id number field is required.',
-            'id_number.unique' => 'The id number field has already been taken.',
-            'id_number.exists' => 'The id number field is invalid.',
+            // 'id_number.required' => 'The id number field is required.',
+            // 'id_number.unique' => 'The id number field has already been taken.',
+            // 'id_number.exists' => 'The id number field is invalid.',
             'password.required' => 'The password field is required.',
         ];
     }
@@ -88,65 +88,72 @@ class AddUserAccountForm extends Form
             'last_name',
             'sex',
             'email',
-            'id_number',
+            'date_of_birth',
             'password',
             'user_status',
-         //   'user_role',
+            'user_role',
         ]);
     }
 
+    public function saveProfilePhoto(string $path, User $user): void
+{
+    Log::info("Saving profile photo for user: {$user->id}, Path: $path");
+    UserProfilePhoto::create([
+        'user_id' => $user->id,
+        'photo_path' => $path,
+    ]);
+}
+
     public function save(): bool
     {
-        $this->validate();
-
-        //Basic information
-        $first_name = $this->first_name;
-        $middle_name = $this->middle_name;
-        $last_name = $this->last_name;
-        $sex = $this->sex;
-        $email = $this->email;
-
-        //Account information
-        $position = $this->position;
-        $status = $this->admin_status ? UserStatus::ACTIVE : UserStatus::INACTIVE;
-
-        //account information
-        $id_number = $this->id_number;
-        $password = $this->password;
-
-        DB::beginTransaction();
-
         try {
-            $user = User::create([
-                'first_name' => $first_name,
-                'middle_name' => $middle_name,
-                'last_name' => $last_name,
-                'sex' => $sex,
-                'email' => $email,
-                'id_number' => $id_number,
-                'password' => bcrypt($password),
-                'generated_password' => $password,
+            $this->validate(); // Validation happens here
+            Log::info('Validation passed.');
 
-                'status' => $status,
+            DB::beginTransaction();
+
+            $user = User::create([
+                'first_name' => $this->first_name,
+                'middle_name' => $this->middle_name,
+                'last_name' => $this->last_name,
+                'sex' => $this->sex,
+                'email' => $this->email,
+                'date_of_birth' => $this->date_of_birth,
+                'password' => bcrypt($this->password),
+                'generated_password' => $this->password,
+                'user_type' => 1,
+                'status' => $this->user_status ? UserStatus::ACTIVE : UserStatus::INACTIVE,
                 'email_verified_at' => now(),
             ]);
 
-//            $user->assignRole('user');
-//
-//            $user->admin()->create([
-//                'work_position' => $position,
-//            ]);
+              // Save the profile photo if a path exists
+        if (!empty($this->photo_path)) {
+            $this->saveProfilePhoto($this->photo_path, $user);
+        }
+
 
             DB::commit();
-
             return true;
-        } catch (Exception $e) {
-            //dd($e);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Validation failed.', ['errors' => $e->errors()]);
+            throw $e; // Rethrow to propagate the error
+        } catch (\Exception $e) {
             DB::rollBack();
-
+            Log::error('Error saving user account', ['exception' => $e]);
             return false;
         }
     }
+
+    // public function saveProfilePhoto(string $path): void
+    // {
+    //     if ($path) {
+    //         UserProfilePhoto::create([
+    //             'user_id' => User::latest()->first()->id, // Assuming you're saving the last created user
+    //             'photo_path' => $path,
+    //         ]);
+    //     }
+    // }
+
 
     protected function isRootComponent() {}
 }

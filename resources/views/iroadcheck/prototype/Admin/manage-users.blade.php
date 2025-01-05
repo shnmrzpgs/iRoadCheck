@@ -662,7 +662,7 @@
             </div>
 
             <!-- Table Content -->
-            <div class="mt-2 px-6 mb-2 z-0">
+            <div class="mt-2 px-6 mb-2">
                 <div class="overflow-x-auto border border-t-gray-300 rounded-lg">
                     <div class="inline-block min-w-full max-h-[56vh] min-h-[48vh] overflow-y-auto align-middle">
                         <table class="min-w-full text-left divide-y divide-gray-300 hidden md:table">
