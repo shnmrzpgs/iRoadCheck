@@ -4,6 +4,8 @@ import './passRequirements';
 import ApexCharts from 'apexcharts'
 import Alpine from 'alpinejs'
 import lottie from 'lottie-web';
+import flatpickr from 'flatpickr';
+
 
 window.Alpine = Alpine
 Alpine.start()
