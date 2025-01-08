@@ -16,7 +16,7 @@ use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 
-class ManageUsersTable extends Component
+class ManageUsersTable extends Component    
 {
     use WithoutUrlPagination, WithPagination;
 
@@ -57,17 +57,17 @@ class ManageUsersTable extends Component
         ]);
     }
 
-    public function editUserAccount(User $user): void
+    public function editUserAccount(int $userId): void
     {
-        if ($this->user_account_to_edited === null) {
+        $user = User::findOrFail($userId); // Retrieve the user by ID or throw a 404 error if not found
+    
+        if ($this->user_account_to_edited === null || $this->user_account_to_edited->id !== $user->id) {
             $this->user_account_to_edited = $user;
         }
-        if ($this->user_account_to_edited !== $user) {
-            $this->user_account_to_edited = $user;
-        }
-
+    
         $this->dispatch('show-edit-user-account-modal', $user)->to(EditUserAccountModal::class);
     }
+    
 
     public function viewUserAccount(User $user): void
     {
