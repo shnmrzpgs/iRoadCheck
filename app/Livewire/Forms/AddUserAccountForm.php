@@ -30,11 +30,6 @@ class AddUserAccountForm extends Form
     // public string $id_number = '';
     public string $position = '';
 
-    // Access Control Information
-    // public string $user_role;
-
-    //Permission
-
     public ?string $user_role = null;
     //Account information
 
@@ -42,7 +37,7 @@ class AddUserAccountForm extends Form
 
     public bool $user_status = true;
     public $form;
-    public $photo_path; 
+    public $photo_path;
 
 
     public function rules(): array
@@ -71,11 +66,6 @@ class AddUserAccountForm extends Form
             'email.email' => 'The email field must be a valid email.',
             'email.unique' => 'The email field has already been taken.',
             'email.exists' => 'The email field is invalid.',
-
-            // Account information
-            // 'id_number.required' => 'The id number field is required.',
-            // 'id_number.unique' => 'The id number field has already been taken.',
-            // 'id_number.exists' => 'The id number field is invalid.',
             'password.required' => 'The password field is required.',
         ];
     }
@@ -96,13 +86,13 @@ class AddUserAccountForm extends Form
     }
 
     public function saveProfilePhoto(string $path, User $user): void
-{
-    Log::info("Saving profile photo for user: {$user->id}, Path: $path");
-    UserProfilePhoto::create([
-        'user_id' => $user->id,
-        'photo_path' => $path,
-    ]);
-}
+    {
+        Log::info("Saving profile photo for user: {$user->id}, Path: $path");
+        UserProfilePhoto::create([
+            'user_id' => $user->id,
+            'photo_path' => $path,
+        ]);
+    }
 
     public function save(): bool
     {
@@ -126,10 +116,10 @@ class AddUserAccountForm extends Form
                 'email_verified_at' => now(),
             ]);
 
-              // Save the profile photo if a path exists
-        if (!empty($this->photo_path)) {
-            $this->saveProfilePhoto($this->photo_path, $user);
-        }
+            // Save the profile photo if a path exists
+            if (!empty($this->photo_path)) {
+                $this->saveProfilePhoto($this->photo_path, $user);
+            }
 
 
             DB::commit();

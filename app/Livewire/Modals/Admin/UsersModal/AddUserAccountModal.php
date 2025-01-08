@@ -312,10 +312,10 @@ class AddUserAccountModal extends Component
     public string $activeTab = 'basic-info';
     public array $visitedTabs = [];
 
-    public function generatePassword(): void
-    {
-        $this->formData['password'] = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()'), 0, 12);
-    }
+    // public function generatePassword(): void
+    // {
+    //     $this->formData['password'] = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()'), 0, 12);
+    // }
 
     public function activateTab(string $tabKey): void
     {
@@ -339,30 +339,30 @@ class AddUserAccountModal extends Component
         }
     }
 
-    public function save(): void
-    {
+    // public function save(): void
+    // {
+      
+
+    //     $form_saved = $this->form->save();
+
+    //     if ($form_saved) {
 
 
-        $form_saved = $this->form->save();
 
-        if ($form_saved) {
-
-
-
-            $this->dispatch($this->identifier . 'sex_force_clear');
-            $this->dispatch('alert', [
-                'title' => 'User Account Added!',
-                'message' => 'User account added successfully!',
-                'type' => 'success',
-            ]);
-        } else {
-            $this->dispatch('alert', [
-                'title' => 'User Account Not Added!',
-                'message' => 'Failed to save the user account. Please try again.',
-                'type' => 'danger',
-            ]);
-        }
-    }
+    //         $this->dispatch($this->identifier . 'sex_force_clear');
+    //         $this->dispatch('alert', [
+    //             'title' => 'User Account Added!',
+    //             'message' => 'User account added successfully!',
+    //             'type' => 'success',
+    //         ]);
+    //     } else {
+    //         $this->dispatch('alert', [
+    //             'title' => 'User Account Not Added!',
+    //             'message' => 'Failed to save the user account. Please try again.',
+    //             'type' => 'danger',
+    //         ]);
+    //     }
+    // }
 
     public function updatedFormDataUserRole($roleId): void
     {
@@ -412,8 +412,6 @@ class AddUserAccountModal extends Component
                 ]);
                 $this->form->clear();
                 $this->photo = null; // Clear the uploaded photo after saving
-                // $this->dispatch('reload-page');
-                $this->dispatch('reload-page');
             } else {
                 Log::warning('Form save failed.');
                 $this->dispatch('alert', [
@@ -437,7 +435,7 @@ class AddUserAccountModal extends Component
 
     public function render(): Factory|View|Application|\Illuminate\View\View
     {
-        return view('livewire.modals.admin.users-modal.add-user-modal', [
+        return view('livewire.modals.admin.users-modal.add-user-account-modal', [
             'user_roles' => $this->user_roles,
         ]);
     }

@@ -19,7 +19,7 @@
                          }"
                         @click="activeFilter = 'all'; $wire.resetFilterAndSearch()">
                         <span class="text-[12px] block appearance-none w-full text-center px-2 py-2 rounded">
-                            All Users
+                            All Staff
                         </span>
                     </div>
 
@@ -44,7 +44,6 @@
             <x-slot:action_buttons_container>
                 <div class="mt-4 mb-2">
                     <livewire:modals.admin.users-modal.add-user-account-modal
-                        :users="$users"
                         @user_added="$refresh" />
                 </div>
 
@@ -134,12 +133,12 @@
                                             wire:loading.attr="disabled"
                                             x-data="{ loading: false }"
                                             x-on:click="loading = true"
-                                            x-on:edit-user-modal-shown.window="loading = false">
+                                            x-on:edit-user-account-modal-shown.window="loading = false">
                                             <img src="{{ asset('storage/icons/edit-icon.png') }}" alt="Edit Icon" class="hidden md:block w-4 h-4 mr-2" />
                                             <span x-cloak x-show="! loading">Edit</span>
-                                            <x-loading-indicator class="text-orange-500 w-4 h-4"
-                                                x-cloak x-show="loading" />
+                                            <x-loading-indicator class="text-orange-500 w-4 h-4" x-cloak x-show="loading" />
                                         </button>
+
 
                                         <!-- Button to Open View Course Modal -->
                                         <button class="flex items-center text-[#3251FF] hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95 hover:bg-blue-100 hover:shadow py-1 px-3 rounded-md"
