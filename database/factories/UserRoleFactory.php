@@ -21,7 +21,7 @@ class UserRoleFactory extends Factory
     {
         return [
             'role' => $this->faker->randomElement(['Patcher', 'Gravel Spreader']),
-            'status' => 'ENABLED',
+            'status' => $this->faker->randomElement(['Enabled', 'Disabled']),
             'view_dashboard' => $this->faker->boolean,
             'edit_settings' => $this->faker->boolean,
             'access_restricted_data' => $this->faker->boolean,

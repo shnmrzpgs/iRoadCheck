@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admins', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->rememberToken();
+        Schema::create('staff_logs', function (Blueprint $table) {
+            $table->id('log_id');
+            $table->foreignId('staff_id')->references('id')->on('users');
+            $table->string('action');
+            $table->timestamp('dateTime');
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('staff_logs');
     }
 };

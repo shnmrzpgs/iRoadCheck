@@ -52,7 +52,7 @@
                    @click="activeLink = 'dashboard'; activeChildLink = ''; localStorage.setItem('activeLink', 'dashboard'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'dashboard',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'dashboard'}"
-                   class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
+                   class="group flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
 
                     <!-- Icon always visible, changes color on hover -->
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
@@ -75,7 +75,7 @@
                    @click="activeLink = 'manageUsers'; activeChildLink = ''; localStorage.setItem('activeLink', 'manageUsers'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'manageUsers',
                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'manageUsers'}"
-                   class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
+                   class="group flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
 
                     <!-- Icon always visible -->
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"
@@ -92,34 +92,56 @@
                        class="ml-2">Manage Users</p>
                 </a>
 
-                <!-- User Role -->
-                <a href="{{ route('admin.user-role-table') }}"
-                   @click="activeLink = 'userRole'; activeChildLink = ''; localStorage.setItem('activeLink', 'userRole'); localStorage.setItem('activeChildLink', '')"
-                   :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'userRole',
-                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'userRole'}"
-                   class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
+                <!-- Staff Role -->
+                <a href="{{ route('admin.staff-role-table') }}"
+                   @click="activeLink = 'staffRole'; activeChildLink = ''; localStorage.setItem('activeLink', 'staffRole'); localStorage.setItem('activeChildLink', '')"
+                   :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'staffRole',
+                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'staffRole'}"
+                   class="group flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
 
                     <!-- Icon always visible -->
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
-                         :class="{ 'text-white': activeLink === 'userRole', 'text-[#4D4F50]': activeLink !== 'userRole',
-                         'group-hover:text-[#4AA76F] group-hover:scale-105 duration-200 ease-in-out' : activeLink !== 'userRole'}"
+                         :class="{ 'text-white': activeLink === 'staffRole', 'text-[#4D4F50]': activeLink !== 'staffRole',
+                         'group-hover:text-[#4AA76F] group-hover:scale-105 duration-200 ease-in-out' : activeLink !== 'staffRole'}"
                          class="w-5 h-5 fill-current">
                         <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
                     </svg>
 
                     <!-- Text only when expanded -->
                     <p x-show="expanded"
-                       :class="{ 'text-white': activeLink === 'userRole', 'text-[#4D4F50]': activeLink !== 'userRole',
-                          'group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out': activeLink !== 'userRole'}"
-                       class="ml-2">User Role</p>
+                       :class="{ 'text-white': activeLink === 'staffRole', 'text-[#4D4F50]': activeLink !== 'staffRole',
+                          'group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out': activeLink !== 'staffRole'}"
+                       class="ml-2">Staff Role</p>
                 </a>
 
+{{--                <!-- Activity Logs -->--}}
+{{--                <a href="{{ route('admin.activity-logs-table') }}"--}}
+{{--                   @click="activeLink = 'activityLogs'; activeChildLink = ''; localStorage.setItem('activeLink', 'activityLogs'); localStorage.setItem('activeChildLink', '')"--}}
+{{--                   :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'activityLogs',--}}
+{{--                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'activityLogs'}"--}}
+{{--                   class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">--}}
+
+{{--                    <!-- Icon always visible -->--}}
+{{--                    <svg viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"--}}
+{{--                         :class="{ 'text-white': activeLink === 'activityLogs', 'text-[#4D4F50]': activeLink !== 'activityLogs',--}}
+{{--                          'group-hover:text-[#4AA76F] group-hover:scale-105 duration-200 ease-in-out' : activeLink !== 'activityLogs'}"--}}
+{{--                         class="w-5 h-5 fill-current">--}}
+{{--                        <path d="M-0.000703125 18.75C-0.000703125 19.1833 0.149297 19.5583 0.449297 19.875C0.749297 20.1917 1.1243 20.3417 1.5743 20.325H3.1243C3.1243 21.625 3.58263 22.725 4.4993 23.625C5.41596 24.525 6.5243 24.9833 7.8243 25H13.0493C11.9326 24.2167 11.0326 23.175 10.3493 21.875H7.8243C7.39096 21.875 7.01596 21.725 6.6993 21.425C6.38263 21.125 6.23263 20.7583 6.2493 20.325V4.7C6.2493 4.26667 6.3993 3.9 6.6993 3.6C6.9993 3.3 7.3743 3.14167 7.8243 3.125H20.3243C20.741 3.125 21.1076 3.28333 21.4243 3.6C21.741 3.91667 21.891 4.28333 21.8743 4.7V10.35C23.1743 11.0333 24.216 11.9333 24.9993 13.05V4.7C24.9993 3.4 24.541 2.29167 23.6243 1.375C22.7076 0.458333 21.6076 0 20.3243 0H7.8243C6.5243 0 5.41596 0.458333 4.4993 1.375C3.58263 2.29167 3.1243 3.4 3.1243 4.7H1.5743C1.14096 4.7 0.765964 4.85 0.449297 5.15C0.13263 5.45 -0.0173698 5.81667 -0.000703125 6.25C0.0159635 6.68333 0.165964 7.05833 0.449297 7.375C0.73263 7.69167 1.10763 7.84167 1.5743 7.825H3.1243V10.95H1.5743C1.14096 10.95 0.765964 11.1 0.449297 11.4C0.13263 11.7 -0.0173698 12.0667 -0.000703125 12.5C0.0159635 12.9333 0.165964 13.3083 0.449297 13.625C0.73263 13.9417 1.10763 14.0917 1.5743 14.075H3.1243V17.2H1.5743C1.14096 17.2 0.765964 17.35 0.449297 17.65C0.13263 17.95 -0.0173698 18.3167 -0.000703125 18.75ZM7.8243 18.75H9.4493C9.4493 18.7167 9.44096 18.6083 9.4243 18.425C9.40763 18.2417 9.39096 18.0917 9.3743 17.975C9.35763 17.8583 9.3743 17.7167 9.4243 17.55C9.4743 17.3833 9.48263 17.2667 9.4493 17.2H7.8243V18.75ZM7.8243 15.625H9.7493C9.8993 15.0583 10.0993 14.5417 10.3493 14.075H7.8243V15.625ZM7.8243 12.5H11.3993C11.916 11.8667 12.466 11.35 13.0493 10.95H7.8243V12.5ZM7.8243 9.375H20.3243V7.825H7.8243V9.375ZM7.8243 6.25H20.3243V4.7H7.8243V6.25ZM10.9493 17.975C10.9493 18.925 11.1326 19.8333 11.4993 20.7C11.866 21.5667 12.366 22.3167 12.9993 22.95C13.6326 23.5833 14.3826 24.0833 15.2493 24.45C16.116 24.8167 17.0243 25 17.9743 25C18.9243 25 19.8326 24.8167 20.6993 24.45C21.566 24.0833 22.316 23.5833 22.9493 22.95C23.5826 22.3167 24.0826 21.5667 24.4493 20.7C24.816 19.8333 24.9993 18.925 24.9993 17.975C24.9993 17.025 24.816 16.1167 24.4493 15.25C24.0826 14.3833 23.5826 13.6333 22.9493 13C22.316 12.3667 21.566 11.8667 20.6993 11.5C19.8326 11.1333 18.9243 10.95 17.9743 10.95C17.0243 10.95 16.116 11.1333 15.2493 11.5C14.3826 11.8667 13.6326 12.3667 12.9993 13C12.366 13.6333 11.866 14.3833 11.4993 15.25C11.1326 16.1167 10.9493 17.025 10.9493 17.975ZM14.0743 17.975C14.0743 16.8917 14.4493 15.975 15.1993 15.225C15.9493 14.475 16.8743 14.0917 17.9743 14.075C19.0743 14.0583 19.991 14.4417 20.7243 15.225C21.4576 16.0083 21.841 16.925 21.8743 17.975C21.8743 19.0583 21.491 19.975 20.7243 20.725C19.9576 21.475 19.041 21.8583 17.9743 21.875C16.9076 21.8917 15.9826 21.5083 15.1993 20.725C14.416 19.9417 14.041 19.025 14.0743 17.975ZM17.1993 17.975C17.1993 18.1917 17.2743 18.375 17.4243 18.525C17.5743 18.675 17.7576 18.75 17.9743 18.75H19.5243C19.741 18.75 19.9243 18.675 20.0743 18.525C20.2243 18.375 20.3076 18.1917 20.3243 17.975C20.341 17.7583 20.2576 17.575 20.0743 17.425C19.891 17.275 19.7076 17.2 19.5243 17.2H18.7493V16.425C18.7493 16.2083 18.6743 16.025 18.5243 15.875C18.3743 15.725 18.191 15.6417 17.9743 15.625C17.7576 15.6083 17.5743 15.6917 17.4243 15.875C17.2743 16.0583 17.1993 16.2417 17.1993 16.425V17.975Z"/>--}}
+{{--                    </svg>--}}
+
+{{--                    <!-- Text only when expanded -->--}}
+{{--                    <p x-show="expanded"--}}
+{{--                       :class="{ 'text-white': activeLink === 'activityLogs', 'text-[#4D4F50]': activeLink !== 'activityLogs',--}}
+{{--                          'group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out': activeLink !== 'activityLogs'}"--}}
+{{--                       class="ml-2">Activity Logs</p>--}}
+{{--                </a>--}}
+
                 <!-- Activity Logs -->
-                <a href="{{ route('admin.activity-logs-table') }}"
-                   @click="activeLink = 'activityLogs'; activeChildLink = ''; localStorage.setItem('activeLink', 'activityLogs'); localStorage.setItem('activeChildLink', '')"
+                <a href="#"
+                   @click="activeLink = 'activityLogs'; activeChildLink = 'adminLogs'; localStorage.setItem('activeLink', 'activityLogs'); localStorage.setItem('activeChildLink', 'adminLogs')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'activityLogs',
-                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'activityLogs'}"
-                   class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
+                        'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'activityLogs'}"
+                   class="group m-0 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
 
                     <!-- Icon always visible -->
                     <svg viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"
@@ -132,15 +154,53 @@
                     <!-- Text only when expanded -->
                     <p x-show="expanded"
                        :class="{ 'text-white': activeLink === 'activityLogs', 'text-[#4D4F50]': activeLink !== 'activityLogs',
-                          'group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out': activeLink !== 'activityLogs'}"
-                       class="ml-2">Activity Logs</p>
+                            'group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out': activeLink !== 'activityLogs'}"
+                       class="ml-2 mr-auto">Logs</p>
+                    <svg  x-show="expanded" :class="{ 'text-white': activeLink === 'activityLogs', 'text-[#4D4F50]': activeLink !== 'activityLogs',
+                            'group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out': activeLink !== 'activityLogs'}"
+                        class="w-3 h-3 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M19 9l-7 7-7-7"></path>
+                    </svg>
                 </a>
+
+                <!-- Child Navigation -->
+                <div x-show="activeLink === 'activityLogs'" class="ml-8 mt-2 space-y-2">
+                    <a href="{{ route('admin.admin-logs-table') }}" x-show="expanded"
+                       @click="activeChildLink = 'adminLogs'; localStorage.setItem('activeChildLink', 'adminLogs')"
+                       :class="{ 'text-green-600 font-bold border-l-4 border-[#4AA76F]': activeChildLink === 'adminLogs',
+                            'hover:text-[#4AA76F] hover:bg-gray-50': activeChildLink !== 'adminLogs' }"
+                       class="block py-2 px-4 text-[#4D4F50] transition duration-200 ease-in-out">
+                        Admin Logs
+                    </a>
+                    <a href="" x-show="expanded"
+                       @click="activeChildLink = 'staffLogs'; localStorage.setItem('activeChildLink', 'staffLogs')"
+                       :class="{ 'text-green-600 font-bold border-l-4 border-[#4AA76F]': activeChildLink === 'staffLogs',
+                            'hover:text-[#4AA76F] hover:bg-gray-50': activeChildLink !== 'staffLogs' }"
+                       class="block py-2 px-4 text-[#4D4F50] transition duration-200 ease-in-out">
+                        Staff Logs
+                    </a>
+                    <a href="" x-show="expanded"
+                       @click="activeChildLink = 'residentLogs'; localStorage.setItem('activeChildLink', 'residentLogs')"
+                       :class="{ 'text-green-600 font-bold border-l-4 border-[#4AA76F]': activeChildLink === 'residentLogs',
+                            'hover:text-[#4AA76F] hover:bg-gray-50': activeChildLink !== 'residentLogs' }"
+                       class="block py-2 px-4 text-[#4D4F50] transition duration-200 ease-in-out">
+                        Resident Logs
+                    </a>
+                    <a href="" x-show="expanded"
+                       @click="activeChildLink = 'systemLogs'; localStorage.setItem('activeChildLink', 'systemLogs')"
+                       :class="{ 'text-green-600 font-bold border-l-4 border-[#4AA76F]': activeChildLink === 'systemLogs',
+                            'hover:text-[#4AA76F] hover:bg-gray-50': activeChildLink !== 'systemLogs' }"
+                       class="block py-2 px-4 text-[#4D4F50] transition duration-200 ease-in-out">
+                        System Logs
+                    </a>
+                </div>
+
 
                 <!-- Logout -->
                 <a href="" @click="activeLink = 'logOut'; activeChildLink = ''; localStorage.setItem('activeLink', 'logOut'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'logOut',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'logOut'}"
-                   class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
+                   class="group flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
 
                     <!-- Icon always visible -->
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
@@ -164,9 +224,6 @@
         <div class="lg:hidden z-20">
             <button @click="toggleMobileSidebar" class="ml-2 fixed text-gray-700 mt-5 hover:bg-gray-200 flex items-center justified-center flex-col p-2 rounded-md">
                 <div class="text-xs font-medium">Menu</div>
-{{--                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" >--}}
-{{--                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />--}}
-{{--                </svg>--}}
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" stroke-width="2" stroke="currentColor" class="w-6 h-6">
                     <path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/>
                 </svg>
