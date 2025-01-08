@@ -178,6 +178,47 @@
 
                         <!-- Pagination -->
                         {{-- Put Pagination Here: Design located in "vendor.pagination.custom"--}}
+                        <div class="mt-2 mb-0 pb-3 flex flex-wrap items-center justify-between space-y-2 xl:space-y-0">
+                            <!-- Total Users -->
+                            <div id="pagination-info" class="w-full xl:w-auto text-center xl:text-left text-[11px] md:text-xs text-gray-500 font-semibold">
+                                Showing 1 to 10 of 100 results
+                            </div>
+
+                            <!-- Pagination Controls -->
+                            <div class="w-full xl:w-auto">
+                                <nav aria-label="Page navigation" class="flex justify-center xl:justify-start items-center text-[10px] md:text-xs space-x-1">
+                                    <!-- First Page -->
+                                    <button id="first-page" class="hidden md:block px-3 h-8 text-green-600 bg-white border border-gray-300 rounded-l-xl hover:bg-gray-100">First</button>
+
+                                    <!-- Previous Page -->
+                                    <button id="prev-page" class="px-3 h-8 text-green-600 bg-white border border-gray-300 hover:bg-gray-100">&lt; Prev</button>
+
+                                    <!-- Page Numbers -->
+                                    <div id="page-numbers" class="flex space-x-1">
+                                        <!-- Page numbers will be generated dynamically -->
+                                    </div>
+
+                                    <!-- Next Page -->
+                                    <button id="next-page" class="px-3 h-8 text-green-600 bg-white border border-gray-300 hover:bg-gray-100">Next &gt;</button>
+
+                                    <!-- Last Page -->
+                                    <button id="last-page" class="hidden md:block px-3 h-8 text-green-600 bg-white border border-gray-300 rounded-r-xl hover:bg-gray-100">Last</button>
+                                </nav>
+                            </div>
+
+                            <!-- Rows Per Page -->
+                            <div class="w-full xl:w-auto flex xl:justify-start justify-center items-center space-x-2">
+                                <label for="rowsPerPage" class="text-[11px] md:text-xs text-gray-500 font-semibold">Rows per page:</label>
+                                <select id="rowsPerPage" class="w-20 h-8 border border-gray-300 rounded bg-white text-xs text-gray-500">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -258,42 +299,44 @@
                         maxDate: input.dataset.maxDate // Use the max date from the data attribute
                     });
                 });
+
+
             });
             function reportData() {
                 return {
 
                     //uncomment the report data array to see data in the table to the UI/UX
                     reports: [
-                        // { id: '0001', defectType: 'Pothole', status: 'On-going', date: '07/10/24' },
-                        // { id: '0002', defectType: 'Crack', status: 'On-going', date: '07/10/24' },
-                        // { id: '0003', defectType: 'Pothole', status: 'Resolved', date: '06/15/24' },
-                        // { id: '0004', defectType: 'Debris', status: 'On-going', date: '07/05/24' },
-                        // { id: '0005', defectType: 'Pothole', status: 'On-going', date: '07/12/24' },
-                        // { id: '0006', defectType: 'Debris', status: 'Resolved', date: '06/20/24' },
-                        // { id: '0007', defectType: 'Crack', status: 'On-going', date: '07/13/24' },
-                        // { id: '0008', defectType: 'Pothole', status: 'Resolved', date: '06/25/24' },
-                        // { id: '0009', defectType: 'Debris', status: 'On-going', date: '07/08/24' },
-                        // { id: '0010', defectType: 'Crack', status: 'Resolved', date: '06/30/24' },
-                        // { id: '0011', defectType: 'Pothole', status: 'On-going', date: '07/15/24' },
-                        // { id: '0012', defectType: 'Debris', status: 'On-going', date: '07/09/24' },
-                        // { id: '0013', defectType: 'Crack', status: 'Resolved', date: '07/01/24' },
-                        // { id: '0014', defectType: 'Pothole', status: 'On-going', date: '07/11/24' },
-                        // { id: '0015', defectType: 'Debris', status: 'Resolved', date: '06/22/24' },
-                        // { id: '0016', defectType: 'Pothole', status: 'Resolved', date: '06/18/24' },
-                        // { id: '0017', defectType: 'Crack', status: 'On-going', date: '07/14/24' },
-                        // { id: '0018', defectType: 'Debris', status: 'On-going', date: '07/06/24' },
-                        // { id: '0019', defectType: 'Pothole', status: 'Resolved', date: '06/28/24' },
-                        // { id: '0020', defectType: 'Crack', status: 'Resolved', date: '06/26/24' },
-                        // { id: '0021', defectType: 'Pothole', status: 'On-going', date: '07/16/24' },
-                        // { id: '0022', defectType: 'Debris', status: 'Resolved', date: '07/02/24' },
-                        // { id: '0023', defectType: 'Crack', status: 'On-going', date: '07/07/24' },
-                        // { id: '0024', defectType: 'Pothole', status: 'Resolved', date: '06/27/24' },
-                        // { id: '0025', defectType: 'Debris', status: 'On-going', date: '07/04/24' },
-                        // { id: '0026', defectType: 'Pothole', status: 'On-going', date: '07/17/24' },
-                        // { id: '0027', defectType: 'Crack', status: 'Resolved', date: '07/03/24' },
-                        // { id: '0028', defectType: 'Pothole', status: 'Resolved', date: '06/29/24' },
-                        // { id: '0029', defectType: 'Debris', status: 'On-going', date: '07/10/24' },
-                        // { id: '0030', defectType: 'Pothole', status: 'On-going', date: '07/18/24' }
+                        { id: '0001', defectType: 'Pothole', status: 'On-going', date: '07/10/24' },
+                        { id: '0002', defectType: 'Crack', status: 'On-going', date: '07/10/24' },
+                        { id: '0003', defectType: 'Pothole', status: 'Resolved', date: '06/15/24' },
+                        { id: '0004', defectType: 'Debris', status: 'On-going', date: '07/05/24' },
+                        { id: '0005', defectType: 'Pothole', status: 'On-going', date: '07/12/24' },
+                        { id: '0006', defectType: 'Debris', status: 'Resolved', date: '06/20/24' },
+                        { id: '0007', defectType: 'Crack', status: 'On-going', date: '07/13/24' },
+                        { id: '0008', defectType: 'Pothole', status: 'Resolved', date: '06/25/24' },
+                        { id: '0009', defectType: 'Debris', status: 'On-going', date: '07/08/24' },
+                        { id: '0010', defectType: 'Crack', status: 'Resolved', date: '06/30/24' },
+                        { id: '0011', defectType: 'Pothole', status: 'On-going', date: '07/15/24' },
+                        { id: '0012', defectType: 'Debris', status: 'On-going', date: '07/09/24' },
+                        { id: '0013', defectType: 'Crack', status: 'Resolved', date: '07/01/24' },
+                        { id: '0014', defectType: 'Pothole', status: 'On-going', date: '07/11/24' },
+                        { id: '0015', defectType: 'Debris', status: 'Resolved', date: '06/22/24' },
+                        { id: '0016', defectType: 'Pothole', status: 'Resolved', date: '06/18/24' },
+                        { id: '0017', defectType: 'Crack', status: 'On-going', date: '07/14/24' },
+                        { id: '0018', defectType: 'Debris', status: 'On-going', date: '07/06/24' },
+                        { id: '0019', defectType: 'Pothole', status: 'Resolved', date: '06/28/24' },
+                        { id: '0020', defectType: 'Crack', status: 'Resolved', date: '06/26/24' },
+                        { id: '0021', defectType: 'Pothole', status: 'On-going', date: '07/16/24' },
+                        { id: '0022', defectType: 'Debris', status: 'Resolved', date: '07/02/24' },
+                        { id: '0023', defectType: 'Crack', status: 'On-going', date: '07/07/24' },
+                        { id: '0024', defectType: 'Pothole', status: 'Resolved', date: '06/27/24' },
+                        { id: '0025', defectType: 'Debris', status: 'On-going', date: '07/04/24' },
+                        { id: '0026', defectType: 'Pothole', status: 'On-going', date: '07/17/24' },
+                        { id: '0027', defectType: 'Crack', status: 'Resolved', date: '07/03/24' },
+                        { id: '0028', defectType: 'Pothole', status: 'Resolved', date: '06/29/24' },
+                        { id: '0029', defectType: 'Debris', status: 'On-going', date: '07/10/24' },
+                        { id: '0030', defectType: 'Pothole', status: 'On-going', date: '07/18/24' }
                     ],
                     emptyRows() {
                         // Calculate how many empty rows to add based on the total desired rows

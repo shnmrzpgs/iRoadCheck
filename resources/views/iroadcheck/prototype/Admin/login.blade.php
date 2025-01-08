@@ -58,7 +58,7 @@
 
 
                     <button class="w-3/4 hover:scale-105 bg-gradient-to-r from-[#5A915E] to-[#F8A15E] hover:drop-shadow-md text-white p-3 font-semibold my-6 rounded-full hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier (0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">Log In</button>
-                    <a href="" class="hover:font-medium text-[#6AA76F] text-[12px] font-light italic underline mt-2 mb-1">Forgot Password?</a>
+                    <a href="{{ route('admin.forgot-password-send-code') }}" class="hover:font-medium text-[#6AA76F] text-[12px] font-light italic underline mt-2 mb-1">Forgot Password?</a>
                 </form>
             </div>
         </div>

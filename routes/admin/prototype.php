@@ -4,15 +4,15 @@ use Illuminate\Support\Facades\Route;
 
 //Route::view('/prototype/admin/admin-signup', 'iroadcheck.prototype.admin.admin-signup');
 
-Route::view('/prototype/landing-page', 'iroadcheck.prototype.landing-page');
+Route::view('/prototype/landing-page', 'iroadcheck.prototype.landing-page')->name('admin.landing-page');
 Route::view('/prototype/email-message', 'iroadcheck.prototype.email-message');
 
-Route::view('/prototype/admin/login', 'iroadcheck.prototype.Admin.login');
-Route::view('/prototype/admin/forgot-password-send-code', 'iroadcheck.prototype.Admin.forgot-password-send-code');
-Route::view('/prototype/admin/forgot-password-verify-otp', 'iroadcheck.prototype.Admin.forgot-password-verify-otp');
-Route::view('/prototype/admin/create-new-password', 'iroadcheck.prototype.Admin.create-new-password');
-Route::view('/prototype/admin/verify-account-send-code', 'iroadcheck.prototype.Admin.verify-account-send-code');
-Route::view('/prototype/admin/verify-account-verify-otp', 'iroadcheck.prototype.Admin.verify-account-verify-otp');
+Route::view('/prototype/admin/login', 'iroadcheck.prototype.Admin.login')->name('admin.login');
+Route::view('/prototype/admin/forgot-password-send-code', 'iroadcheck.prototype.Admin.forgot-password-send-code')->name('admin.forgot-password-send-code');
+Route::view('/prototype/admin/forgot-password-verify-otp', 'iroadcheck.prototype.Admin.forgot-password-verify-otp')->name('admin.forgot-password-verify-otp');
+Route::view('/prototype/admin/create-new-password', 'iroadcheck.prototype.Admin.create-new-password')->name('admin.create-new-password');
+Route::view('/prototype/admin/verify-account-send-code', 'iroadcheck.prototype.Admin.verify-account-send-code')->name('admin.verify-account-send-code');
+Route::view('/prototype/admin/verify-account-verify-otp', 'iroadcheck.prototype.Admin.verify-account-verify-otp')->name('admin.verify-account-verify-otp');
 
 //admin
 Route::view('/component/admin/dashboard', 'iroadcheck.prototype.Admin.dashboard')->name('admin.dashboard');

@@ -15,6 +15,6 @@ class UserRolesSeeder extends Seeder
     public function run(): void
     {
         // Seed user roles
-        UserRole::factory()->count(50)->create();
+        UserRole::factory()->count(10)->create();
     }
 }

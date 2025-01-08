@@ -1,5 +1,5 @@
 <x-residents.residents-navigation>
-    <div class="flex flex-col items-center justify-center w-full mb-20" x-data="{ step: 1, selected: '', cameraOpen: false, photoCaptured: false, photo: null, locationCaptured: false, openSuccessModal: false }">
+    <div class="flex flex-col items-center justify-center w-full mb-20 lg:hidden" x-data="{ step: 1, selected: '', cameraOpen: false, photoCaptured: false, photo: null, locationCaptured: false, openSuccessModal: false }">
         <div class="w-full md:w-[85%] flex flex-col justify-center items-center">
 
             <!-- Breadcrumbs Report Road Issue Steps -->
@@ -354,6 +354,11 @@
 
         </div>
     </div>
+    <!-- Message for large screens -->
+    <div class="hidden lg:flex flex-col items-center justify-center w-[85%] ml-32 text-center p-4 bg-gray-100 text-gray-700">
+        <p class="text-lg font-semibold">This feature is available only on mobile and tablets.</p>
+    </div>
+
 </x-residents.residents-navigation>
 
 {{--<script>--}}

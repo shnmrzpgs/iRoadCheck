@@ -64,19 +64,19 @@
                     <!-- Dropdown Menu -->
                     <div x-show="openDropdown"
                          x-transition
-                         class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-50">
+                         class="absolute right-0 mt-2 w-48 bg-white shadow-[0px_5px_40px_rgba(0,0,0,0.2)] rounded-lg z-50">
 
                         <ul class="space-y-2">
                             <!-- Profile Info Link -->
                             <li>
                                 <a href="{{ route('profile-info') }}"
-                                   class="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-t-lg border-b border-gray-300">
-                                    Profile Information
+                                   class="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-t-lg border-b border-gray-300 text-sm">
+                                    Profile Settings
                                 </a>
                             </li>
                             <!-- Logout Option -->
                             <li>
-                                <form action="{{ route('logout') }}" method="POST" class="block rounded-b-lg px-4 py-2 text-gray-800 hover:bg-gray-100">
+                                <form action="{{ route('logout') }}" method="POST" class="block rounded-b-lg px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">
                                     @csrf
                                     <button type="submit" class="w-full text-left">Logout</button>
                                 </form>

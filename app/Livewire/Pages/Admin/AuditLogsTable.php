@@ -9,7 +9,7 @@ use Illuminate\Foundation\Application;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ActivityLogsTable extends Component
+class AuditLogsTable extends Component
 {
     use WithPagination;
 
@@ -64,7 +64,7 @@ class ActivityLogsTable extends Component
             ->orderBy($this->sort_by, $this->sort_direction)
             ->paginate($this->rowsPerPage);
 
-        return view('livewire.pages.admin.activity-logs-table', [
+        return view('livewire.pages.admin.audit-logs-table', [
             'activities' => $activities,  // Pass the activities to the view
         ]);
     }

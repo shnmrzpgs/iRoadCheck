@@ -19,7 +19,7 @@ Route::group(['middleware' => 'AuthAdmin'], function () {
 //
 //    Route::get(
 //        RoutePath::for('admin-activity-logs', '/admin/activity-logs'),
-//        [ActivityLogsController::class, 'showActivityLogs'])->name('admin-activity-logs');
+//        [AuditLogsController::class, 'showActivityLogs'])->name('admin-activity-logs');
 //
 //    Route::get(
 //        RoutePath::for('admin-notification', '/admin/notification'),
@@ -31,10 +31,16 @@ Route::group(['middleware' => 'AuthAdmin'], function () {
     Route::get('/admin/manage-users', App\Http\Controllers\admin\ManageUserController::class)
         ->name('admin.manage-users-table');
 
+    Route::get('/admin/staff-role', App\Http\Controllers\admin\StaffRoleController::class)
+        ->name('admin.staff-role-table');
+
+    Route::get('/admin/admin-logs', App\Http\Controllers\admin\AdminLogsController::class)
+        ->name('admin.admin-logs-table');
+
     Route::get('/admin/user-role', App\Http\Controllers\admin\UserRoleController::class)
         ->name('admin.user-role-table');
 
-    Route::get('/admin/activity-logs', App\Http\Controllers\admin\ActivityLogsController::class)
+    Route::get('/admin/activity-logs', App\Http\Controllers\admin\AuditLogsController::class)
         ->name('admin.activity-logs-table');
 
 });
