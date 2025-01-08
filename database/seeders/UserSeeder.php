@@ -12,7 +12,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Generate 50 random users dynamically
-        User::factory()->count(50)->create();
+        // Generate random users dynamically
+        User::factory()->count(5)->create();
     }
 }

@@ -1,7 +1,7 @@
 <x-app-layout>
 
-    <x-Admin.admin-navigation page_title="Manage Users"  placeholder="Search users..." name="user_search">
-        <div class="text-[#202020] bg-[#FBFBFB] pt-4 lg:px-2 px-0 pb-4 rounded-lg w-full min-w-[40vh] max-w-full h-full min-h-[60vh] max-h-full "
+    <x-Admin.admin-navigation page_title="Manage Users">
+        <div class="z-0 text-[#202020] bg-[#FBFBFB] pt-4 lg:px-2 px-0 pb-4 rounded-lg w-full min-w-[40vh] max-w-full h-full min-h-[60vh] max-h-full "
              x-data="{
                 isPasswordVisible: false,
                 generatePassword() {

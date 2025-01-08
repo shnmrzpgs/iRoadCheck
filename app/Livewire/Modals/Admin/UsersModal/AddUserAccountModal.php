@@ -267,7 +267,7 @@ class AddUserAccountModal extends Component
 
     public $user_roles;
     public $selectedPermissions = [];
-    public $photo; 
+    public $photo;
 
     public function mount(): void
     {
@@ -347,7 +347,7 @@ class AddUserAccountModal extends Component
 
     //     if ($form_saved) {
 
-           
+
 
     //         $this->dispatch($this->identifier . 'sex_force_clear');
     //         $this->dispatch('alert', [
@@ -384,7 +384,7 @@ class AddUserAccountModal extends Component
         $this->validate([
             'photo' => 'nullable|image|max:1024',
         ]);
-    
+
         if ($this->photo) {
             $path = $this->photo->store('profile_photos', 'public');
             $this->form->photo_path = $path; // Pass the path to the form
@@ -432,9 +432,6 @@ class AddUserAccountModal extends Component
             ]);
         }
     }
-
-
-
 
     public function render(): Factory|View|Application|\Illuminate\View\View
     {

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\User\UserStatus;
+use App\Models\StaffRole;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\UserRole;
@@ -9,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
+use PhpParser\Node\Expr\Array_;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -40,37 +43,63 @@ class UserFactory extends Factory
 //        ];
 //    }
 
-    public function definition(): array
-    {
-        return [
+//    public function definition(): array
+//    {
+//        return [
+////            'first_name' => $this->faker->firstName,
+////            'middle_name' => $this->faker->optional()->firstName,
+////            'last_name' => $this->faker->lastName,
+////            'date_of_birth' => $this->faker->date('Y-m-d', '2005-01-01'),
+////            'sex' => $this->faker->randomElement(['Male', 'Female']),
+////            'email' => fake()->unique()->safeEmail(),
+////            'password' => static::$password ??= Hash::make('password'),
+////            'two_factor_secret' => null,
+////            'two_factor_recovery_codes' => null,
+////            'remember_token' => Str::random(10),
+////            'status' => $this->faker->randomElement(['Active', 'Inactive']),
+////            'user_type' => $this->faker->numberBetween(1, 2), // Adjust based on user_types table
+////            'created_at' => now(),
+////            'updated_at' => now(),
+//
 //            'first_name' => $this->faker->firstName,
 //            'middle_name' => $this->faker->optional()->firstName,
 //            'last_name' => $this->faker->lastName,
 //            'date_of_birth' => $this->faker->date('Y-m-d', '2005-01-01'),
 //            'sex' => $this->faker->randomElement(['Male', 'Female']),
-//            'email' => fake()->unique()->safeEmail(),
+//            'user_type' => $this->faker->randomElement([1, 2, 3]),
+//            'user_role' => $this->faker->numberBetween(1, 2),
+//            'status' => $this->faker->randomElement([UserStatus::ACTIVE, UserStatus::INACTIVE]),
+//            'phone' => fake()->phoneNumber(),
+//            'email' => $this->faker->unique()->safeEmail(),
+//            'email_verified_at' => now(),
+//            'generated_password' => 'password',
 //            'password' => static::$password ??= Hash::make('password'),
 //            'two_factor_secret' => null,
 //            'two_factor_recovery_codes' => null,
 //            'remember_token' => Str::random(10),
-//            'status' => $this->faker->randomElement(['Active', 'Inactive']),
-//            'user_type' => $this->faker->numberBetween(1, 2), // Adjust based on user_types table
 //            'created_at' => now(),
 //            'updated_at' => now(),
+//        ];
+//    }
 
+    public function definition(): array
+    {
+        $userType = $this->faker->randomElement([1, 2, 3]);
+
+        return [
             'first_name' => $this->faker->firstName,
             'middle_name' => $this->faker->optional()->firstName,
             'last_name' => $this->faker->lastName,
             'date_of_birth' => $this->faker->date('Y-m-d', '2005-01-01'),
             'sex' => $this->faker->randomElement(['Male', 'Female']),
+            'user_type' => $userType,
+            'status' => $this->faker->randomElement(['Active', 'Inactive']),
             'email' => $this->faker->unique()->safeEmail(),
+            'email_verified_at' => $this->faker->optional()->dateTimeBetween('-1 year', 'now'),
             'password' => static::$password ??= Hash::make('password'),
-            'user_role' => $this->faker->numberBetween(1, 2),
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
-            'status' => $this->faker->randomElement(['Active', 'Inactive']),
-            'user_type' => $this->faker->numberBetween(1, 2), // Adjust based on your logic
             'created_at' => now(),
             'updated_at' => now(),
         ];

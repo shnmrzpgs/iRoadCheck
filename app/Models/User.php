@@ -5,6 +5,9 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,11 +34,12 @@ class User extends Authenticatable
         'last_name',
         'date_of_birth',
         'sex',
-        'email',
-        'password',
         'user_type',
-        'user_role',
-        'status'
+        'status',
+        'email',
+        'email_verified_at',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -44,7 +48,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $casts = [
-        'user_role' => 'integer',
+        'staff_role' => 'integer',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
@@ -81,17 +85,48 @@ class User extends Authenticatable
         ];
     }
 
-    public function user_type(): BelongsTo
+
+    public function admin(): HasOne
+    {
+        return $this->hasOne(Admin::class);
+    }
+
+    public function resident(): HasOne
+    {
+        return $this->hasOne(Resident::class);
+    }
+
+    public function staff(): HasOne
+    {
+        return $this->hasOne(Staff::class);
+    }
+
+    public function admin_logs(): HasMany
+    {
+        return $this->hasMany(AdminLog::class);
+    }
+
+    public function staff_logs(): HasMany
+    {
+        return $this->hasMany(StaffLog::class);
+    }
+
+    public function userType(): BelongsTo
     {
         return $this->belongsTo(UserType::class, 'user_types');
     }
 
-    public function userRole(): BelongsTo
+    public function permissions(): BelongsToMany
     {
-        return $this->belongsTo(UserRole::class, 'user_role');
+        return $this->belongsToMany(StaffPermission::class, 'staff_roles_permissions');
     }
 
-    public function profilePhoto()
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(StaffRole::class, 'staff_roles_permissions');
+    }
+
+    public function profilePhoto(): HasOne
     {
         return $this->hasOne(UserProfilePhoto::class);
     }

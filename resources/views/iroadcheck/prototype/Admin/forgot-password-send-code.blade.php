@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <img src="{{ asset('storage/icons/bg-graphics-orange.png') }}" alt="bgGraphics"
-         class="absolute -left-[650px] -top-[600px] w-[1300px] opacity-10 -rotate-90" />
+         class="absolute -left-[650px] -top-[900px] w-[1300px] opacity-10 -rotate-90" />
     <img src="{{ asset('storage/icons/bg-graphics-green.png') }}" alt="bgGraphics"
          class="absolute -right-[400px] top-28 w-[1000px] opacity-10 -rotate-90"/>
 
@@ -12,12 +12,14 @@
             <div class="mt-2 text-[#4D4F50] font-semibold text-[18px]">iRoadCheck</div>
         </div>
         <div class="flex mt-4 ml-5 mr-auto">
-            <h1 class="hover:scale-110 transform transition-transform duration-300 ease-in-out absolute right-5 top-6 text-[14px] font-medium bg-gradient-to-r from-[#5A915E] via-[#F8A15E] to-[#F8A15E] bg-clip-text text-transparent flex items-center group">
-                <span class="font-bold">Back to Log In</span>
-                <svg class="w-6 h-6 " fill="#F8A15E" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
-                </svg>
-            </h1>
+            <a href="{{ route('admin.login') }}">
+                <h1 class="hover:scale-110 transform transition-transform duration-300 ease-in-out absolute right-5 top-6 text-[14px] font-medium bg-gradient-to-r from-[#5A915E] via-[#F8A15E] to-[#F8A15E] bg-clip-text text-transparent flex items-center group">
+                    <span class="font-bold">Back to Log In</span>
+                    <svg class="w-6 h-6 " fill="#F8A15E" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </h1>
+            </a>
         </div>
     </div>
 
@@ -30,7 +32,7 @@
                 autoplay: true, // start playing the animation
                 path: '{{ asset("animations/Animation - 1726942853737.json") }}'
             })">
-            <form action="" method="POST" class="flex flex-col items-center w-full">
+            <form action="" class="flex flex-col items-center w-full">
                 <div class="text-[#6AA76F] font-bold text-[22px]">Forgot Password</div>
 
                 <!-- Lottie Animation Container -->
@@ -43,7 +45,9 @@
                            name="email" id="email" type="email" placeholder="Enter Email address" required >
                     <img src="{{ asset('storage/icons/user.svg') }}" class="absolute left-2.5 top-3 h-4 w-4" alt="user">
                 </div>
-                <button class="w-3/4 hover:scale-110 transform transition-transform duration-300 ease-in-out bg-gradient-to-r from-[#5A915E] to-[#F8A15E] hover:drop-shadow-md text-white p-3 font-semibold mt-6 rounded-full">Send Code</button>
+                <a href="{{ route('admin.forgot-password-verify-otp') }}" class="w-3/4 text-[14px] text-center bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mb-4 rounded-full block mt-4 transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
+                    Send Code
+                </a>
             </form>
         </div>
     </div>

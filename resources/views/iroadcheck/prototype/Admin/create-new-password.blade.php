@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <img src="{{ asset('storage/icons/bg-graphics-orange.png') }}" alt="bgGraphics"
-         class="absolute -left-[650px] -top-[600px] w-[1300px] opacity-10 -rotate-90" />
+         class="absolute -left-[650px] -top-[900px] w-[1300px] opacity-10 -rotate-90" />
     <img src="{{ asset('storage/icons/bg-graphics-green.png') }}" alt="bgGraphics"
          class="absolute -right-[400px] top-28 w-[1000px] opacity-10 -rotate-90"/>
 
@@ -12,12 +12,14 @@
             <div class="mt-2 text-[#4D4F50] font-semibold text-[18px]">iRoadCheck</div>
         </div>
         <div class="flex mt-4 ml-5 mr-auto">
-            <h1 class="hover:scale-110 transform transition-transform duration-300 ease-in-out absolute right-5 top-6 text-[14px] font-medium bg-gradient-to-r from-[#5A915E] via-[#F8A15E] to-[#F8A15E] bg-clip-text text-transparent flex items-center group">
-                <span class="font-bold">Back to Log In</span>
-                <svg class="w-6 h-6" fill="#F8A15E" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
-                </svg>
-            </h1>
+            <a href="{{ route('admin.login') }}">
+                <h1 class="hover:scale-110 transform transition-transform duration-300 ease-in-out absolute right-5 top-6 text-[14px] font-medium bg-gradient-to-r from-[#5A915E] via-[#F8A15E] to-[#F8A15E] bg-clip-text text-transparent flex items-center group">
+                    <span class="font-bold">Back to Log In</span>
+                    <svg class="w-6 h-6 " fill="#F8A15E" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </h1>
+            </a>
         </div>
     </div>
 
@@ -66,7 +68,7 @@
 
                 <div class="relative mb-1">
                     <input :type="showPassword ? 'text' : 'password'"
-                           class="rounded border border-gray-400 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none text-[14px] text-gray-600 w-full py-2 pl-10 pr-10 bg-[#FFFFF9]"
+                           class="rounded border border-gray-400 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 focus:outline-none text-[14px] text-gray-600 w-full py-2 pl-10 pr-10 bg-none"
                            x-model="password" placeholder="Password" required @input="validatePassword()">
                     <img src="{{ asset('storage/icons/lock.svg') }}" class="absolute left-2.5 top-3 h-4 w-4" alt="lock">
 
@@ -117,7 +119,9 @@
                 <p x-show="confirmPassword && !checkConfirmPassword()" class="text-red-500 text-sm mb-2">Passwords do not match.</p>
 
                 <button :disabled="!requirements.every(req => req.isValid) || !checkConfirmPassword()"
-                        class="w-3/4 hover:scale-110 transform transition-transform duration-300 ease-in-out bg-gradient-to-r from-[#5A915E] to-[#F8A15E] hover:drop-shadow-md text-white p-3 font-semibold mt-6 rounded-full">Send Code</button>
+                        class="w-3/4 hover:scale-110 transform transition-transform duration-300 ease-in-out bg-gradient-to-r from-[#5A915E] to-[#F8A15E] hover:drop-shadow-md text-white p-3 font-semibold mt-6 rounded-full">
+                    Change Password
+                </button>
             </form>
         </div>
     </div>
