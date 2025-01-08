@@ -16,9 +16,8 @@
             }
             this.form.password = password;
         },
-        isOpen: false,
     }">
-    <x-admin.crud-modal-content-base modal_name="add-user-modal">
+    <x-admin.crud-modal-content-base modal_name="add-user-account-modal">
 
         <x-slot:trigger>
             <button type="button"
@@ -70,7 +69,7 @@
                             {{ trim(($form->first_name ?? '') . ' ' . ($form->middle_name ?? '') . ' ' . ($form->last_name ?? '')) ?: 'Full Name Preview' }}
                         </div>
                         <div class="block text-xs font-normal text-gray-700 italic">
-                        {{ !empty($form->email) ? $form->email : 'Email Preview' }}
+                            {{ !empty($form->email) ? $form->email : 'Email Preview' }}
                         </div>
                     </div>
                 </div>
@@ -171,14 +170,14 @@
                                 @enderror
                             </div>
                             <div x-data="{ date: '' }" class="relative">
-                                <label class="block font-medium text-gray-700">Date of Birth</label>
+                                <label class="block font-medium text-gray-700">Birthdate</label>
                                 <div class="relative">
                                     <input x-model="date"
                                         x-init="flatpickr($refs.input, { 
                                             dateFormat: 'Y-m-d',
-                                            allowInput: true,
+                                            allowInput: false,
                                         })"
-                                        type="date"
+                                        type="text"
                                         x-ref="input"
                                         wire:model.defer="form.date_of_birth"
                                         class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm pr-10"
@@ -194,7 +193,6 @@
                                 <span id="dobError" class="text-red-600 text-xs">{{ $message }}</span>
                                 @enderror
                             </div>
-
                         </div>
 
                     </form>
@@ -337,7 +335,7 @@
 
 
             <!-- Buttons -->
-            <div x-data="{ isOpen: false }" class="flex justify-between mt-6">
+            <div class="flex justify-between mt-6">
                 <!-- Left Side Buttons -->
                 <div class="flex space-x-4">
                     <!-- Back Button -->
@@ -400,43 +398,7 @@
             </div>
 
         </x-slot:footer>
-        <!-- Success Modal -->
-        <div x-show="isOpen" x-transition.opacity class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div class="bg-white rounded-lg shadow-md w-96 p-6">
-                <div class="text-center">
-                    <h2 class="text-green-500 text-lg font-bold">SUCCESS</h2>
-                    <div class="mt-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-6.219-8.56M12 2a9 9 0 00-6.219 15.56M21 12a9 9 0 11-6.219-8.56" />
-                        </svg>
-                    </div>
-                    <p class="mt-4 text-gray-600">Staff Account added successfully!</p>
-                    <button @click="isOpen = false" class="mt-6 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none">
-                        Close
-                    </button>
-                </div>
-            </div>
-        </div>
-        <!-- Livewire Script -->
-        <script>
-            Livewire.on('userAdded', () => console.log('userAdded event detected'));
-            document.addEventListener('livewire:load', () => {
-                Livewire.on('userAdded', () => {
-                    const modal = document.querySelector('[x-data]');
-                    if (modal && modal.__x) {
-                        modal.__x.$data.isOpen = true;
-                    } else {
-                        console.error("Modal instance not found or Alpine.js is not properly initialized.");
-                    }
-                });
-            });
-        </script>
-        <script>
-            Livewire.on('reload-page', () => {
-    window.location.reload();
-});
-
-            </script>
+       
 
         @script
         <script type="module">
