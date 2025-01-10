@@ -16,10 +16,10 @@ class StaffSeeder extends Seeder
     {
         // Fetch all users of type 'staff'
         $staffUsers = DB::table('users')
-            ->join('user_types', 'users.user_type', '=', 'user_types.id')
-            ->where('user_types.type', 'staff')
-            ->select('users.id') // Only select user IDs
+            ->where('user_type', 3) // Staff type ID
+            ->select('id') // Only select user IDs
             ->get();
+
 
         // Insert into the staffs table
         foreach ($staffUsers as $user) {
@@ -31,6 +31,7 @@ class StaffSeeder extends Seeder
                     'user_id' => $user->id,
                     'staff_roles_permissions_id' => $rolePermission->id, // Reference role_permission ID
                     'generated_password' => Str::random(10), // Generate a random password
+                    'status' => 'active', // Default to active status
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);

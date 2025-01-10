@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'admin@example.com',
                 'password' => Hash::make('password'), // Hashing the password
                 'user_type' => 1, // User type for admin
-                'status' => 'Active', // User status for admin
+                // 'status' => 'Active', // User status for admin
                 'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder
                 'email' => 'resident@example.com',
                 'password' => Hash::make('password'), // Hashing the password
                 'user_type' => 2, // User type for resident
-                'status' => 'Active', // User status for resident
+                // 'status' => 'Active', // User status for resident
                 'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -57,21 +57,13 @@ class DatabaseSeeder extends Seeder
                 'email' => 'staff@example.com',
                 'password' => Hash::make('password'), // Hashing the password
                 'user_type' => 3, // User type for resident
-                'status' => 'Active', // User status for resident
+                // 'status' => 'Active', // User status for resident
                 'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
         ]);
-//        DB::table('user_roles')->insert([
-//            [
-//                'role' => 'Patcher',
-//            ],
-//            [
-//                'role' => 'Gravel Spreader',
-//            ],
-//
-//        ]);
+
         DB::table('severities')->insert([
             [
                 'severity' => 'Shallow',
@@ -91,7 +83,6 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ActivityLogSeeder::class,
             ReportSeeder::class,
-            UserRolesSeeder::class,
             RolePermissionSeeder::class,
             AdminLogSeeder::class,
 //            StaffLogSeeder::class,

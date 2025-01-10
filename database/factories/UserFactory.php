@@ -6,7 +6,6 @@ use App\Enums\User\UserStatus;
 use App\Models\StaffRole;
 use App\Models\Team;
 use App\Models\User;
-use App\Models\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -93,7 +92,7 @@ class UserFactory extends Factory
             'date_of_birth' => $this->faker->date('Y-m-d', '2005-01-01'),
             'sex' => $this->faker->randomElement(['Male', 'Female']),
             'user_type' => $userType,
-            'status' => $this->faker->randomElement(['Active', 'Inactive']),
+            // 'status' => $this->faker->randomElement(['Active', 'Inactive']),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => $this->faker->optional()->dateTimeBetween('-1 year', 'now'),
             'password' => static::$password ??= Hash::make('password'),
