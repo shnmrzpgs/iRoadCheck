@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Staff extends Model
 {
@@ -13,13 +14,16 @@ class Staff extends Model
     protected $fillable = [
         'user_id',
         'staff_roles_permissions_id',
-        'generated password'
+        'generated password',
+        'status'
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
     ];
+
+    protected $table = 'staffs';
 
     // Attributes
     /**
@@ -34,8 +38,18 @@ class Staff extends Model
     ];
 
     //Relationships
-    public function staffRolesPermissions(): BelongsToMany
+    public function staffRolesPermissions(): BelongsTo
     {
-        return $this->belongsToMany(StaffRolesPermissions::class, 'staff_roles_permissions_id');
+        return $this->belongsTo(StaffRolesPermissions::class);
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(StaffRole::class, 'staff_roles_permissions');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Forms;
 
-use App\Enums\User\UserStatus;
+use App\Enums\Staff\StaffStatus;
+use App\Models\Staff;
 use App\Models\User;
 use App\Models\UserProfilePhoto;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Form;
@@ -81,7 +83,6 @@ class AddUserAccountForm extends Form
             'date_of_birth',
             'password',
             'user_status',
-            'user_role',
         ]);
     }
 
@@ -96,12 +97,15 @@ class AddUserAccountForm extends Form
 
     public function save(): bool
     {
+        $generatedPassword = Str::random(8);
+
         try {
-            $this->validate(); // Validation happens here
+            $this->validate(); // Validate the form inputs
             Log::info('Validation passed.');
-
+    
             DB::beginTransaction();
-
+    
+            // Create the User record
             $user = User::create([
                 'first_name' => $this->first_name,
                 'middle_name' => $this->middle_name,
@@ -109,40 +113,38 @@ class AddUserAccountForm extends Form
                 'sex' => $this->sex,
                 'email' => $this->email,
                 'date_of_birth' => $this->date_of_birth,
-                'password' => bcrypt($this->password),
-                'generated_password' => $this->password,
-                'user_type' => 1,
-                'status' => $this->user_status ? UserStatus::ACTIVE : UserStatus::INACTIVE,
+                'password' => bcrypt($generatedPassword),
+                'user_type' => 3, // Staff type
+                'status' => $this->user_status ? StaffStatus::ACTIVE : StaffStatus::INACTIVE,
                 'email_verified_at' => now(),
             ]);
-
-            // Save the profile photo if a path exists
+    
+            // Save the profile photo if it exists
             if (!empty($this->photo_path)) {
                 $this->saveProfilePhoto($this->photo_path, $user);
             }
-
-
+    
+            // Create a corresponding Staff record
+            $staff = Staff::create([
+                'user_id' => $user->id,
+                'staff_roles_permissions_id' => $this->user_role, // Assuming $this->user_role maps to a valid staff role
+                 'generated_password' => $generatedPassword,
+                'status' => $this->user_status ? StaffStatus::ACTIVE : StaffStatus::INACTIVE,
+            ]);
+    
             DB::commit();
+    
             return true;
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Validation failed.', ['errors' => $e->errors()]);
-            throw $e; // Rethrow to propagate the error
+            throw $e; // Propagate the error
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Error saving user account', ['exception' => $e]);
             return false;
         }
     }
-
-    // public function saveProfilePhoto(string $path): void
-    // {
-    //     if ($path) {
-    //         UserProfilePhoto::create([
-    //             'user_id' => User::latest()->first()->id, // Assuming you're saving the last created user
-    //             'photo_path' => $path,
-    //         ]);
-    //     }
-    // }
+    
 
 
     protected function isRootComponent() {}

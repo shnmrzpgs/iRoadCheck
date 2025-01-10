@@ -19,13 +19,16 @@ class StaffRole extends Model
     /**
      * Relationship: A Role has many Permissions.
      */
-//    public function permissions(): BelongsToMany
-//    {
-//        return $this->belongsToMany(StaffPermission::class, 'staff_roles_permissions', 'staff_role_id', 'staff_permission_id');
-//    }
+
+     
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(StaffPermission::class, 'staff_roles_permissions');
+    }
+
+    public function staffRolesPermissions(): BelongsToMany
+    {
+        return $this->belongsToMany(StaffRolesPermissions::class, 'staff_roles_permissions');
     }
 
 }
