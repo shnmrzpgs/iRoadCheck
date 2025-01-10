@@ -27,7 +27,7 @@
         >
             <div
                 x-on:click.stop
-                x-trap.noscroll.inert="open"
+                x-trap.noscroll="open"
                 class="relative w-full {{ $body_width }} overflow-y-auto rounded-xl bg-none p-0"
             >
                 <div class="w-full h-full">
