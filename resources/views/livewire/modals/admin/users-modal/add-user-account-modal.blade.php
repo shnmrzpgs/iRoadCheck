@@ -49,7 +49,7 @@
                     <!-- Profile Picture -->
                     <div class="relative h-16 w-16 flex-shrink-0 -mt-2">
                         <img
-                            src="{{ $photo ? $photo->temporaryUrl() : asset('storage/icons/profile-graphics.png') }}"
+                            src="{{ $photo ? $photo->temporaryUrl() : ($currentPhoto ?? asset('storage/icons/profile-graphics.png')) }}"
                             alt="Profile Image"
                             class="h-16 w-16 rounded-full bg-gradient-to-r from-blue-500 to-green-500 p-[1px]" />
                         <label for="upload-photo" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer text-white text-xs hover:bg-opacity-60">
@@ -61,7 +61,7 @@
                                 wire:model="photo" />
                         </label>
                     </div>
-                    @error('photo') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+
 
                     <!-- Full Name and Email Preview -->
                     <div class="pl-4">
@@ -199,30 +199,31 @@
                     @endif
 
                     <!-- Access Control Tab -->
-                    @if($activeTab === 'access-info')
                     <div>
-                        <label class="block font-medium text-gray-700">User Role</label>
-                        <select wire:model="form.user_role"
-                            class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] text-gray-700 block w-full rounded-sm shadow-sm">
-                            <option value="" selected>Select User Role</option>
-                            @foreach($user_roles as $role)
-                            <option value="{{ $role->id }}" class="text-gray-900">{{ $role->role }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                        @if($activeTab === 'access-info')
+                        <div>
+                            <label class="block font-medium text-gray-700">User Role</label>
+                            <select wire:model.live="form.user_role"
+                                class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] text-gray-700 block w-full rounded-sm shadow-sm">
+                                <option value="" selected>Select User Role</option>
+                                @foreach($roles as $role)
+                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                    <div>
-                        <label class="block font-medium text-gray-700 mt-4">Permissions</label>
-                        <ul class="list-disc pl-6 mt-2">
-                            @forelse($selectedPermissions as $permission)
-                            <li>{{ ucwords(str_replace('_', ' ', $permission)) }}</li>
-                            @empty
-                            <li>No permissions assigned for this role.</li>
-                            @endforelse
-                        </ul>
+                        <div>
+                            <label class="block font-medium text-gray-700 mt-4">Permissions</label>
+                            <ul class="list-disc pl-6 mt-2">
+                                @forelse($selectedPermissions as $permission)
+                                <li>{{ ucwords(str_replace('_', ' ', $permission)) }}</li>
+                                @empty
+                                <li>No permissions assigned for this role.</li>
+                                @endforelse
+                            </ul>
+                        </div>
+                        @endif
                     </div>
-                    @endif
-
 
                     <!-- Account Info Tab -->
                     @if($activeTab === 'account-info')
@@ -367,7 +368,8 @@
                         <!-- Add user Button -->
                         <button
                             type="button"
-                            wire:click="validateAndSubmit"
+                            wire:click.prevent="validateAndSubmit"
+                            x-on:user_account_added.window="open = false"
                             class="px-4 py-2 bg-gradient-to-b from-[#84D689] to-green-500 text-white text-sm rounded hover:bg-[#4AA76F] shadow-lg shadow-neutral-500/20 transition active:scale-95 hover:scale-105"
                             x-show="tabs.findIndex(tab => tab.key === activeTab) === tabs.length - 1">
                             Add Staff
@@ -398,14 +400,14 @@
             </div>
 
         </x-slot:footer>
-       
+
 
         @script
         <script type="module">
             $wire.on('user_account_added', () => {
                 pushNotification('success', 'User Information Added', 'User has been added successfully.');
             });
-            $wire.on('user_not_added', () => {
+            $wire.on('user_account_not_added', () => {
                 pushNotification('error', 'Failed to Add User', 'An error occurred while adding the User.');
             });
         </script>
