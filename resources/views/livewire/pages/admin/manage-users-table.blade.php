@@ -103,46 +103,49 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-300 bg-white relative">
-                            @forelse ($users as $user)
+                            @forelse ($staffs as $staff)
                             <tr class="{{ $loop->iteration % 2 === 0 ? 'bg-white' : 'bg-gray-50' }} hover:bg-gray-100">
-                                <td class="px-4 py-3 text-xs">{{ $user->id }}</td>
+                                <td class="px-4 py-3 text-xs">{{ $staff->user->id }}</td>
                                 <td class="px-4 py-3 text-xs">
                                     <div class="flex items-center">
                                         <img
-                                            src="{{ $user->profilePhoto ? asset('storage/' . $user->profilePhoto->photo_path) : asset('storage/icons/profile-graphics.png') }}"
+                                            src="{{ $staff->user->profilePhoto ? asset('storage/' . $staff->user->profilePhoto->photo_path) : asset('storage/icons/profile-graphics.png') }}"
                                             alt="Profile Image"
                                             class="hidden lg:block h-8 w-8 rounded-full flex-shrink-0">
-                                        <span class="lg:ml-2 font-medium">{{ $user->first_name }} {{ $user->last_name }}</span>
+                                        <span class="lg:ml-2 font-medium">{{ $staff->user->first_name }} {{ $staff->user->last_name }}</span>
                                     </div>
                                 </td>
 
-                                <td class="px-4 py-3 text-xs">{{ $user->email }}</td>
+                                <td class="px-4 py-3 text-xs">{{ $staff->user->email }}</td>
                                 <td class="px-4 py-3 text-xs">
-                                    {{ $user->userRole->role ?? 'No role assigned' }}
+                                    {{ optional($staff->staffRolesPermissions->staffRole)->name ?? 'No role assigned' }}
                                 </td>
                                 <td class="px-4 py-3 text-xs font-medium">
-                                    <span class="{{ $user->status === 'Active' ? 'text-green-600 font-bold' : 'text-red-600 font-bold' }}">
-                                        {{ $user->status }}
+                                    <span class="{{$staff->status === 'Active' ? 'text-green-600 font-bold' : 'text-red-600 font-bold' }}">
+                                        {{ ucfirst($staff->status) }}
                                     </span>
                                 </td>
                                 <td class="pr-5 py-3 text-xs">
                                     <div class="flex">
                                         <!-- Button to Open Edit Course Modal -->
-                                        <button class="flex items-center text-orange-500 hover:text-orange-600 font-medium text-xs transition active:scale-95 hover:bg-orange-100 hover:shadow py-1 px-3.5 rounded-md"
-                                            wire:click="editUserAccount({{ $user->id }})"
+                                        <button
+                                            class="flex items-center text-orange-500 hover:text-orange-600 font-medium text-xs transition active:scale-95 hover:bg-orange-100 hover:shadow py-1 px-3.5 rounded-md"
+                                            wire:click="editUserAccount({{ $staff->id }})"
                                             wire:loading.attr="disabled"
                                             x-data="{ loading: false }"
                                             x-on:click="loading = true"
-                                            x-on:edit-user-account-modal-shown.window="loading = false">
+                                            x-on:show-edit-user-account-modal.window="loading = false">
                                             <img src="{{ asset('storage/icons/edit-icon.png') }}" alt="Edit Icon" class="hidden md:block w-4 h-4 mr-2" />
-                                            <span x-cloak x-show="! loading">Edit</span>
-                                            <x-loading-indicator class="text-orange-500 w-4 h-4" x-cloak x-show="loading" />
+                                            <span x-show="!loading">Edit</span>
+                                            <x-loading-indicator class="text-orange-500 w-4 h-4" x-show="loading" />
                                         </button>
+
+
 
 
                                         <!-- Button to Open View Course Modal -->
                                         <button class="flex items-center text-[#3251FF] hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95 hover:bg-blue-100 hover:shadow py-1 px-3 rounded-md"
-                                            wire:click="viewUser({{ $user->id }})"
+                                            wire:click="viewUser({{ $staff->user->id }})"
                                             wire:loading.attr="disabled"
                                             x-data="{ loading: false }"
                                             x-on:click="loading = true"
@@ -175,21 +178,20 @@
             </x-slot:table_container>
 
             <x-slot:pagination_container wire:key="{{ now() }}">
-                {{ $users->links('vendor.pagination.custom') }}
+                {{ $staffs->links('vendor.pagination.custom') }}
             </x-slot:pagination_container>
 
             <x-slot:modal_container>
-                {{-- <!-- Edit User Modal -->--}}
-                {{-- <livewire:modals.admin.users-modal.edit-user-modal--}}
-                {{-- wire:model.live="user_account_to_edited"--}}
-                {{-- :users="$users"--}}
-                {{-- @user_updated="$refresh"--}}
-                {{-- />--}}
+                <!-- Edit User Modal -->
+                <livewire:modals.admin.users-modal.edit-user-account-modal
+                    :user="$user_account_to_edited"
+                    wire:key="edit-user-account-{{ $user_account_to_edited?->id }}" />
 
-                {{-- <!-- View User Modal -->--}}
-                {{-- <livewire:modals.admin.users-modal.view-user-modal--}}
-                {{-- wire:model.live="user_account_to_viewed"--}}
-                {{-- />--}}
+
+                <!-- View User Modal -->
+                {{-- <livewire:modals.admin.users-modal.view-user-modal --}}
+                {{-- wire:model.live="user_account_to_viewed" --}}
+                {{-- /> --}}
             </x-slot:modal_container>
 
         </x-admin.crud-page-content-base>
