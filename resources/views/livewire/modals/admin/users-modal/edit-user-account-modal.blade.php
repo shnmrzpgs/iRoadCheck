@@ -18,23 +18,11 @@
         },
         isOpen: false,
     }">
-    <x-admin.crud-modal-content-base modal_name="edit-user-modal">
+    <x-admin.crud-modal-content-base modal_name="edit-user-account-modal">
 
         <x-slot:trigger>
-            <button type="button"
-                class="flex justify-center items-center gap-x-[8px] w-60 sm:w-auto text-sm md:text-[12px] px-[14px] py-[6px] font-normal tracking-wider text-[#FFFFFF]  bg-gradient-to-b from-[#84D689] to-green-500 rounded-full hover:drop-shadow hover:bg-[#4AA76F] hover:scale-105 hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier (0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="15" viewBox="0 0 594.95996 595.499987" height="15" preserveAspectRatio="xMidYMid meet" class="mt-1 mr-0 hidden sm:block">
-                    <defs>
-                        <clipPath id="9bb67f9de8">
-                            <path d="M 5.070312 4.839844 L 590.328125 4.839844 L 590.328125 590 L 5.070312 590 Z M 5.070312 4.839844 " clip-rule="nonzero" />
-                        </clipPath>
-                    </defs>
-                    <g clip-path="url(#9bb67f9de8)">
-                        ..
-                    </g>
-                </svg>
-                <span class="ml-0 mt-[2px] text-[#FFFFFF]">Edit Staff</span>
-            </button>
+            <div class="hidden"
+                x-on:show-{{ $identifier }}.window="open = true"></div>
         </x-slot:trigger>
 
         <x-slot:header>
@@ -42,7 +30,7 @@
         </x-slot:header>
 
         <x-slot:body>
-
+            @if($staff)
             <div>
                 <!-- Profile Picture Section -->
                 <div class="flex mb-5">
@@ -127,7 +115,7 @@
 
                     <!-- Basic Info Tab -->
                     @if($activeTab === 'basic-info')
-                    <form wire:submit.prevent="save" class="space-y-6">
+                    <div wire:submit.prevent="save" class="space-y-6">
                         <!-- Name Fields -->
                         <div class="grid grid-cols-3 gap-4">
                             <div>
@@ -153,6 +141,7 @@
                                     class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
                                 @error('form.last_name') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                             </div>
+                           
                         </div>
 
                         <!-- Sex and Email -->
@@ -198,7 +187,7 @@
 
                         </div>
 
-                    </form>
+                    </div>
                     @endif
 
                     <!-- Access Control Tab -->
@@ -208,9 +197,7 @@
                         <select wire:model="form.user_role"
                             class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] text-gray-700 block w-full rounded-sm shadow-sm">
                             <option value="" selected>Select User Role</option>
-                            @foreach($user_roles as $role)
-                            <option value="{{ $role->id }}" class="text-gray-900">{{ $role->role }}</option>
-                            @endforeach
+
                         </select>
                     </div>
 
@@ -305,8 +292,7 @@
                                                     </clipPath>
                                                 </defs>
                                                 <g clip-path="url(#1f8a6b186c)">
-                                                    <path fill="currentColor" d="M 364.394531 183.273438 C 344.859375 152.066406 288.148438 78.507812 187.597656 78.507812 C 87.042969 78.507812 30.332031 152.066406 10.800781 183.273438 C 5.546875 191.660156 5.546875 202.347656 10.800781 210.734375 C 30.332031 241.941406 87.042969 315.5 187.597656 315.5 C 288.148438 315.5 344.859375 241.941406 364.394531 210.734375 C 369.648438 202.347656 369.648438 191.660156 364.394531 183.273438 Z M 187.597656 274.339844 C 144.816406 274.339844 110.136719 239.714844 110.136719 197.003906 C 110.136719 154.292969 144.816406 119.667969 187.597656 119.667969 C 230.375 119.667969 265.054688 154.292969 265.054688 197.003906 C 265.054688 239.714844 230.375 274.339844 187.597656 274.339844 Z M 213.417969 184.113281 C 206.289062 184.113281 200.507812 178.34375 200.507812 171.226562 C 200.507812 167.710938 201.933594 164.539062 204.21875 162.214844 C 199.164062 159.800781 193.574219 158.335938 187.597656 158.335938 C 166.207031 158.335938 148.867188 175.648438 148.867188 197.003906 C 148.867188 218.359375 166.207031 235.671875 187.597656 235.671875 C 208.988281 235.671875 226.328125 218.359375 226.328125 197.003906 C 226.328125 191.039062 224.859375 185.453125 222.445312 180.410156 C 220.113281 182.691406 216.9375 184.113281 213.417969 184.113281 Z M 213.417969 184.113281 " />
-                                                </g>
+                                                    ...                                                </g>
                                             </svg>
                                         </span>
                                     </button>
@@ -329,7 +315,7 @@
                 </div>
             </div>
 
-
+            @endif
         </x-slot:body>
 
 

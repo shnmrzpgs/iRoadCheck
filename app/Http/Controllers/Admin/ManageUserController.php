@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\UserRole;
 use Illuminate\Http\Request;
 
 class ManageUserController extends Controller
@@ -14,9 +13,10 @@ class ManageUserController extends Controller
     }
     public function __invoke()
     {
-        $users = User::with('userRole')->get();
+        // $users = User::with('userRole')->get();
 
-        return view('admin.pages.manage-users', compact('users', ));
+        // return view('admin.pages.manage-users', compact('users', ));
+        return view('admin.pages.manage-users');
     }
 }
 

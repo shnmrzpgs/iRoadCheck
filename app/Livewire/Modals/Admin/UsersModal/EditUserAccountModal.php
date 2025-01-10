@@ -6,41 +6,108 @@ use App\Models\User;
 use App\Models\UserProfilePhoto;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Collection;
+use App\Enums\User\UserSex;
+use App\Models\Staff;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class EditUserAccountModal extends Component
 {
     use WithFileUploads;
 
+    public Collection $sexes;
+    public string $identifier = '';
     public $user; // User data
     public $photo; // For the uploaded photo
     public $currentPhoto; // Existing profile photo URL
-
+    public ?Staff $staff = null;
     public $first_name;
     public $email;
 
     public function mount($user)
     {
+        $this->identifier = uniqid('edit_user_account_modal');
+        $this->sexes = collect([
+            (object)[
+                'id' => UserSex::MALE,
+                'value' => UserSex::MALE,
+            ],
+            (object)[
+                'id' => UserSex::FEMALE,
+                'value' => UserSex::FEMALE,
+            ]
+        ]);
+
         $this->user = $user;
-        $this->first_name = $user->first_name;
-        $this->email = $user->email;
+
+        if ($user) {
+            $this->user = User::findOrFail($user->id); // Safely assign the user
+        }
 
         // Retrieve the existing profile photo, if any
-        $existingPhoto = UserProfilePhoto::where('user_id', $this->user->id)->first();
-        $this->currentPhoto = $existingPhoto ? Storage::url($existingPhoto->photo_path) : null;
+        // $existingPhoto = UserProfilePhoto::where('user_id', $this->user->id)->first();
+
+        // if ($existingPhoto) {
+        //     Log::info('Existing photo found: ', ['path' => $existingPhoto->photo_path]);
+        // } else {
+        //     Log::info('No profile photo found for user ID: ' . $this->user->id);
+        // }
+
+        // $this->currentPhoto = $existingPhoto && $existingPhoto->photo_path 
+        //     ? Storage::url($existingPhoto->photo_path) 
+        //     : asset('storage/icons/profile-graphics.png');
+    }
+
+    protected $listeners = ['setUser'];
+    public function setUser($userId): void
+    {
+        $user = User::find($userId);
+
+        if (!$user) {
+            session()->flash('error', 'User not found.');
+            return;
+        }
+
+        $this->mount($user); // Reinitialize the modal with the selected user
+    }
+
+
+    public array $tabs = [
+        ['key' => 'basic-info', 'label' => 'Basic Information'],
+        ['key' => 'access-info', 'label' => 'Access Control'],
+        ['key' => 'account-info', 'label' => 'Account Settings'],
+    ];
+
+    public string $activeTab = 'basic-info';
+    public array $visitedTabs = [];
+
+    public function activateTab(string $tabKey): void
+    {
+        $this->activeTab = $tabKey;
+    }
+
+    public function nextTab(): void
+    {
+        $currentIndex = collect($this->tabs)->search(fn($tab) => $tab['key'] === $this->activeTab);
+        if ($currentIndex !== false && $currentIndex < count($this->tabs) - 1) {
+            $this->visitedTabs[] = $this->activeTab;
+            $this->activeTab = $this->tabs[$currentIndex + 1]['key'];
+        }
+    }
+
+    public function previousTab(): void
+    {
+        $currentIndex = collect($this->tabs)->search(fn($tab) => $tab['key'] === $this->activeTab);
+        if ($currentIndex !== false && $currentIndex > 0) {
+            $this->activeTab = $this->tabs[$currentIndex - 1]['key'];
+        }
     }
 
     public function save()
     {
         $this->validate([
-            'first_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
             'photo' => 'nullable|image|max:2048', // Validate photo if uploaded
-        ]);
-
-        $this->user->update([
-            'first_name' => $this->first_name,
-            'email' => $this->email,
         ]);
 
         // Handle profile photo upload
@@ -58,6 +125,15 @@ class EditUserAccountModal extends Component
                 'user_id' => $this->user->id,
                 'photo_path' => $path,
             ]);
+        }
+
+        $form_saved = $this->form->save();
+
+
+        if ($form_saved) {
+            $this->dispatch('user_account_updated');
+        } else {
+            $this->dispatch('user_account_not_updated');
         }
 
         session()->flash('message', 'User account updated successfully.');

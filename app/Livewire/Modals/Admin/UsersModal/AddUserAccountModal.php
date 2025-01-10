@@ -4,7 +4,6 @@
 //
 //use App\Livewire\Forms\AddUserAccountForm;
 //use App\Models\User;
-//use App\Models\UserRole;
 //use Illuminate\Contracts\View\Factory;
 //use Illuminate\Contracts\View\View;
 //use Illuminate\Foundation\Application;
@@ -242,10 +241,10 @@
 namespace App\Livewire\Modals\Admin\UsersModal;
 
 use App\Enums\User\UserSex;
-use App\Enums\User\UserStatus;
-use App\Models\UserRole;
+use App\Enums\Staff\StaffStatus;
 use Livewire\WithFileUploads;
 use App\Models\User;
+use App\Models\StaffRole;
 use App\Livewire\Forms\AddUserAccountForm;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -260,14 +259,18 @@ class AddUserAccountModal extends Component
     public string $identifier = '';
 
     public Collection $sexes;
+    public Collection $roles;
 
     public AddUserAccountForm $form;
+    // public AddUserAccountForm $user_role;
 
     public Collection $user_status;
 
-    public $user_roles;
+
     public $selectedPermissions = [];
     public $photo;
+
+
 
     public function mount(): void
     {
@@ -285,28 +288,21 @@ class AddUserAccountModal extends Component
 
         $this->user_status = collect([
             (object)[
-                'id' => UserStatus::ACTIVE,
+                'id' => StaffStatus::ACTIVE,
                 'value' => 'Active',
             ],
             (object)[
-                'id' => UserStatus::INACTIVE,
+                'id' => StaffStatus::INACTIVE,
                 'value' => 'Inactive',
             ],
         ]);
-
-        $this->user_roles = UserRole::all();
-        $this->formData['user_role'] = $this->form->user_role;
-        $this->selectedPermissions = [];
+        $this->roles = StaffRole::all();
     }
 
     public array $tabs = [
         ['key' => 'basic-info', 'label' => 'Basic Information'],
         ['key' => 'access-info', 'label' => 'Access Control'],
         ['key' => 'account-info', 'label' => 'Account Settings'],
-    ];
-
-    public array $formData = [
-        'user_role' => '',
     ];
 
     public string $activeTab = 'basic-info';
@@ -339,42 +335,11 @@ class AddUserAccountModal extends Component
         }
     }
 
-    // public function save(): void
-    // {
-      
-
-    //     $form_saved = $this->form->save();
-
-    //     if ($form_saved) {
-
-
-
-    //         $this->dispatch($this->identifier . 'sex_force_clear');
-    //         $this->dispatch('alert', [
-    //             'title' => 'User Account Added!',
-    //             'message' => 'User account added successfully!',
-    //             'type' => 'success',
-    //         ]);
-    //     } else {
-    //         $this->dispatch('alert', [
-    //             'title' => 'User Account Not Added!',
-    //             'message' => 'Failed to save the user account. Please try again.',
-    //             'type' => 'danger',
-    //         ]);
-    //     }
-    // }
-
-    public function updatedFormDataUserRole($roleId): void
+    public function updatedFormUserRole($roleId): void
     {
-        $this->form->user_role = $roleId;
-
-        $role = UserRole::find($roleId);
-
-        if ($role) {
-            $this->selectedPermissions = $role->getPermissions();
-        } else {
-            $this->selectedPermissions = [];
-        }
+        // Fetch permissions for the selected role
+        $role = StaffRole::find($roleId);
+        $this->selectedPermissions = $role ? $role->permissions->pluck('label')->toArray() : [];
     }
 
     public function validateAndSubmit()
@@ -405,20 +370,10 @@ class AddUserAccountModal extends Component
 
             if ($result) {
                 Log::info('Form saved successfully.');
-                $this->dispatch('alert', [
-                    'title' => 'User Account Added!',
-                    'message' => 'User account added successfully!',
-                    'type' => 'success',
-                ]);
-                $this->form->clear();
-                $this->photo = null; // Clear the uploaded photo after saving
+                $this->dispatch('user_account_added');
             } else {
                 Log::warning('Form save failed.');
-                $this->dispatch('alert', [
-                    'title' => 'User Account Not Added!',
-                    'message' => 'Failed to save the user account. Please try again.',
-                    'type' => 'danger',
-                ]);
+                $this->dispatch('user_account_not_added');
             }
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Validation failed.', ['errors' => $e->errors()]);
@@ -435,8 +390,6 @@ class AddUserAccountModal extends Component
 
     public function render(): Factory|View|Application|\Illuminate\View\View
     {
-        return view('livewire.modals.admin.users-modal.add-user-account-modal', [
-            'user_roles' => $this->user_roles,
-        ]);
+        return view('livewire.modals.admin.users-modal.add-user-account-modal', []);
     }
 }

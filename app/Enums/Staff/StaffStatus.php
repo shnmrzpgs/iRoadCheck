@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Enums\User;
+namespace App\Enums\Staff;
 
-enum UserStatus: string
+enum StaffStatus: string
 {
     const ACTIVE = 'active';
 
     const INACTIVE = 'inactive';
 }
-

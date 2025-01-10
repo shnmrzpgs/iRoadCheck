@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+
 
 class User extends Authenticatable
 {
@@ -35,7 +35,6 @@ class User extends Authenticatable
         'date_of_birth',
         'sex',
         'user_type',
-        'status',
         'email',
         'email_verified_at',
         'password',
@@ -142,4 +141,5 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserProfilePhoto::class);
     }
+
 }
