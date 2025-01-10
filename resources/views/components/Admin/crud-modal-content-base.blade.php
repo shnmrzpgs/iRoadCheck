@@ -18,11 +18,14 @@
         class="fixed inset-0 z-50 overflow-y-auto"
     >
         <!-- Overlay -->
-        <div x-show="open" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-50"></div>
+        <div x-show="open"
+             x-transition.opacity
+             class="fixed inset-0 bg-black bg-opacity-50"></div>
 
         <!-- Panel -->
         <div
-            x-show="open" x-transition
+            x-show="open"
+            x-transition
             class="relative flex min-h-screen items-center justify-center p-4"
         >
             <div
@@ -31,7 +34,7 @@
                 class="relative w-full {{ $body_width }} overflow-y-auto rounded-xl bg-none p-0"
             >
                 <div class="w-full h-full">
-                    <div class="flex items-center justify-center z-50">
+                    <div class="flex items-center justify-center">
                         <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full min-w-md max-w-lg min-h-md max-h-lg mx-auto">
                             <div class="bg-[#FBFBFB] rounded-[10px] relative" >
 
