@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\StaffPermission;
 use App\Models\StaffRole;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class RolePermissionSeeder extends Seeder
@@ -21,7 +20,7 @@ class RolePermissionSeeder extends Seeder
             'manage_users' => 'Manage Users',
             'generate_reports' => 'Generate Reports',
             'assign_roles' => 'Assign Roles',
-            'manage_inventory' => 'Manage Inventory'
+            'manage_inventory' => 'Manage Inventory',
         ];
 
         // Define permissions (raw names, which will be stored in the database)
@@ -31,15 +30,15 @@ class RolePermissionSeeder extends Seeder
             'manage_users',
             'generate_reports',
             'assign_roles',
-            'manage_inventory'
+            'manage_inventory',
         ];
 
         // Create all permissions
         foreach ($permissions as $permission) {
-            StaffPermission::create([
-                'name' => $permission,
-                'label' => $permissionLabels[$permission] ?? $permission // Store the label, fallback to name if not found
-            ]);
+            StaffPermission::updateOrCreate(
+                ['name' => $permission], // Ensure no duplicates
+                ['label' => $permissionLabels[$permission] ?? $permission] // Store label, fallback to name
+            );
         }
 
         // Define roles and their corresponding permissions
@@ -63,18 +62,19 @@ class RolePermissionSeeder extends Seeder
             'Procurement Manager' => ['view_dashboard', 'manage_inventory', 'assign_roles'],
             'Training Specialist' => ['view_dashboard', 'assign_roles', 'generate_reports'],
             'Project Manager' => ['view_dashboard', 'edit_settings', 'manage_users', 'generate_reports'],
-            'Business Analyst' => ['view_dashboard', 'generate_reports', 'assign_roles']
+            'Business Analyst' => ['view_dashboard', 'generate_reports', 'assign_roles'],
         ];
 
         // Loop through roles and assign permissions
         foreach ($roles as $roleName => $rolePermissions) {
-            $role = StaffRole::create(['name' => $roleName]);
-
-            // Attach only the permissions relevant to this role
-            $role->permissions()->attach(
-                StaffPermission::whereIn('name', $rolePermissions)->get()
+            // Create or update the role
+            $role = StaffRole::updateOrCreate(
+                ['name' => $roleName]
             );
+
+            // Attach the permissions to the role
+            $permissions = StaffPermission::whereIn('name', $rolePermissions)->pluck('id');
+            $role->permissions()->sync($permissions); // Sync ensures no duplicates
         }
     }
-
 }

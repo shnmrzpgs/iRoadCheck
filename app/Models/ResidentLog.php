@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class StaffLog extends Model
+class ResidentLog extends Model
 {
     use HasFactory;
 
@@ -16,7 +16,7 @@ class StaffLog extends Model
      * @var array
      */
     protected $fillable = [
-        'staff_id',
+        'resident_id',
         'action',
         'dateTime',
     ];
@@ -28,7 +28,7 @@ class StaffLog extends Model
      */
     protected $casts = [
         'log_id' => 'integer',
-        'staff_id' => 'integer',
+        'resident_id' => 'integer',
         'dateTime' => 'timestamp',
     ];
 
@@ -37,8 +37,10 @@ class StaffLog extends Model
     // Scopes
 
     // Relationships
-    public function staff(): BelongsTo
+    public function resident(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'staff_id'); // Ensure this matches your setup
+        return $this->belongsTo(User::class, 'resident_id'); // Ensure this matches your setup
     }
+
+
 }

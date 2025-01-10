@@ -67,6 +67,7 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
+        'name',
     ];
 
     public static function where(string $string, string $string1, string $string2) {}
@@ -85,6 +86,11 @@ class User extends Authenticatable
         ];
     }
 
+    // Accessor for full name
+    public function getNameAttribute(): string
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
 
     public function admin(): HasOne
     {
@@ -101,15 +107,21 @@ class User extends Authenticatable
         return $this->hasOne(Staff::class);
     }
 
-    public function admin_logs(): HasMany
+    public function adminLogs(): HasMany
     {
         return $this->hasMany(AdminLog::class);
     }
 
-    public function staff_logs(): HasMany
+    public function staffLogs(): HasMany
     {
         return $this->hasMany(StaffLog::class);
     }
+
+//    public function residentLogs(): HasMany
+//    {
+//        return $this->hasMany(ResidentLog::class);
+//    }
+
 
     public function userType(): BelongsTo
     {

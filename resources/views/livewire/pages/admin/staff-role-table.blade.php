@@ -1,4 +1,4 @@
-<x-Admin.admin-navigation page_title="User Role" action="{{ route('admin.user-role-table') }}" placeholder="Search..." name="search">
+<x-Admin.admin-navigation page_title="Staff Role" action="{{ route('admin.user-role-table') }}" placeholder="Search..." name="search">
 
         <div class="flex justify-center items-center sm:justify-start sm:items-start">
             <x-admin.crud-page-content-base>
@@ -110,37 +110,33 @@
                                         </span>
                                     </td>
                                     <td class="pr-5 py-3 text-xs">
-                                        {{--                                <div class="flex">--}}
-                                        {{--                                    <!-- Button to Open Edit Course Modal -->--}}
-                                        {{--                                    <button class="flex items-center text-orange-500 hover:text-orange-600 font-medium text-xs transition active:scale-95 hover:bg-orange-100 hover:shadow py-1 px-3.5 rounded-md"--}}
-                                        {{--                                            wire:click="editUser({{ $user->id }})"--}}
-                                        {{--                                            wire:loading.attr="disabled"--}}
-                                        {{--                                            x-data="{ loading: false }"--}}
-                                        {{--                                            x-on:click="loading = true"--}}
-                                        {{--                                            x-on:edit-user-modal-shown.window="loading = false"--}}
-                                        {{--                                    >--}}
-                                        {{--                                        <img src="{{ asset('storage/icons/edit-icon.png') }}" alt="Edit Icon" class="hidden md:block w-4 h-4 mr-2" />--}}
-                                        {{--                                        <span x-cloak x-show="! loading">Edit</span>--}}
-                                        {{--                                        <x-loading-indicator class="text-orange-500 w-4 h-4"--}}
-                                        {{--                                                             x-cloak x-show="loading"--}}
-                                        {{--                                        />--}}
-                                        {{--                                    </button>--}}
+                                        <div class="flex">
+                                            <!-- Button to Open Edit Staff Role Modal -->
+                                            <button class="flex items-center text-orange-500 hover:text-orange-600 font-medium text-xs transition active:scale-95 hover:bg-orange-100 hover:shadow py-1 px-3.5 rounded-md"
+                                                    wire:click="editStaffRole({{ $staffRole->id }})"
+                                                    wire:loading.attr="disabled"
+                                                    x-data="{ loading: false }"
+                                                    x-on:click="loading = true"
+                                                    x-on:edit-staff-role-modal-shown.window="loading = false"
+                                            >
+                                                <img src="{{ asset('storage/icons/edit-icon.png') }}" alt="Edit Icon" class="hidden md:block w-4 h-4 mr-2" />
+                                                <span x-cloak x-show="! loading">Edit</span>
+                                                <x-loading-indicator class="text-orange-500 w-4 h-4" x-cloak x-show="loading"/>
+                                            </button>
 
-                                        {{--                                    <!-- Button to Open View Course Modal -->--}}
-                                        {{--                                    <button class="flex items-center text-[#3251FF] hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95 hover:bg-blue-100 hover:shadow py-1 px-3 rounded-md"--}}
-                                        {{--                                            wire:click="viewUser({{ $user->id }})"--}}
-                                        {{--                                            wire:loading.attr="disabled"--}}
-                                        {{--                                            x-data="{ loading: false }"--}}
-                                        {{--                                            x-on:click="loading = true"--}}
-                                        {{--                                            x-on:view-user-modal-shown.window="loading = false"--}}
-                                        {{--                                    >--}}
-                                        {{--                                        <img src="{{ asset('storage/icons/view-icon.png') }}" alt="View Icon" class="hidden md:block w-5 h-5 mr-2" />--}}
-                                        {{--                                        <span x-cloak x-show="! loading">View</span>--}}
-                                        {{--                                        <x-loading-indicator class="text-blue-500 w-4 h-4"--}}
-                                        {{--                                                             x-cloak x-show="loading"--}}
-                                        {{--                                        />--}}
-                                        {{--                                    </button>--}}
-                                        {{--                                </div>--}}
+                                            <!-- Button to Open View Staff Role Modal -->
+                                            <button class="flex items-center text-[#3251FF] hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95 hover:bg-blue-100 hover:shadow py-1 px-3 rounded-md"
+                                                    wire:click="viewStaffRole({{ $staffRole->id }})"
+                                                    wire:loading.attr="disabled"
+                                                    x-data="{ loading: false }"
+                                                    x-on:click="loading = true"
+                                                    x-on:view-staff-role-modal-shown.window="loading = false"
+                                            >
+                                                <img src="{{ asset('storage/icons/view-icon.png') }}" alt="View Icon" class="hidden md:block w-5 h-5 mr-2" />
+                                                <span x-cloak x-show="! loading">View</span>
+                                                <x-loading-indicator class="text-blue-500 w-4 h-4" x-cloak x-show="loading"/>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
@@ -152,14 +148,14 @@
                             @endforelse
                             </tbody>
                         </table>
-                        <!-- Loading indicator for pagination -->
-                        <div wire:loading.class.remove="opacity-0 pointer-events-none" x-cloak x-transition
-                             class="absolute inset-0 w-full min-h-full bg-black/50 flex justify-center items-center transition-all pointer-events-none opacity-0">
-                            <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
-                        </div>
+
                     </div>
 
-
+                    <!-- Loading indicator for pagination -->
+                    <div wire:loading.class.remove="opacity-0 pointer-events-none" x-cloak x-transition
+                         class="absolute inset-0 w-full min-h-full bg-black/50 flex justify-center items-center transition-all pointer-events-none opacity-0">
+                        <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
+                    </div>
                 </x-slot:table_container>
 
                 <x-slot:pagination_container  wire:key="{{ now() }}">
@@ -167,17 +163,17 @@
                 </x-slot:pagination_container>
 
                 <x-slot:modal_container>
-                    {{-- <!-- Edit User Modal -->--}}
-                    {{-- <livewire:modals.admin.users-modal.edit-user-modal--}}
-                    {{-- wire:model.live="user_account_to_edited"--}}
-                    {{-- :users="$users"--}}
-                    {{-- @user_updated="$refresh"--}}
-                    {{-- />--}}
+                     <!-- Edit User Modal -->
+                     <livewire:modals.admin.staff-roles-modal.edit-staff-role-modal
+                     wire:model.live="staff_role_to_edited"
+                     :staffRole="$staffRole"
+                     @staffRole_updated="$refresh"
+                     />
 
-                    {{-- <!-- View User Modal -->--}}
-                    {{-- <livewire:modals.admin.users-modal.view-user-modal--}}
-                    {{-- wire:model.live="user_account_to_viewed"--}}
-                    {{-- />--}}
+                     <!-- View User Modal -->
+                     <livewire:modals.admin.staff-roles-modal.view-staff-role-modal
+                     wire:model.live="staff_role_to_viewed"
+                     />
 
                 </x-slot:modal_container>
 

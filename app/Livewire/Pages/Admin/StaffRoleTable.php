@@ -3,6 +3,8 @@
 namespace App\Livewire\Pages\Admin;
 
 use App\Enums\Staff\StaffRoleStatus;
+use App\Livewire\Modals\Admin\StaffRolesModal\EditStaffRoleModal;
+use App\Livewire\Modals\Admin\StaffRolesModal\ViewStaffRoleModal;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use App\Models\StaffRole;
@@ -32,12 +34,42 @@ class StaffRoleTable extends Component
     public string $sort_by = 'id';
     public string $sort_direction = 'asc';
 
+    // Staff Role Modals to view and edit
+    public ?StaffRole $staff_role_to_viewed = null;
+
+    public ?StaffRole $staff_role_to_edited = null;
+
     public function mount(): void
     {
         $this->staff_role_statuses = collect([
             ['key' => StaffRoleStatus::ENABLED, 'label' => 'Enabled'],
             ['key' => StaffRoleStatus::DISABLED, 'label' => 'Disabled'],
         ]);
+    }
+
+
+    public function viewStaffRole(StaffRole $staff_role): void
+    {
+        if ($this->staff_role_to_viewed === null) {
+            $this->staff_role_to_viewed = $staff_role;
+        }
+        if ($this->staff_role_to_viewed !== $staff_role) {
+            $this->staff_role_to_viewed = $staff_role;
+        }
+
+        $this->dispatch('show-view-staff-role-modal', $staff_role)->to(ViewStaffRoleModal::class);
+    }
+
+    public function editStaffRole(StaffRole $staff_role): void
+    {
+        if ($this->staff_role_to_edited === null) {
+            $this->staff_role_to_edited = $staff_role;
+        }
+        if ($this->staff_role_to_edited !== $staff_role) {
+            $this->staff_role_to_edited = $staff_role;
+        }
+
+        $this->dispatch('show-edit-staff-role-modal', $staff_role)->to(EditStaffRoleModal::class);
     }
 
     public function updating($property): void
@@ -68,7 +100,7 @@ class StaffRoleTable extends Component
         $this->resetPage(); // Reset pagination
     }
 
-    public function render(): Factory|Application|View
+    public function render(): Factory|View|Application|\Illuminate\View\View
     {
         $staffRoleQuery = StaffRole::with(['permissions']);
 

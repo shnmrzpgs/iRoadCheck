@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Pages\Admin;
 
-use App\Exports\AdminLogsExport;
-use App\Models\AdminLog;
-use App\Models\User; // Add the User model (assuming this is the model for admins)
+use App\Exports\StaffLogsExport;
+use App\Models\StaffLog;
+use App\Models\User; // Add the User model (assuming this is the model for staff)
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -16,7 +16,7 @@ use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 
-class AdminLogsTable extends Component
+class StaffLogsTable extends Component
 {
     use WithoutUrlPagination, WithPagination;
 
@@ -34,21 +34,21 @@ class AdminLogsTable extends Component
     public string $sort_direction = 'asc'; // Default sorting direction
 
     /**
-     * Export the filtered admin logs to an Excel file.
+     * Export the filtered staff logs to an Excel file.
      */
-    public function exportAdminLogs(): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    public function exportStaffLogs(): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
-        $filteredAdminLogs = $this->getFilteredQuery()->get();
+        $filteredStaffLogs = $this->getFilteredQuery()->get();
 
-        return Excel::download(new AdminLogsExport($filteredAdminLogs), 'admin_logs_report.xlsx');
+        return Excel::download(new StaffLogsExport($filteredStaffLogs), 'staff_logs_report.xlsx');
     }
 
     /**
-     * Build the filtered query for admin logs.
+     * Build the filtered query for staff logs.
      */
     public function getFilteredQuery(): Builder
     {
-        $admin_logs_query = AdminLog::with(['admin'])->select('admin_logs.*');
+        $staff_logs_query = StaffLog::with(['staff'])->select('staff_logs.*');
 
         // Apply Date Range Filter
         if (!empty($this->date_range_filter)) {
@@ -59,7 +59,7 @@ class AdminLogsTable extends Component
             }
 
             if (count($date_range) === 2) {
-                $admin_logs_query->whereBetween('created_at', [
+                $staff_logs_query->whereBetween('created_at', [
                     Carbon::parse($date_range[0])->startOfDay(),
                     Carbon::parse($date_range[1])->endOfDay(),
                 ]);
@@ -69,11 +69,11 @@ class AdminLogsTable extends Component
         // Apply Search Filter
         if ($this->search) {
             $search = '%' . $this->search . '%';
-            $admin_logs_query->where(function ($query) use ($search) {
+            $staff_logs_query->where(function ($query) use ($search) {
                 $query->where('action', 'like', $search)
                     ->orWhere('dateTime', 'like', $search)
-                    ->orWhereHas('admin', function ($admin_query) use ($search) {
-                        $admin_query->where('admin_id', 'like', $search) // Ensure 'admin_id' is the correct column
+                    ->orWhereHas('staff', function ($staff_query) use ($search) {
+                        $staff_query->where('staff_id', 'like', $search) // Ensure 'staff_id' is the correct column
                         ->orWhere('first_name', 'like', $search)
                             ->orWhere('last_name', 'like', $search);
                     });
@@ -81,31 +81,25 @@ class AdminLogsTable extends Component
         }
 
         // Apply Sorting
-        if ($this->sort_by === 'role') {
-            // Correct the join condition to use the correct relationships
-            $admin_logs_query->join('model_has_roles', 'admin_logs.admin_id', '=', 'model_has_roles.model_id') // Join based on 'admin_id', not 'user_id'
-            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                ->orderBy('roles.name', $this->sort_direction);
-        } elseif (Str::contains($this->sort_by, '.')) {
-            // Handle sorting for nested relationships like 'admin.first_name'
+        if (Str::contains($this->sort_by, '.')) {
+            // Handle sorting for nested relationships like 'staff.first_name'
             $relations = explode('.', $this->sort_by);
             $column = array_pop($relations); // Get the column name for sorting
-            $previousTable = 'admin_logs';
+            $previousTable = 'staff_logs';
 
             foreach ($relations as $relation) {
-                $admin_logs_query->join($relation, $previousTable . '.' . Str::singular($relation) . '_id', '=', $relation . '.id');
+                $staff_logs_query->join($relation, $previousTable . '.' . Str::singular($relation) . '_id', '=', $relation . '.id');
                 $previousTable = $relation;
             }
 
             // Apply sorting to the column of the last table in the relationship
-            $admin_logs_query->orderBy($previousTable . '.' . $column, $this->sort_direction);
+            $staff_logs_query->orderBy($previousTable . '.' . $column, $this->sort_direction);
         } else {
-            // For direct column sorting in 'admin_logs'
-            $admin_logs_query->orderBy($this->sort_by, $this->sort_direction);
+            // For direct column sorting in 'staff_logs'
+            $staff_logs_query->orderBy($this->sort_by, $this->sort_direction);
         }
 
-
-        return $admin_logs_query;
+        return $staff_logs_query;
     }
 
     /**
@@ -154,11 +148,12 @@ class AdminLogsTable extends Component
      */
     public function render(): Factory|Application|View|\Illuminate\View\View
     {
-        $adminLogs = $this->getFilteredQuery()
+
+        $staffLogs = $this->getFilteredQuery()
             ->paginate($this->rowsPerPage);
 
-        return view('livewire.pages.admin.admin-logs-table', [
-            'adminLogs' => $adminLogs,
+        return view('livewire.pages.admin.staff-logs-table', [
+            'staffLogs' => $staffLogs,
         ]);
     }
 }

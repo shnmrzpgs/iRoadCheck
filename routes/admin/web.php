@@ -37,6 +37,15 @@ Route::group(['middleware' => 'AuthAdmin'], function () {
     Route::get('/admin/admin-logs', App\Http\Controllers\admin\AdminLogsController::class)
         ->name('admin.admin-logs-table');
 
+    Route::get('/admin/staff-logs', App\Http\Controllers\admin\StaffLogsController::class)
+        ->name('admin.staff-logs-table');
+
+    Route::get('/admin/resident-logs', App\Http\Controllers\admin\ResidentLogsController::class)
+        ->name('admin.resident-logs-table');
+
+    Route::get('/admin/system-logs', App\Http\Controllers\admin\SystemLogsController::class)
+        ->name('admin.system-logs-table');
+
     Route::get('/admin/user-role', App\Http\Controllers\admin\UserRoleController::class)
         ->name('admin.user-role-table');
 

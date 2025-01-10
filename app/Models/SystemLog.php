@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class StaffLog extends Model
+class SystemLog extends Model
 {
     use HasFactory;
 
@@ -16,9 +15,9 @@ class StaffLog extends Model
      * @var array
      */
     protected $fillable = [
-        'staff_id',
+        'transaction_id',
         'action',
-        'dateTime',
+        'created_at',
     ];
 
     /**
@@ -27,18 +26,11 @@ class StaffLog extends Model
      * @var array
      */
     protected $casts = [
-        'log_id' => 'integer',
-        'staff_id' => 'integer',
-        'dateTime' => 'timestamp',
+        'id' => 'integer',
+        'transaction_id' => 'string',
+        'created_at' => 'timestamp',
     ];
 
-    // Attributes
-
-    // Scopes
-
     // Relationships
-    public function staff(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'staff_id'); // Ensure this matches your setup
-    }
+    // Add any necessary relationships here. For example, if this log is related to another model, you can define it.
 }

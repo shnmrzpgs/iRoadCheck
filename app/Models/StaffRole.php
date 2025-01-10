@@ -16,6 +16,13 @@ class StaffRole extends Model
         'status'
     ];
 
+    public function create(array $attributes = [])
+    {
+        return tap($this->newModelInstance($attributes), function ($instance) {
+            $instance->save();
+        });
+    }
+
     /**
      * Relationship: A Role has many Permissions.
      */

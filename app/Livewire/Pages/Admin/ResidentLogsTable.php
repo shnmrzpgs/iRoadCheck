@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Pages\Admin;
 
-use App\Exports\AdminLogsExport;
-use App\Models\AdminLog;
-use App\Models\User; // Add the User model (assuming this is the model for admins)
+use App\Exports\ResidentLogsExport;
+use App\Models\ResidentLog;
+use App\Models\User; // Assuming User model for resident
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -16,39 +16,31 @@ use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 
-class AdminLogsTable extends Component
+class ResidentLogsTable extends Component
 {
     use WithoutUrlPagination, WithPagination;
 
-    // Search term
-    public string $search = '';
-
-    // Date Filter
-    public string $date_range_filter = '';
-
-    // Rows per page
-    public int $rowsPerPage = 10;
-
-    // Sorting
-    public string $sort_by = 'log_id'; // Default sorting by primary key
-    public string $sort_direction = 'asc'; // Default sorting direction
+    public string $search = '';  // Search term
+    public string $date_range_filter = '';  // Date filter
+    public int $rowsPerPage = 10;  // Rows per page
+    public string $sort_by = 'log_id';  // Default sorting by primary key
+    public string $sort_direction = 'asc';  // Default sorting direction
 
     /**
-     * Export the filtered admin logs to an Excel file.
+     * Export the filtered resident logs to an Excel file.
      */
-    public function exportAdminLogs(): \Symfony\Component\HttpFoundation\BinaryFileResponse
+    public function exportResidentLogs(): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
-        $filteredAdminLogs = $this->getFilteredQuery()->get();
-
-        return Excel::download(new AdminLogsExport($filteredAdminLogs), 'admin_logs_report.xlsx');
+        $filteredResidentLogs = $this->getFilteredQuery()->get();
+        return Excel::download(new ResidentLogsExport($filteredResidentLogs), 'resident_logs_report.xlsx');
     }
 
     /**
-     * Build the filtered query for admin logs.
+     * Build the filtered query for resident logs.
      */
     public function getFilteredQuery(): Builder
     {
-        $admin_logs_query = AdminLog::with(['admin'])->select('admin_logs.*');
+        $resident_logs_query = ResidentLog::with(['resident'])->select('resident_logs.*');
 
         // Apply Date Range Filter
         if (!empty($this->date_range_filter)) {
@@ -59,7 +51,7 @@ class AdminLogsTable extends Component
             }
 
             if (count($date_range) === 2) {
-                $admin_logs_query->whereBetween('created_at', [
+                $resident_logs_query->whereBetween('created_at', [
                     Carbon::parse($date_range[0])->startOfDay(),
                     Carbon::parse($date_range[1])->endOfDay(),
                 ]);
@@ -69,11 +61,11 @@ class AdminLogsTable extends Component
         // Apply Search Filter
         if ($this->search) {
             $search = '%' . $this->search . '%';
-            $admin_logs_query->where(function ($query) use ($search) {
+            $resident_logs_query->where(function ($query) use ($search) {
                 $query->where('action', 'like', $search)
                     ->orWhere('dateTime', 'like', $search)
-                    ->orWhereHas('admin', function ($admin_query) use ($search) {
-                        $admin_query->where('admin_id', 'like', $search) // Ensure 'admin_id' is the correct column
+                    ->orWhereHas('resident', function ($resident_query) use ($search) {
+                        $resident_query->where('resident_id', 'like', $search) // Ensure 'resident_id' is the correct column
                         ->orWhere('first_name', 'like', $search)
                             ->orWhere('last_name', 'like', $search);
                     });
@@ -81,31 +73,25 @@ class AdminLogsTable extends Component
         }
 
         // Apply Sorting
-        if ($this->sort_by === 'role') {
-            // Correct the join condition to use the correct relationships
-            $admin_logs_query->join('model_has_roles', 'admin_logs.admin_id', '=', 'model_has_roles.model_id') // Join based on 'admin_id', not 'user_id'
-            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                ->orderBy('roles.name', $this->sort_direction);
-        } elseif (Str::contains($this->sort_by, '.')) {
-            // Handle sorting for nested relationships like 'admin.first_name'
+        if (Str::contains($this->sort_by, '.')) {
+            // Handle sorting for nested relationships like 'resident.first_name'
             $relations = explode('.', $this->sort_by);
             $column = array_pop($relations); // Get the column name for sorting
-            $previousTable = 'admin_logs';
+            $previousTable = 'resident_logs';
 
             foreach ($relations as $relation) {
-                $admin_logs_query->join($relation, $previousTable . '.' . Str::singular($relation) . '_id', '=', $relation . '.id');
+                $resident_logs_query->join($relation, $previousTable . '.' . Str::singular($relation) . '_id', '=', $relation . '.id');
                 $previousTable = $relation;
             }
 
             // Apply sorting to the column of the last table in the relationship
-            $admin_logs_query->orderBy($previousTable . '.' . $column, $this->sort_direction);
+            $resident_logs_query->orderBy($previousTable . '.' . $column, $this->sort_direction);
         } else {
-            // For direct column sorting in 'admin_logs'
-            $admin_logs_query->orderBy($this->sort_by, $this->sort_direction);
+            // For direct column sorting in 'resident_logs'
+            $resident_logs_query->orderBy($this->sort_by, $this->sort_direction);
         }
 
-
-        return $admin_logs_query;
+        return $resident_logs_query;
     }
 
     /**
@@ -128,7 +114,6 @@ class AdminLogsTable extends Component
     {
         $this->search = '';
         $this->date_range_filter = '';
-
         $this->resetPage();
     }
 
@@ -154,11 +139,10 @@ class AdminLogsTable extends Component
      */
     public function render(): Factory|Application|View|\Illuminate\View\View
     {
-        $adminLogs = $this->getFilteredQuery()
-            ->paginate($this->rowsPerPage);
+        $residentLogs = $this->getFilteredQuery()->paginate($this->rowsPerPage);
 
-        return view('livewire.pages.admin.admin-logs-table', [
-            'adminLogs' => $adminLogs,
+        return view('livewire.pages.admin.resident-logs-table', [
+            'residentLogs' => $residentLogs,
         ]);
     }
 }
