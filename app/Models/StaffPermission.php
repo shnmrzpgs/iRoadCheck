@@ -19,4 +19,9 @@ class StaffPermission extends Model
     {
         return $this->belongsToMany(StaffRole::class, 'staff_roles_permissions');
     }
+
+    public function staffRolesPermissions(): BelongsToMany
+    {
+        return $this->belongsToMany(StaffRolesPermissions::class, 'staff_roles_permissions');
+    }
 }
