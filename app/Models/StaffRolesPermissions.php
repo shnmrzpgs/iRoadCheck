@@ -12,8 +12,8 @@ class StaffRolesPermissions extends Model
     use HasFactory;
 
     protected $fillable = [
-        'staff_roles_id',
-        'staff_permissions_id'
+        'staff_role_id',
+        'staff_permission_id'
     ];
 
     // Attributes
@@ -24,23 +24,23 @@ class StaffRolesPermissions extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'staff_roles_id' => 'integer',
-        'staff_permissions_id' => 'integer',
+        'staff_role_id' => 'integer',
+        'staff_permission_id' => 'integer',
     ];
 
     //Relationships
     public function staff(): BelongsTo
     {
-        return $this->belongsTo(Staff::class, 'user_id');
+        return $this->belongsTo(Staff::class);
     }
 
     public function staffRole(): BelongsTo
     {
-        return $this->belongsTo(StaffRole::class);
+        return $this->belongsTo(StaffRole::class, 'staff_role_id');
     }
 
     public function permissions(): BelongsTo
     {
-        return $this->belongsTo(StaffPermission::class, 'staff_permissions_id');
+        return $this->belongsTo(StaffPermission::class, 'staff_permission_id');
     }
 }

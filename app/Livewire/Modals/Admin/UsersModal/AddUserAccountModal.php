@@ -370,22 +370,14 @@ class AddUserAccountModal extends Component
 
             if ($result) {
                 Log::info('Form saved successfully.');
-                $this->dispatch('user_account_added');
-            } else {
-                Log::warning('Form save failed.');
-                $this->dispatch('user_account_not_added');
+            // Dispatch success message to session
+            session()->flash('message', 'Staff Account added successfully!');
             }
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Validation failed.', ['errors' => $e->errors()]);
-            $this->dispatch('user_account_not_added', [
-                'message' => 'Validation error: ' . collect($e->errors())->flatten()->first()
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Error during validateAndSubmit.', ['exception' => $e]);
-            $this->dispatch('user_account_not_added', [
-                'message' => 'An unexpected error occurred. Please try again.'
-            ]);
-        }
+           // Dispatch error message to session
+           session()->flash('error', 'There was an issue adding the Staff Account.');
+        } 
     }
 
     public function render(): Factory|View|Application|\Illuminate\View\View

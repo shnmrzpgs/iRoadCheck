@@ -130,7 +130,7 @@
                         <div class="grid grid-cols-3 gap-4">
                             <div>
                                 <label class="block font-medium text-gray-700">First Name</label>
-                                <input wire:model.defer="form.first_name"
+                                <input wire:model.live="form.first_name"
                                     placeholder="First name" ft6cf7
                                     type="text"
                                     class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
@@ -138,14 +138,14 @@
                             </div>
                             <div>
                                 <label class="block font-medium text-gray-700">Middle Name</label>
-                                <input wire:model.defer="form.middle_name"
+                                <input wire:model.live="form.middle_name"
                                     placeholder="Middle name"
                                     type="text"
                                     class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
                             </div>
                             <div>
                                 <label class="block font-medium text-gray-700">Last Name</label>
-                                <input wire:model.defer="form.last_name"
+                                <input wire:model.live="form.last_name"
                                     placeholder="Last name"
                                     type="text"
                                     class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
@@ -259,7 +259,7 @@
 
                         <div>
                             <label class="block font-medium text-gray-700">Email Address</label>
-                            <input wire:model.defer="form.email"
+                            <input wire:model.live="form.email"
                                 placeholder="Email address"
                                 type="email"
                                 class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm">
@@ -334,37 +334,79 @@
 
         <x-slot:footer>
 
+            <div>
+                <!-- Display Success or Error Message -->
+                @if (session()->has('message'))
+                <div x-data="{ openSuccessModal: true }" x-cloak>
+                    <!-- Success Modal -->
+                    <div
+                        x-show="openSuccessModal"
+                        class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30 px-5"
+                        x-init="
+                                lottie.loadAnimation({
+                                    container: $refs.lottieAnimation,
+                                    renderer: 'svg',
+                                    loop: true,
+                                    autoplay: true,
+                                    path: '{{ asset('animations/Animation - 1732372548058.json') }}'
+                                });
+                            ">
+                        <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full max-w-sm mx-10">
+                            <div class="bg-white rounded-lg shadow-lg">
 
-            <!-- Buttons -->
-            <div class="flex justify-between mt-6">
-                <!-- Left Side Buttons -->
-                <div class="flex space-x-4">
-                    <!-- Back Button -->
-                    <button
-                        type="button"
-                        wire:click="previousTab"
-                        class="flex items-center px-4 py-2 bg-gray-100 text-sm rounded hover:bg-gray-200 transition active:scale-95"
-                        x-show="tabs.findIndex(tab => tab.key === activeTab) > 0">
-                        <!-- Back Arrow Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                        </svg>
-                        <span class="ml-2">Back</span>
-                    </button>
-                    <div>
-                        <div class="alert"
-                            :class="{primary:'alter-primary', success:'alert-success', danger:'alert-danger', warning:'alter-warning'}[(alert.type ?? 'primary')]"
-                            x-data="{ open:false, alert:{} }"
-                            x-show="open" x-cloak
-                            x-transition:enter="animate-alert-show"
-                            x-transition:leave="animate-alert-hide"
-                            @alert.window="open = true; setTimeout( () => open=false, 3000 ); alert=$event.detail[0]">
-                            <div class="alert-wrapper">
-                                <strong x-html="alert.title">Title</strong>
-                                <p x-html="alert.message">Description</p>
+                                <!-- Modal Body -->
+                                <div class="p-6 flex flex-col items-center space-y-2">
+                                    <!-- Success Message -->
+                                    <p class="text-center text-green-600 font-bold text-2xl">SUCCESS</p>
+
+                                    <!-- Lottie Animation Container -->
+                                    <div x-ref="lottieAnimation" class="w-28 sm:w-28 md:w-28 lg:w-32 max-w-[110px] mt-4 mb-0 drop-shadow-lg"></div>
+
+                                    <!-- Success Message -->
+                                    <p class="text-center text-gray-600 text-sm">
+                                        <span>{{ session('message') }}</span>
+                                    </p>
+                                </div>
+
+                                <!-- Horizontal Line with Animation -->
+                                <div class="relative overflow-hidden shadow-lg w-full h-[4px]">
+                                    <img src="{{ asset('storage/images/line-successLoading.png') }}" alt="loading"
+                                        class="absolute top-0 left-0 w-full h-full object-cover animate-wipe-right">
+                                </div>
+
+                                <!-- Modal Footer -->
+                                <div @click="openSuccessModal = false" onclick="location.reload();" class="flex flex-col items-center px-6 py-2 bg-green-50 hover:bg-green-100 rounded-b-lg transition-all active:translate-y-[1px] active:shadow-none">
+                                    <button class="px-4 py-2 text-green-600 text-sm font-medium rounded">
+                                        Close
+                                    </button>
+                                </div>
+
                             </div>
-                            <i class="alert-close fa-solid fa-xmark" @click="open=false"></i>
                         </div>
+                    </div>
+                </div>
+
+                @elseif (session()->has('error'))
+                <div class="text-red-500">{{ session('error') }}</div>
+                @endif
+                
+                <!-- Buttons -->
+                <div class="flex justify-between mt-6">
+                    <!-- Left Side Buttons -->
+                    <div class="flex space-x-4">
+                        <!-- Back Button -->
+                        <button
+                            type="button"
+                            wire:click="previousTab"
+                            class="flex items-center px-4 py-2 bg-gray-100 text-sm rounded hover:bg-gray-200 transition active:scale-95"
+                            x-show="tabs.findIndex(tab => tab.key === activeTab) > 0">
+                            <!-- Back Arrow Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                            <span class="ml-2">Back</span>
+                        </button>
+
                         <!-- Add user Button -->
                         <button
                             type="button"
@@ -375,28 +417,20 @@
                             Add Staff
                         </button>
                     </div>
-                </div>
-                <script>
-                    document.addEventListener('livewire.initialized', () => {
-                        let obj = @json(session('alert') ?? []);
-                        if (Object.keys(obj).length) {
-                            Livewire.dispatch('alert', [obj])
-                        }
-                    })
-                </script>
 
-                <!-- Next Button -->
-                <button
-                    type="button"
-                    wire:click="nextTab"
-                    class="flex items-center px-4 py-2 bg-[#3AA76F] text-white text-sm rounded hover:bg-[#4AA76F] transition active:scale-95"
-                    x-show="tabs.findIndex(tab => tab.key === activeTab) < tabs.length - 1">
-                    <span class="mr-2">Next</span>
-                    <!-- Next Arrow Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </button>
+                    <!-- Next Button -->
+                    <button
+                        type="button"
+                        wire:click="nextTab"
+                        class="flex items-center px-4 py-2 bg-[#3AA76F] text-white text-sm rounded hover:bg-[#4AA76F] transition active:scale-95"
+                        x-show="tabs.findIndex(tab => tab.key === activeTab) < tabs.length - 1">
+                        <span class="mr-2">Next</span>
+                        <!-- Next Arrow Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
 
         </x-slot:footer>

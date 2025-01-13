@@ -8,70 +8,98 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Collection;
 use App\Enums\User\UserSex;
+use App\Enums\Staff\StaffStatus;
 use App\Models\Staff;
+use App\Models\StaffRole;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\On;
+use Livewire\Form;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules\Password;
 
 class EditUserAccountModal extends Component
 {
     use WithFileUploads;
 
     public Collection $sexes;
+    public Collection $staff_status;
+    public Collection $roles;
     public string $identifier = '';
-    public $user; // User data
-    public $photo; // For the uploaded photo
-    public $currentPhoto; // Existing profile photo URL
+    public $photo;
+    public $currentPhoto;
     public ?Staff $staff = null;
-    public $first_name;
-    public $email;
+    public array $form = [
+        'first_name' => '',
+        'middle_name' => '',
+        'last_name' => '',
+        'sex' => '',
+        'date_of_birth' => '',
+        'email' => '',
+        'password' => '',
+        'user_role' => '',
+        'is_disabled' => false,
+    ];
 
-    public function mount($user)
+    public array $selectedPermissions = [];
+
+    public function mount(): void
     {
-        $this->identifier = uniqid('edit_user_account_modal');
         $this->sexes = collect([
-            (object)[
-                'id' => UserSex::MALE,
-                'value' => UserSex::MALE,
-            ],
-            (object)[
-                'id' => UserSex::FEMALE,
-                'value' => UserSex::FEMALE,
-            ]
+            (object) ['id' => UserSex::MALE, 'value' => UserSex::MALE],
+            (object) ['id' => UserSex::FEMALE, 'value' => UserSex::FEMALE],
         ]);
 
-        $this->user = $user;
+        $this->staff_status = collect([
+            (object) ['id' => StaffStatus::ACTIVE, 'value' => 'active'],
+            (object) ['id' => StaffStatus::INACTIVE, 'value' => 'inactive'],
+        ]);
 
-        if ($user) {
-            $this->user = User::findOrFail($user->id); // Safely assign the user
-        }
-
-        // Retrieve the existing profile photo, if any
-        // $existingPhoto = UserProfilePhoto::where('user_id', $this->user->id)->first();
-
-        // if ($existingPhoto) {
-        //     Log::info('Existing photo found: ', ['path' => $existingPhoto->photo_path]);
-        // } else {
-        //     Log::info('No profile photo found for user ID: ' . $this->user->id);
-        // }
-
-        // $this->currentPhoto = $existingPhoto && $existingPhoto->photo_path 
-        //     ? Storage::url($existingPhoto->photo_path) 
-        //     : asset('storage/icons/profile-graphics.png');
+        $this->roles = StaffRole::all();
     }
 
-    protected $listeners = ['setUser'];
-    public function setUser($userId): void
+    public function updatedFormUserRole($roleId): void
     {
-        $user = User::find($userId);
-
-        if (!$user) {
-            session()->flash('error', 'User not found.');
-            return;
-        }
-
-        $this->mount($user); // Reinitialize the modal with the selected user
+        // Fetch permissions for the selected role
+        $role = StaffRole::find($roleId);
+        $this->selectedPermissions = $role ? $role->permissions->pluck('label')->toArray() : [];
     }
 
+    #[On('show-edit-user-account-modal')]
+    public function showModal(Staff $staff): void
+    {
+        $this->staff = $staff;
+
+        // Load existing staff data into form
+        $this->form = [
+            'first_name' => $staff->user->first_name,
+            'middle_name' => $staff->user->middle_name,
+            'last_name' => $staff->user->last_name,
+            'sex' => $staff->user->sex,
+            'date_of_birth' => $staff->user->date_of_birth,
+            'email' => $staff->user->email,
+            'password' => $staff->generated_password ?? '',
+            'staff_roles_permissions_id' => $staff->user_role,
+            'is_disabled' => $staff->status === StaffStatus::INACTIVE,
+        ];
+
+        $this->currentPhoto = $staff->user->profile_photo?->photo_path
+            ? Storage::url($staff->user->profile_photo->photo_path)
+            : null;
+
+        $staffRolesPermissions = $staff->staffRolesPermissions()->with('permissions')->get();
+
+        $this->selectedPermissions = $staffRolesPermissions->map(function ($rolePermission) {
+            // Log or check each rolePermission and its permissions
+            Log::info("RolePermission: ", $rolePermission->toArray());
+            if ($rolePermission->permissions) {
+                Log::info("Permission Name: {$rolePermission->permissions->name}");
+            }
+            return $rolePermission->permissions->name ?? null;
+        })->filter()->toArray();
+
+        $this->dispatch('edit-user-account-modal-shown');
+    }
 
     public array $tabs = [
         ['key' => 'basic-info', 'label' => 'Basic Information'],
@@ -82,9 +110,28 @@ class EditUserAccountModal extends Component
     public string $activeTab = 'basic-info';
     public array $visitedTabs = [];
 
+    protected function rules()
+    {
+        return [
+            'form.first_name' => 'required|string|max:255',
+            'form.middle_name' => 'nullable|string|max:255',
+            'form.last_name' => 'required|string|max:255',
+            'form.sex' => 'required|string',
+            'form.date_of_birth' => 'required|date',
+            'form.email' => 'required|email|unique:users,email,' . $this->staff->user->id,
+            'form.password' => ['nullable', Password::defaults()],
+            'form.user_role' => 'required|string',
+            'form.is_disabled' => 'required|boolean',
+            'photo' => 'nullable|image|max:2048',
+        ];
+    }
+
     public function activateTab(string $tabKey): void
     {
         $this->activeTab = $tabKey;
+        if (!in_array($tabKey, $this->visitedTabs)) {
+            $this->visitedTabs[] = $tabKey;
+        }
     }
 
     public function nextTab(): void
@@ -106,38 +153,67 @@ class EditUserAccountModal extends Component
 
     public function save()
     {
-        $this->validate([
-            'photo' => 'nullable|image|max:2048', // Validate photo if uploaded
-        ]);
+        $this->validate();
 
-        // Handle profile photo upload
-        if ($this->photo) {
-            // Delete old photo if exists
-            $existingPhoto = UserProfilePhoto::where('user_id', $this->user->id)->first();
-            if ($existingPhoto) {
-                Storage::delete($existingPhoto->photo_path);
-                $existingPhoto->delete();
+        DB::beginTransaction();
+
+        try {
+            // Update user information
+            $this->staff->user->update([
+                'first_name' => $this->form['first_name'],
+                'middle_name' => $this->form['middle_name'],
+                'last_name' => $this->form['last_name'],
+                'sex' => $this->form['sex'],
+                'date_of_birth' => $this->form['date_of_birth'],
+                'email' => $this->form['email'],
+            ]);
+
+            // Update password if provided
+            if (!empty($this->form['password'])) {
+                $this->staff->user->update([
+                    'password' => bcrypt($this->form['password']),
+                    'generated_password' => $this->form['password'],
+                ]);
             }
 
-            // Save new photo
-            $path = $this->photo->store('profile_photos');
-            UserProfilePhoto::create([
-                'user_id' => $this->user->id,
-                'photo_path' => $path,
+            $this->staff->update([
+                'user_id' => $this->staff->user->id,
+                'staff_roles_permissions_id' => $this->form['user_role'], // Ensure this is mapped to a valid role
+                'generated_password' => $this->form['password'], // Ensure password hashing if needed
+                'status' => $this->form['is_disabled'] ? StaffStatus::INACTIVE : StaffStatus::ACTIVE,
             ]);
+
+
+            // Handle profile photo upload
+            if ($this->photo) {
+                // Delete old photo if exists
+                if ($this->staff->user->profile_photo) {
+                    Storage::delete($this->staff->user->profile_photo->photo_path);
+                    $this->staff->user->profile_photo->delete();
+                }
+
+                // Save new photo
+                $path = $this->photo->store('profile_photos', 'public');
+                UserProfilePhoto::create([
+                    'user_id' => $this->staff->user->id,
+                    'photo_path' => $path,
+                ]);
+            }
+
+            DB::commit();
+
+            // Dispatch success message to session
+            session()->flash('message', 'Staff Account updated successfully!');
+
+            return true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Failed to update user account: ' . $e->getMessage());
+            // Dispatch error message to session
+            session()->flash('error', 'There was an issue updating the Staff Account.');
+
+            return false;
         }
-
-        $form_saved = $this->form->save();
-
-
-        if ($form_saved) {
-            $this->dispatch('user_account_updated');
-        } else {
-            $this->dispatch('user_account_not_updated');
-        }
-
-        session()->flash('message', 'User account updated successfully.');
-        $this->emit('userUpdated'); // Emit an event to notify listeners
     }
 
     public function render()
