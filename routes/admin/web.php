@@ -25,13 +25,22 @@ Route::group(['middleware' => 'AuthAdmin'], function () {
 //        RoutePath::for('admin-notification', '/admin/notification'),
 //        [NotificationController::class, 'showNotification'])->name('admin-notification');
 
+    /**
+     * Profile Routes
+     */
+    Route::group(['prefix' => 'profile/'], function () {
+        Route::get('/admin/profile-edit', App\Http\Controllers\Admin\ProfileController::class)
+            ->name('admin.profile.profile-edit');
+    });
+
+
     Route::get('/admin/dashboard', App\Http\Controllers\admin\DashboardController::class)
         ->name('admin.dashboard');
 
     Route::get('/admin/manage-users', App\Http\Controllers\admin\ManageUserController::class)
         ->name('admin.manage-users-table');
 
-    Route::get('/admin/staff-role', App\Http\Controllers\admin\StaffRoleController::class)
+    Route::get('/admin/staff-role', App\Http\Controllers\admin\StaffRolesController::class)
         ->name('admin.staff-role-table');
 
     Route::get('/admin/admin-logs', App\Http\Controllers\admin\AdminLogsController::class)

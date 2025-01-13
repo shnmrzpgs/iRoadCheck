@@ -73,22 +73,26 @@ class ResidentLogsTable extends Component
         }
 
         // Apply Sorting
-        if (Str::contains($this->sort_by, '.')) {
-            // Handle sorting for nested relationships like 'resident.first_name'
-            $relations = explode('.', $this->sort_by);
-            $column = array_pop($relations); // Get the column name for sorting
-            $previousTable = 'resident_logs';
-
-            foreach ($relations as $relation) {
-                $resident_logs_query->join($relation, $previousTable . '.' . Str::singular($relation) . '_id', '=', $relation . '.id');
-                $previousTable = $relation;
+        if ($this->sort_by) {
+            if ($this->sort_by === 'resident.first_name') {
+                // Sorting by resident first name
+                $resident_logs_query
+                    ->leftJoin('residents', 'resident_logs.resident_id', '=', 'residents.id')  // Use LEFT JOIN to ensure all resident logs are included
+                    ->leftJoin('users', 'residents.user_id', '=', 'users.id')  // Use LEFT JOIN for user info
+                    ->orderBy('users.first_name', $this->sort_direction);  // Sorting by resident's first name
+            } elseif ($this->sort_by === 'resident.last_name') {
+                // Sorting by resident last name
+                $resident_logs_query
+                    ->leftJoin('residents', 'resident_logs.resident_id', '=', 'residents.id')  // Use LEFT JOIN to ensure all resident logs are included
+                    ->leftJoin('users', 'residents.user_id', '=', 'users.id')  // Use LEFT JOIN for user info
+                    ->orderBy('users.last_name', $this->sort_direction);  // Sorting by resident's last name
+            } elseif ($this->sort_by === 'dateTime') {
+                // Sorting by dateTime column in resident_logs table
+                $resident_logs_query->orderBy('resident_logs.dateTime', $this->sort_direction);  // Sorting by resident logs dateTime
+            } else {
+                // Sorting by direct fields in resident_logs
+                $resident_logs_query->orderBy($this->sort_by, $this->sort_direction);  // Sorting by other columns in the resident_logs table
             }
-
-            // Apply sorting to the column of the last table in the relationship
-            $resident_logs_query->orderBy($previousTable . '.' . $column, $this->sort_direction);
-        } else {
-            // For direct column sorting in 'resident_logs'
-            $resident_logs_query->orderBy($this->sort_by, $this->sort_direction);
         }
 
         return $resident_logs_query;

@@ -26,23 +26,17 @@
                         <div class="flex mb-2">
                             <div class="text-gray-600 font-semibold w-4/10">Status:</div>
                             <div class="text-gray-600 w-6/10">
-                                {{ $staffRole->status ? 'Enabled' : 'Disabled' }}
+                                {{ ucfirst($staffRole->status)}}
                             </div>
                         </div>
-                        <div class="flex mb-2">
-                            <div class="text-gray-600 font-semibold w-4/10">Permissions:</div>
-                            <div class="text-gray-600 w-6/10">
-                                @if($staffRole->permissions->isEmpty())
-                                    <span class="text-gray-600">No permissions assigned</span>
-                                @else
-                                    <ul>
-                                        @foreach($staffRole->permissions as $permission)
-                                            <div class="text-gray-600 flex grid grid-cols-2 leading-6">
-                                                <li>{{ ucfirst($permission->label) }}</li>
-                                            </div>
-                                        @endforeach
-                                    </ul>
-                                @endif
+                        <div class="flex flex-col mb-2">
+                            <div class="text-gray-600 font-semibold w-full">Permissions:</div>
+                            <div class="min-h-[25vh] max-h-[25vh] overflow-y-auto grid grid-cols-2 gap-2 mt-2 py-2 px-5">
+                                @foreach($staffRole->permissions as $permission)
+                                    <div class="text-gray-600 flex gap-y-2 text-[13px]">
+                                        <li>{{ ucfirst($permission->label) }}</li>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -50,7 +44,7 @@
             </div>
 
             <!-- Additional Section -->
-            <div class="mt-4 grid grid-cols-1">
+            <div class="mt-3 grid grid-cols-1">
                 <div class="mb-4 w-full lg:px-2">
                     <h3 class="text-[16px] text-gray-600 font-semibold mb-2 border-b border-gray-600">Additional Information</h3>
                     <div class="text-gray-300 text-[14px] mt-4">

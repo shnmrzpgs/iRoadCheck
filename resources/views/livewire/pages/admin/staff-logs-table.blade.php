@@ -40,7 +40,7 @@
                                 this.$watch('value', () => picker.setDate(this.value));
                             }
                         }"
-                        class="relative flex rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md"
+                        class="relative flex rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md custom-date-input"
                         :class="{
                             'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'dateRange',
                             'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'dateRange'
@@ -83,9 +83,9 @@
                                 </button>
                             </th>
                             <th scope="col" class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">
-                                <button class="flex items-end" wire:click="toggleSorting('staff.name')">
+                                <button class="flex items-end" wire:click="toggleSorting('staff.first_name')">
                                     Staff Name
-                                    <div x-cloak x-show="$wire.sort_by === 'staff.name'">
+                                    <div x-cloak x-show="$wire.sort_by === 'staff.first_name'">
                                         <x-arrow-up x-cloak x-show="$wire.sort_direction === 'asc'" />
                                         <x-arrow-down x-cloak x-show="$wire.sort_direction === 'desc'" />
                                     </div>
@@ -101,9 +101,9 @@
                                 </button>
                             </th>
                             <th scope="col" class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">
-                                <button class="flex items-end" wire:click="toggleSorting('dateAndTime')">
+                                <button class="flex items-end" wire:click="toggleSorting('dateTime')">
                                     Date and Time
-                                    <div x-cloak x-show="$wire.sort_by === 'dateAndTime'">
+                                    <div x-cloak x-show="$wire.sort_by === 'dateTime'">
                                         <x-arrow-up x-cloak x-show="$wire.sort_direction === 'asc'" />
                                         <x-arrow-down x-cloak x-show="$wire.sort_direction === 'desc'" />
                                     </div>

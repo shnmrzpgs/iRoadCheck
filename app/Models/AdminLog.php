@@ -41,4 +41,9 @@ class AdminLog extends Model
     {
         return $this->belongsTo(User::class, 'admin_id'); // Ensure this matches your setup
     }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

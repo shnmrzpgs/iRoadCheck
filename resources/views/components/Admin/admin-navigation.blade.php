@@ -89,7 +89,7 @@
                     <p x-show="expanded"
                        :class="{ 'text-white': activeLink === 'manageUsers', 'text-[#4D4F50]': activeLink !== 'manageUsers',
                           'group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out': activeLink !== 'manageUsers'}"
-                       class="ml-2">Manage Users</p>
+                       class="ml-2">Manage Staffs</p>
                 </a>
 
                 <!-- Staff Role -->
@@ -574,7 +574,7 @@
 
                             <!-- Profile Icon with Click and Bounce Microinteraction -->
                             <a x-ref="content"
-                               href="{{ route('admin.profile-settings') }}"
+                               href="{{ route('admin.profile.profile-edit') }}"
                                @click="activeLink = 'profile'; localStorage.setItem('activeLink', 'profile'); handleClick()"
                                :class="{ 'scale-105 animate-bounce-once': isClicked }"
                                class="-my-1.5 flex items-center p-1.5 transition-transform duration-150 ease-in-out transform"

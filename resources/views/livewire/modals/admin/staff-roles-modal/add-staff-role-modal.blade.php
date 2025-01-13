@@ -23,42 +23,117 @@
 
         <x-slot:body>
             <div class="space-y-4">
+                <!-- Role Name -->
                 <div>
                     <label for="name" class="block text-sm font-medium text-gray-700">Role Name</label>
-                    <input type="text" id="name" wire:model.defer="form.name"
+                    <input type="text" id="name" wire:model="name"
                            class="block w-full px-3 py-2 mt-1 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500">
-                    @error('form.name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                    @error('name')
+                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                    @enderror
                 </div>
+
+                <!-- Selected Permissions -->
                 <div class="px-3 py-2 text-sm">
-                    <div class="block font-normal text-gray-700 mb-4 text-sm">Choose the specific capabilities and permissions assigned to this user type.</div>
-                    <label class="block font-medium text-gray-700 mb-2 border-b border-gray-300">Permissions</label>
-                    <div class="min-h-[25vh] max-h-[25vh] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 py-2 px-5">
-                        @if($staff_permissions->isNotEmpty())
-                            @foreach ($staff_permissions as $staff_permission)
-                                <div class="flex items-center">
-                                    <input type="checkbox" id="permission-{{ $staff_permission->id }}"
-                                           wire:model="selectedPermissions"
-                                           value="{{ $staff_permission->id }}"
-                                           class="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500">
-                                    <label for="permission-{{ $staff_permission->id }}" class="ml-2 text-sm text-gray-700">
-                                        {{ $staff_permission->label }}
-                                    </label>
-                                </div>
-                            @endforeach
-                        @else
-                            <p class="text-sm text-gray-500">No permissions available.</p>
-                        @endif
+                    <div class="block font-normal text-gray-700 mb-4 text-sm">
+                        Choose the specific capabilities and permissions assigned to this user type.
                     </div>
 
+                    <!-- Select All Checkbox -->
+                    <div class="flex items-center mb-4">
+                        <input type="checkbox" id="selectAll" wire:model="selectAllPermissions"
+                               wire:change="toggleSelectAllPermissions"
+                               class="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500">
+                        <label for="selectAll" class="ml-2 text-sm text-gray-700">
+                            Select All
+                        </label>
+                    </div>
+
+                    <label for="selectedPermissions" class="block font-medium text-gray-700 mb-2 border-b border-gray-300">
+                        Permissions
+                    </label>
+                    <div class="min-h-[25vh] max-h-[25vh] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 py-2 px-5">
+                        @foreach ($staff_permissions as $id => $label)
+                            <div class="flex items-center">
+                                <input type="checkbox" id="permission-{{ $id }}"
+                                       wire:model="selectedPermissions"
+                                       wire:change="togglePermissions"
+                                       value="{{ $id }}"
+                                       class="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500">
+                                <label for="permission-{{ $id }}" class="ml-2 text-sm text-gray-700">
+                                    {{ $label }}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                    @error('selectedPermissions')
+                    <span class="text-red-500 text-xs">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
         </x-slot:body>
 
         <x-slot:footer>
             <!-- Modal Footer -->
-            <div class="flex items-center justify-end pb-4 px-4 space-x-4">
+            <div>
+                <!-- Display Success or Error Message -->
+                @if (session()->has('message'))
+                    <div x-data="{ openSuccessModal: true }" x-cloak>
+                        <!-- Success Modal -->
+                        <div
+                            x-show="openSuccessModal"
+                            class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30 px-5"
+                            x-init="
+                                lottie.loadAnimation({
+                                    container: $refs.lottieAnimation,
+                                    renderer: 'svg',
+                                    loop: true,
+                                    autoplay: true,
+                                    path: '{{ asset('animations/Animation - 1732372548058.json') }}'
+                                });
+                            "
+                            >
+                            <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full max-w-sm mx-10">
+                                <div class="bg-white rounded-lg shadow-lg">
+
+                                    <!-- Modal Body -->
+                                    <div class="p-6 flex flex-col items-center space-y-2">
+                                        <!-- Success Message -->
+                                        <p class="text-center text-green-600 font-bold text-2xl">SUCCESS</p>
+
+                                        <!-- Lottie Animation Container -->
+                                        <div x-ref="lottieAnimation" class="w-28 sm:w-28 md:w-28 lg:w-32 max-w-[110px] mt-4 mb-0 drop-shadow-lg"></div>
+
+                                        <!-- Success Message -->
+                                        <p class="text-center text-gray-600 text-sm">
+                                            <span>{{ session('message') }}</span>
+                                        </p>
+                                    </div>
+
+                                    <!-- Horizontal Line with Animation -->
+                                    <div class="relative overflow-hidden shadow-lg w-full h-[4px]">
+                                        <img src="{{ asset('storage/images/line-successLoading.png') }}" alt="loading"
+                                             class="absolute top-0 left-0 w-full h-full object-cover animate-wipe-right">
+                                    </div>
+
+                                    <!-- Modal Footer -->
+                                    <div @click="openSuccessModal = false" onclick="location.reload();" class="flex flex-col items-center px-6 py-2 bg-green-50 hover:bg-green-100 rounded-b-lg transition-all active:translate-y-[1px] active:shadow-none">
+                                        <button class="px-4 py-2 text-green-600 text-sm font-medium rounded">
+                                            Close
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                @elseif (session()->has('error'))
+                    <div class="text-red-500">{{ session('error') }}</div>
+                @endif
+
+
                 <button x-on:click="open = false"
-                        x-on:staffRole_added.window="open = false"
                         class="px-4 py-2 bg-gray-100 text-sm rounded hover:bg-gray-200 transition active:scale-95">
                     Cancel
                 </button>
@@ -69,17 +144,5 @@
                 </button>
             </div>
         </x-slot:footer>
-
-        @script
-        <script type="module">
-            $wire.on('staffRole_account_added', () => {
-                pushNotification('success', 'Staff Role Information Added', 'Staff Role has been added successfully.');
-            });
-            $wire.on('staffRole_not_added', () => {
-                pushNotification('error', 'Failed to Add Staff Role', 'An error occurred while adding the Staff Role.');
-            });
-        </script>
-        @endscript
-
-    </x-admin.crud-modal-content-base>
+</x-admin.crud-modal-content-base>
 

@@ -81,23 +81,28 @@ class StaffLogsTable extends Component
         }
 
         // Apply Sorting
-        if (Str::contains($this->sort_by, '.')) {
-            // Handle sorting for nested relationships like 'staff.first_name'
-            $relations = explode('.', $this->sort_by);
-            $column = array_pop($relations); // Get the column name for sorting
-            $previousTable = 'staff_logs';
-
-            foreach ($relations as $relation) {
-                $staff_logs_query->join($relation, $previousTable . '.' . Str::singular($relation) . '_id', '=', $relation . '.id');
-                $previousTable = $relation;
+        if ($this->sort_by) {
+            if ($this->sort_by === 'staff.first_name') {
+                // Sorting by staff first name
+                $staff_logs_query
+                    ->leftJoin('staffs', 'staff_logs.staff_id', '=', 'staffs.id')  // Use LEFT JOIN to ensure all staff logs are included
+                    ->leftJoin('users', 'staffs.user_id', '=', 'users.id')  // Use LEFT JOIN for user info
+                    ->orderBy('users.first_name', $this->sort_direction);  // Sorting by staff's first name
+            } elseif ($this->sort_by === 'staff.last_name') {
+                // Sorting by staff last name
+                $staff_logs_query
+                    ->leftJoin('staffs', 'staff_logs.staff_id', '=', 'staffs.id')  // Use LEFT JOIN to ensure all staff logs are included
+                    ->leftJoin('users', 'staffs.user_id', '=', 'users.id')  // Use LEFT JOIN for user info
+                    ->orderBy('users.last_name', $this->sort_direction);  // Sorting by staff's last name
+            } elseif ($this->sort_by === 'dateTime') {
+                // Sorting by dateTime column in staff_logs table
+                $staff_logs_query->orderBy('staff_logs.dateTime', $this->sort_direction);  // Sorting by staff logs dateTime
+            } else {
+                // Sorting by direct fields in staff_logs
+                $staff_logs_query->orderBy($this->sort_by, $this->sort_direction);  // Sorting by other columns in the staff_logs table
             }
-
-            // Apply sorting to the column of the last table in the relationship
-            $staff_logs_query->orderBy($previousTable . '.' . $column, $this->sort_direction);
-        } else {
-            // For direct column sorting in 'staff_logs'
-            $staff_logs_query->orderBy($this->sort_by, $this->sort_direction);
         }
+
 
         return $staff_logs_query;
     }

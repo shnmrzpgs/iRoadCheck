@@ -3,93 +3,116 @@
 namespace App\Livewire\Modals\Admin\StaffRolesModal;
 
 use App\Enums\Staff\StaffRoleStatus;
-use App\Livewire\Forms\AddStaffRoleForm;
 use App\Models\StaffPermission;
 use App\Models\StaffRole;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class AddStaffRoleModal extends Component
 {
-
     public string $identifier = '';
-
-    public AddStaffRoleForm $form;
-
+    public string $name = '';
+    public bool $status = true;
+    public array $selectedPermissions = [];
     public Collection $staff_permissions;
-
-    public ?int $staffRoleId = null; // For storing the ID of the staff role
-    public string $role_name = '';
-    public string $role_status = StaffRoleStatus::ENABLED; // Use your enum for default
-    public array $selectedPermissions = []; // Array of selected permission I
-
-    public bool $clearing_course = true;
-
+    public bool $selectAllPermissions = false; // Track if "Select All" checkbox is checked
 
     public function mount(?StaffRole $staffRole = null): void
     {
-        $this->staffRoleId = $staffRole?->id;
-        $this->role_name = $staffRole?->name ?? '';
-        $this->role_status = $staffRole?->status === StaffRoleStatus::ENABLED ? 'enabled' : 'disabled';
-        $this->staff_permissions = StaffPermission::all() ?? collect();
+        $this->identifier = uniqid('add_staff_role_modal');
+        $this->staff_permissions = StaffPermission::all()->pluck('label', 'id');
+        // Update the 'selectAllPermissions' state based on existing selected permissions
+        $this->selectAllPermissions = count($this->selectedPermissions) === $this->staff_permissions->count();
     }
 
-    public function updated($property): void
+    public function rules(): array
     {
-        if ($property === 'form.id') {
-            $value = $this->form->id;
+        return [
+            'name' => ['required', 'string', 'max:255', 'unique:staff_roles,name'],
+            'status' => ['required', 'boolean'],
+            'selectedPermissions' => ['array', 'min:1'],
+            'selectedPermissions.*' => ['exists:staff_permissions,id'],
+        ];
+    }
 
-            if ($value) {
-                // Check if this is an existing course
-                $this->staffRole = StaffRole::with(['name', 'status'])->find($this->form->id);
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'The staff role name is required.',
+            'name.unique' => 'This staff role name already exists.',
+//            'status.required' => 'The role status is required.',
+            'selectedPermissions.required' => 'At least one staff permission must be selected.',
+            'selectedPermissions.*.exists' => 'One or more permissions are invalid.',
+        ];
+    }
 
-                if ($this->staffRole) {
-                    // If the course exists, update form fields
-                    $this->form->id = $this->staffRole->id;
-                    $this->form->name = $this->staffRole->name;
-                }
+    public function clear(): void
+    {
+        $this->reset([
+            'name',
+            'status',
+            'selectedPermissions',
+        ]);
+    }
 
-                // Clear fields when necessary
-                if ($this->clearing_staffRole) {
-                    $this->form->staffRole_id = '';
-                    $this->dispatch($this->identifier . 'staffRole_cleared');
-                }
-
-            }
+    public function toggleSelectAllPermissions(): void
+    {
+        if ($this->selectAllPermissions) {
+            // If "Select All" is checked, select all permissions
+            $this->selectedPermissions = $this->staff_permissions->keys()->toArray();
+        } else {
+            // If "Select All" is unchecked, deselect all permissions
+            $this->selectedPermissions = [];
         }
     }
+
+    public function togglePermissions(): void
+    {
+        // Check if all permissions are selected
+        if (count($this->selectedPermissions) !== $this->staff_permissions->count()) {
+            // If not all permissions are selected, uncheck "Select All"
+            $this->selectAllPermissions = false;
+        } else {
+            // If all permissions are selected, check "Select All"
+            $this->selectAllPermissions = true;
+        }
+    }
+
 
     public function save(): void
-
     {
-        $this->form = new AddStaffRoleForm();
-        $form_saved = $this->form->save();
+        $this->validate();
 
-        // Clear form and dispatch events if successful
-        if ($form_saved) {
-            $this->form->clear();
-            // Dispatch success events
-            $this->dispatch($this->identifier . 'role_name_force_clear');
-            $this->dispatch($this->identifier . 'role_status_force_clear');
-            $this->dispatch($this->identifier . 'selectedPermissions_force_clear');
-            $this->dispatch('staffRole_added');
+        try {
+            // Use instantiation instead of create()
+            $staffRole = new StaffRole();
+            $staffRole->name = $this->name;
+            $staffRole->status = $this->status ? StaffRoleStatus::ENABLED : StaffRoleStatus::DISABLED;
+            $staffRole->save();
 
-            // Reset form and clear properties
-            $this->form->reset();
-        } else {
-            // Dispatch failure event
-            $this->dispatch('staffRole_not_added');
+            // Sync permissions
+            $staffRole->permissions()->sync($this->selectedPermissions);
+
+            $this->clear();
+
+            // Dispatch success message to session
+            session()->flash('message', 'Staff Role added successfully!');
+
+        } catch (\Exception $e) {
+            // Dispatch error message to session
+            session()->flash('error', 'There was an issue adding the Staff Role.');
         }
 
     }
+
+
 
     public function render(): Factory|View|Application|\Illuminate\View\View
     {
         return view('livewire.modals.admin.staff-roles-modal.add-staff-role-modal');
     }
+
 }

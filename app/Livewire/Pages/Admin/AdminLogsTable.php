@@ -73,36 +73,35 @@ class AdminLogsTable extends Component
                 $query->where('action', 'like', $search)
                     ->orWhere('dateTime', 'like', $search)
                     ->orWhereHas('admin', function ($admin_query) use ($search) {
-                        $admin_query->where('admin_id', 'like', $search) // Ensure 'admin_id' is the correct column
-                        ->orWhere('first_name', 'like', $search)
+                        $admin_query->where('first_name', 'like', $search)
                             ->orWhere('last_name', 'like', $search);
                     });
             });
         }
 
         // Apply Sorting
-        if ($this->sort_by === 'role') {
-            // Correct the join condition to use the correct relationships
-            $admin_logs_query->join('model_has_roles', 'admin_logs.admin_id', '=', 'model_has_roles.model_id') // Join based on 'admin_id', not 'user_id'
-            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                ->orderBy('roles.name', $this->sort_direction);
-        } elseif (Str::contains($this->sort_by, '.')) {
-            // Handle sorting for nested relationships like 'admin.first_name'
-            $relations = explode('.', $this->sort_by);
-            $column = array_pop($relations); // Get the column name for sorting
-            $previousTable = 'admin_logs';
-
-            foreach ($relations as $relation) {
-                $admin_logs_query->join($relation, $previousTable . '.' . Str::singular($relation) . '_id', '=', $relation . '.id');
-                $previousTable = $relation;
+        if ($this->sort_by) {
+            if ($this->sort_by === 'admin.first_name') {
+                // Sorting by admin first name
+                $admin_logs_query
+                    ->leftJoin('admins', 'admin_logs.admin_id', '=', 'admins.id')  // Use LEFT JOIN
+                    ->leftJoin('users', 'admins.user_id', '=', 'users.id')  // Use LEFT JOIN
+                    ->orderBy('users.first_name', $this->sort_direction);
+            } elseif ($this->sort_by === 'admin.last_name') {
+                // Sorting by admin last name
+                $admin_logs_query
+                    ->leftJoin('admins', 'admin_logs.admin_id', '=', 'admins.id')  // Use LEFT JOIN
+                    ->leftJoin('users', 'admins.user_id', '=', 'users.id')  // Use LEFT JOIN
+                    ->orderBy('users.last_name', $this->sort_direction);
+            } elseif ($this->sort_by === 'dateTime') {
+                // Sorting by dateTime column in admin_logs table
+                $admin_logs_query->orderBy('admin_logs.dateTime', $this->sort_direction);
+            } else {
+                // Sorting by direct fields in admin_logs
+                $admin_logs_query->orderBy($this->sort_by, $this->sort_direction);
             }
-
-            // Apply sorting to the column of the last table in the relationship
-            $admin_logs_query->orderBy($previousTable . '.' . $column, $this->sort_direction);
-        } else {
-            // For direct column sorting in 'admin_logs'
-            $admin_logs_query->orderBy($this->sort_by, $this->sort_direction);
         }
+
 
 
         return $admin_logs_query;

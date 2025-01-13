@@ -14,7 +14,7 @@ use Illuminate\Foundation\Application;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 
-class StaffRoleTable extends Component
+class StaffRolesTable extends Component
 {
     use WithoutUrlPagination, WithPagination;
 
@@ -122,13 +122,23 @@ class StaffRoleTable extends Component
 
         // Apply sorting
         if ($this->sort_by) {
-            $staffRoleQuery->orderBy($this->sort_by, $this->sort_direction);
+            // Handle sorting by permissions label if needed
+            if ($this->sort_by === 'permissions.label') {
+                $staffRoleQuery->join('staff_roles_permissions', 'staff_roles.id', '=', 'staff_roles_permissions.staff_role_id')
+                    ->join('staff_permissions', 'staff_roles_permissions.staff_permission_id', '=', 'staff_permissions.id')
+                    ->select('staff_roles.*', 'staff_permissions.label')  // Ensure you're selecting both the staff role and permission label
+                    ->orderBy('staff_permissions.label', $this->sort_direction);  // Sorting by the permission label
+            } else {
+                // Handle sorting by other fields in staff_roles
+                $staffRoleQuery->orderBy($this->sort_by, $this->sort_direction);
+            }
         }
+
 
         // Paginate the results
         $staffRoles = $staffRoleQuery->paginate($this->rowsPerPage);
 
-        return view('livewire.pages.admin.staff-role-table', [
+        return view('livewire.pages.admin.staff-roles-table', [
             'staffRoles' => $staffRoles,
         ]);
     }
