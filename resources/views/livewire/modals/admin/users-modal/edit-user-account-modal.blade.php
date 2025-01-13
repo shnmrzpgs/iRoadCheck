@@ -22,7 +22,7 @@
 
         <x-slot:trigger>
             <div class="hidden"
-                x-on:show-{{ $identifier }}.window="open = true"></div>
+                x-on:edit-user-account-modal-shown.window="open = true"></div>
         </x-slot:trigger>
 
         <x-slot:header>
@@ -49,17 +49,16 @@
                                 wire:model="photo" />
                         </label>
                     </div>
-
                     @error('photo') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
 
 
                     <!-- Full Name and Email Preview -->
                     <div class="pl-4">
                         <div class="block text-lg font-medium text-gray-700">
-                            {{ trim(($form->first_name ?? '') . ' ' . ($form->middle_name ?? '') . ' ' . ($form->last_name ?? '')) ?: 'Full Name Preview' }}
+                            {{ $staff->user->first_name }} {{ $staff->user->last_name }}
                         </div>
                         <div class="block text-xs font-normal text-gray-700 italic">
-                            {{ !empty($form->email) ? $form->email : 'Email Preview' }}
+                            {{ $staff->user->email }}
                         </div>
                     </div>
                 </div>
@@ -118,6 +117,7 @@
                     <div wire:submit.prevent="save" class="space-y-6">
                         <!-- Name Fields -->
                         <div class="grid grid-cols-3 gap-4">
+
                             <div>
                                 <label class="block font-medium text-gray-700">First Name</label>
                                 <input wire:model.defer="form.first_name"
@@ -141,14 +141,14 @@
                                     class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
                                 @error('form.last_name') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                             </div>
-                           
+
                         </div>
 
                         <!-- Sex and Email -->
                         <div class="flex space-x-4 grid grid-cols-2">
                             <div>
                                 <label class="block font-medium text-gray-700">Sex</label>
-                                <select wire:model.defer="form.sex"
+                                <select wire:model="form.sex"
                                     class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize"
                                     aria-describedby="sexError">
                                     <option value="">Select Sex</option>
@@ -168,11 +168,12 @@
                                             dateFormat: 'Y-m-d',
                                             allowInput: true,
                                         })"
-                                        type="date"
+                                        type="text"
                                         x-ref="input"
-                                        wire:model.defer="form.date_of_birth"
+                                        wire:model="form.date_of_birth"
+                                        value="{{ $form['date_of_birth'] }}"
                                         class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm pr-10"
-                                        placeholder="Select a date"
+                                        placeholder="{{ $form['date_of_birth'] }}"
                                         aria-describedby="dobError">
                                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -194,10 +195,12 @@
                     @if($activeTab === 'access-info')
                     <div>
                         <label class="block font-medium text-gray-700">User Role</label>
-                        <select wire:model="form.user_role"
+                        <select wire:model.live="form.user_role"
                             class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] text-gray-700 block w-full rounded-sm shadow-sm">
                             <option value="" selected>Select User Role</option>
-
+                            @foreach($roles as $role)
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
@@ -211,6 +214,9 @@
                             @endforelse
                         </ul>
                     </div>
+
+
+
                     @endif
 
 
@@ -220,29 +226,29 @@
                         <!-- Account Status -->
                         <div class="mb-6 border-b border-gray-300">
                             <label class="block font-medium text-gray-700 mb-1">Account Status</label>
-                            @if(isset($formData['is_disabled']) && $formData['is_disabled'])
-                            <div class="flex items-center justify-between w-full sm:text-sm p-2 space-x-24">
-                                <div class="text-sm font-semibold text-red-500">
-                                    Disabled
+                            <div x-data="{ isDisabled: @entangle('form.is_disabled') }" class="flex items-center justify-between w-full sm:text-sm p-2 space-x-24">
+                                <!-- Status Text -->
+                                <div class="text-sm font-semibold" :class="isDisabled ? 'text-red-500' : 'text-green-500'">
+                                    <span x-text="isDisabled ? 'Disabled' : 'Enabled'"></span>
                                 </div>
+
+                                <!-- Toggle Switch -->
                                 <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" wire:model="form.is_disabled" class="sr-only">
-                                    <div class="w-10 h-5 bg-red-500 rounded-full transition-colors duration-300"></div>
-                                    <div class="absolute top-0.5 right-0.5 w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-300 -translate-x-5"></div>
+                                    <input
+                                        type="checkbox"
+                                        x-model="isDisabled"
+                                        class="sr-only">
+                                    <!-- Toggle Background -->
+                                    <div class="w-10 h-5 rounded-full transition-colors duration-300"
+                                        :class="isDisabled ? 'bg-red-500' : 'bg-green-500'">
+                                    </div>
+                                    <!-- Toggle Thumb -->
+                                    <div class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-300"
+                                        :class="isDisabled ? 'translate-x-5' : ''">
+                                    </div>
                                 </label>
                             </div>
-                            @else
-                            <div class="flex items-center justify-between w-full sm:text-sm p-2 space-x-24">
-                                <div class="text-sm font-semibold text-green-500">
-                                    Enabled
-                                </div>
-                                <label class="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" wire:model="form.is_disabled" class="sr-only">
-                                    <div class="w-10 h-5 bg-green-500 rounded-full transition-colors duration-300"></div>
-                                    <div class="absolute top-0.5 right-0.5 w-4 h-4 bg-white rounded-full shadow transform transition-transform duration-300"></div>
-                                </label>
-                            </div>
-                            @endif
+
                         </div>
 
 
@@ -255,58 +261,35 @@
                             @error('form.email') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                         </div>
 
+
                         <!-- Password Field with Toggle Visibility -->
                         <div class="relative mt-6">
                             <label class="block text-sm font-medium text-gray-700 text-xs">New Password</label>
                             <div class="flex space-x-4">
-                                <div>
+                                <div class="relative flex-1">
                                     <input
                                         :type="isPasswordVisible ? 'text' : 'password'"
-                                        wire:model="form.password"
+                                        wire:model.live="form.password"
                                         placeholder="Generated password will appear here"
                                         readonly
-                                        class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm sm:text-sm bg-gray-100 pr-10">
-                                    <!-- Eye Icon for Toggling -->
+                                        class="border border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] mt-1 block w-full rounded-sm shadow-sm sm:text-sm bg-gray-100">
                                     <button
                                         type="button"
                                         @click="isPasswordVisible = !isPasswordVisible"
-                                        class="float-right -mt-7 mr-2 text-gray-500 hover:text-gray-700">
-                                        <span x-show="!isPasswordVisible">
-                                            <!-- Closed Eye Icon -->
-                                            <svg class="w-5 h-5 text-gray-600 hover:text-gray-700 transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" zoomAndPan="magnify" viewBox="0 0 375 374.999991" preserveAspectRatio="xMidYMid meet" version="1.0">
-                                                <defs>
-                                                    <clipPath id="f7a7acdade">
-                                                        <path d="M 11 71 L 364 71 L 364 324.042969 L 11 324.042969 Z M 11 71 " clip-rule="nonzero" />
-                                                    </clipPath>
-                                                </defs>
-                                                <g clip-path="url(#f7a7acdade)">
-                                                    ... </g>
-                                            </svg>
-                                        </span>
-                                        <span x-show="isPasswordVisible" style="display: none;">
-                                            <!-- Open Eye Icon -->
-                                            <svg class="w-5 h-5 text-gray-600 hover:text-gray-700 transition-colors duration-200" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" zoomAndPan="magnify" viewBox="0 0 375 374.999991" preserveAspectRatio="xMidYMid meet" version="1.0">
-                                                <defs>
-                                                    <clipPath id="1f8a6b186c">
-                                                        <path d="M 6 78.503906 L 369 78.503906 L 369 315.503906 L 6 315.503906 Z M 6 78.503906 " clip-rule="nonzero" />
-                                                    </clipPath>
-                                                </defs>
-                                                <g clip-path="url(#1f8a6b186c)">
-                                                    ...                                                </g>
-                                            </svg>
-                                        </span>
+                                        class="absolute right-2 top-1/2 -translate-y-1/2">
+                                        <template x-if="!isPasswordVisible">
+                                            <!-- Your eye-closed icon -->
+                                        </template>
+                                        <template x-if="isPasswordVisible">
+                                            <!-- Your eye-open icon -->
+                                        </template>
                                     </button>
                                 </div>
-
-                                <!-- Generate Password Button -->
-                                <div class="mt-2">
-                                    <button
-                                        @click="generatePassword()"
-                                        class="px-4 py-2 text-[#4AA76F] rounded-full border border-[#4AA76F]  bg-[#4AA76F] bg-opacity-5 hover:bg-[#3AA76F] hover:bg-opacity-10 text-xs transition-all active:translate-y-[2px] active:shadow-none">
-                                        Generate Password
-                                    </button>
-                                </div>
-
+                                <button
+                                    @click="generatePassword()"
+                                    class="px-4 py-2 text-[#4AA76F] rounded-full border border-[#4AA76F] bg-[#4AA76F] bg-opacity-5 hover:bg-opacity-10">
+                                    Generate Password
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -321,107 +304,104 @@
 
         <x-slot:footer>
 
+            <div>
+                <!-- Display Success or Error Message -->
+                @if (session()->has('message'))
+                <div x-data="{ openSuccessModal: true }" x-cloak>
+                    <!-- Success Modal -->
+                    <div
+                        x-show="openSuccessModal"
+                        class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30 px-5"
+                        x-init="
+                                lottie.loadAnimation({
+                                    container: $refs.lottieAnimation,
+                                    renderer: 'svg',
+                                    loop: true,
+                                    autoplay: true,
+                                    path: '{{ asset('animations/Animation - 1732372548058.json') }}'
+                                });
+                            ">
+                        <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full max-w-sm mx-10">
+                            <div class="bg-white rounded-lg shadow-lg">
 
-            <!-- Buttons -->
-            <div x-data="{ isOpen: false }" class="flex justify-between mt-6">
-                <!-- Left Side Buttons -->
-                <div class="flex space-x-4">
-                    <!-- Back Button -->
-                    <button
-                        type="button"
-                        wire:click="previousTab"
-                        class="flex items-center px-4 py-2 bg-gray-100 text-sm rounded hover:bg-gray-200 transition active:scale-95"
-                        x-show="tabs.findIndex(tab => tab.key === activeTab) > 0">
-                        <!-- Back Arrow Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                        </svg>
-                        <span class="ml-2">Back</span>
-                    </button>
-                    <div>
-                        <div class="alert"
-                            :class="{primary:'alter-primary', success:'alert-success', danger:'alert-danger', warning:'alter-warning'}[(alert.type ?? 'primary')]"
-                            x-data="{ open:false, alert:{} }"
-                            x-show="open" x-cloak
-                            x-transition:enter="animate-alert-show"
-                            x-transition:leave="animate-alert-hide"
-                            @alert.window="open = true; setTimeout( () => open=false, 3000 ); alert=$event.detail[0]">
-                            <div class="alert-wrapper">
-                                <strong x-html="alert.title">Title</strong>
-                                <p x-html="alert.message">Description</p>
+                                <!-- Modal Body -->
+                                <div class="p-6 flex flex-col items-center space-y-2">
+                                    <!-- Success Message -->
+                                    <p class="text-center text-green-600 font-bold text-2xl">SUCCESS</p>
+
+                                    <!-- Lottie Animation Container -->
+                                    <div x-ref="lottieAnimation" class="w-28 sm:w-28 md:w-28 lg:w-32 max-w-[110px] mt-4 mb-0 drop-shadow-lg"></div>
+
+                                    <!-- Success Message -->
+                                    <p class="text-center text-gray-600 text-sm">
+                                        <span>{{ session('message') }}</span>
+                                    </p>
+                                </div>
+
+                                <!-- Horizontal Line with Animation -->
+                                <div class="relative overflow-hidden shadow-lg w-full h-[4px]">
+                                    <img src="{{ asset('storage/images/line-successLoading.png') }}" alt="loading"
+                                        class="absolute top-0 left-0 w-full h-full object-cover animate-wipe-right">
+                                </div>
+
+                                <!-- Modal Footer -->
+                                <div @click="openSuccessModal = false" onclick="location.reload();" class="flex flex-col items-center px-6 py-2 bg-green-50 hover:bg-green-100 rounded-b-lg transition-all active:translate-y-[1px] active:shadow-none">
+                                    <button class="px-4 py-2 text-green-600 text-sm font-medium rounded">
+                                        Close
+                                    </button>
+                                </div>
+
                             </div>
-                            <i class="alert-close fa-solid fa-xmark" @click="open=false"></i>
                         </div>
+                    </div>
+                </div>
+
+                @elseif (session()->has('error'))
+                <div class="text-red-500">{{ session('error') }}</div>
+                @endif
+
+                <!-- Buttons -->
+                <div class="flex justify-between mt-6">
+                    <!-- Left Side Buttons -->
+                    <div class="flex space-x-4">
+                        <!-- Back Button -->
+                        <button
+                            type="button"
+                            wire:click="previousTab"
+                            class="flex items-center px-4 py-2 bg-gray-100 text-sm rounded hover:bg-gray-200 transition active:scale-95"
+                            x-show="tabs.findIndex(tab => tab.key === activeTab) > 0">
+                            <!-- Back Arrow Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                            <span class="ml-2">Back</span>
+                        </button>
+
                         <!-- Edit user Button -->
                         <button
                             type="button"
                             wire:click="save"
                             class="px-4 py-2 bg-gradient-to-b from-[#84D689] to-green-500 text-white text-sm rounded hover:bg-[#4AA76F] shadow-lg shadow-neutral-500/20 transition active:scale-95 hover:scale-105"
                             x-show="tabs.findIndex(tab => tab.key === activeTab) === tabs.length - 1">
-                            Edit Staff
+                            Update Account
                         </button>
                     </div>
-                </div>
-                <script>
-                    document.addEventListener('livewire.initialized', () => {
-                        let obj = @json(session('alert') ?? []);
-                        if (Object.keys(obj).length) {
-                            Livewire.dispatch('alert', [obj])
-                        }
-                    })
-                </script>
 
-                <!-- Next Button -->
-                <button
-                    type="button"
-                    wire:click="nextTab"
-                    class="flex items-center px-4 py-2 bg-[#3AA76F] text-white text-sm rounded hover:bg-[#4AA76F] transition active:scale-95"
-                    x-show="tabs.findIndex(tab => tab.key === activeTab) < tabs.length - 1">
-                    <span class="mr-2">Next</span>
-                    <!-- Next Arrow Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </button>
-            </div>
-
-        </x-slot:footer>
-        <!-- Success Modal -->
-        <div x-show="isOpen" x-transition.opacity class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div class="bg-white rounded-lg shadow-md w-96 p-6">
-                <div class="text-center">
-                    <h2 class="text-green-500 text-lg font-bold">SUCCESS</h2>
-                    <div class="mt-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-6.219-8.56M12 2a9 9 0 00-6.219 15.56M21 12a9 9 0 11-6.219-8.56" />
+                    <!-- Next Button -->
+                    <button
+                        type="button"
+                        wire:click="nextTab"
+                        class="flex items-center px-4 py-2 bg-[#3AA76F] text-white text-sm rounded hover:bg-[#4AA76F] transition active:scale-95"
+                        x-show="tabs.findIndex(tab => tab.key === activeTab) < tabs.length - 1">
+                        <span class="mr-2">Next</span>
+                        <!-- Next Arrow Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
-                    </div>
-                    <p class="mt-4 text-gray-600">Staff Account updated successfully!</p>
-                    <button @click="isOpen = false" class="mt-6 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 focus:outline-none">
-                        Close
                     </button>
                 </div>
             </div>
-        </div>
-        <!-- Livewire Script -->
-        <script>
-            Livewire.on('userUpdated', () => console.log('userUpdated event detected'));
-            document.addEventListener('livewire:load', () => {
-                Livewire.on('userUpdated', () => {
-                    const modal = document.querySelector('[x-data]');
-                    if (modal && modal.__x) {
-                        modal.__x.$data.isOpen = true;
-                    } else {
-                        console.error("Modal instance not found or Alpine.js is not properly initialized.");
-                    }
-                });
-            });
-        </script>
-        <script>
-            Livewire.on('reload-page', () => {
-                window.location.reload();
-            });
-        </script>
+        </x-slot:footer>
 
         @script
         <script type="module">

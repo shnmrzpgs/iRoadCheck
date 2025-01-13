@@ -2,46 +2,39 @@
 
 namespace App\Livewire\Modals\Admin\UsersModal;
 
-use Illuminate\Contracts\View\Factory;
+use App\Models\Staff;
 use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
-use App\Models\User;
-use Livewire\Attributes\Modelable;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ViewUserAccountModal extends Component
 {
-    #[Modelable]
-    public ?User $user = null;
+    public ?Staff $staff = null;
+    
+    public function showStaffInfo($staffId)
+{
+    $staff = Staff::with('staffRolesPermissions.permissions')
+        ->findOrFail($staffId);
 
-    public string $identifier = ''; // Identifier property to uniquely identify the modal
+    $permissions = $staff->staffRolesPermissions
+        ->pluck('permissions.name') // Get the names of permissions
+        ->flatten()
+        ->toArray();
 
-    public function mount(): void
+    $staff->permissions = $permissions; // Add permissions as a property
+
+    $this->staff = $staff; // Pass to Livewire component
+}
+
+    #[On('show-view-user-account-modal')] 
+    public function showModal(Staff $staff): void
     {
-        $this->identifier = uniqid(); // Generate a unique identifier for the modal instance
+        $this->staff = $staff;
+        $this->dispatch('view-user-account-modal-shown');
     }
 
-    #[On('show-view-user-modal')]
-    public function showModal(int $userId): void
+    public function render(): View
     {
-        $this->user = User::with('staff')->find($userId);
-
-        if (!$this->user) {
-            session()->flash('error', 'User not found.');
-            return;
-        }
-
-        // Dispatch the event with the unique identifier to show the specific modal
-        $this->dispatch('show-' . $this->identifier);
-        $this->dispatch('view-user-modal-shown'); // Optional event to indicate the modal is shown
-    }
-
-    public function render(): Application|Factory|View|\Illuminate\View\View
-    {
-        return view('livewire.modals.admin.users-modal.view-user-modal', [
-            'user' => $this->user,
-            'identifier' => $this->identifier, // Pass the identifier to the view
-        ]);
+        return view('livewire.modals.admin.users-modal.view-user-account-modal');
     }
 }
