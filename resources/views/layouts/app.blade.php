@@ -9,10 +9,14 @@
 
         <title>{{ $title }}</title>
 
+        <script src="{{ mix('js/app.js') }}"></script>
+
         <!-- Favicons -->
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('storage/images/IRoadCheck_Logo.png') }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('storage/images/IRoadCheck_Logo.png') }}">
         <link rel="manifest" href="{{ asset('storage/icons/favicon/site.webmanifest') }}">
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
 
         <!-- Google Fonts -->

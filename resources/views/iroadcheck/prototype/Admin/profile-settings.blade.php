@@ -321,5 +321,6 @@
             </div>
 
         </div>
+
     </x-admin.admin-navigation>
 </x-app-layout>

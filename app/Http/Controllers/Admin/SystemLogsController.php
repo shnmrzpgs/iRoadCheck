@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class StaffRoleController extends Controller
+class SystemLogsController extends Controller
 {
     public function __invoke()
     {
-        return view('admin.pages.staff-role');
+        return view('admin.pages.system-logs');
     }
 }

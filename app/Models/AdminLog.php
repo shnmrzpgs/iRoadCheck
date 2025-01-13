@@ -18,7 +18,7 @@ class AdminLog extends Model
     protected $fillable = [
         'admin_id',
         'action',
-        'date',
+        'dateTime', // or 'dateAndTime' if using that column
     ];
 
     /**
@@ -36,9 +36,14 @@ class AdminLog extends Model
 
     // Scopes
 
-    // Relationships
+    // Relationship with the Admin or User model
     public function admin(): BelongsTo
     {
-        return $this->belongsTo(Admin::class);
+        return $this->belongsTo(User::class, 'admin_id'); // Ensure this matches your setup
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

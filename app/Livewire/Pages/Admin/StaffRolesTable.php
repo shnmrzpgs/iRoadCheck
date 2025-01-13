@@ -3,6 +3,8 @@
 namespace App\Livewire\Pages\Admin;
 
 use App\Enums\Staff\StaffRoleStatus;
+use App\Livewire\Modals\Admin\StaffRolesModal\EditStaffRoleModal;
+use App\Livewire\Modals\Admin\StaffRolesModal\ViewStaffRoleModal;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use App\Models\StaffRole;
@@ -12,7 +14,7 @@ use Illuminate\Foundation\Application;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 
-class StaffRoleTable extends Component
+class StaffRolesTable extends Component
 {
     use WithoutUrlPagination, WithPagination;
 
@@ -32,12 +34,42 @@ class StaffRoleTable extends Component
     public string $sort_by = 'id';
     public string $sort_direction = 'asc';
 
+    // Staff Role Modals to view and edit
+    public ?StaffRole $staff_role_to_viewed = null;
+
+    public ?StaffRole $staff_role_to_edited = null;
+
     public function mount(): void
     {
         $this->staff_role_statuses = collect([
             ['key' => StaffRoleStatus::ENABLED, 'label' => 'Enabled'],
             ['key' => StaffRoleStatus::DISABLED, 'label' => 'Disabled'],
         ]);
+    }
+
+
+    public function viewStaffRole(StaffRole $staff_role): void
+    {
+        if ($this->staff_role_to_viewed === null) {
+            $this->staff_role_to_viewed = $staff_role;
+        }
+        if ($this->staff_role_to_viewed !== $staff_role) {
+            $this->staff_role_to_viewed = $staff_role;
+        }
+
+        $this->dispatch('show-view-staff-role-modal', $staff_role)->to(ViewStaffRoleModal::class);
+    }
+
+    public function editStaffRole(StaffRole $staff_role): void
+    {
+        if ($this->staff_role_to_edited === null) {
+            $this->staff_role_to_edited = $staff_role;
+        }
+        if ($this->staff_role_to_edited !== $staff_role) {
+            $this->staff_role_to_edited = $staff_role;
+        }
+
+        $this->dispatch('show-edit-staff-role-modal', $staff_role)->to(EditStaffRoleModal::class);
     }
 
     public function updating($property): void
@@ -68,7 +100,7 @@ class StaffRoleTable extends Component
         $this->resetPage(); // Reset pagination
     }
 
-    public function render(): Factory|Application|View
+    public function render(): Factory|View|Application|\Illuminate\View\View
     {
         $staffRoleQuery = StaffRole::with(['permissions']);
 
@@ -90,13 +122,23 @@ class StaffRoleTable extends Component
 
         // Apply sorting
         if ($this->sort_by) {
-            $staffRoleQuery->orderBy($this->sort_by, $this->sort_direction);
+            // Handle sorting by permissions label if needed
+            if ($this->sort_by === 'permissions.label') {
+                $staffRoleQuery->join('staff_roles_permissions', 'staff_roles.id', '=', 'staff_roles_permissions.staff_role_id')
+                    ->join('staff_permissions', 'staff_roles_permissions.staff_permission_id', '=', 'staff_permissions.id')
+                    ->select('staff_roles.*', 'staff_permissions.label')  // Ensure you're selecting both the staff role and permission label
+                    ->orderBy('staff_permissions.label', $this->sort_direction);  // Sorting by the permission label
+            } else {
+                // Handle sorting by other fields in staff_roles
+                $staffRoleQuery->orderBy($this->sort_by, $this->sort_direction);
+            }
         }
+
 
         // Paginate the results
         $staffRoles = $staffRoleQuery->paginate($this->rowsPerPage);
 
-        return view('livewire.pages.admin.staff-role-table', [
+        return view('livewire.pages.admin.staff-roles-table', [
             'staffRoles' => $staffRoles,
         ]);
     }
