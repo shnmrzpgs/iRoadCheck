@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
@@ -28,11 +29,8 @@ class ManageUsersTable extends Component
     public Collection $user_statuses;
 
     // User account to view
-    public ?User $user_account_to_viewed = null;
-    public ?User $user_account_to_edited = null;
-
-    // User property
-    public ?User $user = null;
+    public ?Staff $staff_account_to_viewed = null;
+    public ?Staff $staff_account_to_edited = null;
 
     // Filters
     public string $user_status_filter = '';
@@ -59,47 +57,34 @@ class ManageUsersTable extends Component
         ]);
     }
 
-    public function editUserAccount($id): void
+    public function editUserAccount(Staff $staff): void
     {
-        if (!$id) {
-            session()->flash('error', 'User ID is missing.');
-            return;
-        }
-
-        $user = User::find($id);
-
-        if (!$user) {
-            session()->flash('error', 'User not found.');
-            return;
-        }
-
-        // Emit an event to the EditUserAccountModal component
-        $this->dispatch('setUser', $user->id);
-
-        // Dispatch a browser event to show the modal
-        $this->dispatchBrowserEvent('show-edit-user-account-modal');
+         // Check if staff ID is valid
+    // if (is_null($staff->id)) {
+    //     Log::error('Invalid staff ID provided for editing.', ['staff_id' => $staff->id]);
+    //     return; // Optionally return early or throw an exception
+    // }
+    //     $this->staff_account_to_edited = $staff;
+    
+        $this->dispatch('show-edit-user-account-modal', [
+            'staff' => $staff->id, // Pass the ID instead of the whole instance
+        ])->to(EditUserAccountModal::class);
     }
+    
 
-    protected $listeners = ['show-edit-user-account-modal'];
 
-    public function showEditUserAccountModal($user): void
+    public function viewUserAccount(Staff $staff): void
     {
-        $this->user = User::findOrFail($user['id']); // Assign user to the component
-        $this->dispatch('show-edit-user-account-modal'); // Trigger frontend modal display
-    }
+        // if ($this->staff_account_to_viewed === null) {
+        //     $this->staff_account_to_viewed = $staff;
+        // }
 
+        // if ($this->staff_account_to_viewed !== $staff) {
+        //     $this->staff_account_to_viewed = $staff;
+        // }
 
-    public function viewUserAccount(User $user): void
-    {
-        if ($this->user_account_to_viewed === null) {
-            $this->user_account_to_viewed = $user;
-        }
-
-        if ($this->user_account_to_viewed !== $user) {
-            $this->user_account_to_viewed = $user;
-        }
-
-        $this->dispatch('show-view-user-account-modal', $user)->to(ViewUserAccountModal::class);
+        // $this->dispatch('show-view-user-account-modal', $staff)->to(ViewUserAccountModal::class);
+        $this->dispatch('show-view-user-account-modal', staff: $staff);
     }
 
     public function toggleSorting($field): void

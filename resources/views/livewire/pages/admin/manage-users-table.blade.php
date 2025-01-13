@@ -38,6 +38,19 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <!-- Status Filter -->
+                    <div class="relative flex rounded-[4px] border hover:shadow-md custom-select"
+                        :class="{
+                             'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'status',  /* Active state */
+                             'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'status'  /* Default and hover state */
+                         }">
+                        <select wire:model.live="staff_roles_filter"
+                            @change="activeFilter = 'roles'"
+                            class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
+                            <option value="" class="text-gray-400 text-[12px]">Staff Roles</option>
+                        </select>
+                    </div>
                 </div>
             </x-slot:dropdown_filters_container>
 
@@ -105,7 +118,7 @@
                         <tbody class="divide-y divide-gray-300 bg-white relative">
                             @forelse ($staffs as $staff)
                             <tr class="{{ $loop->iteration % 2 === 0 ? 'bg-white' : 'bg-gray-50' }} hover:bg-gray-100">
-                                <td class="px-4 py-3 text-xs">{{ $staff->user->id }}</td>
+                                <td class="px-4 py-3 text-xs">{{ $loop->iteration }}</td>
                                 <td class="px-4 py-3 text-xs">
                                     <div class="flex items-center">
                                         <img
@@ -121,9 +134,11 @@
                                     {{ optional($staff->staffRolesPermissions->staffRole)->name ?? 'No role assigned' }}
                                 </td>
                                 <td class="px-4 py-3 text-xs font-medium">
-                                    <span class="{{$staff->status === 'Active' ? 'text-green-600 font-bold' : 'text-red-600 font-bold' }}">
-                                        {{ ucfirst($staff->status) }}
+                                    <span class="{{ strtolower($staff->status ?? '') === 'active' ? 'text-green-600 font-bold' : 'text-red-600 font-bold' }}">
+                                        {{ ucfirst($staff->status ?? 'Unknown') }}
                                     </span>
+
+
                                 </td>
                                 <td class="pr-5 py-3 text-xs">
                                     <div class="flex">
@@ -134,22 +149,19 @@
                                             wire:loading.attr="disabled"
                                             x-data="{ loading: false }"
                                             x-on:click="loading = true"
-                                            x-on:show-edit-user-account-modal.window="loading = false">
+                                            x-on:edit-user-account-modal-shown.window="loading = false">
                                             <img src="{{ asset('storage/icons/edit-icon.png') }}" alt="Edit Icon" class="hidden md:block w-4 h-4 mr-2" />
                                             <span x-show="!loading">Edit</span>
                                             <x-loading-indicator class="text-orange-500 w-4 h-4" x-show="loading" />
                                         </button>
 
-
-
-
                                         <!-- Button to Open View Course Modal -->
                                         <button class="flex items-center text-[#3251FF] hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95 hover:bg-blue-100 hover:shadow py-1 px-3 rounded-md"
-                                            wire:click="viewUser({{ $staff->user->id }})"
+                                            wire:click="viewUserAccount({{ $staff->id }})"
                                             wire:loading.attr="disabled"
                                             x-data="{ loading: false }"
                                             x-on:click="loading = true"
-                                            x-on:view-user-modal-shown.window="loading = false">
+                                            x-on:view-user-account-modal-shown.window="loading = false">
                                             <img src="{{ asset('storage/icons/view-icon.png') }}" alt="View Icon" class="hidden md:block w-5 h-5 mr-2" />
                                             <span x-cloak x-show="! loading">View</span>
                                             <x-loading-indicator class="text-blue-500 w-4 h-4"
@@ -184,14 +196,12 @@
             <x-slot:modal_container>
                 <!-- Edit User Modal -->
                 <livewire:modals.admin.users-modal.edit-user-account-modal
-                    :user="$user_account_to_edited"
-                    wire:key="edit-user-account-{{ $user_account_to_edited?->id }}" />
+                    @staff_account_updated="$refresh" />
 
 
                 <!-- View User Modal -->
-                {{-- <livewire:modals.admin.users-modal.view-user-modal --}}
-                {{-- wire:model.live="user_account_to_viewed" --}}
-                {{-- /> --}}
+                <livewire:modals.admin.users-modal.view-user-account-modal
+                    wire:model="staff_account_to_viewed" />
             </x-slot:modal_container>
 
         </x-admin.crud-page-content-base>
