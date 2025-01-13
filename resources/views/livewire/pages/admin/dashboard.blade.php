@@ -22,11 +22,11 @@
                 <div class="flex flex-col text-[#FFAD00] pl-2 pr-3 pt-7 relative z-10">
                     <!-- Card Title -->
                     <div class="font-semibold text-md opacity-90 transform group-hover:scale-110 group-hover:translate-y-1 group-hover:translate-x-4 transition-all duration-500 ease-in-out">
-                        Total User Accounts
+                        Total Staff Accounts
                     </div>
                     <!-- Card Counts with gentle scale on hover -->
                     <div class="px-5 py-1 mt-2 mb-3 ml-auto text-lg text-[#FFAD00] rounded-full bg-[#FBFBFB] font-bold transform group-hover:scale-105 group-hover:translate-x-1 duration-500 ease-in-out">
-                        12
+                        {{ $totalStaff }}
                     </div>
                 </div>
             </a>
@@ -53,7 +53,7 @@
 
                     <!-- Card Counts -->
                     <div class="px-5 py-1 mt-2 mb-3 ml-auto text-lg text-[#4AA76F] rounded-full bg-[#FBFBFB] font-bold transform group-hover:scale-105 group-hover:translate-x-1 duration-500 ease-in-out">
-                        5
+                        {{ $activeStaffCount }}
                     </div>
                 </div>
 
@@ -80,7 +80,7 @@
 
                     <!-- Card Counts -->
                     <div class="px-5 py-1 mt-2 mb-3 ml-auto text-lg text-[#E26161] rounded-full bg-[#FBFBFB] font-bold transform group-hover:scale-105 group-hover:translate-x-1 duration-500 ease-in-out">
-                        7
+                        {{ $inactiveStaffCount }}
                     </div>
                 </div>
             </a>
