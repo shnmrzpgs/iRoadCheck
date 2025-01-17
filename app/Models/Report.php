@@ -6,6 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
 {
+    protected $fillable = [
+        'resident_id',
+        'defect',
+        'lat',
+        'lng',
+        'location',
+        'date',
+        'time',
+        'severity',
+        'image',
+        'image_annotated',
+        'status'
+    ];
     public function severity()
     {
         return $this->belongsTo(Severity::class);

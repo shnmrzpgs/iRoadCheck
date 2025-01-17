@@ -46,7 +46,47 @@
 
             <!-- Steps Content -->
             <div class="w-full flex justify-center items-center mx-auto">
+{{--                <div x-data="{--}}
+{{--    latitude: 0,--}}
+{{--    longitude: 0,--}}
+{{--    address: '',--}}
+{{--    date: '',--}}
+{{--    time: '',--}}
+{{--    photo: '',--}}
+{{--    photoCaptured: false,--}}
+{{--    submitReport() {--}}
+{{--        const reportData = {--}}
+{{--            latitude: this.latitude,--}}
+{{--            longitude: this.longitude,--}}
+{{--            address: this.address,--}}
+{{--            date: this.date,--}}
+{{--            time: this.time,--}}
+{{--            photo: this.photo,--}}
+{{--        };--}}
 
+{{--        fetch({'{{route('submit.report')}}'}, {--}}
+{{--            method: 'POST',--}}
+{{--            headers: {--}}
+{{--                'Content-Type': 'application/json',--}}
+{{--                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Include CSRF token for Laravel--}}
+{{--            },--}}
+{{--            body: JSON.stringify(reportData),--}}
+{{--        })--}}
+{{--        .then(response => response.json())--}}
+{{--        .then(data => {--}}
+{{--            if (data.success) {--}}
+{{--                alert('Report submitted successfully!');--}}
+{{--                // Optional: Reset data or navigate--}}
+{{--            } else {--}}
+{{--                alert('Failed to submit report. Please try again.');--}}
+{{--            }--}}
+{{--        })--}}
+{{--        .catch(error => {--}}
+{{--            console.error('Error submitting report:', error);--}}
+{{--            alert('An error occurred while submitting the report.');--}}
+{{--        });--}}
+{{--    }--}}
+{{--}">--}}
                 <!-- Step 1 | Choose Road Defect Issue -->
                 <template x-if="step === 1">
                     <div class="flex flex-col w-full z-0">
@@ -245,11 +285,11 @@
                                 <!-- Date and Time -->
                                 <div class="text-sm flex justify-start items-start w-3/4">
                                     <div class="w-1/2 text-gray-300">Date Reported:</div>
-                                    <div class="w-1/2 font-semibold text-[#4AA76F]">10/12/2024</div>
+                                    <div class="w-1/2 font-semibold text-[#4AA76F]" x-text="date"></div>
                                 </div>
                                 <div class="text-sm flex justify-start items-start w-3/4">
                                     <div class="w-1/2 text-gray-300">Time Reported:</div>
-                                    <div class="w-1/2 font-semibold text-[#4AA76F]">08:34:02 AM</div>
+                                    <div class="w-1/2 font-semibold text-[#4AA76F]" x-text="time"></div>
                                 </div>
 
                                 <!-- Location -->
@@ -288,7 +328,7 @@
                         <!-- Captured Road Photo -->
                         <div class="text-center text-sm flex flex-col items-center my-3">
                             <span class="font-semibold text-[#4AA76F] -mb-2">Actual Captured Road Photo</span>
-                            <img src="{{ asset('storage/images/pothole1.png') }}" alt="Road Defect" class="w-[80%]" />
+                            <img :src="photo" alt="Road Defect" class="w-[80%]" />
                         </div>
 
                         <!-- Report Details -->
@@ -308,11 +348,11 @@
                             <!-- Date and Time -->
                             <div class="text-xs md:text-sm flex">
                                 <div class="w-2/5 text-gray-600">Date Reported:</div>
-                                <div class="w-3/5 font-semibold text-[#4AA76F]">10/12/2024</div>
+                                <div class="w-3/5 font-semibold text-[#4AA76F]" x-text="date"></div>
                             </div>
                             <div class="text-xs md:text-sm flex">
                                 <div class="w-2/5 text-gray-600">Time Reported:</div>
-                                <div class="w-3/5 font-semibold text-[#4AA76F]">08:34:02 AM</div>
+                                <div class="w-3/5 font-semibold text-[#4AA76F]" x-text="time"></div>
                             </div>
 
                             <!-- Location -->
@@ -334,11 +374,24 @@
                         </div>
 
                         <!-- Submit Report Button -->
-                        <button
-                            x-on:click="openSuccessModal = true; setTimeout(() => location.reload(), 2000);"
-                            class="w-2/4 text-sm md:text-md: bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">
-                            Submit Report
-                        </button>
+                        <form action="{{ route('submit.report') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="latitude" x-bind:value="latitude">
+                            <input type="hidden" name="longitude" x-bind:value="longitude">
+                            <input type="hidden" name="address" x-bind:value="address">
+                            <input type="hidden" name="date" x-bind:value="date">
+                            <input type="hidden" name="time" x-bind:value="time">
+                            <input type="hidden" name="photo" x-bind:value="photo">
+
+                            <button type="submit" class="w-2/4 text-sm md:text-md bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">
+                                Submit Report
+                            </button>
+                        </form>
+{{--                        <button--}}
+{{--                            x-on:click="submitReport; openSuccessModal = true; setTimeout(() => location.reload(), 2000);"--}}
+{{--                            class="w-2/4 text-sm md:text-md: bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">--}}
+{{--                            Submit Report--}}
+{{--                        </button>--}}
 
                         <!-- Success Modal -->
                         <x-success-modal successMessage="Your report road concern submitted successfully." x-show="openSuccessModal"></x-success-modal>
@@ -362,99 +415,31 @@
 </x-residents.residents-navigation>
 
 {{--<script>--}}
-{{--    function captureHandler() {--}}
-{{--        return {--}}
-{{--            cameraOpen: false,--}}
-{{--            photoCaptured: false,--}}
-{{--            locationCaptured: false,--}}
-{{--            latitude: null,--}}
-{{--            longitude: null,--}}
-{{--            photo: null,--}}
-{{--            defectType: '',--}}
-{{--            selected: '', // Store the selected defect type--}}
-{{--            videoStream: null,--}}
-{{--            address: '', // Add a property to store the address--}}
-{{--            // Open the camera--}}
-{{--            openCamera() {--}}
-{{--                this.cameraOpen = true;--}}
-{{--                const video = document.getElementById('camera-stream');--}}
-{{--                navigator.mediaDevices.getUserMedia({--}}
-{{--                    video: {--}}
-{{--                        facingMode: { ideal: 'environment' } // Use the back camera if available--}}
-{{--                    }--}}
-{{--                })--}}
-{{--                    .then(stream => {--}}
-{{--                        this.videoStream = stream;--}}
-{{--                        video.srcObject = stream;--}}
-{{--                    })--}}
-{{--                    .catch(err => {--}}
-{{--                        console.error('Error accessing camera:', err);--}}
-{{--                        alert('Unable to access the camera. Ensure you allow camera permissions.');--}}
-{{--                    });--}}
+{{--    function submitReport() {--}}
+{{--        fetch("{{ route('submit.report') }}", {--}}
+{{--            method: 'POST',--}}
+{{--            headers: {--}}
+{{--                'Content-Type': 'application/json',--}}
+{{--                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')--}}
 {{--            },--}}
-
-{{--            // Capture photo and location--}}
-{{--            capturePhotoAndLocation() {--}}
-{{--                const video = document.getElementById('camera-stream');--}}
-{{--                const canvas = document.createElement('canvas');--}}
-{{--                canvas.width = video.videoWidth;--}}
-{{--                canvas.height = video.videoHeight;--}}
-{{--                canvas.getContext('2d').drawImage(video, 0, 0);--}}
-{{--                this.photo = canvas.toDataURL('image/png');--}}
-{{--                this.photoCaptured = true;--}}
-
-{{--                // Stop the video stream--}}
-{{--                if (this.videoStream) {--}}
-{{--                    this.videoStream.getTracks().forEach(track => track.stop());--}}
-{{--                }--}}
-{{--                this.cameraOpen = false;--}}
-
-{{--                // Capture location--}}
-{{--                if (navigator.geolocation) {--}}
-{{--                    navigator.geolocation.getCurrentPosition(--}}
-{{--                        position => {--}}
-{{--                            this.latitude = position.coords.latitude;--}}
-{{--                            this.longitude = position.coords.longitude;--}}
-{{--                            this.locationCaptured = true;--}}
-{{--                            const apiKey = "{{ env('GOOGLE_MAP_API') }}";--}}
-{{--                            const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${apiKey}`;--}}
-{{--                            fetch(geocodeUrl)--}}
-{{--                                .then(response => response.json())--}}
-{{--                                .then(data => {--}}
-{{--                                    if (data.status === 'OK') {--}}
-{{--                                        this.address = data.results[0].formatted_address;--}}
-{{--                                    } else {--}}
-{{--                                        alert('Unable to get the location name.');--}}
-{{--                                    }--}}
-{{--                                })--}}
-{{--                                .catch(error => {--}}
-{{--                                    console.error('Error with geocoding request:', error);--}}
-{{--                                    alert('Unable to retrieve location name.');--}}
-{{--                                });--}}
-{{--                        },--}}
-{{--                        error => {--}}
-{{--                            console.error('Error getting location:', error);--}}
-{{--                            alert('Unable to retrieve your location. Please enable GPS.');--}}
-{{--                        }--}}
-
-{{--                    );--}}
-
+{{--            body: JSON.stringify({--}}
+{{--                latitude: this.latitude,--}}
+{{--                longitude: this.longitude,--}}
+{{--                address: this.address,--}}
+{{--                date: this.date,--}}
+{{--                time: this.time,--}}
+{{--                photo: this.photo--}}
+{{--            })--}}
+{{--        })--}}
+{{--            .then(response => response.json())--}}
+{{--            .then(data => {--}}
+{{--                if (data.message) {--}}
+{{--                    alert('Report submitted successfully!');--}}
 {{--                } else {--}}
-{{--                    alert('Geolocation is not supported by your browser.');--}}
+{{--                    alert('Error submitting report.');--}}
 {{--                }--}}
-{{--            },--}}
-
-{{--            // Confirm photo and location capture--}}
-{{--            confirmCapture() {--}}
-{{--                // Livewire.emit('storeData', {--}}
-{{--                //     latitude: this.latitude,--}}
-{{--                //     longitude: this.longitude,--}}
-{{--                //     photo: this.photo,--}}
-{{--                //     defectType: this.defectType--}}
-{{--                // });--}}
-{{--                alert(`Address: ${this.address}\nLatitude: ${this.latitude}\nLongitude: ${this.longitude}`);--}}
-{{--            }--}}
-{{--        };--}}
+{{--            })--}}
+{{--            .catch(error => console.error('Error:', error));--}}
 {{--    }--}}
 {{--</script>--}}
 
@@ -464,11 +449,11 @@
             cameraOpen: false,
             photoCaptured: false,
             locationCaptured: false,
-            latitude: null,
-            longitude: null,
-            photo: null,
+            // latitude: null,
+            // longitude: null,
+            // photo: null,
             videoStream: null,
-            address: '',
+            // address: '',
             isFrontCamera: true, // Tracks whether the front camera is active
             stream: null, // Stores the media stream
 
@@ -488,6 +473,50 @@
                         this.cameraOpen = false;
                         document.body.classList.remove('overflow-hidden');
                     });
+                // Capture location
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        position => {
+                            this.latitude = position.coords.latitude;
+                            this.longitude = position.coords.longitude;
+                            this.locationCaptured = true;
+
+                            // Capture the current date and time
+                            const currentDateTime = new Date();
+                            this.date = currentDateTime.toLocaleDateString('en-US', {
+                                month: 'long', // Full month name (e.g., January)
+                                day: 'numeric', // Numeric day (e.g., 11)
+                                year: 'numeric', // Full year (e.g., 2003)
+                            });
+                            this.time = currentDateTime.toLocaleTimeString(); // Format: HH:MM:SS AM/PM
+
+                            const apiKey = "{{ env('GOOGLE_MAP_API') }}";
+                            const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${apiKey}`;
+                            fetch(geocodeUrl)
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.status === 'OK') {
+                                        this.address = data.results[0].formatted_address;
+                                        // alert(`Address: ${this.address}\nLatitude: ${this.latitude}\nLongitude: ${this.longitude}`);
+                                    } else {
+                                        alert('Unable to get the location name.');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error with geocoding request:', error);
+                                    alert('Unable to retrieve location name.');
+                                });
+                        },
+                        error => {
+                            console.error('Error getting location:', error);
+                            alert('Unable to retrieve your location. Please enable GPS.');
+                        }
+
+                    );
+
+                } else {
+                    alert('Geolocation is not supported by your browser.');
+                }
             },
 
             // Capture Photo
@@ -505,7 +534,52 @@
                 }
                 this.cameraOpen = false;
                 document.body.classList.remove('overflow-hidden');
-            },
+                // Capture location
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        position => {
+                            this.latitude = position.coords.latitude;
+                            this.longitude = position.coords.longitude;
+                            this.locationCaptured = true;
+
+                            // Capture the current date and time
+                            const currentDateTime = new Date();
+                            this.date = currentDateTime.toLocaleDateString('en-US', {
+                                month: 'long', // Full month name (e.g., January)
+                                day: 'numeric', // Numeric day (e.g., 11)
+                                year: 'numeric', // Full year (e.g., 2003)
+                            });
+                            this.time = currentDateTime.toLocaleTimeString(); // Format: HH:MM:SS AM/PM
+
+                            const apiKey = "{{ env('GOOGLE_MAP_API') }}";
+                            const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${apiKey}`;
+                            fetch(geocodeUrl)
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.status === 'OK') {
+                                        this.address = data.results[0].formatted_address;
+                                        // alert(`Address: ${this.address}\nLatitude: ${this.latitude}\nLongitude: ${this.longitude}`);
+                                    } else {
+                                        alert('Unable to get the location name.');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error with geocoding request:', error);
+                                    alert('Unable to retrieve location name.');
+                                });
+                        },
+                        error => {
+                            console.error('Error getting location:', error);
+                            alert('Unable to retrieve your location. Please enable GPS.');
+                        }
+
+                    );
+
+                } else {
+                    alert('Geolocation is not supported by your browser.');
+                }
+
+                },
 
             // Retry Photo Capture
             retryCapture() {
@@ -514,6 +588,7 @@
                 this.longitude = null;
                 this.address = '';
                 this.openCamera();
+
             },
 
             // Confirm Photo Capture
@@ -550,6 +625,7 @@
                 }
             },
 
+
             // Flash Effect
             toggleFlash() {
                 const videoContainer = document.querySelector("#video-container");
@@ -576,6 +652,3 @@
         };
     }
 </script>
-
-
-
