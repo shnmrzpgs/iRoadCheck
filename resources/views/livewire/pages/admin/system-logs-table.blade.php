@@ -117,7 +117,9 @@
                                 <td class="px-4 py-3 text-xs">{{ $systemLog->id }}</td>
                                 <td class="px-4 py-3 text-xs">{{ $systemLog->transaction_id }}</td>
                                 <td class="px-4 py-3 text-xs">{{ $systemLog->action }}</td>
-                                <td class="px-4 py-3 text-xs">{{ \Carbon\Carbon::parse($systemLog->created_at)->format('F j, Y \a\t h:i A') }}</td>
+                                <td class="px-4 py-3 text-xs">
+                                    {{ \Carbon\Carbon::parse($systemLog->dateTime)->timezone('Asia/Manila')->format('F j, Y \a\t h:i A') }}
+                                </td>
                             </tr>
                         @empty
                             <tr>

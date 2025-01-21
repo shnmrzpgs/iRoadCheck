@@ -14,7 +14,7 @@
         @if($staffRole)
             <div class="mt-4 mx-4 grid grid-cols-1">
                 <!-- Staff Role Details Section -->
-                <div class="mb-4 w-full lg:pr-4">
+                <div class="mb-2 w-full lg:pr-4">
                     <h3 class="text-[16px] text-gray-600 font-semibold mb-2 border-b border-[#757575]">Staff Role Details</h3>
                     <div class="text-gray-300 text-[14px] mt-4">
                         <div class="flex mb-2">
@@ -31,14 +31,21 @@
                         </div>
                         <div class="flex flex-col mb-2">
                             <div class="text-gray-600 font-semibold w-full">Permissions:</div>
-                            <div class="min-h-[25vh] max-h-[25vh] overflow-y-auto grid grid-cols-2 gap-2 mt-2 py-2 px-5">
+                            <div
+                                class="min-h-[15vh] max-h-[25vh] overflow-y-auto mt-2 py-2 px-5"
+                                style="{{ $staffRole->permissions->count() > 5 ? 'display: flex; flex-wrap: wrap;' : 'display: flex; flex-direction: column;' }}"
+                            >
                                 @foreach($staffRole->permissions as $permission)
-                                    <div class="text-gray-600 flex gap-y-2 text-[13px]">
+                                    <div
+                                        class="text-gray-600 text-[13px] {{ $staffRole->permissions->count() > 5 ? 'w-1/2' : 'w-full' }} mb-2"
+                                    >
                                         <li>{{ ucfirst($permission->label) }}</li>
                                     </div>
                                 @endforeach
                             </div>
                         </div>
+
+
                     </div>
                 </div>
             </div>

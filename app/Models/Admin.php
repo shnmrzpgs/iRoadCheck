@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 
 class Admin extends Model
@@ -51,6 +52,10 @@ class Admin extends Model
         return $this->belongsToMany(StaffRolesPermissions::class, 'staff_roles_permissions_id');
     }
 
+    public function profilePhoto(): HasOne
+    {
+        return $this->hasOne(UserProfilePhoto::class);
+    }
 
 
 }

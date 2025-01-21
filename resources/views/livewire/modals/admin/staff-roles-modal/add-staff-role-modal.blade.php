@@ -127,11 +127,9 @@
                             </div>
                         </div>
                     </div>
-
                 @elseif (session()->has('error'))
                     <div class="text-red-500">{{ session('error') }}</div>
                 @endif
-
 
                 <button x-on:click="open = false"
                         class="px-4 py-2 bg-gray-100 text-sm rounded hover:bg-gray-200 transition active:scale-95">

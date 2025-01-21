@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class AdminLog extends Model
 {
@@ -32,7 +33,9 @@ class AdminLog extends Model
         'dateTime' => 'timestamp',
     ];
 
+
     // Attributes
+
 
     // Scopes
 
@@ -46,4 +49,11 @@ class AdminLog extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function profilePhoto(): HasOne
+    {
+        return $this->hasOne(UserProfilePhoto::class);
+    }
+
 }
+

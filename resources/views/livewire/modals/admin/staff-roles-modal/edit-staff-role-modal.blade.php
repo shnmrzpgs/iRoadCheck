@@ -40,7 +40,7 @@
                     <!-- Toggle Button -->
                     <label class="relative inline-flex items-center cursor-pointer">
                         <!-- Visible Checkbox -->
-                        <input type="checkbox" wire:model="status" class="sr-only peer">
+                        <input type="checkbox" wire:model.live="status" class="sr-only peer">
 
                         <!-- Background of the Toggle -->
                         <div class="w-10 h-5 bg-red-500 rounded-full transition-colors duration-300 peer-checked:bg-green-500"></div>

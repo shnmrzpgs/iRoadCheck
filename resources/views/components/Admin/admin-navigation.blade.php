@@ -175,15 +175,16 @@
 
 
                 <!-- Logout -->
-                <a href="" @click="activeLink = 'logOut'; activeChildLink = ''; localStorage.setItem('activeLink', 'logOut'); localStorage.setItem('activeChildLink', '')"
+                <a href="javascript:void(0);"
+                   @click="logout"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'logOut',
-                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'logOut'}"
+            'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'logOut'}"
                    class="group flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
 
                     <!-- Icon always visible -->
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
                          :class="{ 'text-white': activeLink === 'logOut', 'text-[#4D4F50]': activeLink !== 'logOut',
-                          'group-hover:text-[#4AA76F] group-hover:scale-105 duration-200 ease-in-out' : activeLink !== 'logOut'}"
+                  'group-hover:text-[#4AA76F] group-hover:scale-105 duration-200 ease-in-out' : activeLink !== 'logOut'}"
                          class="w-5 h-5 fill-current">
                         <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/>
                     </svg>
@@ -191,9 +192,31 @@
                     <!-- Text only when expanded -->
                     <p x-show="expanded"
                        :class="{ 'text-white': activeLink === 'logOut', 'text-[#4D4F50]': activeLink !== 'logOut',
-                          'group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out': activeLink !== 'logOut'}"
+                'group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out': activeLink !== 'logOut'}"
                        class="ml-2">Logout</p>
                 </a>
+
+                <!-- JavaScript for Logout -->
+                <script>
+                    function logout() {
+                        // Create the logout form dynamically
+                        let form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '{{ route('logout') }}'; // Laravel logout route
+
+                        // Add CSRF token to the form for security
+                        let csrfToken = document.createElement('input');
+                        csrfToken.type = 'hidden';
+                        csrfToken.name = '_token';
+                        csrfToken.value = '{{ csrf_token() }}'; // CSRF token
+                        form.appendChild(csrfToken);
+
+                        // Append the form to the body and submit it
+                        document.body.appendChild(form);
+                        form.submit();
+                    }
+                </script>
+
             </nav>
 
         </aside>
@@ -365,31 +388,33 @@
 
                     <h1 class="lg:text-[22px] text-md md:text-lg mt-0 font-semibold text-[#4AA76F] md:mt-3 md:mr-3 lg:mr-1">{{$page_title}}</h1>
 
-                    <!-- Search Bar -->
-                    <div class="flex mt-2 lg:mt-3 w-48 lg:w-80 items-center px-0 lg:px-5">
-                        <div class="relative flex flex-1 h-8 rounded-full">
-                            <label for="search-field" class="sr-only">Search</label>
-                            <svg
-                                class="pointer-events-none absolute inset-y-0 left-1 h-full w-4 text-gray-400 ml-2 z-0"
-                                viewBox="0 0 20 20"
-                                fill="#4AA76F"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
-                                    clip-rule="evenodd"
+                    @if (!request()->routeIs('admin.profile-edit'))
+                        <!-- Search Bar -->
+                        <div class="flex mt-2 lg:mt-3 w-48 lg:w-80 items-center px-0 lg:px-5">
+                            <div class="relative flex flex-1 h-8 rounded-full">
+                                <label for="search-field" class="sr-only">Search</label>
+                                <svg
+                                    class="pointer-events-none absolute inset-y-0 left-1 h-full w-4 text-gray-400 ml-2 z-0"
+                                    viewBox="0 0 20 20"
+                                    fill="#4AA76F"
+                                    aria-hidden="true"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                                        clip-rule="evenodd"
+                                    />
+                                </svg>
+                                <input
+                                    id="search-field"
+                                    class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] shadow-[0px_1px_5px_rgba(0,0,0,0.2)] focus:bg-white bg-white rounded-full block h-full w-full py-0 pl-8 text-gray-900 placeholder:text-gray-400 text-xs lg:text-[14px]"
+                                    wire:model.live="search"
+                                    placeholder="{{ $placeholder ?? 'Search...' }}"
+                                    type="search"
                                 />
-                            </svg>
-                            <input
-                                id="search-field"
-                                class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] shadow-[0px_1px_5px_rgba(0,0,0,0.2)] focus:bg-white bg-white rounded-full block h-full w-full py-0 pl-8 text-gray-900 placeholder:text-gray-400 text-xs lg:text-[14px]"
-                                wire:model.live="search"
-                                placeholder="{{ $placeholder ?? 'Search...' }}"
-                                type="search"
-                            />
+                            </div>
                         </div>
-                    </div>
+                    @endif
 
                 </div>
 
@@ -574,7 +599,7 @@
 
                             <!-- Profile Icon with Click and Bounce Microinteraction -->
                             <a x-ref="content"
-                               href="{{ route('admin.profile.profile-edit') }}"
+                               href="{{ route('admin.profile-edit') }}"
                                @click="activeLink = 'profile'; localStorage.setItem('activeLink', 'profile'); handleClick()"
                                :class="{ 'scale-105 animate-bounce-once': isClicked }"
                                class="-my-1.5 flex items-center p-1.5 transition-transform duration-150 ease-in-out transform"
@@ -601,7 +626,6 @@
             </main>
 
         </div>
-
 
     </div>
 </div>

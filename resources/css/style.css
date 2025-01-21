@@ -305,4 +305,32 @@ input[type="radio"] {
     pointer-events: none;
 }
 
+.feedback-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    transition: opacity 0.3s ease;
+}
+
+.feedback-message.success {
+    background-color: #4CAF50; /* Green for success */
+    color: white;
+}
+
+.feedback-message.error {
+    background-color: #f44336; /* Red for error */
+    color: white;
+}
+
+.feedback-message.info {
+    background-color: #2196F3; /* Blue for info */
+    color: white;
+}
+
 

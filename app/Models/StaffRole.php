@@ -11,6 +11,8 @@ class StaffRole extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
+
     protected $fillable = [
         'name',
         'status'
@@ -27,7 +29,7 @@ class StaffRole extends Model
      * Relationship: A Role has many Permissions.
      */
 
-     
+
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(StaffPermission::class, 'staff_roles_permissions');
