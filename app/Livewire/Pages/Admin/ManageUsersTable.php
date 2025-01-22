@@ -7,6 +7,7 @@ use App\Livewire\Modals\Admin\UsersModal\EditUserAccountModal;
 use App\Livewire\Modals\Admin\UsersModal\ViewUserAccountModal;
 use App\Models\User;
 use App\Models\Staff;
+use App\Models\StaffRole;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -27,6 +28,7 @@ class ManageUsersTable extends Component
     public int $rowsPerPage = 10;
 
     public Collection $user_statuses;
+    public Collection $roles;
 
     // User account to view
     public ?Staff $staff_account_to_viewed = null;
@@ -34,6 +36,7 @@ class ManageUsersTable extends Component
 
     // Filters
     public string $user_status_filter = '';
+    public string $staff_roles_filter = '';
 
     // Sorting
     public string $sort_by = 'id';
@@ -55,35 +58,21 @@ class ManageUsersTable extends Component
                 'label' => 'Inactive',
             ],
         ]);
+
+        $this->roles = StaffRole::with('permissions')->get();
     }
 
-    public function editUserAccount(Staff $staff): void
+    public function editUserAccount($staffId): void
     {
-         // Check if staff ID is valid
-    // if (is_null($staff->id)) {
-    //     Log::error('Invalid staff ID provided for editing.', ['staff_id' => $staff->id]);
-    //     return; // Optionally return early or throw an exception
-    // }
-    //     $this->staff_account_to_edited = $staff;
-    
+        $staff = Staff::findOrFail($staffId);
         $this->dispatch('show-edit-user-account-modal', [
-            'staff' => $staff->id, // Pass the ID instead of the whole instance
+            'staff' => $staff->id
         ])->to(EditUserAccountModal::class);
     }
-    
 
-
-    public function viewUserAccount(Staff $staff): void
+    public function viewUserAccount($staffId): void
     {
-        // if ($this->staff_account_to_viewed === null) {
-        //     $this->staff_account_to_viewed = $staff;
-        // }
-
-        // if ($this->staff_account_to_viewed !== $staff) {
-        //     $this->staff_account_to_viewed = $staff;
-        // }
-
-        // $this->dispatch('show-view-user-account-modal', $staff)->to(ViewUserAccountModal::class);
+        $staff = Staff::findOrFail($staffId);
         $this->dispatch('show-view-user-account-modal', staff: $staff);
     }
 
@@ -103,7 +92,8 @@ class ManageUsersTable extends Component
     {
         $this->search = '';
         $this->user_status_filter = '';
-        $this->sort_by = '';
+        $this->staff_roles_filter = '';
+        $this->sort_by = 'id';
     }
 
     public function updatedRowsPerPage(): void
@@ -119,24 +109,52 @@ class ManageUsersTable extends Component
 
     public function render(): Factory|View|Application
     {
-        $query = Staff::with(['user', 'staffRolesPermissions', 'staffRolesPermissions.staffRole'])
+        $allowedSortFields = ['id', 'first_name', 'last_name', 'status', 'username',  'staff_role'];
+        if (!in_array($this->sort_by, $allowedSortFields)) {
+            $this->sort_by = 'id'; // Default to a valid column
+        }
+
+        // Start the query
+        $query = Staff::query()
+            ->select('staffs.*')
+            ->leftJoin('users', 'staffs.user_id', '=', 'users.id') // Ensure this matches your foreign key\
+            ->leftJoin('staff_roles_permissions', 'staffs.staff_roles_permissions_id', '=', 'staff_roles_permissions.id')
+    ->leftJoin('staff_roles', 'staff_roles_permissions.staff_role_id', '=', 'staff_roles.id') // Join staff_roles
+            ->with(['user', 'staffRolesPermissions', 'staffRolesPermissions.staffRole'])
             ->when($this->search, function ($query) {
-                $query->whereHas('user', function ($q) {
-                    $q->where('first_name', 'like', "%{$this->search}%")
-                        ->orWhere('last_name', 'like', "%{$this->search}%")
-                        ->orWhere('email', 'like', "%{$this->search}%");
-                })
+                $query->where(function ($query) {
+                    $query->where('users.first_name', 'like', "%{$this->search}%")
+                        ->orWhere('users.middle_name', 'like', "%{$this->search}%")
+                        ->orWhere('users.last_name', 'like', "%{$this->search}%");
+                })->orWhere('username', 'like', '%' . $this->search . '%')
                     ->orWhereHas('staffRolesPermissions.staffRole', function ($query) {
                         $query->where('name', 'like', '%' . $this->search . '%');
                     });
             })
             ->when($this->user_status_filter, function ($query) {
-                $query->where('status', $this->user_status_filter);
+                $query->where('staffs.status', $this->user_status_filter);
             })
-            ->orderBy($this->sort_by, $this->sort_direction);
+            ->when($this->staff_roles_filter, function ($query) {
+                $query->whereHas('staffRolesPermissions', function ($query) {
+                    $query->where('staff_role_id', $this->staff_roles_filter);
+                });
+            });
 
+        // Sorting logic
+        if ($this->sort_by === 'username') {
+            $query->orderBy('staffs.username', $this->sort_direction);
+        } elseif (in_array($this->sort_by, ['first_name', 'last_name', 'middle_name'])) {
+            $query->orderBy('users.' . $this->sort_by, $this->sort_direction);
+        } elseif ($this->sort_by === 'staff_role') {
+            $query->orderBy('staff_roles.name', $this->sort_direction); // Sort by staff role name
+        } else {
+            $query->orderBy('staffs.' . $this->sort_by, $this->sort_direction);
+        }
+        
+        // Paginate the results
         $staffs = $query->paginate($this->rowsPerPage);
 
+        // Return the view
         return view('livewire.pages.admin.manage-users-table', compact('staffs'));
     }
 }

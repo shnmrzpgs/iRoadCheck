@@ -29,15 +29,15 @@ class StaffRolesPermissions extends Model
     ];
 
     //Relationships
-    public function staff(): BelongsTo
+    public function staff()
     {
-        return $this->belongsTo(Staff::class);
+        return $this->hasMany(Staff::class);
     }
 
     public function staffRole(): BelongsTo
     {
-        return $this->belongsTo(StaffRole::class, 'staff_role_id');
-    }
+        return $this->belongsTo(StaffRole::class, 'staff_role_id', 'id');
+  }
 
     public function permissions(): BelongsTo
     {

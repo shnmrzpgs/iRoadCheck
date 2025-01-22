@@ -11,12 +11,15 @@ use App\Enums\User\UserSex;
 use App\Enums\Staff\StaffStatus;
 use App\Models\Staff;
 use App\Models\StaffRole;
+use App\Models\StaffRolesPermissions;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Form;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rule;
 
 class EditUserAccountModal extends Component
 {
@@ -35,11 +38,12 @@ class EditUserAccountModal extends Component
         'last_name' => '',
         'sex' => '',
         'date_of_birth' => '',
-        'email' => '',
+        'username' => '',
         'password' => '',
         'user_role' => '',
         'is_disabled' => false,
     ];
+    public $photo_path;
 
     public array $selectedPermissions = [];
 
@@ -55,15 +59,15 @@ class EditUserAccountModal extends Component
             (object) ['id' => StaffStatus::INACTIVE, 'value' => 'inactive'],
         ]);
 
-        $this->roles = StaffRole::all();
+        $this->roles = StaffRole::with('permissions')->get();
     }
 
-    public function updatedFormUserRole($roleId): void
+    public function updatedFormUserRole($staffRoleId): void
     {
-        // Fetch permissions for the selected role
-        $role = StaffRole::find($roleId);
-        $this->selectedPermissions = $role ? $role->permissions->pluck('label')->toArray() : [];
+        $role =  StaffRolesPermissions::with('permissions', 'staffRole')->find($staffRoleId);
+        $this->selectedPermissions = $role ? $role->permissions->pluck('name')->toArray() : [];
     }
+
 
     #[On('show-edit-user-account-modal')]
     public function showModal(Staff $staff): void
@@ -76,27 +80,28 @@ class EditUserAccountModal extends Component
             'middle_name' => $staff->user->middle_name,
             'last_name' => $staff->user->last_name,
             'sex' => $staff->user->sex,
-            'date_of_birth' => $staff->user->date_of_birth,
-            'email' => $staff->user->email,
-            'password' => $staff->generated_password ?? '',
-            'staff_roles_permissions_id' => $staff->user_role,
+            'date_of_birth' => $staff->user && $staff->user->date_of_birth
+                ? Carbon::parse($staff->user->date_of_birth)->format('F j, Y')
+                : '',
+            'username' => $staff->username,
+            'password' => $staff->user->generated_password ?? '',
+            'user_role' => $staff->staffRolesPermissions->staffRole->id,
             'is_disabled' => $staff->status === StaffStatus::INACTIVE,
         ];
 
-        $this->currentPhoto = $staff->user->profile_photo?->photo_path
-            ? Storage::url($staff->user->profile_photo->photo_path)
-            : null;
 
-        $staffRolesPermissions = $staff->staffRolesPermissions()->with('permissions')->get();
+        // $profilePhoto = $staff->user->profilePhoto;
+        // $this->currentPhoto = $profilePhoto ? asset('storage/' . $profilePhoto->photo_path) : null;
 
-        $this->selectedPermissions = $staffRolesPermissions->map(function ($rolePermission) {
-            // Log or check each rolePermission and its permissions
-            Log::info("RolePermission: ", $rolePermission->toArray());
-            if ($rolePermission->permissions) {
-                Log::info("Permission Name: {$rolePermission->permissions->name}");
-            }
-            return $rolePermission->permissions->name ?? null;
-        })->filter()->toArray();
+        if ($staff->user->profilePhoto) {
+            $this->currentPhoto = asset('storage/' . $staff->user->profilePhoto->photo_path);
+        } else {
+            $this->currentPhoto = null;
+        }
+
+        $role = StaffRolesPermissions::with('permissions', 'staffRole')->find($this->form['user_role']);
+        $this->selectedPermissions = $role ? $role->permissions->pluck('name')->toArray() : [];
+        // dd($this->staff);
 
         $this->dispatch('edit-user-account-modal-shown');
     }
@@ -117,10 +122,10 @@ class EditUserAccountModal extends Component
             'form.middle_name' => 'nullable|string|max:255',
             'form.last_name' => 'required|string|max:255',
             'form.sex' => 'required|string',
-            'form.date_of_birth' => 'required|date',
-            'form.email' => 'required|email|unique:users,email,' . $this->staff->user->id,
+            // 'form.date_of_birth' => 'nullable|date',
+            'form.username' => 'required|string|max:255',
             'form.password' => ['nullable', Password::defaults()],
-            'form.user_role' => 'required|string',
+            'form.user_role' => 'required|exists:staff_roles,id',
             'form.is_disabled' => 'required|boolean',
             'photo' => 'nullable|image|max:2048',
         ];
@@ -151,11 +156,57 @@ class EditUserAccountModal extends Component
         }
     }
 
+    public function resetPhoto()
+    {
+        $this->photo = null;
+        $this->dispatch('photo-reset');
+    }
+
+    public function saveProfilePhoto(string $path, User $user): void
+    {
+        // Delete old photo if it exists
+        if ($user->profilePhoto) {
+            Storage::disk('public')->delete($user->profilePhoto->photo_path);
+        }
+        
+        // Update or create new photo record
+        UserProfilePhoto::updateOrCreate(
+            ['user_id' => $user->id],
+            ['photo_path' => $path]
+        );
+    }
+
+    public function updatedDateOfBirth($value): void
+    {
+        // Ensure date_of_birth is formatted correctly when updated
+        try {
+            $this->form['date_of_birth'] = Carbon::parse($value)->format('F j, Y');
+        } catch (\Exception $e) {
+            $this->form['date_of_birth'] = null; // Handle invalid date input
+        }
+    }
+
     public function save()
     {
         $this->validate();
 
         DB::beginTransaction();
+
+        $this->validate([
+            'form.first_name' => ['required', 'string'],
+            'form.last_name' => ['required', 'string'],
+            'form.username' => [
+                'required',
+                'string',
+                Rule::unique('staffs', 'username')->ignore($this->staff->id), // Exclude current user
+            ],
+            'form.user_role' => ['required', 'exists:staff_roles,id'],
+            'form.password' => ['nullable', 'string', Password::default()],
+            'photo' => 'nullable|image|max:2048',
+        ], [
+            'form.username.unique' => 'The username is already in use.',
+            'form.date_of_birth.date_format' => 'Invalid date format.',
+        ]);
 
         try {
             // Update user information
@@ -163,10 +214,20 @@ class EditUserAccountModal extends Component
                 'first_name' => $this->form['first_name'],
                 'middle_name' => $this->form['middle_name'],
                 'last_name' => $this->form['last_name'],
-                'sex' => $this->form['sex'],
-                'date_of_birth' => $this->form['date_of_birth'],
-                'email' => $this->form['email'],
+                'date_of_birth' => $this->form['date_of_birth']
+                    ? Carbon::createFromFormat('F j, Y', $this->form['date_of_birth'])->format('Y-m-d')
+                    : null,
+
             ]);
+
+            // Handle profile photo upload
+            if ($this->photo) {
+                $path = $this->photo->store('profile_photos', 'public');
+                $this->saveProfilePhoto($path, $this->staff->user);
+                
+                // Update current photo display
+                $this->currentPhoto = asset('storage/' . $path);
+            }
 
             // Update password if provided
             if (!empty($this->form['password'])) {
@@ -176,45 +237,24 @@ class EditUserAccountModal extends Component
                 ]);
             }
 
+            $staffRolePermission = $this->staff->staffRolesPermissions;
             $this->staff->update([
-                'user_id' => $this->staff->user->id,
-                'staff_roles_permissions_id' => $this->form['user_role'], // Ensure this is mapped to a valid role
-                'generated_password' => $this->form['password'], // Ensure password hashing if needed
+                'username' => $this->form['username'],
+                'staff_roles_permissions_id' => $staffRolePermission->id,
                 'status' => $this->form['is_disabled'] ? StaffStatus::INACTIVE : StaffStatus::ACTIVE,
             ]);
 
 
-            // Handle profile photo upload
-            if ($this->photo) {
-                // Delete old photo if exists
-                if ($this->staff->user->profile_photo) {
-                    Storage::delete($this->staff->user->profile_photo->photo_path);
-                    $this->staff->user->profile_photo->delete();
-                }
-
-                // Save new photo
-                $path = $this->photo->store('profile_photos', 'public');
-                UserProfilePhoto::create([
-                    'user_id' => $this->staff->user->id,
-                    'photo_path' => $path,
-                ]);
-            }
 
             DB::commit();
-
-            // Dispatch success message to session
             session()->flash('message', 'Staff Account updated successfully!');
-
-            return true;
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Failed to update user account: ' . $e->getMessage());
-            // Dispatch error message to session
-            session()->flash('error', 'There was an issue updating the Staff Account.');
-
-            return false;
+            session()->flash('error', 'Failed to update Staff Account.');
         }
     }
+
 
     public function render()
     {

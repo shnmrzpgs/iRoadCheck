@@ -96,6 +96,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => $this->faker->optional()->dateTimeBetween('-1 year', 'now'),
             'password' => static::$password ??= Hash::make('password'),
+            'generated_password' => 'password',
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),

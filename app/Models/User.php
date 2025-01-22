@@ -38,6 +38,7 @@ class User extends Authenticatable
         'email',
         'email_verified_at',
         'password',
+        'generated_password',
         'remember_token',
     ];
 
@@ -50,12 +51,13 @@ class User extends Authenticatable
         'staff_role' => 'integer',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'date_of_birth' => 'date',
+
     ];
 
 
     protected $hidden = [
         'password',
+        'generated_password',
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',

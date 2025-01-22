@@ -244,12 +244,15 @@ use App\Enums\User\UserSex;
 use App\Enums\Staff\StaffStatus;
 use Livewire\WithFileUploads;
 use App\Models\User;
+use App\Models\Staff;
+use App\Models\StaffRolesPermissions;
 use App\Models\StaffRole;
 use App\Livewire\Forms\AddUserAccountForm;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
@@ -296,7 +299,8 @@ class AddUserAccountModal extends Component
                 'value' => 'Inactive',
             ],
         ]);
-        $this->roles = StaffRole::all();
+        $roleIds = StaffRolesPermissions::distinct('staff_role_id')->pluck('staff_role_id');
+        $this->roles = StaffRole::whereIn('id', $roleIds)->get(); // Retrieve unique roles based on staff_role_id
     }
 
     public array $tabs = [
@@ -307,11 +311,6 @@ class AddUserAccountModal extends Component
 
     public string $activeTab = 'basic-info';
     public array $visitedTabs = [];
-
-    // public function generatePassword(): void
-    // {
-    //     $this->formData['password'] = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()'), 0, 12);
-    // }
 
     public function activateTab(string $tabKey): void
     {
@@ -340,6 +339,7 @@ class AddUserAccountModal extends Component
         // Fetch permissions for the selected role
         $role = StaffRole::find($roleId);
         $this->selectedPermissions = $role ? $role->permissions->pluck('label')->toArray() : [];
+        Log::info('User selected role ID: ' . $roleId);
     }
 
     public function validateAndSubmit()
@@ -347,8 +347,24 @@ class AddUserAccountModal extends Component
         Log::info('validateAndSubmit triggered.');
 
         $this->validate([
-            'photo' => 'nullable|image|max:1024',
+            'form.first_name' => ['required', 'string'],
+            'form.last_name' => ['required', 'string'],
+            'form.username' => [
+                'required',
+                'string',
+                'unique:staffs,username', // Ensure unique username
+            ],
+            'form.user_role' => ['required', 'exists:staff_roles,id'],
+            'form.password' => ['required', 'string', Password::default()],
+        ], [
+            'form.username.unique' => 'The username is already in use.',
         ]);
+
+        // Check for duplicates
+        if ($this->checkForDuplicates()) {
+            session()->flash('error', 'A staff member with the same name already exists.');
+            return;
+        }
 
         if ($this->photo) {
             $path = $this->photo->store('profile_photos', 'public');
@@ -370,15 +386,28 @@ class AddUserAccountModal extends Component
 
             if ($result) {
                 Log::info('Form saved successfully.');
-            // Dispatch success message to session
-            session()->flash('message', 'Staff Account added successfully!');
+                // Dispatch success message to session
+                session()->flash('message', 'Staff Account added successfully!');
             }
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Validation failed.', ['errors' => $e->errors()]);
-           // Dispatch error message to session
-           session()->flash('error', 'There was an issue adding the Staff Account.');
-        } 
+            // Dispatch error message to session
+            session()->flash('error', 'There was an issue adding the Staff Account.');
+        }
     }
+
+    private function checkForDuplicates(): bool
+    {
+        $duplicate = Staff::whereHas('user', function ($query) {
+            $query->where('first_name', $this->form->first_name)
+                ->where('middle_name', $this->form->middle_name)
+                ->where('last_name', $this->form->last_name);
+        })
+            ->exists();
+
+        return $duplicate;
+    }
+
 
     public function render(): Factory|View|Application|\Illuminate\View\View
     {

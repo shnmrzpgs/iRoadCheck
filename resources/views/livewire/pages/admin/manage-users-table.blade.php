@@ -1,10 +1,10 @@
-<x-Admin.admin-navigation page_title="Manage Users" action="{{ route('admin.manage-users-table') }}" placeholder="Search..." id="search" name="search" wire:model.live="search">
+<x-Admin.admin-navigation page_title="Manage Staffs" action="{{ route('admin.manage-users-table') }}" placeholder="Search..." id="search" name="search" wire:model.live="search">
 
     <div class="flex justify-center items-center sm:justify-start sm:items-start ">
         <x-admin.crud-page-content-base>
 
             <x-slot:page_description>
-                A list of all users in iRoadCheck System.
+                A list of all staffs in iRoadCheck System.
             </x-slot:page_description>
 
             <x-slot:dropdown_filters_container>
@@ -49,6 +49,9 @@
                             @change="activeFilter = 'roles'"
                             class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
                             <option value="" class="text-gray-400 text-[12px]">Staff Roles</option>
+                            @foreach($roles as $role)
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -86,18 +89,18 @@
                                     </button>
                                 </th>
                                 <th scope="col" class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">
-                                    <button class="flex items-end" wire:click="toggleSorting('email')">
-                                        Email
-                                        <div x-cloak x-show="$wire.sort_by === 'email'">
+                                    <button class="flex items-end" wire:click="toggleSorting('username')">
+                                        Username
+                                        <div x-cloak x-show="$wire.sort_by === 'username'">
                                             <x-arrow-up x-cloak x-show="$wire.sort_direction === 'asc'" />
                                             <x-arrow-down x-cloak x-show="$wire.sort_direction === 'desc'" />
                                         </div>
                                     </button>
                                 </th>
                                 <th scope="col" class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">
-                                    <button class="flex items-end" wire:click="toggleSorting('user_role')">
-                                        User Role
-                                        <div x-cloak x-show="$wire.sort_by === 'user_role'">
+                                    <button class="flex items-end" wire:click="toggleSorting('staff_role')">
+                                        Staff Role
+                                        <div x-cloak x-show="$wire.sort_by === 'staff_role'">
                                             <x-arrow-up x-cloak x-show="$wire.sort_direction === 'asc'" />
                                             <x-arrow-down x-cloak x-show="$wire.sort_direction === 'desc'" />
                                         </div>
@@ -118,18 +121,18 @@
                         <tbody class="divide-y divide-gray-300 bg-white relative">
                             @forelse ($staffs as $staff)
                             <tr class="{{ $loop->iteration % 2 === 0 ? 'bg-white' : 'bg-gray-50' }} hover:bg-gray-100">
-                                <td class="px-4 py-3 text-xs">{{ $loop->iteration }}</td>
+                                <td class="px-4 py-3 text-xs">{{ $staff->id }}</td>
                                 <td class="px-4 py-3 text-xs">
                                     <div class="flex items-center">
                                         <img
                                             src="{{ $staff->user->profilePhoto ? asset('storage/' . $staff->user->profilePhoto->photo_path) : asset('storage/icons/profile-graphics.png') }}"
                                             alt="Profile Image"
-                                            class="hidden lg:block h-8 w-8 rounded-full flex-shrink-0">
-                                        <span class="lg:ml-2 font-medium">{{ $staff->user->first_name }} {{ $staff->user->last_name }}</span>
+                                            class="hidden lg:block h-8 w-8 rounded-full flex-shrink-0 object-cover">
+                                        <span class="lg:ml-2 font-medium capitalize">{{ $staff->user->first_name }} {{ $staff->user->middle_name }} {{ $staff->user->last_name }}</span>
                                     </div>
                                 </td>
 
-                                <td class="px-4 py-3 text-xs">{{ $staff->user->email }}</td>
+                                <td class="px-4 py-3 text-xs">{{ $staff->username }}</td>
                                 <td class="px-4 py-3 text-xs">
                                     {{ optional($staff->staffRolesPermissions->staffRole)->name ?? 'No role assigned' }}
                                 </td>
