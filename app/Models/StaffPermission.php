@@ -10,7 +10,10 @@ class StaffPermission extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'label'
+    ];
 
     /**
      * Relationship: A Permission belongs to many Roles.

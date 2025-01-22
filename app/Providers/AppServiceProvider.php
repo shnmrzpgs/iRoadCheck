@@ -6,6 +6,7 @@ use App\View\Components\app;
 use App\View\Components\AppLayout;
 use App\View\Components\GuestLayout;
 use Illuminate\Console\View\Components\Alert;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 class AppServiceProvider extends ServiceProvider
@@ -15,7 +16,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        if (env('APP_ENV') !== 'local') {
+            URL::forceScheme('https');
+        }
     }
 
     /**
@@ -27,5 +30,8 @@ class AppServiceProvider extends ServiceProvider
         Blade::component('app-layout', AppLayout::class);
         Blade::component('guest-layout', GuestLayout::class);
         Blade::component('components.search-bar', 'search-bar');
+        $this->app->bind('path.public', function() {
+            return base_path().'/../public';
+        });
     }
 }

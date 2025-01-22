@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('log_id');
             $table->foreignId('resident_id')->references('id')->on('users');
             $table->string('action');
+            $table->timestamp('dateTime');
             $table->timestamps();
         });
     }

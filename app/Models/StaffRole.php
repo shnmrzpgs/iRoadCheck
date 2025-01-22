@@ -11,16 +11,25 @@ class StaffRole extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
+
     protected $fillable = [
         'name',
         'status'
     ];
 
+    public function create(array $attributes = [])
+    {
+        return tap($this->newModelInstance($attributes), function ($instance) {
+            $instance->save();
+        });
+    }
+
     /**
      * Relationship: A Role has many Permissions.
      */
 
-     
+
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(StaffPermission::class, 'staff_roles_permissions');

@@ -202,11 +202,11 @@
                                                    placeholder="Enter Email Address">
                                         </div>
                                         <div class="flex items-center space-x-2 mb-2">
-                                            <label for="currentPassword" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
+                                            <label for="current_password" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
                                                 Current Password
                                             </label>
                                             <div class="relative flex-1">
-                                                <input :type="showCurrentPassword ? 'text' : 'password'" id="currentPassword"
+                                                <input :type="showCurrentPassword ? 'text' : 'password'" id="current_password"
                                                        class="mb-2 w-full border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow"
                                                        placeholder="Enter Current Password">
 
@@ -232,11 +232,11 @@
                                             </div>
                                         </div>
                                         <div class="flex items-center space-x-2 mb-2">
-                                            <label for="currentPassword" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
+                                            <label for="new_password" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
                                                 New Password
                                             </label>
                                             <div class="relative flex-1">
-                                                <input :type="showNewPassword ? 'text' : 'password'" id="newPassword"
+                                                <input :type="showNewPassword ? 'text' : 'password'" id="new_password"
                                                        class="mb-2 w-full border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow"
                                                        placeholder="Enter Current Password">
 
@@ -262,11 +262,11 @@
                                             </div>
                                         </div>
                                         <div class="flex items-center space-x-2 mb-2">
-                                            <label for="currentPassword" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
+                                            <label for="current_password" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
                                                 Confirm Password
                                             </label>
                                             <div class="relative flex-1">
-                                                <input :type="showConfirmPassword ? 'text' : 'password'" id="confirmPassword"
+                                                <input :type="showConfirmPassword ? 'text' : 'password'" id="confirm_password"
                                                        class="mb-2 w-full border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow"
                                                        placeholder="Enter Current Password">
 
@@ -321,5 +321,6 @@
             </div>
 
         </div>
+
     </x-admin.admin-navigation>
 </x-app-layout>

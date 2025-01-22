@@ -20,15 +20,15 @@ class DatabaseSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'first_name' => 'John',
+                'first_name' => 'Howard Glen',
                 'middle_name' => 'Doe',
-                'last_name' => 'admin',
+                'last_name' => 'Gloria',
                 'date_of_birth' => '1990-01-01',
                 'sex' => 'male',
-                'email' => 'admin@example.com',
-                'password' => Hash::make('password'), // Hashing the password
-                'user_type' => 1, // User type for admin
-                // 'status' => 'Active', // User status for admin
+                'username' => 'howardGlen_admin', // Admin username
+                'email' => null, // No email for admin
+                'password' => Hash::make('hOwArD123!'), // Hashing the password
+                'user_type' => 1, // Admin user type
                 'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
                 'last_name' => 'Resident',
                 'date_of_birth' => '1995-02-02',
                 'sex' => 'female',
+                'username' => null, // No username for resident
 //                'phone' => '09261581814',
                 'email' => 'resident@example.com',
                 'password' => Hash::make('password'), // Hashing the password
@@ -85,7 +86,8 @@ class DatabaseSeeder extends Seeder
             ReportSeeder::class,
             RolePermissionSeeder::class,
             AdminLogSeeder::class,
-//            StaffLogSeeder::class,
+            StaffLogSeeder::class,
+            ResidentLogSeeder::class,
             AdminSeeder::class,
             // StaffSeeder::class,
             ResidentSeeder::class,

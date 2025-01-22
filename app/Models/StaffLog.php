@@ -18,7 +18,7 @@ class StaffLog extends Model
     protected $fillable = [
         'staff_id',
         'action',
-        'date',
+        'dateTime',
     ];
 
     /**
@@ -39,6 +39,6 @@ class StaffLog extends Model
     // Relationships
     public function staff(): BelongsTo
     {
-        return $this->belongsTo(Staff::class);
+        return $this->belongsTo(User::class, 'staff_id'); // Ensure this matches your setup
     }
 }
