@@ -13,8 +13,9 @@ class Staff extends Model
 
     protected $fillable = [
         'user_id',
+        'username',
         'staff_roles_permissions_id',
-        'generated password',
+        // 'generated password',
         'status'
     ];
 
@@ -40,7 +41,7 @@ class Staff extends Model
     //Relationships
     public function staffRolesPermissions(): BelongsTo
     {
-        return $this->belongsTo(StaffRolesPermissions::class);
+        return $this->belongsTo(StaffRolesPermissions::class, 'staff_roles_permissions_id');
     }
 
     public function roles(): BelongsToMany
@@ -51,5 +52,10 @@ class Staff extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function profilePhoto()
+    {
+        return $this->hasOne(UserProfilePhoto::class, 'user_id', 'id');
     }
 }
