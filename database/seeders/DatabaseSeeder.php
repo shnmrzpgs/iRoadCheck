@@ -48,20 +48,20 @@ class DatabaseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'first_name' => 'Bright',
-                'middle_name' => 'D.',
-                'last_name' => 'PatcherKo',
-                'date_of_birth' => '1995-02-05',
-                'sex' => 'female',
-                'email' => 'staff@example.com',
-                'password' => Hash::make('password'), // Hashing the password
-                'user_type' => 3, // User type for resident
-                // 'status' => 'Active', // User status for resident
-                'remember_token' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+            // [
+            //     'first_name' => 'Bright',
+            //     'middle_name' => 'D.',
+            //     'last_name' => 'PatcherKo',
+            //     'date_of_birth' => '1995-02-05',
+            //     'sex' => 'female',
+            //     'email' => 'staff@example.com',
+            //     'password' => Hash::make('password'), // Hashing the password
+            //     'user_type' => 3, // User type for resident
+            //     // 'status' => 'Active', // User status for resident
+            //     'remember_token' => null,
+            //     'created_at' => now(),
+            //     'updated_at' => now(),
+            // ],
         ]);
 
         DB::table('severities')->insert([
@@ -87,7 +87,7 @@ class DatabaseSeeder extends Seeder
             AdminLogSeeder::class,
 //            StaffLogSeeder::class,
             AdminSeeder::class,
-            StaffSeeder::class,
+            // StaffSeeder::class,
             ResidentSeeder::class,
 //            StaffRoleSeeder::class,
 //            StaffPermissionSeeder::class

@@ -25,12 +25,13 @@ class StaffSeeder extends Seeder
         foreach ($staffUsers as $user) {
             // Assign a random role_permission ID (replace with your logic if needed)
             $rolePermission = DB::table('staff_roles_permissions')->inRandomOrder()->first();
-
+            $staffRole = DB::table('staff_roles')->inRandomOrder()->first();
             if ($rolePermission) {
                 DB::table('staffs')->insert([
                     'user_id' => $user->id,
-                    'staff_roles_permissions_id' => $rolePermission->id, // Reference role_permission ID
-                    'generated_password' => Str::random(10), // Generate a random password
+                    'staff_roles_permissions_id' => $staffRole->id, // Reference role_permission ID
+                    'username' => 'staff_' . $user->id,
+                    // 'generated_password' => Str::random(10), // Generate a random password
                     'status' => 'active', // Default to active status
                     'created_at' => now(),
                     'updated_at' => now(),
