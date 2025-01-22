@@ -51,7 +51,7 @@
                         <img
                             src="{{ $photo ? $photo->temporaryUrl() : ($currentPhoto ?? asset('storage/icons/profile-graphics.png')) }}"
                             alt="Profile Image"
-                            class="h-16 w-16 rounded-full bg-gradient-to-r from-blue-500 to-green-500 p-[1px]" />
+                            class="h-16 w-16 rounded-full bg-gradient-to-r from-blue-500 to-green-500 p-[1px] object-cover" />
                         <label for="upload-photo" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer text-white text-xs hover:bg-opacity-60">
                             Upload
                             <input
@@ -63,13 +63,13 @@
                     </div>
 
 
-                    <!-- Full Name and Email Preview -->
+                    <!-- Full Name and username Preview -->
                     <div class="pl-4">
                         <div class="block text-lg font-medium text-gray-700">
                             {{ trim(($form->first_name ?? '') . ' ' . ($form->middle_name ?? '') . ' ' . ($form->last_name ?? '')) ?: 'Full Name Preview' }}
                         </div>
                         <div class="block text-xs font-normal text-gray-700 italic">
-                            {{ !empty($form->email) ? $form->email : 'Email Preview' }}
+                            {{ !empty($form->username) ? $form->username : 'Username Preview' }}
                         </div>
                     </div>
                 </div>
@@ -153,7 +153,7 @@
                             </div>
                         </div>
 
-                        <!-- Sex and Email -->
+                        <!-- Sex -->
                         <div class="flex space-x-4 grid grid-cols-2">
                             <div>
                                 <label class="block font-medium text-gray-700">Sex</label>
@@ -171,24 +171,27 @@
                             </div>
                             <div x-data="{ date: '' }" class="relative">
                                 <label class="block font-medium text-gray-700">Birthdate</label>
-                                <div class="relative">
-                                    <input x-model="date"
-                                        x-init="flatpickr($refs.input, { 
-                                            dateFormat: 'Y-m-d',
-                                            allowInput: false,
-                                        })"
-                                        type="text"
-                                        x-ref="input"
-                                        wire:model.defer="form.date_of_birth"
-                                        class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm pr-10"
-                                        placeholder="Select a date"
-                                        aria-describedby="dobError">
+                                <div x-data="{
+                                        init() {
+                                            flatpickr($refs.input, {
+                                                dateFormat: 'F j, Y', // Display format in the UI
+                                                defaultDate: @js($this->form->date_of_birth) ?? null, // Initialize with F j, Y format
+                                                onChange: (_, dateStr) => @this.set('form.date_of_birth', dateStr), // Send F j, Y to Livewire
+                                            });
+                                        }
+                                    }"
+                                    x-init="init"
+                                    class="relative">
+                                    <input id="date_of_birth" type="text" x-ref="input" wire:model.defer="form.date_of_birth" placeholder="Select a date"
+                                        readonly
+                                        class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm pr-10">
                                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 10h10m2-7H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2z" />
                                         </svg>
                                     </div>
                                 </div>
+
                                 @error('form.date_of_birth')
                                 <span id="dobError" class="text-red-600 text-xs">{{ $message }}</span>
                                 @enderror
@@ -202,7 +205,6 @@
                     <div>
                         @if($activeTab === 'access-info')
                         <div>
-                            <label class="block font-medium text-gray-700">User Role</label>
                             <select wire:model.live="form.user_role"
                                 class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] text-gray-700 block w-full rounded-sm shadow-sm">
                                 <option value="" selected>Select User Role</option>
@@ -223,6 +225,9 @@
                             </ul>
                         </div>
                         @endif
+                        @error('form.user_role')
+                        <span id="dobError" class="text-red-600 text-xs">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Account Info Tab -->
@@ -258,12 +263,12 @@
 
 
                         <div>
-                            <label class="block font-medium text-gray-700">Email Address</label>
-                            <input wire:model.live="form.email"
-                                placeholder="Email address"
-                                type="email"
+                            <label class="block font-medium text-gray-700">Username</label>
+                            <input wire:model.live="form.username"
+                                placeholder="Enter Username"
+                                type="text"
                                 class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm">
-                            @error('form.email') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+                            @error('form.username') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                         </div>
 
                         <!-- Password Field with Toggle Visibility -->
@@ -387,52 +392,53 @@
                 </div>
 
                 @elseif (session()->has('error'))
-                <div class="text-red-500">{{ session('error') }}</div>
+                <div class="text-red-500 text-sm flex justify-center">{{ session('error') }}</div>
                 @endif
-                
-                <!-- Buttons -->
-                <div class="flex justify-between mt-6">
-                    <!-- Left Side Buttons -->
-                    <div class="flex space-x-4">
-                        <!-- Back Button -->
-                        <button
-                            type="button"
-                            wire:click="previousTab"
-                            class="flex items-center px-4 py-2 bg-gray-100 text-sm rounded hover:bg-gray-200 transition active:scale-95"
-                            x-show="tabs.findIndex(tab => tab.key === activeTab) > 0">
-                            <!-- Back Arrow Icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                            </svg>
-                            <span class="ml-2">Back</span>
-                        </button>
 
-                        <!-- Add user Button -->
+                <div>
+                    <!-- Buttons -->
+                    <div class="flex justify-between mt-6">
+                        <!-- Left Side Buttons -->
+                        <div class="flex space-x-4">
+                            <!-- Back Button -->
+                            <button
+                                type="button"
+                                wire:click="previousTab"
+                                class="flex items-center px-4 py-2 bg-gray-100 text-sm rounded hover:bg-gray-200 transition active:scale-95"
+                                x-show="tabs.findIndex(tab => tab.key === activeTab) > 0">
+                                <!-- Back Arrow Icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                                <span class="ml-2">Back</span>
+                            </button>
+
+                            <!-- Add user Button -->
+                            <button
+                                type="button"
+                                wire:click.prevent="validateAndSubmit"
+                                x-on:user_account_added.window="open = false"
+                                class="px-4 py-2 bg-gradient-to-b from-[#84D689] to-green-500 text-white text-sm rounded hover:bg-[#4AA76F] shadow-lg shadow-neutral-500/20 transition active:scale-95 hover:scale-105"
+                                x-show="tabs.findIndex(tab => tab.key === activeTab) === tabs.length - 1">
+                                Add Staff
+                            </button>
+                        </div>
+
+                        <!-- Next Button -->
                         <button
                             type="button"
-                            wire:click.prevent="validateAndSubmit"
-                            x-on:user_account_added.window="open = false"
-                            class="px-4 py-2 bg-gradient-to-b from-[#84D689] to-green-500 text-white text-sm rounded hover:bg-[#4AA76F] shadow-lg shadow-neutral-500/20 transition active:scale-95 hover:scale-105"
-                            x-show="tabs.findIndex(tab => tab.key === activeTab) === tabs.length - 1">
-                            Add Staff
+                            wire:click="nextTab"
+                            class="flex items-center px-4 py-2 bg-[#3AA76F] text-white text-sm rounded hover:bg-[#4AA76F] transition active:scale-95"
+                            x-show="tabs.findIndex(tab => tab.key === activeTab) < tabs.length - 1">
+                            <span class="mr-2">Next</span>
+                            <!-- Next Arrow Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
                         </button>
                     </div>
-
-                    <!-- Next Button -->
-                    <button
-                        type="button"
-                        wire:click="nextTab"
-                        class="flex items-center px-4 py-2 bg-[#3AA76F] text-white text-sm rounded hover:bg-[#4AA76F] transition active:scale-95"
-                        x-show="tabs.findIndex(tab => tab.key === activeTab) < tabs.length - 1">
-                        <span class="mr-2">Next</span>
-                        <!-- Next Arrow Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </button>
                 </div>
             </div>
-
         </x-slot:footer>
 
 
