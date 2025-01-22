@@ -89,7 +89,7 @@
                     <p x-show="expanded"
                        :class="{ 'text-white': activeLink === 'manageUsers', 'text-[#4D4F50]': activeLink !== 'manageUsers',
                           'group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out': activeLink !== 'manageUsers'}"
-                       class="ml-2">Manage Users</p>
+                       class="ml-2">Manage Staffs</p>
                 </a>
 
                 <!-- Staff Role -->
@@ -197,7 +197,7 @@
 
 
                 <!-- Logout -->
-                <a href="" @click="activeLink = 'logOut'; activeChildLink = ''; localStorage.setItem('activeLink', 'logOut'); localStorage.setItem('activeChildLink', '')"
+                <a href="{{route('admin-logout')}}" @click="activeLink = 'logOut'; activeChildLink = ''; localStorage.setItem('activeLink', 'logOut'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'logOut',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'logOut'}"
                    class="group flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
@@ -353,7 +353,7 @@
                         </a>
 
                         <!-- Logout -->
-                        <a href="" @click="activeLink = 'logOut'; activeChildLink = ''; localStorage.setItem('activeLink', 'logOut'); localStorage.setItem('activeChildLink', '')"
+                        <a href="{{ route('admin-logout') }}" @click="activeLink = 'logOut'; activeChildLink = ''; localStorage.setItem('activeLink', 'logOut'); localStorage.setItem('activeChildLink', '')"
                            :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'logOut',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'logOut'}"
                            class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F]">
