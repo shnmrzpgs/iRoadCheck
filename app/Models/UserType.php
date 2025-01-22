@@ -9,7 +9,7 @@ class UserType extends Model
 {
     use HasFactory;
 
-//    protected $fillable = ['name'];
+    protected $fillable = ['type'];
 //
 //    // Define constants for user types
 //    public const ADMIN = 1;

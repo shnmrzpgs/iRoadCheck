@@ -117,7 +117,9 @@
                                 <td class="px-4 py-3 text-xs">{{ $residentLog->log_id }}</td>
                                 <td class="px-4 py-3 text-xs">{{ $residentLog->resident->name }}</td>
                                 <td class="px-4 py-3 text-xs">{{ $residentLog->action }}</td>
-                                <td class="px-4 py-3 text-xs">{{ \Carbon\Carbon::parse($residentLog->dateTime)->format('F j, Y \a\t h:i A') }}</td>
+                                <td class="px-4 py-3 text-xs">
+                                    {{ \Carbon\Carbon::parse($residentLog->dateTime)->timezone('Asia/Manila')->format('F j, Y \a\t h:i A') }}
+                                </td>
                             </tr>
                         @empty
                             <tr>
@@ -128,6 +130,11 @@
                         @endforelse
                         </tbody>
                     </table>
+                </div>
+                <!-- Loading indicator for pagination -->
+                <div wire:loading.class.remove="opacity-0 pointer-events-none" x-cloak x-transition
+                     class="absolute inset-0 w-full min-h-full bg-black/50 flex justify-center items-center transition-all pointer-events-none opacity-0">
+                    <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
                 </div>
             </x-slot:table_container>
 

@@ -210,7 +210,7 @@
                             </button>
 
                             <!-- Camera Preview -->
-                            <video id="camera-stream" autoplay playsinline class="w-full h-full object-contain transform scale-x-[-1]"></video>
+                            <video id="camera-stream" autoplay playsinline class="w-full h-full object-cover"></video>
 
                             <!-- Flash Button -->
                             <button @click="captureHandler().toggleFlash()"

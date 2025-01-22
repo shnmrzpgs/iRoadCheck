@@ -3,6 +3,7 @@
 namespace App\Livewire\Modals\Admin\StaffRolesModal;
 
 use App\Enums\Staff\StaffRoleStatus;
+use App\Models\AdminLog;
 use App\Models\StaffPermission;
 use App\Models\StaffRole;
 use Illuminate\Contracts\View\Factory;
@@ -11,6 +12,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class EditStaffRoleModal extends Component
 {
@@ -94,27 +98,81 @@ class EditStaffRoleModal extends Component
     /**
      * Validation rules for form inputs.
      */
+//    public function rules(): array
+//    {
+//        return [
+//            'name' => ['required', 'string', 'max:255', 'unique:staff_roles,name,' . ($this->staffRole->id ?? 'NULL')],
+//            'status' => ['required', 'boolean'],
+//            'selectedPermissions' => ['array', 'min:1'],
+//            'selectedPermissions.*' => ['exists:staff_permissions,id'],
+//        ];
+//    }
+//
+//    /**
+//     * Custom validation messages.
+//     */
+//    public function messages(): array
+//    {
+//        return [
+//            'name.required' => 'The staff role name is required.',
+//            'name.unique' => 'This staff role name already exists.',
+//            'selectedPermissions.required' => 'At least one staff permission must be selected.',
+//            'selectedPermissions.*.exists' => 'One or more permissions are invalid.',
+//        ];
+//    }
+
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255', 'unique:staff_roles,name,' . ($this->staffRole->id ?? 'NULL')],
+            'name' => [
+                'required',
+                'string',
+                'min:2', // Minimum length for the word
+                'max:255',
+                'unique:staff_roles,name,' . ($this->staffRole->id ?? 'NULL'),
+                'regex:/^[a-zA-Z\s]+$/',  // Ensure only letters and spaces
+                function ($attribute, $value, $fail) {
+                    // Split the name into words
+                    $words = explode(' ', $value);
+                    foreach ($words as $word) {
+                        // Check if each word is a valid word (using a dictionary)
+                        if (!$this->isValidWord($word)) {
+                            return $fail('The word "' . $word . '" is not a valid word.');
+                        }
+                    }
+                },
+            ],
             'status' => ['required', 'boolean'],
             'selectedPermissions' => ['array', 'min:1'],
             'selectedPermissions.*' => ['exists:staff_permissions,id'],
         ];
     }
 
-    /**
-     * Custom validation messages.
-     */
     public function messages(): array
     {
         return [
             'name.required' => 'The staff role name is required.',
             'name.unique' => 'This staff role name already exists.',
+            'name.regex' => 'The staff role name must contain only letters and spaces.',
             'selectedPermissions.required' => 'At least one staff permission must be selected.',
             'selectedPermissions.*.exists' => 'One or more permissions are invalid.',
         ];
+    }
+
+    /**
+     * Check if the given word is valid.
+     *
+     * @param string $word
+     * @return bool
+     */
+    protected function isValidWord(string $word): bool
+    {
+        // Get words from the dictionary file (for example, words.txt)
+        $dictionary = File::get(resource_path('words.txt')); // Adjust path as needed
+        $validWords = explode("\n", $dictionary); // Convert file content into an array of words
+
+        // Check if the word exists in the dictionary
+        return in_array(strtolower($word), $validWords);
     }
 
     /**
@@ -146,9 +204,25 @@ class EditStaffRoleModal extends Component
             // Sync permissions
             $this->staffRole->permissions()->sync($this->selectedPermissions);
 
+            // Log the update action for auditing purposes
+            AdminLog::create([
+                'admin_id' => auth()->id(), // Get the authenticated admin ID
+                'action' => "Updated staff role: {$this->staffRole->name}",
+                'dateTime' => now(),
+                'user_id' => auth()->id(),
+            ]);
+
             // Dispatch success message
             session()->flash('message', 'Staff Role updated successfully!');
         } catch (\Exception $e) {
+            // Log the error action for auditing purposes
+            AdminLog::create([
+                'admin_id' => auth()->id(),
+                'action' => "Failed to update staff role: {$this->staffRole->name}. Error: {$e->getMessage()}",
+                'dateTime' => now(),
+                'user_id' => auth()->id(),
+            ]);
+
             // Handle errors
             session()->flash('error', 'There was an issue updating the Staff Role.');
         }

@@ -120,7 +120,10 @@
                                 <td class="px-4 py-3 text-xs">{{ $adminLog->log_id }}</td>
                                 <td class="px-4 py-3 text-xs">{{ $adminLog->admin->name }}</td>
                                 <td class="px-4 py-3 text-xs">{{ $adminLog->action}}</td>
-                                <td class="px-4 py-3 text-xs">{{ \Carbon\Carbon::parse($adminLog->dateTime)->format('F j, Y \a\t h:i A') }}</td>
+                                <td class="px-4 py-3 text-xs">
+                                    {{ \Carbon\Carbon::parse($adminLog->dateTime)->timezone('Asia/Manila')->format('F j, Y \a\t h:i A') }}
+                                </td>
+
                             </tr>
                         @empty
                             <tr>

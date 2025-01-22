@@ -50,7 +50,9 @@ class User extends Authenticatable
         'staff_role' => 'integer',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'date_of_birth' => 'date',
     ];
+
 
     protected $hidden = [
         'password',
@@ -70,6 +72,10 @@ class User extends Authenticatable
     ];
 
     public static function where(string $string, string $string1, string $string2) {}
+
+    public function profilePhotos()
+    {
+    }
 
     /**
      * Get the attributes that should be cast.

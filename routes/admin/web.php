@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\RoutePath;
 
@@ -28,11 +30,10 @@ Route::group(['middleware' => 'AuthAdmin'], function () {
     /**
      * Profile Routes
      */
-    Route::group(['prefix' => 'profile/'], function () {
-        Route::get('/admin/profile-edit', App\Http\Controllers\Admin\ProfileController::class)
-            ->name('admin.profile.profile-edit');
-    });
-
+//    Route::group(['prefix' => 'profile/'], function () {
+//        Route::get('/admin/profile-edit', App\Http\Controllers\Admin\ProfileController::class)
+//            ->name('admin.profile.profile-edit');
+//    });
 
     Route::get('/admin/dashboard', App\Http\Controllers\admin\DashboardController::class)
         ->name('admin.dashboard');
@@ -60,6 +61,14 @@ Route::group(['middleware' => 'AuthAdmin'], function () {
 
     Route::get('/admin/activity-logs', App\Http\Controllers\admin\AuditLogsController::class)
         ->name('admin.activity-logs-table');
+
+    Route::post('/logout', [AuthController::class, 'Logout'])->name('logout');
+
+    // Login route (make sure this is defined)
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+
+    Route::get('/admin/profile-edit', App\Http\Controllers\admin\ProfileController::class)
+        ->name('admin.profile-edit');
 
 });
 
