@@ -104,24 +104,20 @@
             <!-- Content -->
             <div class="mt-2 mb-2 overflow-hidden h-auto xl:h-[55vh]">
 
-                <div class="m-0 rounded-lg inset-0 p-0">
+                <div x-data="{
+    staffData: @entangle('staffRolesData'),
+    filters: @entangle('filters'),
+}" class="m-0 rounded-lg inset-0 p-0">
 
                     <!-- Dropdown Filters -->
-                    <div class="flex flex-wrap gap-2 mb-4 mt-4"
-                        x-data="{
-                        filters: {
-                            status: '',
-                            sort: '',
-                            staffRole: '',
-                        }
-                    }">
+                    <div class="flex flex-wrap gap-2 mb-4 mt-4">
                         <!-- All Users Option -->
                         <div class="relative inline-flex rounded-[4px] border text-center transition-all duration-200 transform hover:scale-105 hover:shadow-md"
                             :class="{
                             'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': filters.sort === '' && filters.status === ''  && filters.staffRole === '',
                             'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort !== '' || filters.status !== '' || filters.staffRole !== ''
                         }"
-                            @click="filters.sort = ''; filters.status = ''; filters.staffRole = '';">
+                            @click="$wire.call('resetFilters')">
                             <span class="text-[12px] block w-full px-2 py-2 rounded">
                                 All Staffs
                             </span>
@@ -133,7 +129,8 @@
                             'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': filters.sort !== '',
                             'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort === ''
                         }">
-                            <select x-model="filters.sort" @change="console.log('Filters:', filters)"
+                            <select x-model="filters.sort"
+                                @change="$wire.set('filters.sort', $event.target.value)"
                                 class="text-[12px] block w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-6 rounded">
                                 <option value="" class="text-gray-400">Sort by</option>
                                 <option value="asc" class="text-gray-700">Ascending</option>
@@ -147,7 +144,8 @@
                             'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': filters.staffRole !== '',
                             'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.staffRole === ''
                         }">
-                            <select x-model="filters.staffRole" @change="console.log('Filters:', filters)"
+                            <select model="filters.staffRole"
+                                @change="$wire.set('filters.staffRole', $event.target.value)"
                                 class="text-[12px] block w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-6 rounded">
                                 <option value="" class="text-gray-400">Staff Roles</option>
                                 @foreach($roles as $role)
@@ -159,161 +157,64 @@
                     </div>
 
                     <!-- Road Maintenance Workers Data -->
-                    <div class="flex flex-col xl:flex-row mb-2 px-3 pb-3 gap-2">
-                        <!-- Bar Graph Section -->
+                    <!-- Bar Graph Section -->
+                    <div class="flex flex-col xl:flex-row mb-2 px-3 pb-3 gap-2" x-data="{ 
+                        selectedRole: null,
+                        staffData: @entangle('staffRolesData'),
+                        maxCount: function() {
+                            return Math.max(...this.staffData.map(role => role.count));
+                        }
+                    }">
                         <div class="w-full xl:w-7/10 max-h-[330px] overflow-auto">
                             <div class="rounded-lg">
-                                <div class="relative h-auto">
-                                    <div id="chart"><h1>Dahboard</h1></div>
+                                <div class="relative h-auto space-y-3">
+                                    <!-- Bar Graph -->
+                                    <template x-for="role in staffData" :key="role.name">
+                                        <div class="relative">
+                                            <div class="flex relative items-center space-x-2">
+                                                <div class="flex-1">
+                                                    <div @click="selectedRole = role"
+                                                        class="bg-[#5F994D] h-14 rounded cursor-pointer transition-all duration-300 hover:opacity-80 rounded-r-3xl animate-wipe-right"
+                                                        :class="{'bg-[#426e35]': selectedRole === role}"
+                                                        :style="`width: ${(role.count / maxCount()) * 100}%`">
+                                                        <span class="absolute left-0 text-sm text-white px-2 py-4"
+                                                            x-text="role.name"></span>
+                                                        <span class="absolute right-0 text-sm text-white px-4 py-4"
+                                                            x-text="role.count"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- User Types Section -->
-                        <div class="w-full xl:w-3/10 mx-0 xl:mx-4 bg-[#FBFBFB] h-[50vh] drop-shadow p-2 mt-4 xl:-mt-8">
-                            <div class="inline-block w-full min-h-[48vh] max-h-[48vh] overflow-y-auto align-middle z-0">
-                                <div id="members-list" class="text-left"></div>
+
+                        <!-- Staff List Section -->
+                        <div class="w-full xl:w-3/10 mx-0 xl:mx-4 bg-[#FBFBFB] h-[50vh] drop-shadow p-4 mt-4 xl:-mt-8">
+                            <div class="inline-block w-full min-h-[48vh] max-h-[48vh] overflow-y-auto px-2 align-middle z-0">
+                                <h3 class="font-semibold mb-2 text-gray-700" x-text="selectedRole ? selectedRole.name : 'All Staffs'"></h3>
+                                <div class="space-y-2 border-t border-gray-600 pt-2">
+                                    <template x-for="member in (selectedRole ? selectedRole.members : staffData.flatMap(role => role.members))" :key="member.name">
+                                        <div class="flex items-center space-x-2 p-2 hover:bg-gray-50 rounded">
+                                            <img :src="member.avatar ? '/storage/' + member.avatar : '/storage/icons/profile-graphics.png'"
+                                                class="w-8 h-8 rounded-full border-2 border-[#4e8e3a] object-cover  mr-2"
+                                                alt="Avatar">
+                                            <span x-text="member.name" class="text-gray-600 text-sm"></span>
+                                        </div>
+                                    </template>
+
+
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
 
     </main>
-    <script>
-        document.addEventListener('livewire:load', function() {
-
-            // Get the data from Livewire component
-            const rolesData = @json($staffRolesData ?? []);
-
-
-            // Prepare data for ApexCharts
-            const categories = rolesData.map(role => role.name);
-            const counts = rolesData.map(role => role.count);
-
-            // Store members data for the list view
-            const members = {};
-            rolesData.forEach(role => {
-                members[role.name] = role.members.map(member => member.name);
-            });
-
-            // Chart options
-            var options = {
-                series: [{
-                    data: counts
-                }],
-                chart: {
-                    type: 'bar',
-                    height: 'auto',
-                    minWidth: 100,
-                    maxWidth: 300,
-                    events: {
-                        dataPointSelection: function(event, chartContext, config) {
-                            const selectedIndex = config.dataPointIndex;
-                            const selectedstaffRole = categories[selectedIndex];
-                            const selectedMembers = members[selectedstaffRole] || [];
-                            displayMembers(selectedstaffRole, selectedMembers);
-                        }
-                    }
-                },
-                plotOptions: {
-                    bar: {
-                        horizontal: true,
-                        barHeight: 80,
-                        borderRadius: 20,
-                        borderRadiusApplication: 'end',
-                        dataLabels: {
-                            position: 'bottom'
-                        },
-                        colors: {
-                            ranges: [{
-                                from: 0,
-                                to: 100,
-                                color: '#4e8e3a'
-                            }]
-                        }
-                    }
-                },
-                colors: ['#FBFBFB'],
-                dataLabels: {
-                    enabled: true,
-                    style: {
-                        colors: ['#FBFBFB'],
-                        fontSize: '14px',
-                    },
-                    formatter: function(val, opt) {
-                        return `${categories[opt.dataPointIndex]}   ${val}`;
-                    },
-                    position: 'end',
-                    offsetX: 0,
-                    align: 'right',
-                },
-                xaxis: {
-                    categories: categories,
-                    labels: {
-                        show: false
-                    }
-                },
-                yaxis: {
-                    labels: {
-                        show: false
-                    }
-                },
-                grid: {
-                    show: false
-                },
-                tooltip: {
-                    enabled: false
-                },
-                title: {
-                    text: undefined
-                },
-                subtitle: {
-                    text: undefined
-                },
-                stroke: {
-                    width: 0
-                }
-            };
-
-            var chart = new ApexCharts(document.querySelector("chart"), options);
-            chart.render();
-
-            // Display initial members list
-            if (categories.length > 0) {
-                displayMembers(categories[0], members[categories[0]] || []);
-            }
-
-            // Function to display members in the list
-            function displayMembers(staffRole, memberList) {
-                const membersContainer = document.getElementById('members-list');
-                membersContainer.classList.add('text-md', 'text-gray-700', 'relative', 'px-4');
-                membersContainer.innerHTML = '';
-
-                const staffRoleLabelDiv = document.createElement('div');
-                staffRoleLabelDiv.classList.add('font-bold', 'text-[15px]', 'text-gray-700', 'bg-white', 'p-2', 'w-full', 'sticky', 'top-0', 'border', 'border-b-gray-500', 'border-x-transparent', 'border-t-transparent');
-                staffRoleLabelDiv.textContent = `All ${staffRole}`;
-                membersContainer.appendChild(staffRoleLabelDiv);
-
-                memberList.forEach(member => {
-                    const memberDiv = document.createElement('div');
-                    memberDiv.classList.add('hover:bg-gray-100', 'flex', 'items-center', 'py-2', 'px-4', 'leading-10', 'hover:rounded-[6px]');
-
-                    const avatarDiv = document.createElement('div');
-                    avatarDiv.classList.add('h-8', 'w-8', 'flex-shrink-0');
-                    avatarDiv.innerHTML = `<img class="h-8 w-8 bg-[#4AA76F] rounded-full p-[0.4px]" src="{{ asset('storage/icons/profile-graphics.png') }}" alt="User Avatar">`;
-
-                    const nameDiv = document.createElement('div');
-                    nameDiv.classList.add('ml-3');
-                    nameDiv.innerHTML = `<div class="font-normal text-gray-700 text-[12.5px]">${member}</div>`;
-
-                    memberDiv.appendChild(avatarDiv);
-                    memberDiv.appendChild(nameDiv);
-                    membersContainer.appendChild(memberDiv);
-                });
-            }
-        });
-    </script>
 
 </x-Admin.admin-navigation>
