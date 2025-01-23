@@ -43,37 +43,6 @@ class AddUserAccountForm extends Form
     public $form;
     public $photo_path;
 
-    public function rules(): array
-    {
-        return [
-            'first_name' => ['required', 'string'],
-            'middle_name' => ['nullable', 'string'],
-            'last_name' => ['required', 'string'],
-            'sex' => ['required', 'in:male,female'],
-            // 'date_of_birth' => ['nullable', 'date_format:F j, Y'],
-            'user_role' => ['required', 'exists:staff_roles,id'],
-            'username' => ['required'],
-            'password' => ['required', 'string', Password::default()],
-        ];
-    }
-
-
-    public function messages(): array
-    {
-        return [
-            // Basic information
-            'first_name.required' => 'The first name field is required.',
-            'middle_name.string' => 'The middle name field must be a string.',
-            'last_name.required' => 'The last name field is required.',
-            'sex.required' => 'The gender field is required.',
-            'username.required' => 'The username field is required.',
-            'username.username' => 'The username field must be a valid username.',
-            'username.unique' => 'The username field has already been taken.',
-            'username.exists' => 'The username field is invalid.',
-            'password.required' => 'The password field is required.',
-        ];
-    }
-
     public function clear(): void
     {
         $this->reset([

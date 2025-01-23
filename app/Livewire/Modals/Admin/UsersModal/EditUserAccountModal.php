@@ -64,7 +64,7 @@ class EditUserAccountModal extends Component
 
     public function updatedFormUserRole($staffRoleId): void
     {
-        $role =  StaffRolesPermissions::with('permissions', 'staffRole')->find($staffRoleId);
+        $role = StaffRole::with('permissions')->find($staffRoleId);
         $this->selectedPermissions = $role ? $role->permissions->pluck('name')->toArray() : [];
     }
 
@@ -99,7 +99,7 @@ class EditUserAccountModal extends Component
             $this->currentPhoto = null;
         }
 
-        $role = StaffRolesPermissions::with('permissions', 'staffRole')->find($this->form['user_role']);
+        $role = StaffRole::with('permissions')->find($this->form['user_role']);
         $this->selectedPermissions = $role ? $role->permissions->pluck('name')->toArray() : [];
         // dd($this->staff);
 
@@ -115,19 +115,36 @@ class EditUserAccountModal extends Component
     public string $activeTab = 'basic-info';
     public array $visitedTabs = [];
 
-    protected function rules()
+    public function rules(): array
     {
         return [
-            'form.first_name' => 'required|string|max:255',
-            'form.middle_name' => 'nullable|string|max:255',
-            'form.last_name' => 'required|string|max:255',
-            'form.sex' => 'required|string',
-            // 'form.date_of_birth' => 'nullable|date',
-            'form.username' => 'required|string|max:255',
-            'form.password' => ['nullable', Password::defaults()],
-            'form.user_role' => 'required|exists:staff_roles,id',
-            'form.is_disabled' => 'required|boolean',
-            'photo' => 'nullable|image|max:2048',
+            'form.first_name' => ['required', 'string', 'regex:/^[a-zA-Z\s]+$/', 'max:50'],
+            'form.last_name' => ['required', 'string', 'regex:/^[a-zA-Z\s]+$/', 'max:50'],
+            'form.username' => [
+                'required',
+                'string',
+                Rule::unique('staffs', 'username')->ignore($this->staff->id), // Ensure unique username
+            ],
+            'form.date_of_birth' => ['nullable', 'date', 'before_or_equal:' . now()->subYears(18)->toDateString()],
+            'form.user_role' => ['required', 'exists:staff_roles,id'],
+            'form.password' => ['required', 'string', Password::default()],
+            'form.sex' => ['required', 'in:' . UserSex::MALE . ',' . UserSex::FEMALE]
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'form.username.unique' => 'The username is already in use.',
+            'form.user_role.required' => 'The user role is required.',
+            'form.first_name.required' => 'The first name is required.',
+            'form.first_name.regex' => 'The first name must contain only letters and spaces.',
+            'form.last_name.regex' => 'The last name must contain only letters and spaces.',
+            'form.last_name.required' => 'The last name is required.',
+            'form.date_of_birth.before_or_equal' => 'The staff must be at least 18 years old.',
+            'form.password.required' => 'The password is required.',
+            'form.username.required' => 'The username is required.',
+            'form.sex.required' => 'The sex field is required.',
         ];
     }
 
@@ -142,11 +159,22 @@ class EditUserAccountModal extends Component
     public function nextTab(): void
     {
         $currentIndex = collect($this->tabs)->search(fn($tab) => $tab['key'] === $this->activeTab);
-        if ($currentIndex !== false && $currentIndex < count($this->tabs) - 1) {
-            $this->visitedTabs[] = $this->activeTab;
-            $this->activeTab = $this->tabs[$currentIndex + 1]['key'];
+
+        if ($currentIndex === false || $currentIndex >= count($this->tabs) - 1) {
+            return;
         }
+
+        // Validate the current tab
+        $rules = $this->getValidationRulesForTab($this->activeTab);
+        if (!empty($rules)) {
+            $this->validate($rules);
+        }
+
+        // If validation passes, move to the next tab
+        $this->visitedTabs[] = $this->activeTab;
+        $this->activeTab = $this->tabs[$currentIndex + 1]['key'];
     }
+
 
     public function previousTab(): void
     {
@@ -155,6 +183,29 @@ class EditUserAccountModal extends Component
             $this->activeTab = $this->tabs[$currentIndex - 1]['key'];
         }
     }
+
+    public function getValidationRulesForTab(string $tabKey): array
+    {
+        $rules = [
+            'basic-info' => [
+                'form.first_name' => ['required', 'string', 'regex:/^[a-zA-Z\s]+$/', 'max:50'],
+                'form.last_name' => ['required', 'string', 'regex:/^[a-zA-Z\s]+$/', 'max:50'],
+                'form.sex' => ['required', 'in:' . UserSex::MALE . ',' . UserSex::FEMALE],
+                'form.date_of_birth' => ['nullable', 'date', 'before_or_equal:' . now()->subYears(18)->toDateString()],
+            ],
+            'access-info' => [
+                'form.user_role' => ['required', 'exists:staff_roles,id'],
+            ],
+            'account-info' => [
+                'form.password' => ['required', 'string', Password::default()],
+                'form.username' => ['required', 'string', 'unique:staffs,username'],
+                'photo' => ['nullable', 'image', 'max:1024'], // Example for photo validation
+            ],
+        ];
+
+        return $rules[$tabKey] ?? [];
+    }
+
 
     public function resetPhoto()
     {
@@ -168,7 +219,7 @@ class EditUserAccountModal extends Component
         if ($user->profilePhoto) {
             Storage::disk('public')->delete($user->profilePhoto->photo_path);
         }
-        
+
         // Update or create new photo record
         UserProfilePhoto::updateOrCreate(
             ['user_id' => $user->id],
@@ -224,7 +275,7 @@ class EditUserAccountModal extends Component
             if ($this->photo) {
                 $path = $this->photo->store('profile_photos', 'public');
                 $this->saveProfilePhoto($path, $this->staff->user);
-                
+
                 // Update current photo display
                 $this->currentPhoto = asset('storage/' . $path);
             }

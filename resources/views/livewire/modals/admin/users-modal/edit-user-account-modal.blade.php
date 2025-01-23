@@ -139,6 +139,7 @@
                                     <input wire:model.live="form.first_name"
                                         placeholder="First name" ft6cf7
                                         type="text"
+                                        oninput="capitalizeInput(this)"
                                         class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
                                     @error('form.first_name') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                                 </div>
@@ -147,6 +148,7 @@
                                     <input wire:model.live="form.middle_name"
                                         placeholder="Middle name"
                                         type="text"
+                                        oninput="capitalizeInput(this)"
                                         class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
                                 </div>
                                 <div>
@@ -154,6 +156,7 @@
                                     <input wire:model.live="form.last_name"
                                         placeholder="Last name"
                                         type="text"
+                                        oninput="capitalizeInput(this)"
                                         class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
                                     @error('form.last_name') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                                 </div>
@@ -183,6 +186,8 @@
                                             flatpickr($refs.input, {
                                                 dateFormat: 'F j, Y', // Display format in the UI
                                                defaultDate: @js($this->form['date_of_birth'] ?? null), // Initialize with F j, Y format
+                                                 maxDate: new Date(),
+                                                 minDate: new Date(new Date().setFullYear(new Date().getFullYear() - 100)),
                                                 onChange: (_, dateStr) => @this.set('form.date_of_birth', dateStr), // Send F j, Y to Livewire
                                             });
                                         }
@@ -251,7 +256,7 @@
                                 <div x-data="{ isDisabled: @entangle('form.is_disabled') }" class="flex items-center justify-between w-full sm:text-sm p-2 space-x-24">
                                     <!-- Status Text -->
                                     <div class="text-sm font-semibold" :class="isDisabled ? 'text-red-500' : 'text-green-500'">
-                                        <span x-text="isDisabled ? 'Disabled' : 'Enabled'"></span>
+                                        <span x-text="isDisabled ? 'Inactive' : 'Active'"></span>
                                     </div>
 
                                     <!-- Toggle Switch -->
@@ -423,18 +428,15 @@
                     </button>
                 </div>
             </div>
-        </x-slot:footer>
 
-        @script
-        <script type="module">
-            $wire.on('user_account_updated', () => {
-                pushNotification('success', 'User Information updated', 'User has been updated successfully.');
-            });
-            $wire.on('user_not_updated', () => {
-                pushNotification('error', 'Failed to Update User', 'An error occurred while updating the User.');
-            });
-        </script>
-        @endscript
+            <script>
+                function capitalizeInput(input) {
+                    input.value = input.value.toLowerCase().replace(/\b\w/g, function(char) {
+                        return char.toUpperCase();
+                    });
+                }
+            </script>
+        </x-slot:footer>
 
     </x-admin.crud-modal-content-base>
 </div>

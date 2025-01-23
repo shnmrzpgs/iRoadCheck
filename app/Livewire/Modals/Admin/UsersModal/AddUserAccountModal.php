@@ -1,242 +1,4 @@
 <?php
-//
-//namespace App\Livewire\Modals\Admin\UsersModal;
-//
-//use App\Livewire\Forms\AddUserAccountForm;
-//use App\Models\User;
-//use Illuminate\Contracts\View\Factory;
-//use Illuminate\Contracts\View\View;
-//use Illuminate\Foundation\Application;
-//use Illuminate\Support\Collection;
-//use Illuminate\Support\Facades\Hash;
-//use Livewire\Component;
-//
-//class AddUserAccountModal extends Component
-//{
-//
-//    public string $identifier = '';
-//
-//    public Collection $user_types;
-//
-//    public AddUserAccountForm $form;
-//
-//    public ?User $user = null;
-//
-//    public bool $clearing_user = true;
-//
-//
-//    public function render(): Application|Factory|View
-//    {
-//        return view('livewire.modals.admin.users-modal.add-user-modal', [
-////            'userTypePermissions' => $this->userTypePermissions,
-//        ]);
-//    }
-//}
-
-//
-//namespace App\Livewire\Modals\Admin\UsersModal;
-//
-//use App\Enums\User\UserSex;
-//use App\Enums\User\UserStatus;
-//use App\Livewire\Forms\AddUserAccountForm;
-//use App\Models\UserLog;
-//use Illuminate\Contracts\View\Factory;
-//use Illuminate\Contracts\View\View;
-//use Illuminate\Foundation\Application;
-//use Illuminate\Support\Collection;
-//use Livewire\Component;
-//
-//class AddUserAccountModal extends Component
-//{
-//    public string $identifier = '';
-//
-//    public Collection $genders;
-//
-//    public AddUserAccountForm $form;
-//
-//    public Collection $user_status;
-//
-//    public function mount(): void
-//    {
-//        $this->identifier = uniqid('add_user_account_modal');
-//        $this->genders = collect([
-//            (object)[
-//                'id' => UserSex::MALE,
-//                'value' => UserSex::MALE,
-//            ],
-//            (object)[
-//                'id' => UserSex::FEMALE,
-//                'value' => UserSex::FEMALE,
-//            ],
-//        ]);
-//
-//        $this->user_status = collect([
-//            (object)[
-//                'id' => UserStatus::ACTIVE,
-//                'value' => 'Active',
-//            ],
-//            (object)[
-//                'id' => UserStatus::INACTIVE,
-//                'value' => 'Inactive',
-//            ],
-//        ]);
-//    }
-//
-//    public function save(): void
-//    {
-//        $form_saved = $this->form->save();
-//
-//        if ($form_saved) {
-//            $this->form->clear();
-//            $this->dispatch($this->identifier . 'gender_force_clear');
-//            $this->dispatch('user_account_added');
-//            UserLog::create([
-//                'action' => 'user added',
-//                'description' => 'user admin',
-//                'date' => now(),
-//                'user_id' => auth()->id()
-//            ]);
-//        } else {
-//            $this->dispatch('user_account_not_added');
-//        }
-//    }
-//
-//    public function render(): Factory|View|Application|\Illuminate\View\View
-//    {
-//        return view('livewire.modals.admin.users-modal.add-user-modal');
-//    }
-//}
-//
-
-
-//namespace App\Livewire\Modals\Admin\UsersModal;
-//
-//use App\Enums\User\UserSex;
-//use App\Enums\User\UserStatus;
-//use App\Models\UserLog;
-//use App\Models\User;
-//use Illuminate\Contracts\View\Factory;
-//use Illuminate\Contracts\View\View;
-//use Illuminate\Foundation\Application;
-//use Illuminate\Support\Collection;
-//use Livewire\Component;
-//
-//class AddUserAccountModal extends Component
-//{
-//    public string $identifier;
-//    public Collection $genders;
-//    public Collection $userStatuses;
-//
-//    public array $formData = [
-//        'first_name' => '',
-//        'middle_name' => '',
-//        'last_name' => '',
-//        'gender' => '',
-//        'email' => '',
-//        'id_number' => '',
-//        'password' => '',
-//        'assigned_permissions' => [],
-//    ];
-//
-//    public array $tabs = [
-//        ['key' => 'basic-info', 'label' => 'Basic Information'],
-//        ['key' => 'access-info', 'label' => 'Access Control'],
-//        ['key' => 'account-info', 'label' => 'Account Settings'],
-//    ];
-//
-//    public string $activeTab = 'basic-info';
-//    public array $visitedTabs = [];
-//
-//    public function mount(): void
-//    {
-//        $this->identifier = uniqid('add_user_account_modal');
-//        $this->genders = collect([
-//            ['id' => UserSex::MALE, 'value' => 'Male'],
-//            ['id' => UserSex::FEMALE, 'value' => 'Female'],
-//        ]);
-//        $this->userStatuses = collect([
-//            ['id' => UserStatus::ACTIVE, 'value' => 'Active'],
-//            ['id' => UserStatus::INACTIVE, 'value' => 'Inactive'],
-//        ]);
-//    }
-//
-//    public function generatePassword(): void
-//    {
-//        $this->formData['password'] = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()'), 0, 12);
-//    }
-//
-//    public function activateTab(string $tabKey): void
-//    {
-//        $this->activeTab = $tabKey;
-//    }
-//
-//    public function nextTab(): void
-//    {
-//        $currentIndex = collect($this->tabs)->search(fn($tab) => $tab['key'] === $this->activeTab);
-//        if ($currentIndex !== false && $currentIndex < count($this->tabs) - 1) {
-//            $this->visitedTabs[] = $this->activeTab;
-//            $this->activeTab = $this->tabs[$currentIndex + 1]['key'];
-//        }
-//    }
-//
-//    public function previousTab(): void
-//    {
-//        $currentIndex = collect($this->tabs)->search(fn($tab) => $tab['key'] === $this->activeTab);
-//        if ($currentIndex !== false && $currentIndex > 0) {
-//            $this->activeTab = $this->tabs[$currentIndex - 1]['key'];
-//        }
-//    }
-//
-//    public function validateAndSubmit(): void
-//    {
-//        $this->validate([
-//            'formData.first_name' => 'required|string|max:255',
-//            'formData.last_name' => 'required|string|max:255',
-//            'formData.email' => 'required|email|unique:users,email',
-//            'formData.id_number' => 'required|string|unique:users,id_number',
-//            'formData.password' => 'required|string|min:8',
-//        ]);
-//
-//        $user = User::create($this->formData);
-//        if ($user) {
-//            $this->logUserAction('User added successfully.');
-//            $this->resetForm();
-//            $this->dispatch('userAdded', ['message' => 'User added successfully!']);
-//        }
-//    }
-//
-//    private function logUserAction(string $description): void
-//    {
-//        UserLog::create([
-//            'action' => 'Add User',
-//            'description' => $description,
-//            'date' => now(),
-//            'user_id' => auth()->id(),
-//        ]);
-//    }
-//
-//    private function resetForm(): void
-//    {
-//        $this->formData = [
-//            'first_name' => '',
-//            'middle_name' => '',
-//            'last_name' => '',
-//            'gender' => '',
-//            'email' => '',
-//            'id_number' => '',
-//            'password' => '',
-//            'assigned_permissions' => [],
-//        ];
-//        $this->visitedTabs = [];
-//        $this->activeTab = 'basic-info';
-//    }
-//
-//    public function render(): Factory|View|Application|\Illuminate\View\View
-//    {
-//        return view('livewire.modals.admin.users-modal.add-user-modal');
-//    }
-//}
-
 
 namespace App\Livewire\Modals\Admin\UsersModal;
 
@@ -320,11 +82,50 @@ class AddUserAccountModal extends Component
     public function nextTab(): void
     {
         $currentIndex = collect($this->tabs)->search(fn($tab) => $tab['key'] === $this->activeTab);
-        if ($currentIndex !== false && $currentIndex < count($this->tabs) - 1) {
-            $this->visitedTabs[] = $this->activeTab;
-            $this->activeTab = $this->tabs[$currentIndex + 1]['key'];
+
+        if ($currentIndex === false || $currentIndex >= count($this->tabs) - 1) {
+            return;
         }
+
+        // Validate the current tab
+        $rules = $this->getValidationRulesForTab($this->activeTab);
+        if (!empty($rules)) {
+            $this->validate($rules);
+        }
+
+        if ($this->checkForDuplicates()) {
+            session()->flash('error', 'A staff member with the same name already exists.');
+            return;
+        }
+
+        // If validation passes, move to the next tab
+        $this->visitedTabs[] = $this->activeTab;
+        $this->activeTab = $this->tabs[$currentIndex + 1]['key'];
     }
+
+
+    public function getValidationRulesForTab(string $tabKey): array
+    {
+        $rules = [
+            'basic-info' => [
+                'form.first_name' => ['required', 'string', 'regex:/^[a-zA-Z\s]+$/', 'max:50'],
+                'form.last_name' => ['required', 'string', 'regex:/^[a-zA-Z\s]+$/', 'max:50'],
+                'form.sex' => ['required', 'in:' . UserSex::MALE . ',' . UserSex::FEMALE],
+                'form.date_of_birth' => ['nullable', 'date', 'before_or_equal:' . now()->subYears(18)->toDateString()],
+            ],
+            'access-info' => [
+                'form.user_role' => ['required', 'exists:staff_roles,id'],
+            ],
+            'account-info' => [
+                'form.password' => ['required', 'string', Password::default()],
+                'form.username' => ['required', 'string', 'unique:staffs,username'],
+                'photo' => ['nullable', 'image', 'max:1024'], // Example for photo validation
+            ],
+        ];
+
+        return $rules[$tabKey] ?? [];
+    }
+
 
     public function previousTab(): void
     {
@@ -342,23 +143,44 @@ class AddUserAccountModal extends Component
         Log::info('User selected role ID: ' . $roleId);
     }
 
-    public function validateAndSubmit()
+    public function rules(): array
     {
-        Log::info('validateAndSubmit triggered.');
-
-        $this->validate([
-            'form.first_name' => ['required', 'string'],
-            'form.last_name' => ['required', 'string'],
+        return [
+            'form.first_name' => ['required', 'string', 'regex:/^[a-zA-Z\s]+$/', 'max:50'],
+            'form.last_name' => ['required', 'string', 'regex:/^[a-zA-Z\s]+$/', 'max:50'],
             'form.username' => [
                 'required',
                 'string',
                 'unique:staffs,username', // Ensure unique username
             ],
+            'form.date_of_birth' => ['nullable', 'date', 'before_or_equal:' . now()->subYears(18)->toDateString()],
             'form.user_role' => ['required', 'exists:staff_roles,id'],
             'form.password' => ['required', 'string', Password::default()],
-        ], [
+            'form.sex' => ['required', 'in:' . UserSex::MALE . ',' . UserSex::FEMALE]
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
             'form.username.unique' => 'The username is already in use.',
-        ]);
+            'form.user_role.required' => 'The user role is required.',
+            'form.first_name.required' => 'The first name is required.',
+            'form.first_name.regex' => 'The first name must contain only letters and spaces.',
+            'form.last_name.regex' => 'The last name must contain only letters and spaces.',
+            'form.last_name.required' => 'The last name is required.',
+            'form.date_of_birth.before_or_equal' => 'The staff must be at least 18 years old.',
+            'form.password.required' => 'The password is required.',
+            'form.username.required' => 'The username is required.',
+            'form.sex.required' => 'The sex field is required.',
+        ];
+    }
+
+    public function validateAndSubmit()
+    {
+        Log::info('validateAndSubmit triggered.');
+
+        $this->validate();
 
         // Check for duplicates
         if ($this->checkForDuplicates()) {
