@@ -43,6 +43,7 @@ class AddUserAccountForm extends Form
     public $form;
     public $photo_path;
 
+   
     public function clear(): void
     {
         $this->reset([
@@ -81,8 +82,6 @@ class AddUserAccountForm extends Form
         $generatedPassword = Str::random(8);
 
         try {
-            $this->validate(); // Validate the form inputs
-            Log::info('Validation passed.');
 
             DB::beginTransaction();
 
