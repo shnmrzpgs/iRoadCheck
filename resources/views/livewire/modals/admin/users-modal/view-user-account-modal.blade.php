@@ -59,12 +59,12 @@
                                     <li class="mb-1">Role: <i class="ml-4">{{ $staff->staffRolesPermissions->staffRole->name ?? 'No role assigned' }}</i></li>
                                     <li class="mb-1">Permissions:</li>
                                     <ul class="pl-4 list-disc">
-                                        @if (!empty($staff->permissions))
-                                        @foreach ($staff->permissions as $permission)
+                                        @if(!empty($selectedPermissions))
+                                        @foreach($selectedPermissions as $permission)
                                         <li>{{ ucwords(str_replace('_', ' ', $permission)) }}</li>
                                         @endforeach
                                         @else
-                                        <li>No permissions assigned</li>
+                                        <li>No permissions assigned to this role.</li>
                                         @endif
                                     </ul>
                                 </ul>
