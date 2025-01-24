@@ -259,7 +259,7 @@
         setTimeout(() => {
             openModal = false;
             setTimeout(() => location.reload(), 300); // Reload the page after the notification disappears
-        }, 4000); // Auto-hide after 4 seconds
+        }, 3000); // Auto-hide after 4 seconds
 
         @if (session('feedback_type') === 'success')
             lottie.loadAnimation({
