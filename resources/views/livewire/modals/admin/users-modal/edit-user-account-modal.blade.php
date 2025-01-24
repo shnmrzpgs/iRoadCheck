@@ -141,7 +141,7 @@
                                         type="text"
                                         oninput="capitalizeInput(this)"
                                         class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
-                                    @error('form.first_name') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+                                    @error('form.first_name') <span class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span> @enderror
                                 </div>
                                 <div>
                                     <label class="block font-medium text-gray-700">Middle Name</label>
@@ -158,7 +158,7 @@
                                         type="text"
                                         oninput="capitalizeInput(this)"
                                         class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
-                                    @error('form.last_name') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+                                    @error('form.last_name') <span class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span> @enderror
                                 </div>
 
                             </div>
@@ -176,7 +176,7 @@
                                         @endforeach
                                     </select>
                                     @error('form.sex')
-                                    <span id="sexError" class="text-red-600 text-xs">{{ $message }}</span>
+                                    <span id="sexError" class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div x-data="{ date: '' }" class="relative">
@@ -204,7 +204,7 @@
                                         </div>
                                     </div>
                                     @error('form.date_of_birth')
-                                    <span id="dobError" class="text-red-600 text-xs">{{ $message }}</span>
+                                    <span id="dobError" class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span>
                                     @enderror
                                 </div>
 
@@ -228,6 +228,9 @@
                                 @endforeach
                             </select>
                         </div>
+                        @error('form.user_role')
+                        <span id="dobError" class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span>
+                        @enderror
 
                         <div class="mt-4">
                             <label class="block font-medium text-gray-700">Permissions</label>
@@ -242,10 +245,6 @@
                             </ul>
                         </div>
                         @endif
-                        @error('form.user_role')
-                        <span id="dobError" class="text-red-600 text-xs">{{ $message }}</span>
-                        @enderror
-
 
                         <!-- Account Info Tab -->
                         @if($activeTab === 'account-info')
@@ -285,7 +284,7 @@
                                     placeholder="Username"
                                     type="text"
                                     class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
-                                @error('form.username') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+                                @error('form.username') <span class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span> @enderror
                             </div>
 
                             <!-- Password Field with Toggle Visibility -->
@@ -408,9 +407,11 @@
                         <button
                             type="button"
                             wire:click="save"
+                            wire:loading.attr="disabled"
                             class="px-4 py-2 bg-gradient-to-b from-[#84D689] to-green-500 text-white text-sm rounded hover:bg-[#4AA76F] shadow-lg shadow-neutral-500/20 transition active:scale-95 hover:scale-105"
                             x-show="tabs.findIndex(tab => tab.key === activeTab) === tabs.length - 1">
                             Update Account
+                            <x-loading-indicator wire:loading class="h-6 w-6" x-show="false"/>
                         </button>
                     </div>
 
@@ -418,13 +419,16 @@
                     <button
                         type="button"
                         wire:click="nextTab"
+                        wire:loading.attr="disabled"
                         class="flex items-center px-4 py-2 bg-[#3AA76F] text-white text-sm rounded hover:bg-[#4AA76F] transition active:scale-95"
                         x-show="tabs.findIndex(tab => tab.key === activeTab) < tabs.length - 1">
                         <span class="mr-2">Next</span>
                         <!-- Next Arrow Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"  x-show="!loading">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
+
+                        <x-loading-indicator wire:loading class="h-6 w-6" x-show="false" />
                     </button>
                 </div>
             </div>
