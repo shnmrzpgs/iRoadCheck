@@ -45,4 +45,8 @@ class StaffRole extends Model
         return $this->belongsToMany(StaffRolesPermissions::class, 'staff_role_id', 'id');
     }
 
+    public function staffs()
+    {
+        return $this->hasManyThrough(Staff::class, StaffRolesPermissions::class, 'staff_role_id', 'staff_roles_permissions_id');
+    }
 }

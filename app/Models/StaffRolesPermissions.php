@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\StaffRole;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class StaffRolesPermissions extends Model
 {
@@ -38,10 +39,10 @@ class StaffRolesPermissions extends Model
     public function staffRole(): BelongsTo
     {
         return $this->belongsTo(StaffRole::class, 'staff_role_id', 'id');
-  }
+    }
 
-    public function permissions(): BelongsTo
+    public function permissions(): BelongsToMany
     {
-        return $this->belongsTo(StaffPermission::class, 'staff_permission_id');
+        return $this->belongsToMany(StaffPermission::class, 'staff_roles_permissions', 'staff_role_id', 'staff_permission_id');
     }
 }

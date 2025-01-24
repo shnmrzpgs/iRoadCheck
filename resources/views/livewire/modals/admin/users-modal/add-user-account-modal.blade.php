@@ -65,7 +65,7 @@
 
                     <!-- Full Name and username Preview -->
                     <div class="pl-4">
-                        <div class="block text-lg font-medium text-gray-700">
+                        <div class="block text-lg font-medium text-gray-700 capitalize">
                             {{ trim(($form->first_name ?? '') . ' ' . ($form->middle_name ?? '') . ' ' . ($form->last_name ?? '')) ?: 'Full Name Preview' }}
                         </div>
                         <div class="block text-xs font-normal text-gray-700 italic">
@@ -133,6 +133,7 @@
                                 <input wire:model.live="form.first_name"
                                     placeholder="First name" ft6cf7
                                     type="text"
+                                    oninput="capitalizeInput(this)"
                                     class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
                                 @error('form.first_name') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                             </div>
@@ -141,6 +142,7 @@
                                 <input wire:model.live="form.middle_name"
                                     placeholder="Middle name"
                                     type="text"
+                                    oninput="capitalizeInput(this)"
                                     class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
                             </div>
                             <div>
@@ -148,6 +150,7 @@
                                 <input wire:model.live="form.last_name"
                                     placeholder="Last name"
                                     type="text"
+                                    oninput="capitalizeInput(this)"
                                     class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
                                 @error('form.last_name') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
                             </div>
@@ -174,8 +177,10 @@
                                 <div x-data="{
                                         init() {
                                             flatpickr($refs.input, {
-                                                dateFormat: 'F j, Y', // Display format in the UI
-                                                defaultDate: @js($this->form->date_of_birth) ?? null, // Initialize with F j, Y format
+                                                dateFormat: 'F j, Y', 
+                                                defaultDate: @js($this->form->date_of_birth) ?? null, 
+                                                 maxDate: new Date(),
+                                                 minDate: new Date(new Date().setFullYear(new Date().getFullYear() - 100)),
                                                 onChange: (_, dateStr) => @this.set('form.date_of_birth', dateStr), // Send F j, Y to Livewire
                                             });
                                         }
@@ -213,6 +218,9 @@
                                 @endforeach
                             </select>
                         </div>
+                        @error('form.user_role')
+                        <span id="dobError" class="text-red-600 text-xs">{{ $message }}</span>
+                        @enderror
 
                         <div>
                             <label class="block font-medium text-gray-700 mt-4">Permissions</label>
@@ -225,9 +233,6 @@
                             </ul>
                         </div>
                         @endif
-                        @error('form.user_role')
-                        <span id="dobError" class="text-red-600 text-xs">{{ $message }}</span>
-                        @enderror
                     </div>
 
                     <!-- Account Info Tab -->
@@ -239,7 +244,7 @@
                             @if(isset($formData['is_disabled']) && $formData['is_disabled'])
                             <div class="flex items-center justify-between w-full sm:text-sm p-2 space-x-24">
                                 <div class="text-sm font-semibold text-red-500">
-                                    Disabled
+                                    Inactive
                                 </div>
                                 <label class="relative inline-flex items-center cursor-pointer">
                                     <input type="checkbox" wire:model="form.is_disabled" class="sr-only">
@@ -250,7 +255,7 @@
                             @else
                             <div class="flex items-center justify-between w-full sm:text-sm p-2 space-x-24">
                                 <div class="text-sm font-semibold text-green-500">
-                                    Enabled
+                                    Active
                                 </div>
                                 <label class="relative inline-flex items-center cursor-pointer">
                                     <input type="checkbox" wire:model="form.is_disabled" class="sr-only">
@@ -391,9 +396,13 @@
                     </div>
                 </div>
 
+
                 @elseif (session()->has('error'))
-                <div class="text-red-500 text-sm flex justify-center">{{ session('error') }}</div>
+                <div class="text-green-500 text-xs flex justify-center items-center">
+                    <div class="text-red-500 text-xs flex justify-center">{{ session('error') }}</div>
+                </div>
                 @endif
+
 
                 <div>
                     <!-- Buttons -->
@@ -439,19 +448,15 @@
                     </div>
                 </div>
             </div>
+
+            <script>
+                function capitalizeInput(input) {
+                    input.value = input.value.toLowerCase().replace(/\b\w/g, function(char) {
+                        return char.toUpperCase();
+                    });
+                }
+            </script>
         </x-slot:footer>
-
-
-        @script
-        <script type="module">
-            $wire.on('user_account_added', () => {
-                pushNotification('success', 'User Information Added', 'User has been added successfully.');
-            });
-            $wire.on('user_account_not_added', () => {
-                pushNotification('error', 'Failed to Add User', 'An error occurred while adding the User.');
-            });
-        </script>
-        @endscript
 
     </x-admin.crud-modal-content-base>
 </div>

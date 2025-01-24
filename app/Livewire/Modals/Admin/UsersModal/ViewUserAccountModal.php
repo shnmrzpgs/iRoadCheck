@@ -1,9 +1,10 @@
-<?php 
+<?php
 
 namespace App\Livewire\Modals\Admin\UsersModal;
 
 use App\Models\Staff;
 use Illuminate\Contracts\View\View;
+use App\Models\StaffRole;
 use Livewire\Attributes\On;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
@@ -13,27 +14,34 @@ class ViewUserAccountModal extends Component
     public ?Staff $staff = null;
     public ?string $date_of_birth = null;
     public ?string $currentPhoto = null;
-    
+    public ?array $permissions = null;
+    public array $selectedPermissions = [];
+    public ?int $user_role = null;
+
+    public function updatedFormUserRole($staffRoleId): void
+    {
+        $role = StaffRole::with('permissions')->find($staffRoleId);
+        $this->selectedPermissions = $role ? $role->permissions->pluck('name')->toArray() : [];
+    }
+
     public function showStaffInfo($staffId)
-{
-    $staff = Staff::with(['staffRolesPermissions.permissions'])
-        ->findOrFail($staffId);
+    {
+        $staff = Staff::with(['staffRolesPermissions.staffRole', 'staffRolesPermissions.permissions'])
+            ->findOrFail($staffId);
 
-    // Extract permission names from the assigned role
-    $permissions = $staff->staffRolesPermissions->permissions
-        ->pluck('name')
-        ->toArray();
+            $this->user_role = $staff->staffRolesPermissions->staffRole->id;
+        //     $this->permissions = $staff->staffRolesPermissions->permissions->pluck('name')->toArray();
 
-    // Add permissions as a dynamic property
-    $staff->permissions = $permissions;
+        $role = StaffRole::with('permissions')->find($this->user_role);
+        $this->selectedPermissions = $role ? $role->permissions->pluck('name')->toArray() : [];
 
-    $this->staff = $staff;
-    $this->date_of_birth = $staff->user->date_of_birth
-    ? Carbon::parse($staff->user->date_of_birth)->format('F j, Y')
-    : null;
-}
+        $this->staff = $staff;
+        $this->date_of_birth = $staff->user->date_of_birth
+            ? Carbon::parse($staff->user->date_of_birth)->format('F j, Y')
+            : null;
+    }
 
-    #[On('show-view-user-account-modal')] 
+    #[On('show-view-user-account-modal')]
     public function showModal(Staff $staff): void
     {
         $this->showStaffInfo($staff->id);
