@@ -15,7 +15,8 @@
             <img
                 src="{{ asset('storage/images/profile-backgroundImage2.png') }}"
                 alt="Loading"
-                class="w-full h-full object-cover"
+                loading="lazy"
+                class="lazyload w-full h-full object-cover"
                 x-transition:enter="transition-all duration-500"
                 x-transition:enter-start="w-0"
                 x-transition:enter-end="w-full">
@@ -28,8 +29,8 @@
             <!-- Preview the image before uploading -->
             <template x-if="preview">
                 <img :src="URL.createObjectURL(preview)"
-                     alt="Profile Picture Preview"
-                     class="w-full h-full object-cover text-center flex justify-center items-center bg-black">
+                     alt="Profile Picture Preview" loading="lazy"
+                     class="lazyload w-full h-full object-cover text-center flex justify-center items-center bg-black">
             </template>
 
             <!-- Show the current profile picture or a placeholder -->
@@ -37,33 +38,35 @@
                 @if($currentProfilePicture)
                     <img src="{{ Storage::url($currentProfilePicture) }}"
                          alt="Current Profile Picture"
-                         class="w-full h-full object-cover">
+                         loading="lazy"
+                         class="lazyload w-full h-full object-cover">
                 @else
                     <!-- Default image if no profile picture is set -->
                     <img src="{{ asset('/storage/icons/profile-graphics.png') }}"
                          alt="Default Profile Picture"
-                         class="w-full h-full object-cover">
+                         loading="lazy"
+                         class="lazyload  w-full h-full object-cover">
                 @endif
             </template>
 
             <!-- Loading Indicator -->
-            <div x-show="showLoading" class="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
+            <div x-show="showLoading" loading="lazy" class="lazyload absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
                 <div class="text-white text-sm">Uploading...</div>
             </div>
 
             <!-- Hidden file input for uploading -->
-            <input type="file" class="hidden" x-ref="fileInput"
+            <input type="file" loading="lazy" class="hidden" x-ref="fileInput"
                    @change="preview = $event.target.files[0]; showLoading = true; clearTimeout(loadingTimer); loadingTimer = setTimeout(() => { showLoading = false; }, 2000);"
                    wire:model="profilePicture">
 
 
             <!-- Hover Effect -->
-            <div class="rounded-full absolute inset-0 flex justify-center items-center bg-black bg-opacity-50 px-4" x-show="isHovered">
+            <div class="rounded-full absolute inset-0 flex justify-center items-center bg-black bg-opacity-50 px-4" loading="lazy" x-show="isHovered">
                 <button @click="document.querySelector('input[type=file]').click()"
-                        class="rounded-full flex-col text-white text-sm flex items-center">
+                        class="lazyload rounded-full flex-col text-white text-sm flex items-center">
                     <span>Change Profile Photo</span>
                     <!-- Camera Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="mt-2 w-4 h-4 fill-current text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"  loading="lazy" class="lazyload mt-2 w-4 h-4 fill-current text-center">
                         <path d="M199.1 32c-24.1 0-45.5 15.4-53.1 38.3l22.8 7.6-22.8-7.6L137.4 96 64 96C28.7 96 0 124.7 0 160L0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-256c0-35.3-28.7-64-64-64l-73.4 0-8.6-25.7C358.4 47.4 337 32 312.9 32L199.1 32zm-7.6 53.5c1.1-3.3 4.1-5.5 7.6-5.5l113.9 0c3.4 0 6.5 2.2 7.6 5.5l14 42.1c3.3 9.8 12.4 16.4 22.8 16.4l90.7 0c8.8 0 16 7.2 16 16l0 256c0 8.8-7.2 16-16 16L64 432c-8.8 0-16-7.2-16-16l0-256c0-8.8 7.2-16 16-16l90.7 0c10.3 0 19.5-6.6 22.8-16.4l14-42.1zM256 400a112 112 0 1 0 0-224 112 112 0 1 0 0 224zM192 288a64 64 0 1 1 128 0 64 64 0 1 1 -128 0z"/>
                     </svg>
 
@@ -73,7 +76,8 @@
             <div x-on:mouseover="isHovered = true" x-on:mouseleave="isHovered = false">
                 <!-- File Input -->
                 <input type="file" wire:model="profilePicture"
-                       class="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+                       loading="lazy"
+                       class="lazyload absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                        title="Upload New Profile Photo"
                        accept="image/*"
                        @change="showLoading = true; clearTimeout(loadingTimer); loadingTimer = setTimeout(() => { showLoading = false; }, 3000);">
@@ -100,7 +104,7 @@
                     <div class="flex justify-center gap-x-14 py-7 border-t border-gray-400">
 
                         <!-- Yes Button -->
-                        <button @click="$wire.removeProfilePicture(); showConfirmation = false" class="bg-red-600 text-white px-10 py-2 rounded-md group relative inline-flex hover:scale-11  transition active:scale-110">
+                        <button @click="$wire.removeProfilePicture(); showConfirmation = false" class="lazyload bg-red-600 text-white px-10 py-2 rounded-md group relative inline-flex hover:scale-11  transition active:scale-110">
                             <span>Yes</span>
                             <div class="absolute inset-0 flex h-full w-8/10 justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]">
                                 <div class="relative h-full w-8 bg-white/20"></div>
@@ -108,7 +112,7 @@
                         </button>
 
                         <!-- No Button -->
-                        <button @click="showConfirmation = false" class="bg-gray-400 text-white px-10 py-2 rounded-md group relative inline-flex hover:scale-11  transition active:scale-110">
+                        <button @click="showConfirmation = false" class="lazyload bg-gray-400 text-white px-10 py-2 rounded-md group relative inline-flex hover:scale-11  transition active:scale-110">
                             <span>No</span>
                             <div class="absolute inset-0 flex h-full w-9/10 justify-center [transform:skew(-12deg)_translateX(-70%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]">
                                 <div class="relative h-full w-8 bg-white/20"></div>
@@ -122,99 +126,106 @@
 
     <!--Feedback Messages-->
     @if (session()->has('feedback'))
-        <div x-data="{ openModal: true }" x-cloak>
-            <!-- Modal -->
+        <div
+            x-data="{ openModal: true }"
+            x-init="
+            setTimeout(() => {
+                openModal = false;
+                setTimeout(() => location.reload(), 300); // Reload the page after the notification disappears
+            }, 3000); // Auto-hide after 3 seconds
+
+            @if (session('feedback_type') === 'success')
+                lottie.loadAnimation({
+                    container: $refs.lottieAnimation,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    path: '{{ asset('animations/Animation - 1732372548058.json') }}'
+                });
+            @elseif (session('feedback_type') === 'info')
+                lottie.loadAnimation({
+                    container: $refs.lottieAnimation,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    path: '{{ asset('animations/Animation - 1737008068327.json') }}'
+                });
+            @elseif (session('feedback_type') === 'error')
+                lottie.loadAnimation({
+                    container: $refs.lottieAnimation,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    path: '{{ asset('animations/Animation - 1732451860692.json') }}'
+                });
+            @endif"
+            x-cloak
+        >
+            <!-- Notification -->
             <div
                 x-show="openModal"
-                class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30 px-5"
-                x-init="
-                @if (session('feedback_type') === 'success')
-                    lottie.loadAnimation({
-                        container: $refs.lottieAnimation,
-                        renderer: 'svg',
-                        loop: true,
-                        autoplay: true,
-                        path: '{{ asset('animations/Animation - 1732372548058.json') }}'
-                    });
-                @elseif (session('feedback_type') === 'info')
-                    lottie.loadAnimation({
-                        container: $refs.lottieAnimation,
-                        renderer: 'svg',
-                        loop: true,
-                        autoplay: true,
-                        path: '{{ asset('animations/Animation - 1737008068327.json') }}'
-                    });
-                @elseif (session('feedback_type') === 'error')
-                    lottie.loadAnimation({
-                        container: $refs.lottieAnimation,
-                        renderer: 'svg',
-                        loop: true,
-                        autoplay: true,
-                        path: '{{ asset('animations/Animation - 1732451860692.json') }}' // Error animation
-                    });
-                @endif
-            "
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 -translate-y-2"
+                x-transition:enter-end="opacity-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="opacity-100 translate-y-0"
+                x-transition:leave-end="opacity-0 -translate-y-2"
+                class="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-md border-l-4"
+                :class="{
+                'border-green-500': '{{ session('feedback_type') }}' === 'success',
+                'border-blue-500': '{{ session('feedback_type') }}' === 'info',
+                'border-red-500': '{{ session('feedback_type') }}' === 'error',
+            }"
             >
-                <div class="p-1 border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full max-w-sm mx-10"
-                     :class="{
-                    'bg-[#3AA76F]': '{{ session('feedback_type') }}' === 'success',
-                    'bg-[#3182CE]': '{{ session('feedback_type') }}' === 'info',
-                    'bg-[#E53E3E]': '{{ session('feedback_type') }}' === 'error'
-                    }">
-                    <div class="bg-white rounded-lg shadow-lg">
-                        <!-- Modal Body -->
-                        <div class="p-6 flex flex-col items-center space-y-2">
-                            <!-- Title -->
-                            <p class="text-center font-bold text-2xl"
-                               :class="{
-                                'text-green-600': '{{ session('feedback_type') }}' === 'success',
-                                'text-blue-600': '{{ session('feedback_type') }}' === 'info',
-                                'text-red-600': '{{ session('feedback_type') }}' === 'error'
-                           }">
-                                {{ strtoupper(session('feedback_type')) }}
-                            </p>
-
-                            <!-- Lottie Animation Container -->
-                            <div x-ref="lottieAnimation" class="w-28 sm:w-28 md:w-28 lg:w-32 max-w-[110px] mt-4 mb-0 drop-shadow-lg"></div>
-
-                            <!-- Feedback Message -->
-                            <p class="text-center text-gray-600 text-sm">
-                                <span>{!! session('feedback') !!}</span>
-                            </p>
-                        </div>
-
-                        <!-- Horizontal Line with Animation -->
-                        <div class="relative overflow-hidden shadow-lg w-full h-[4px]">
-                            <img
-                                src="
-                            @if (session('feedback_type') === 'success')
-                                {{ asset('storage/images/line-successLoading.png') }}
-                            @elseif (session('feedback_type') === 'info')
-                                {{ asset('storage/images/line-noChangesLoading.png') }}
-                            @elseif (session('feedback_type') === 'error')
-                                {{ asset('storage/images/line-errorLoading.png') }}
-                            @endif
-                            "
-                                alt="loading"
-                                class="absolute top-0 left-0 w-full h-full object-cover animate-wipe-right">
-                        </div>
-
-                        <!-- Modal Footer -->
-                        <div @click="openModal = false" onclick="location.reload();" class="flex flex-col items-center px-6 py-2 bg-gray-50 hover:bg-gray-100 rounded-b-lg transition-all active:translate-y-[1px] active:shadow-none">
-                            <button class="px-4 py-2 text-sm font-medium rounded"
-                                    :class="{
-                                    'text-green-600': '{{ session('feedback_type') }}' === 'success',
-                                    'text-blue-600': '{{ session('feedback_type') }}' === 'info',
-                                    'text-red-600': '{{ session('feedback_type') }}' === 'error'
-                                }">
-                                Close
-                            </button>
-                        </div>
+                <!-- Content -->
+                <div class="p-4 flex items-center space-x-4">
+                    <!-- Lottie Animation -->
+                    <div class="flex-shrink-0">
+                        <div x-ref="lottieAnimation" class="w-12 h-12"></div>
                     </div>
+
+                    <!-- Message -->
+                    <div>
+                        <p class="font-bold text-lg"
+                           :class="{
+                            'text-green-600': '{{ session('feedback_type') }}' === 'success',
+                            'text-blue-600': '{{ session('feedback_type') }}' === 'info',
+                            'text-red-600': '{{ session('feedback_type') }}' === 'error',
+                       }">
+                            {{ strtoupper(session('feedback_type')) }}
+                        </p>
+                        <p class="text-sm text-gray-700">
+                            {!! session('feedback') !!}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="mx-5 mb-3 relative h-1 bg-gray-200">
+                    <div
+                        class="absolute top-0 left-0 h-full"
+                        :class="{
+                        'bg-green-500': '{{ session('feedback_type') }}' === 'success',
+                        'bg-blue-500': '{{ session('feedback_type') }}' === 'info',
+                        'bg-red-500': '{{ session('feedback_type') }}' === 'error',
+                    }"
+                        style="animation: progress 4s linear;"></div>
                 </div>
             </div>
         </div>
     @endif
+
+    <!-- Progress Bar Animation -->
+    <style>
+        @keyframes progress {
+            from {
+                width: 100%;
+            }
+            to {
+                width: 0;
+            }
+        }
+    </style>
 
 </div>
 

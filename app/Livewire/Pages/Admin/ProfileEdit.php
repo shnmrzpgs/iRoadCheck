@@ -10,9 +10,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 
 class ProfileEdit extends Component
 {
@@ -81,6 +79,7 @@ class ProfileEdit extends Component
                 ->format('Y-m-d');
         } catch (\Exception $e) {
             // Handle invalid date format (unlikely since validation already passed)
+            session(['hideSearchBar' => true]); // Hide search bar
             session()->flash('feedback', 'Invalid date format. Please use a valid format (e.g., January 1, 2000).');
             session()->flash('feedback_type', 'error');
             return;
@@ -128,13 +127,16 @@ class ProfileEdit extends Component
                     'user_id' => $user->id,
                 ]);
 
+                session(['hideSearchBar' => true]); // Hide search bar
                 session()->flash('feedback', 'Personal information updated successfully.');
                 session()->flash('feedback_type', 'success');
             } catch (\Exception $e) {
+                session(['hideSearchBar' => true]); // Hide search bar
                 session()->flash('feedback', 'Something went wrong. Please try again.');
                 session()->flash('feedback_type', 'error');
             }
         } else {
+            session(['hideSearchBar' => true]); // Hide search bar
             session()->flash('feedback', 'No changes were made to your basic information.');
             session()->flash('feedback_type', 'info');
         }
@@ -155,6 +157,7 @@ class ProfileEdit extends Component
             $this->password_confirmation = null;
             $this->current_password = null;
 
+            session(['hideSearchBar' => true]); // Hide search bar
             session()->flash('feedback', 'No changes were made to your account information.');
             session()->flash('feedback_type', 'info');
             return;
@@ -166,6 +169,7 @@ class ProfileEdit extends Component
             $this->password = null;
             $this->password_confirmation = null;
 
+            session(['hideSearchBar' => true]); // Hide search bar
             session()->flash('feedback', 'No changes were made to your account information.');
             session()->flash('feedback_type', 'info');
             return;
@@ -244,6 +248,7 @@ class ProfileEdit extends Component
         $this->password_confirmation = null;
 
         // Provide feedback to the user
+        session(['hideSearchBar' => true]); // Hide search bar
         session()->flash('feedback', 'Account information updated successfully.');
         session()->flash('feedback_type', 'success');
     }

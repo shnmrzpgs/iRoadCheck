@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class UserType extends Model
 {
@@ -26,4 +27,9 @@ class UserType extends Model
 //    {
 //        return self::where('name', $name)->value('id');
 //    }
+
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, 'user_type');
+    }
 }

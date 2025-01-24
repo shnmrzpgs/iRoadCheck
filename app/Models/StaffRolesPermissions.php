@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\StaffRole;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class StaffRolesPermissions extends Model
 {
@@ -29,7 +30,7 @@ class StaffRolesPermissions extends Model
     ];
 
     //Relationships
-    public function staff()
+    public function staff(): HasMany
     {
         return $this->hasMany(Staff::class);
     }

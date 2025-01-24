@@ -8,14 +8,8 @@ import 'simple-notify/dist/simple-notify.css';
 import lottie from 'lottie-web';
 import flatpickr from 'flatpickr';
 import '../css/app.css';
+import 'lazysizes';
 
-document.addEventListener('sweet-alert', (event) => {
-    Swal.fire({
-        icon: event.detail.type,
-        title: 'Notification',
-        text: event.detail.message,
-    });
-})
 
 window.Notify = Notify;
 

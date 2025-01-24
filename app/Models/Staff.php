@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Staff extends Model
 {
@@ -54,7 +55,7 @@ class Staff extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function profilePhoto()
+    public function profilePhoto(): HasOne
     {
         return $this->hasOne(UserProfilePhoto::class, 'user_id', 'id');
     }

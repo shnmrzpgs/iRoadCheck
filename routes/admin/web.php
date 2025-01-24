@@ -56,19 +56,25 @@ Route::group(['middleware' => 'AuthAdmin'], function () {
     Route::get('/admin/system-logs', App\Http\Controllers\admin\SystemLogsController::class)
         ->name('admin.system-logs-table');
 
-    Route::get('/admin/user-role', App\Http\Controllers\admin\UserRoleController::class)
-        ->name('admin.user-role-table');
+    Route::get('/admin/notifications', App\Http\Controllers\admin\NotificationsController::class)
+        ->name('admin.notifications');
 
-    Route::get('/admin/activity-logs', App\Http\Controllers\admin\AuditLogsController::class)
-        ->name('admin.activity-logs-table');
+    Route::get('/admin/profile-edit', App\Http\Controllers\admin\ProfileController::class)
+        ->name('admin.profile-edit');
 
     Route::post('/logout', [AuthController::class, 'Logout'])->name('logout');
 
     // Login route (make sure this is defined)
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 
-    Route::get('/admin/profile-edit', App\Http\Controllers\admin\ProfileController::class)
-        ->name('admin.profile-edit');
+
+
+    //not included routes
+    Route::get('/admin/user-role', App\Http\Controllers\admin\UserRoleController::class)
+        ->name('admin.user-role-table');
+
+    Route::get('/admin/activity-logs', App\Http\Controllers\admin\AuditLogsController::class)
+        ->name('admin.activity-logs-table');
 
 });
 
