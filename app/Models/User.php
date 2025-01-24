@@ -168,4 +168,9 @@ class User extends Authenticatable
         return $this->hasOne(UserProfilePhoto::class);
     }
 
+    public function admin_notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class, 'admin_user_id', 'id');
+    }
+
 }
