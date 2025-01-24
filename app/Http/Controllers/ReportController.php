@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use App\Models\Report;
 use App\Models\User;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -19,10 +20,29 @@ class ReportController extends Controller
         ]);
 
         $report = Report::findOrFail($request->input('reportId'));
+
+        // Store the previous status before updating
+        $previousStatus = $report->status;
+
         $report->status = $request->input('newStatus');
         $report->save();
+
+        // Get the authenticated staff details
+        $staff = auth()->user()->staff; // Assuming `auth()->user()->staff` fetches the staff model
+        $staffName = $staff->username ?? 'Unknown Staff';
+        $staffRole = $staff->staffRolesPermissions->role_name ?? 'Unknown Role'; // Adjust based on your relationships
+
+        // Create a notification for the admin
+        $adminUserId = 1; // Replace with logic to dynamically fetch the admin user(s)
+        Notification::create([
+            'admin_user_id' => $adminUserId,
+            'report_id' => $report->id,
+            'title' => 'Report Status Updated',
+            'message' => "Report '{$report->defect}' at '{$report->location}' was updated from '{$previousStatus}' to '{$report->status}' by staff: {$staffName} ({$staffRole}).",
+            'is_read' => false,
+        ]);
         // Redirect back with success message
-        return redirect()->route('user.manage-tagging')
+        return redirect()->route('User.manage-tagging')
             ->with('message', 'Report status updated successfully!');
     }
     public function submitReport(Request $request)

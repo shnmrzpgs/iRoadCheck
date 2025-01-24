@@ -96,8 +96,26 @@ class User extends Authenticatable
     // Accessor for full name
     public function getNameAttribute(): string
     {
-        return "{$this->first_name} {$this->last_name}";
+        // Only get the first letter of the middle name
+        $middle_initial = $this->middle_name ? $this->middle_name[0].'.' : '';
+
+        return "$this->first_name $middle_initial $this->last_name";
     }
+
+    public function getUserTypeNameAttribute(): string
+    {
+        // Check if the user has an associated userType, otherwise return 'Unknown'
+        return $this->userTypes->type;
+    }
+
+    // Custom accessor for profile picture URL
+    public function getProfilePictureUrlAttribute(): string
+    {
+        return $this->profilePhoto && $this->profilePhoto->photo_path
+            ? asset('storage/' . $this->profilePhoto->photo_path)
+            : asset('storage/icons/profile-graphics.png'); // Default profile picture if no photo
+    }
+
 
     public function admin(): HasOne
     {
@@ -130,9 +148,9 @@ class User extends Authenticatable
 //    }
 
 
-    public function userType(): BelongsTo
+    public function userTypes(): BelongsTo
     {
-        return $this->belongsTo(UserType::class, 'user_types');
+        return $this->belongsTo(UserType::class, 'user_type' );
     }
 
     public function permissions(): BelongsToMany
@@ -148,6 +166,11 @@ class User extends Authenticatable
     public function profilePhoto(): HasOne
     {
         return $this->hasOne(UserProfilePhoto::class);
+    }
+
+    public function admin_notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class, 'admin_user_id', 'id');
     }
 
 }

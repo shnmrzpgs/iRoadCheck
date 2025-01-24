@@ -14,9 +14,6 @@
         <!-- Favicons -->
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('storage/images/IRoadCheck_Logo.png') }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('storage/images/IRoadCheck_Logo.png') }}">
-{{--        <link rel="manifest" href="{{ asset('storage/icons/favicon/site.webmanifest') }}">--}}
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
 
 
         <!-- Google Fonts -->
@@ -39,6 +36,8 @@
         <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.0/lazysizes.min.js" async></script>
+
     </head>
 
     <body class="z-0 font-pop mx-auto max-w-screen-2xl antialiased bg-[#F5F5F5] overflow-hidden">
