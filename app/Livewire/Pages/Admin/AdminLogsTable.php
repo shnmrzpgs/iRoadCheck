@@ -4,7 +4,7 @@ namespace App\Livewire\Pages\Admin;
 
 use App\Exports\AdminLogsExport;
 use App\Models\AdminLog;
-use App\Models\User; // Add the User model (assuming this is the model for admins)
+use App\Models\User; // Add the Staff model (assuming this is the model for admins)
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -156,6 +156,7 @@ class AdminLogsTable extends Component
         $adminLogs = $this->getFilteredQuery()
             ->paginate($this->rowsPerPage);
 
+        session()->forget('hideSearchBar');
         return view('livewire.pages.admin.admin-logs-table', [
             'adminLogs' => $adminLogs,
         ]);

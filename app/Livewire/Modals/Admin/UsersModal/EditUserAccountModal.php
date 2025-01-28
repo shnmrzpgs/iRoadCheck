@@ -298,11 +298,11 @@ class EditUserAccountModal extends Component
 
 
             DB::commit();
-            session()->flash('message', 'Staff Account updated successfully!');
+            session()->flash('message', 'staff Account updated successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Failed to update user account: ' . $e->getMessage());
-            session()->flash('error', 'Failed to update Staff Account.');
+            session()->flash('error', 'Failed to update staff Account.');
         }
     }
 

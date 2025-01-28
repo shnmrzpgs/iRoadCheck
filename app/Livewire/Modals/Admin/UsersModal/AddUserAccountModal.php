@@ -140,7 +140,7 @@ class AddUserAccountModal extends Component
         // Fetch permissions for the selected role
         $role = StaffRole::find($roleId);
         $this->selectedPermissions = $role ? $role->permissions->pluck('label')->toArray() : [];
-        Log::info('User selected role ID: ' . $roleId);
+        Log::info('Staff selected role ID: ' . $roleId);
     }
 
     public function rules(): array
@@ -209,12 +209,12 @@ class AddUserAccountModal extends Component
             if ($result) {
                 Log::info('Form saved successfully.');
                 // Dispatch success message to session
-                session()->flash('message', 'Staff Account added successfully!');
+                session()->flash('message', 'staff Account added successfully!');
             }
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Validation failed.', ['errors' => $e->errors()]);
             // Dispatch error message to session
-            session()->flash('error', 'There was an issue adding the Staff Account.');
+            session()->flash('error', 'There was an issue adding the staff Account.');
         }
     }
 

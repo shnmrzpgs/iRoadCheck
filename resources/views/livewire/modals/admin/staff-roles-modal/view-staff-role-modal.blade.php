@@ -13,7 +13,7 @@
     <x-slot:body>
         @if($staffRole)
             <div class="mt-4 mx-4 grid grid-cols-1">
-                <!-- Staff Role Details Section -->
+                <!-- staff Role Details Section -->
                 <div class="mb-2 w-full lg:pr-4">
                     <h3 class="text-[16px] text-gray-600 font-semibold mb-2 border-b border-[#757575]">Staff Role Details</h3>
                     <div class="text-gray-300 text-[14px] mt-4">

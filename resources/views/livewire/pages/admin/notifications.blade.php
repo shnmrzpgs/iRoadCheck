@@ -64,7 +64,7 @@
 
         <x-slot:notification_lists>
             <!-- Notifications List -->
-            <div class="w-full rounded-[4px] bg-none border border-gray-200 overflow-auto">
+            <div class="w-full rounded-[4px] bg-none border border-gray-200 h-[480px]">
                 @forelse($notifications as $notification)
                     @if($notification->is_read)
                         <!-- Read Notification -->

@@ -4,7 +4,7 @@ namespace App\Livewire\Pages\Admin;
 
 use App\Exports\StaffLogsExport;
 use App\Models\StaffLog;
-use App\Models\User; // Add the User model (assuming this is the model for staff)
+use App\Models\User; // Add the Staff model (assuming this is the model for staff)
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -157,6 +157,7 @@ class StaffLogsTable extends Component
         $staffLogs = $this->getFilteredQuery()
             ->paginate($this->rowsPerPage);
 
+        session()->forget('hideSearchBar');
         return view('livewire.pages.admin.staff-logs-table', [
             'staffLogs' => $staffLogs,
         ]);

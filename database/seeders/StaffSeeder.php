@@ -16,7 +16,7 @@ class StaffSeeder extends Seeder
     {
         // Fetch all users of type 'staff'
         $staffUsers = DB::table('users')
-            ->where('user_type', 3) // Staff type ID
+            ->where('user_type', 3) // staff type ID
             ->select('id') // Only select user IDs
             ->get();
 

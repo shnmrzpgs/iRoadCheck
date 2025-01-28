@@ -46,7 +46,7 @@
             <nav class="mt-4 space-y-4 flex-1 text-[13px] overflow-x-auto h-[80vh] px-4 leading-6">
 
                 <!-- Dashboard -->
-                <a href="{{ route('User.dashboard') }}"
+                <a href="{{ route('Staff.dashboard') }}"
                    @click="activeLink = 'dashboard'; activeChildLink = ''; localStorage.setItem('activeLink', 'dashboard'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'dashboard',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'dashboard'}"
@@ -69,7 +69,7 @@
 
 
                 <!-- Manage Tagging-->
-                <a href="{{ route('User.manage-tagging') }}"
+                <a href="{{ route('Staff.manage-tagging') }}"
                    @click="activeLink = 'manageTagging'; activeChildLink = ''; localStorage.setItem('activeLink', 'manageTagging'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'manageTagging',
                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'manageTagging'}"
@@ -91,7 +91,7 @@
                 </a>
 
                 <!-- Reports -->
-                <a href="{{ route('User.reports') }}"
+                <a href="{{ route('Staff.reports') }}"
                    @click="activeLink = 'reports'; activeChildLink = ''; localStorage.setItem('activeLink', 'reports'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'reports',
                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'reports'}"
@@ -115,7 +115,7 @@
                 </a>
 
                 <!-- Report Road Issue-->
-                <a href="{{ route('User.report-road-issue') }}"
+                <a href="{{ route('Staff.report-road-issue') }}"
                    @click="activeLink = 'reportRoadIssue'; activeChildLink = ''; localStorage.setItem('activeLink', 'reportRoadIssue'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'reportRoadIssue',
                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'reportRoadIssue'}"
@@ -138,7 +138,7 @@
                 </a>
 
                 <!-- Suggestion Reports -->
-                <a href="{{ route('User.suggestion-reports') }}"
+                <a href="{{ route('Staff.suggestion-reports') }}"
                    @click="activeLink = 'suggestionReports'; activeChildLink = ''; localStorage.setItem('activeLink', 'suggestionReports'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'suggestionReports',
                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'suggestionReports'}"
@@ -160,7 +160,7 @@
                 </a>
 
                 <!-- Report History -->
-                <a href="{{ route('User.report-history') }}"
+                <a href="{{ route('Staff.report-history') }}"
                    @click="activeLink = 'reportHistory'; activeChildLink = ''; localStorage.setItem('activeLink', 'reportHistory'); localStorage.setItem('activeChildLink', '')"
                    :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'reportHistory',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'reportHistory'}"
@@ -254,7 +254,7 @@
                     <nav class="mt-4 space-y-4 flex-1 text-[13px] overflow-x-auto h-[80vh] px-4 leading-6">
 
                             <!-- Dashboard -->
-                            <a href="{{ route('User.dashboard') }}"
+                            <a href="{{ route('Staff.dashboard') }}"
                                @click="activeLink = 'dashboard'; activeChildLink = ''; localStorage.setItem('activeLink', 'dashboard'); localStorage.setItem('activeChildLink', '')"
                                :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'dashboard',
                         'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'dashboard'}"
@@ -276,7 +276,7 @@
                             </a>
 
                         <!-- Manage Tagging-->
-                        <a href="{{ route('User.manage-tagging') }}"
+                        <a href="{{ route('Staff.manage-tagging') }}"
                            @click="activeLink = 'manageTagging'; activeChildLink = ''; localStorage.setItem('activeLink', 'manageTagging'); localStorage.setItem('activeChildLink', '')"
                            :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'manageTagging',
                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'manageTagging'}"
@@ -298,7 +298,7 @@
                         </a>
 
                         <!-- Reports -->
-                        <a href="{{ route('User.reports') }}"
+                        <a href="{{ route('Staff.reports') }}"
                            @click="activeLink = 'reports'; activeChildLink = ''; localStorage.setItem('activeLink', 'reports'); localStorage.setItem('activeChildLink', '')"
                            :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'reports',
                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'reports'}"
@@ -322,7 +322,7 @@
                         </a>
 
                         <!-- Report Road Issue-->
-                        <a href="{{ route('User.report-road-issue') }}"
+                        <a href="{{ route('Staff.report-road-issue') }}"
                            @click="activeLink = 'reportRoadIssue'; activeChildLink = ''; localStorage.setItem('activeLink', 'reportRoadIssue'); localStorage.setItem('activeChildLink', '')"
                            :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'reportRoadIssue',
                             'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'reportRoadIssue'}"
@@ -345,7 +345,7 @@
                         </a>
 
                         <!-- Suggestion Reports -->
-                        <a href="{{ route('User.suggestion-reports') }}"
+                        <a href="{{ route('Staff.suggestion-reports') }}"
                            @click="activeLink = 'suggestionReports'; activeChildLink = ''; localStorage.setItem('activeLink', 'suggestionReports'); localStorage.setItem('activeChildLink', '')"
                            :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'suggestionReports',
                    'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'suggestionReports'}"
@@ -367,7 +367,7 @@
                         </a>
 
                         <!-- Report History -->
-                        <a href="{{ route('User.report-history') }}"
+                        <a href="{{ route('Staff.report-history') }}"
                            @click="activeLink = 'reportHistory'; activeChildLink = ''; localStorage.setItem('activeLink', 'reportHistory'); localStorage.setItem('activeChildLink', '')"
                            :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'reportHistory',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'reportHistory'}"
@@ -557,7 +557,7 @@
                                     </li>
                                 </ul>
                                 <!-- View All Notifications Link -->
-                                <a href="{{ route('User.notifications') }}"
+                                <a href="{{ route('Staff.notifications') }}"
                                    @click="activeLink = 'notifications'; isClicked = true; localStorage.setItem('activeLink', 'notifications')"
                                    class="flex justify-center items-center">
                                     <div class="fixed -mt-10 px-24 py-1 bg-[#4AA76F] text-sm text-white hover:bg-[#2AA76F] font-medium rounded-[4px]" role="menuitem">
@@ -617,7 +617,7 @@
 
                         <!-- Profile Icon with Click and Bounce Microinteraction -->
                         <a x-ref="content"
-                           href="{{ route('User.profile-settings') }}"
+                           href="{{ route('Staff.profile-settings') }}"
                            @click="activeLink = 'profile'; localStorage.setItem('activeLink', 'profile'); handleClick()"
                            :class="{ 'scale-105 animate-bounce-once': isClicked }"
                            class="-m-1.5 flex items-center p-1.5 transition-transform duration-150 ease-in-out transform"

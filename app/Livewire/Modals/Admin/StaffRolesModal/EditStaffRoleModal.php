@@ -21,8 +21,8 @@ class EditStaffRoleModal extends Component
     public string $identifier = ''; // Unique identifier for the modal
     public ?StaffRole $staffRole = null; // The staff role being edited
 
-    public string $name = ''; // Staff role name
-    public bool $status = false; // Staff role status
+    public string $name = ''; // staff role name
+    public bool $status = false; // staff role status
     public array $selectedPermissions = []; // Selected permissions IDs
     public Collection $staff_permissions; // All available permissions
     public bool $selectAllPermissions = false; // Track if "Select All" checkbox is checked
@@ -213,7 +213,7 @@ class EditStaffRoleModal extends Component
             ]);
 
             // Dispatch success message
-            session()->flash('message', 'Staff Role updated successfully!');
+            session()->flash('message', 'staff Role updated successfully!');
         } catch (\Exception $e) {
             // Log the error action for auditing purposes
             AdminLog::create([
@@ -224,7 +224,7 @@ class EditStaffRoleModal extends Component
             ]);
 
             // Handle errors
-            session()->flash('error', 'There was an issue updating the Staff Role.');
+            session()->flash('error', 'There was an issue updating the staff Role.');
         }
     }
 
