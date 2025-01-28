@@ -53,12 +53,19 @@
                             alt="Profile Image"
                             class="h-16 w-16 rounded-full bg-gradient-to-r from-blue-500 to-green-500 p-[1px] object-cover" />
                         <label for="upload-photo" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer text-white text-xs hover:bg-opacity-60">
-                            Upload
                             <input
                                 id="upload-photo"
                                 type="file"
                                 class="hidden"
+                                wire:loading.attr="disabled"
                                 wire:model="photo" />
+
+                            @if(empty($photo))
+                            <span class="flex justify-center text-center">Upload</span>
+                            @else
+                            <x-loading-indicator wire:loading class="h-6 w-6" />
+                            @endif
+
                         </label>
                     </div>
 
@@ -135,7 +142,7 @@
                                     type="text"
                                     oninput="capitalizeInput(this)"
                                     class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
-                                @error('form.first_name') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+                                @error('form.first_name') <span class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span> @enderror
                             </div>
                             <div>
                                 <label class="block font-medium text-gray-700">Middle Name</label>
@@ -152,7 +159,7 @@
                                     type="text"
                                     oninput="capitalizeInput(this)"
                                     class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm capitalize">
-                                @error('form.last_name') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+                                @error('form.last_name') <span class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span> @enderror
                             </div>
                         </div>
 
@@ -169,7 +176,7 @@
                                     @endforeach
                                 </select>
                                 @error('form.sex')
-                                <span id="sexError" class="text-red-600 text-xs">{{ $message }}</span>
+                                <span id="sexError" class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div x-data="{ date: '' }" class="relative">
@@ -198,7 +205,7 @@
                                 </div>
 
                                 @error('form.date_of_birth')
-                                <span id="dobError" class="text-red-600 text-xs">{{ $message }}</span>
+                                <span id="dobError" class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
@@ -219,7 +226,7 @@
                             </select>
                         </div>
                         @error('form.user_role')
-                        <span id="dobError" class="text-red-600 text-xs">{{ $message }}</span>
+                        <span id="dobError" class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span>
                         @enderror
 
                         <div>
@@ -273,7 +280,7 @@
                                 placeholder="Enter Username"
                                 type="text"
                                 class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm">
-                            @error('form.username') <span class="text-red-600 text-xs">{{ $message }}</span> @enderror
+                            @error('form.username') <span class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span> @enderror
                         </div>
 
                         <!-- Password Field with Toggle Visibility -->
@@ -337,22 +344,14 @@
 
                 </div>
             </div>
-
-
-        </x-slot:body>
-
-
-        <x-slot:footer>
-
-            <div>
-                <!-- Display Success or Error Message -->
-                @if (session()->has('message'))
-                <div x-data="{ openSuccessModal: true }" x-cloak>
-                    <!-- Success Modal -->
-                    <div
-                        x-show="openSuccessModal"
-                        class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30 px-5"
-                        x-init="
+            <!-- Display Success or Error Message -->
+            @if (session()->has('message'))
+            <div x-data="{ openSuccessModal: true }" x-cloak>
+                <!-- Success Modal -->
+                <div
+                    x-show="openSuccessModal"
+                    class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30 px-5"
+                    x-init="
                                 lottie.loadAnimation({
                                     container: $refs.lottieAnimation,
                                     renderer: 'svg',
@@ -361,48 +360,52 @@
                                     path: '{{ asset('animations/Animation - 1732372548058.json') }}'
                                 });
                             ">
-                        <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full max-w-sm mx-10">
-                            <div class="bg-white rounded-lg shadow-lg">
+                    <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full max-w-sm mx-10">
+                        <div class="bg-white rounded-lg shadow-lg">
 
-                                <!-- Modal Body -->
-                                <div class="p-6 flex flex-col items-center space-y-2">
-                                    <!-- Success Message -->
-                                    <p class="text-center text-green-600 font-bold text-2xl">SUCCESS</p>
+                            <!-- Modal Body -->
+                            <div class="p-6 flex flex-col items-center space-y-2">
+                                <!-- Success Message -->
+                                <p class="text-center text-green-600 font-bold text-2xl">SUCCESS</p>
 
-                                    <!-- Lottie Animation Container -->
-                                    <div x-ref="lottieAnimation" class="w-28 sm:w-28 md:w-28 lg:w-32 max-w-[110px] mt-4 mb-0 drop-shadow-lg"></div>
+                                <!-- Lottie Animation Container -->
+                                <div x-ref="lottieAnimation" class="w-28 sm:w-28 md:w-28 lg:w-32 max-w-[110px] mt-4 mb-0 drop-shadow-lg"></div>
 
-                                    <!-- Success Message -->
-                                    <p class="text-center text-gray-600 text-sm">
-                                        <span>{{ session('message') }}</span>
-                                    </p>
-                                </div>
-
-                                <!-- Horizontal Line with Animation -->
-                                <div class="relative overflow-hidden shadow-lg w-full h-[4px]">
-                                    <img src="{{ asset('storage/images/line-successLoading.png') }}" alt="loading"
-                                        class="absolute top-0 left-0 w-full h-full object-cover animate-wipe-right">
-                                </div>
-
-                                <!-- Modal Footer -->
-                                <div @click="openSuccessModal = false" onclick="location.reload();" class="flex flex-col items-center px-6 py-2 bg-green-50 hover:bg-green-100 rounded-b-lg transition-all active:translate-y-[1px] active:shadow-none">
-                                    <button class="px-4 py-2 text-green-600 text-sm font-medium rounded">
-                                        Close
-                                    </button>
-                                </div>
-
+                                <!-- Success Message -->
+                                <p class="text-center text-gray-600 text-sm">
+                                    <span>{{ session('message') }}</span>
+                                </p>
                             </div>
+
+                            <!-- Horizontal Line with Animation -->
+                            <div class="relative overflow-hidden shadow-lg w-full h-[4px]">
+                                <img src="{{ asset('storage/images/line-successLoading.png') }}" alt="loading"
+                                    class="absolute top-0 left-0 w-full h-full object-cover animate-wipe-right">
+                            </div>
+
+                            <!-- Modal Footer -->
+                            <div @click="openSuccessModal = false" onclick="location.reload();" class="flex flex-col items-center px-6 py-2 bg-green-50 hover:bg-green-100 rounded-b-lg transition-all active:translate-y-[1px] active:shadow-none">
+                                <button class="px-4 py-2 text-green-600 text-sm font-medium rounded">
+                                    Close
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
+            </div>
+            @elseif (session()->has('error'))
+            <div class="text-green-500 text-xs flex justify-center text-center mt-3">
+                <div class="text-red-500 text-xs flex text-center">{{ session('error') }}</div>
+            </div>
+            @endif
+
+        </x-slot:body>
 
 
-                @elseif (session()->has('error'))
-                <div class="text-green-500 text-xs flex justify-center items-center">
-                    <div class="text-red-500 text-xs flex justify-center">{{ session('error') }}</div>
-                </div>
-                @endif
+        <x-slot:footer>
 
+            <div>
 
                 <div>
                     <!-- Buttons -->
@@ -426,10 +429,12 @@
                             <button
                                 type="button"
                                 wire:click.prevent="validateAndSubmit"
+                                wire:loading.attr="disabled"
                                 x-on:user_account_added.window="open = false"
                                 class="px-4 py-2 bg-gradient-to-b from-[#84D689] to-green-500 text-white text-sm rounded hover:bg-[#4AA76F] shadow-lg shadow-neutral-500/20 transition active:scale-95 hover:scale-105"
                                 x-show="tabs.findIndex(tab => tab.key === activeTab) === tabs.length - 1">
                                 Add Staff
+                                <x-loading-indicator wire:loading class="h-6 w-6" />&nbsp;
                             </button>
                         </div>
 
@@ -440,8 +445,11 @@
                             class="flex items-center px-4 py-2 bg-[#3AA76F] text-white text-sm rounded hover:bg-[#4AA76F] transition active:scale-95"
                             x-show="tabs.findIndex(tab => tab.key === activeTab) < tabs.length - 1">
                             <span class="mr-2">Next</span>
+                            
+                            <x-loading-indicator wire:loading class="h-6 w-6" x-show="false" />
+
                             <!-- Next Arrow Icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" x-show="!loading">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                             </svg>
                         </button>
