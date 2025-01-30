@@ -17,6 +17,8 @@ use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
+use App\Exports\StaffsDataExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ManageUsersTable extends Component
 {
@@ -107,6 +109,72 @@ class ManageUsersTable extends Component
         $this->resetPage();
     }
 
+    protected function getFilteredQuery()
+    {
+        $query = Staff::query()
+            ->select('staffs.*')
+            ->leftJoin('users', 'staffs.user_id', '=', 'users.id')
+            ->leftJoin('staff_roles_permissions', 'staffs.staff_roles_permissions_id', '=', 'staff_roles_permissions.id')
+            ->leftJoin('staff_roles', 'staff_roles_permissions.staff_role_id', '=', 'staff_roles.id')
+            ->with(['user', 'staffRolesPermissions', 'staffRolesPermissions.staffRole'])
+            ->when($this->search, function ($query) {
+                $query->where(function ($query) {
+                    $query->where('users.first_name', 'like', "%{$this->search}%")
+                        ->orWhere('users.middle_name', 'like', "%{$this->search}%")
+                        ->orWhere('users.last_name', 'like', "%{$this->search}%");
+                })->orWhere('username', 'like', '%' . $this->search . '%')
+                    ->orWhereHas('staffRolesPermissions.staffRole', function ($query) {
+                        $query->where('name', 'like', '%' . $this->search . '%');
+                    });
+            })
+            ->when($this->user_status_filter, function ($query) {
+                $query->where('staffs.status', $this->user_status_filter);
+            })
+            ->when($this->staff_roles_filter, function ($query) {
+                $query->whereHas('staffRolesPermissions', function ($query) {
+                    $query->where('staff_role_id', $this->staff_roles_filter);
+                });
+            });
+
+        // Apply sorting
+        if ($this->sort_by === 'username') {
+            $query->orderBy('staffs.username', $this->sort_direction);
+        } elseif (in_array($this->sort_by, ['first_name', 'last_name', 'middle_name'])) {
+            $query->orderBy('users.' . $this->sort_by, $this->sort_direction);
+        } elseif ($this->sort_by === 'staff_role') {
+            $query->orderBy('staff_roles.name', $this->sort_direction);
+        } else {
+            $query->orderBy('staffs.' . $this->sort_by, $this->sort_direction);
+        }
+
+        return $query;
+    }
+
+    public function exportStaffs()
+    {
+        try {
+            $filters = [
+                'status' => $this->user_status_filter,
+                'staff_role_id' => $this->staff_roles_filter,
+                'search' => $this->search,
+            ];
+
+            $staffs = $this->getFilteredQuery()->get();
+            
+            return Excel::download(
+                new StaffsDataExport($staffs, $filters),
+                'staffs_report_' . now()->format('Y-m-d_His') . '.xlsx'
+            );
+        } catch (\Exception $e) {
+            Log::error('Staff export failed: ' . $e->getMessage());
+            $this->dispatch('notification', [
+                'type' => 'error',
+                'title' => 'Export Failed',
+                'message' => 'Failed to export staff data. Please try again.'
+            ]);
+        }
+    }
+
     public function render(): Factory|View|Application
     {
         $allowedSortFields = ['id', 'first_name', 'last_name', 'status', 'username',  'staff_role'];
@@ -153,6 +221,7 @@ class ManageUsersTable extends Component
         
         // Paginate the results
         $staffs = $query->paginate($this->rowsPerPage);
+        $staffs = $this->getFilteredQuery()->paginate($this->rowsPerPage);
 
         // Return the view
         return view('livewire.pages.admin.manage-users-table', compact('staffs'));
