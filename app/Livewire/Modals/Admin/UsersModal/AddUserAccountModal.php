@@ -209,12 +209,14 @@ class AddUserAccountModal extends Component
             if ($result) {
                 Log::info('Form saved successfully.');
                 // Dispatch success message to session
-                session()->flash('message', 'Staff Account added successfully!');
+                session()->flash('feedback', 'Staff Account added successfully!');
+                session()->flash('feedback_type', 'success');
             }
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Validation failed.', ['errors' => $e->errors()]);
             // Dispatch error message to session
-            session()->flash('error', 'There was an issue adding the Staff Account.');
+            session()->flash('feedback', 'There was an issue adding the Staff Account.');
+            session()->flash('feedback_type', 'error');
         }
     }
 
