@@ -16,6 +16,7 @@ class Dashboard extends Component
     public $inactiveStaffCount;
     public $staffRolesData;
     public Collection $roles;
+    public $chartData;
 
     public array $filters = [
         'sort' => '',
@@ -30,6 +31,27 @@ class Dashboard extends Component
 
         $this->roles = StaffRole::whereHas('staffs')->get();
         $this->getStaffRolesData();
+
+        $this->chartData = [
+            'categories' => [10, 20, 30, 40, 50], // Example x-axis values (Numbers)
+            'series' => [
+                [
+                    'name' => 'Alligator Crack',
+                    'data' => [5, 10, 15, 10, 20],
+                    'color' => '#FFAD00',
+                ],
+                [
+                    'name' => 'Pothole',
+                    'data' => [8, 14, 10, 12, 18],
+                    'color' => '#7E91FF',
+                ],
+                [
+                    'name' => 'Cracks',
+                    'data' => [3, 6, 12, 9, 14],
+                    'color' => '#4AA76F',
+                ]
+            ]
+        ];
     }
 
     public function getStaffRolesData(): void

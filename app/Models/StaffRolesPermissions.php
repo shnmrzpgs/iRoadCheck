@@ -43,6 +43,6 @@ class StaffRolesPermissions extends Model
 
     public function permissions(): BelongsToMany
     {
-        return $this->belongsToMany(StaffPermission::class, 'staff_roles_permissions', 'staff_role_id', 'staff_permission_id');
+        return $this->belongsToMany(StaffPermission::class,  'staff_roles_permissions', 'staff_role_id', 'staff_permission_id',);
     }
 }

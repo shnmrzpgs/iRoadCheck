@@ -344,62 +344,12 @@
 
                 </div>
             </div>
-            <!-- Display Success or Error Message -->
-            @if (session()->has('message'))
-            <div x-data="{ openSuccessModal: true }" x-cloak>
-                <!-- Success Modal -->
-                <div
-                    x-show="openSuccessModal"
-                    class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30 px-5"
-                    x-init="
-                                lottie.loadAnimation({
-                                    container: $refs.lottieAnimation,
-                                    renderer: 'svg',
-                                    loop: true,
-                                    autoplay: true,
-                                    path: '{{ asset('animations/Animation - 1732372548058.json') }}'
-                                });
-                            ">
-                    <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full max-w-sm mx-10">
-                        <div class="bg-white rounded-lg shadow-lg">
 
-                            <!-- Modal Body -->
-                            <div class="p-6 flex flex-col items-center space-y-2">
-                                <!-- Success Message -->
-                                <p class="text-center text-green-600 font-bold text-2xl">SUCCESS</p>
-
-                                <!-- Lottie Animation Container -->
-                                <div x-ref="lottieAnimation" class="w-28 sm:w-28 md:w-28 lg:w-32 max-w-[110px] mt-4 mb-0 drop-shadow-lg"></div>
-
-                                <!-- Success Message -->
-                                <p class="text-center text-gray-600 text-sm">
-                                    <span>{{ session('message') }}</span>
-                                </p>
-                            </div>
-
-                            <!-- Horizontal Line with Animation -->
-                            <div class="relative overflow-hidden shadow-lg w-full h-[4px]">
-                                <img src="{{ asset('storage/images/line-successLoading.png') }}" alt="loading"
-                                    class="absolute top-0 left-0 w-full h-full object-cover animate-wipe-right">
-                            </div>
-
-                            <!-- Modal Footer -->
-                            <div @click="openSuccessModal = false" onclick="location.reload();" class="flex flex-col items-center px-6 py-2 bg-green-50 hover:bg-green-100 rounded-b-lg transition-all active:translate-y-[1px] active:shadow-none">
-                                <button class="px-4 py-2 text-green-600 text-sm font-medium rounded">
-                                    Close
-                                </button>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @elseif (session()->has('error'))
+            @if (session()->has('error'))
             <div class="text-green-500 text-xs flex justify-center text-center mt-3">
                 <div class="text-red-500 text-xs flex text-center">{{ session('error') }}</div>
             </div>
             @endif
-
         </x-slot:body>
 
 
@@ -445,7 +395,7 @@
                             class="flex items-center px-4 py-2 bg-[#3AA76F] text-white text-sm rounded hover:bg-[#4AA76F] transition active:scale-95"
                             x-show="tabs.findIndex(tab => tab.key === activeTab) < tabs.length - 1">
                             <span class="mr-2">Next</span>
-                            
+
                             <x-loading-indicator wire:loading class="h-6 w-6" x-show="false" />
 
                             <!-- Next Arrow Icon -->
@@ -467,4 +417,106 @@
         </x-slot:footer>
 
     </x-admin.crud-modal-content-base>
+
+    <!--Feedback Messages-->
+    @if (session()->has('feedback'))
+    <div
+        x-data="{ openModal: true }"
+        x-init="
+            setTimeout(() => {
+                openModal = false;
+                setTimeout(() => location.reload(), 300); // Reload the page after the notification disappears
+            }, 3000); // Auto-hide after 3 seconds
+
+            @if (session('feedback_type') === 'success')
+                lottie.loadAnimation({
+                    container: $refs.lottieAnimation,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    path: '{{ asset('animations/Animation - 1732372548058.json') }}'
+                });
+            @elseif (session('feedback_type') === 'info')
+                lottie.loadAnimation({
+                    container: $refs.lottieAnimation,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    path: '{{ asset('animations/Animation - 1737008068327.json') }}'
+                });
+            @elseif (session('feedback_type') === 'error')
+                lottie.loadAnimation({
+                    container: $refs.lottieAnimation,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    path: '{{ asset('animations/Animation - 1732451860692.json') }}'
+                });
+            @endif"
+        x-cloak>
+        <!-- Notification -->
+        <div
+            x-show="openModal"
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0 -translate-y-2"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 translate-y-0"
+            x-transition:leave-end="opacity-0 -translate-y-2"
+            class="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-md border-l-4"
+            :class="{
+                'border-green-500': '{{ session('feedback_type') }}' === 'success',
+                'border-blue-500': '{{ session('feedback_type') }}' === 'info',
+                'border-red-500': '{{ session('feedback_type') }}' === 'error',
+            }">
+            <!-- Content -->
+            <div class="p-4 flex items-center space-x-4">
+                <!-- Lottie Animation -->
+                <div class="flex-shrink-0">
+                    <div x-ref="lottieAnimation" class="w-12 h-12"></div>
+                </div>
+
+                <!-- Message -->
+                <div>
+                    <p class="font-bold text-lg"
+                        :class="{
+                            'text-green-600': '{{ session('feedback_type') }}' === 'success',
+                            'text-blue-600': '{{ session('feedback_type') }}' === 'info',
+                            'text-red-600': '{{ session('feedback_type') }}' === 'error',
+                       }">
+                        {{ strtoupper(session('feedback_type')) }}
+                    </p>
+                    <p class="text-sm text-gray-700">
+                        {!! session('feedback') !!}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="mx-5 mb-3 relative h-1 bg-gray-200">
+                <div
+                    class="absolute top-0 left-0 h-full"
+                    :class="{
+                        'bg-green-500': '{{ session('feedback_type') }}' === 'success',
+                        'bg-blue-500': '{{ session('feedback_type') }}' === 'info',
+                        'bg-red-500': '{{ session('feedback_type') }}' === 'error',
+                    }"
+                    style="animation: progress 4s linear;"></div>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    <!-- Progress Bar Animation -->
+    <style>
+        @keyframes progress {
+            from {
+                width: 100%;
+            }
+
+            to {
+                width: 0;
+            }
+        }
+    </style>
 </div>
