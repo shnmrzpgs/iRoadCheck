@@ -15,7 +15,7 @@ class StaffLogFactory extends Factory
     public function definition(): array
     {
         return [
-//            'staff_id' => Staff::factory(),
+//            'staff_id' => staff::factory(),
 //            'action' => $this->faker->word(),
 //            'dateTime' => Carbon::create(rand(2000, 2023), rand(1, 12), rand(1, 28))->format('Y-m-d'),
         ];

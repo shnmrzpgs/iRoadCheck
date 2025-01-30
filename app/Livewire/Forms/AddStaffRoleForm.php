@@ -16,10 +16,10 @@ class AddStaffRoleForm extends Component
     // Collection for permission labels and IDs.
     public Collection $staff_permissions;
 
-    // String Staff Role Name.
+    // String staff Role Name.
     public string $name = '';
 
-    // Staff Role Status (Enabled and Disabled)
+    // staff Role Status (Enabled and Disabled)
     public bool $status = true;
 
     // Array of selected permission IDs.

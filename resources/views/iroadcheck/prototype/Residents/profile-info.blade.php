@@ -58,7 +58,7 @@
                                            onchange="uploadProfilePicture(event)">
                                 </div>
 
-                                <!-- User Name -->
+                                <!-- Staff Name -->
                                 <div class="text-left">
                                     <p class="text-lg md:text-xl lg:text-2xl text-[F5F5F5] font-semibold">Sheena Mariz Pagas</p>
                                     <p class="text-xs md:text-sm font-normal italic text-gray-100">Resident</p>

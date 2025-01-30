@@ -54,7 +54,7 @@ class Notifications extends Component
 
         // Retrieve the staff details associated with the action (assuming the notification contains this information)
         $staff = Staff::find($notification->admin_user_id); // Assuming you store admin user id in the notification
-        $staffName = $staff->username ?? 'Unknown Staff';
+        $staffName = $staff->username ?? 'Unknown staff';
         $staffRole = $staff->staff->staff_roles->name ?? 'Unknown Role'; // Adjust based on your relationships
 
         // Get the report details
@@ -125,6 +125,7 @@ class Notifications extends Component
 
         $notifications = $query->orderByDesc('created_at')->get();
 
+        session()->forget('hideSearchBar');
         return view('livewire.pages.admin.notifications', ['notifications' => $notifications]);
     }
 

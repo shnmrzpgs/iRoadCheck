@@ -30,7 +30,7 @@ class ManageUsersTable extends Component
     public Collection $user_statuses;
     public Collection $roles;
 
-    // User account to view
+    // Staff account to view
     public ?Staff $staff_account_to_viewed = null;
     public ?Staff $staff_account_to_edited = null;
 
@@ -107,7 +107,7 @@ class ManageUsersTable extends Component
         $this->resetPage();
     }
 
-    public function render(): Factory|View|Application
+    public function render():  Factory|Application|View|\Illuminate\View\View
     {
         $allowedSortFields = ['id', 'first_name', 'last_name', 'status', 'username',  'staff_role'];
         if (!in_array($this->sort_by, $allowedSortFields)) {
@@ -150,9 +150,11 @@ class ManageUsersTable extends Component
         } else {
             $query->orderBy('staffs.' . $this->sort_by, $this->sort_direction);
         }
-        
+
         // Paginate the results
         $staffs = $query->paginate($this->rowsPerPage);
+
+        session()->forget('hideSearchBar');
 
         // Return the view
         return view('livewire.pages.admin.manage-users-table', compact('staffs'));

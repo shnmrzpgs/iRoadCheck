@@ -40,29 +40,28 @@ class DatabaseSeeder extends Seeder
                 'date_of_birth' => '1995-02-02',
                 'sex' => 'female',
                 'username' => null, // No username for resident
-//                'phone' => '09261581814',
                 'email' => 'resident@example.com',
                 'password' => Hash::make('password'), // Hashing the password
-                'user_type' => 2, // User type for resident
-                // 'status' => 'Active', // User status for resident
+                'user_type' => 2, // Staff type for resident
                 'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            // [
-            //     'first_name' => 'Bright',
-            //     'middle_name' => 'D.',
-            //     'last_name' => 'PatcherKo',
-            //     'date_of_birth' => '1995-02-05',
-            //     'sex' => 'female',
-            //     'email' => 'staff@example.com',
-            //     'password' => Hash::make('password'), // Hashing the password
-            //     'user_type' => 3, // User type for resident
-            //     // 'status' => 'Active', // User status for resident
-            //     'remember_token' => null,
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ],
+//            [
+//                'first_name' => 'Sheena Mariz',
+//                'middle_name' => 'D.',
+//                'last_name' => 'PatcherKo',
+//                'date_of_birth' => '1995-02-05',
+//                'sex' => 'female',
+//                'username' => 'sheena_staff', // Staff username
+//                'email' => null, // No email for staff
+//                'password' => Hash::make('password'), // Hashing the password
+//                'user_type' => 3, // User type of staff
+//                'remember_token' => null,
+//                'created_at' => now(),
+//                'updated_at' => now(),
+//            ],
+
         ]);
 
         DB::table('severities')->insert([

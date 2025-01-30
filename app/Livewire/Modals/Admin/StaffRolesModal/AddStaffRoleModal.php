@@ -168,7 +168,7 @@ class AddStaffRoleModal extends Component
             $this->clear();
 
             // Dispatch success message to session
-            session()->flash('message', 'Staff Role added successfully!');
+            session()->flash('message', 'staff Role added successfully!');
         } catch (\Exception $e) {
             // Log the error action for auditing purposes
             AdminLog::create([
@@ -179,7 +179,7 @@ class AddStaffRoleModal extends Component
             ]);
 
             // Dispatch error message to session
-            session()->flash('error', 'There was an issue adding the Staff Role.');
+            session()->flash('error', 'There was an issue adding the staff Role.');
         }
     }
 

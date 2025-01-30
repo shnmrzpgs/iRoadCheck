@@ -101,7 +101,7 @@ class ProfileUpdate extends Component
 //
 //        if ($user->email !== $this->email) {
 //            // Check for duplicate email
-//            if (User::where('email', $this->email)->exists()) {
+//            if (Staff::where('email', $this->email)->exists()) {
 //                $this->dispatch('duplicate_email');
 //
 //                return;

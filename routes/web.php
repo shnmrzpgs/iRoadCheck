@@ -13,25 +13,10 @@ require __DIR__ . '/admin/web.php';
 
 require __DIR__ . '/resident/residentRoute.php';
 
-require __DIR__ . '/user/userRoute.php';
+require __DIR__ . '/staff/auth.php';
+require __DIR__ . '/staff/userRoute.php';
 
-//Route:: get('/client/auth/sign-in', function () {
-//    return view('prototype.client.enter-email');
-//})->name('sign-in');
-//
-//Route::post(
-//    RoutePath::for('client-email', '/client/auth/sign-in'),
-//    [ClientAuth::class, 'EmailSubmit'])->name('client-email');
-
-
-//practice
-
-
+// Search Bar route
 Route::get('/search', function () {
     return view('components.search-bar');
 })->name('search');
-
-// admin Routes
-//Route::get('/admin/activity-logs', function () {
-//    return view('iroadcheck.prototype.Admin.activity-logs');
-//})->name('admin.activity-logs');

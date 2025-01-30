@@ -24,7 +24,7 @@ class AdminLogFactory extends Factory
     public function definition(): array
     {
         return [
-//            'admin_id' => User::factory(),
+//            'admin_id' => Staff::factory(),
 //            'action' => $this->faker->word(),
 //            'description' => $this->faker->sentence(),
 //            'date' => Carbon::create(rand(2000, 2023), rand(1, 12), rand(1, 28))->format('Y-m-d'),

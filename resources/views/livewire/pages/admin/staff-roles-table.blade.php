@@ -112,7 +112,7 @@
                                 </td>
                                 <td class="pr-5 py-3 text-xs">
                                     <div class="flex">
-                                        <!-- Button to Open Edit Staff Role Modal -->
+                                        <!-- Button to Open Edit staff Role Modal -->
                                         <button class="flex items-center text-orange-500 hover:text-orange-600 font-medium text-xs transition active:scale-95 hover:bg-orange-100 hover:shadow py-1 px-3.5 rounded-md"
                                                 wire:click="editStaffRole({{ $staffRole->id }})"
                                                 wire:loading.attr="disabled"
@@ -125,7 +125,7 @@
                                             <x-loading-indicator class="text-orange-500 w-4 h-4" x-cloak x-show="loading"/>
                                         </button>
 
-                                        <!-- Button to Open View Staff Role Modal -->
+                                        <!-- Button to Open View staff Role Modal -->
                                         <button class="flex items-center text-[#3251FF] hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95 hover:bg-blue-100 hover:shadow py-1 px-3 rounded-md"
                                                 wire:click="viewStaffRole({{ $staffRole->id }})"
                                                 wire:loading.attr="disabled"
@@ -164,14 +164,14 @@
             </x-slot:pagination_container>
 
             <x-slot:modal_container>
-                <!-- Edit User Modal -->
+                <!-- Edit Staff Modal -->
                 <livewire:modals.admin.staff-roles-modal.edit-staff-role-modal
                     wire:model.live="staff_role_to_edited"
                     :staffRoles="$staffRoles"
                     @staffRole_updated="$refresh"
                 />
 
-                <!-- View User Modal -->
+                <!-- View Staff Modal -->
                 <livewire:modals.admin.staff-roles-modal.view-staff-role-modal
                     wire:model.live="staff_role_to_viewed"
                 />

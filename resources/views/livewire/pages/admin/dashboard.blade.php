@@ -138,7 +138,7 @@
                             </select>
                         </div>
 
-                        <!-- User Type Filter -->
+                        <!-- Staff Type Filter -->
                         <div class="relative inline-flex rounded-[4px] border hover:shadow-md custom-select"
                             :class="{
                             'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': filters.staffRole !== '',
@@ -158,7 +158,7 @@
 
                     <!-- Road Maintenance Workers Data -->
                     <!-- Bar Graph Section -->
-                    <div class="flex flex-col xl:flex-row mb-2 px-3 pb-3 gap-2" x-data="{ 
+                    <div class="flex flex-col xl:flex-row mb-2 px-3 pb-3 gap-2" x-data="{
                         selectedRole: null,
                         staffData: @entangle('staffRolesData'),
                         maxCount: function() {
@@ -191,7 +191,7 @@
                         </div>
 
 
-                        <!-- Staff List Section -->
+                        <!-- staff List Section -->
                         <div class="w-full xl:w-3/10 mx-0 xl:mx-4 bg-[#FBFBFB] h-[50vh] drop-shadow p-4 mt-4 xl:-mt-8">
                             <div class="inline-block w-full min-h-[48vh] max-h-[48vh] overflow-y-auto px-2 align-middle z-0">
                                 <h3 class="font-semibold mb-2 text-gray-700" x-text="selectedRole ? selectedRole.name : 'All Staffs'"></h3>

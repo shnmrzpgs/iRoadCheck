@@ -4,7 +4,7 @@ namespace App\Livewire\Pages\Admin;
 
 use App\Exports\ResidentLogsExport;
 use App\Models\ResidentLog;
-use App\Models\User; // Assuming User model for resident
+use App\Models\User; // Assuming Staff model for resident
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -145,6 +145,7 @@ class ResidentLogsTable extends Component
     {
         $residentLogs = $this->getFilteredQuery()->paginate($this->rowsPerPage);
 
+        session()->forget('hideSearchBar');
         return view('livewire.pages.admin.resident-logs-table', [
             'residentLogs' => $residentLogs,
         ]);
