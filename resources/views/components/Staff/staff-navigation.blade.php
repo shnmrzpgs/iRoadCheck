@@ -186,7 +186,7 @@
                 </x-slot:page_title_and_search_bar>
 
                 <x-slot:notification_dropdown>
-                    <livewire:admin.notification-dropdown/>
+{{--                    <livewire:admin.notification-dropdown/>--}}
                 </x-slot:notification_dropdown>
 
                 <x-slot:admin_profile_name>
@@ -218,7 +218,6 @@
             </main>
 
         </div>
-
 
         <script>
             function logout() {

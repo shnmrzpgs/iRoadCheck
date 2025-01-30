@@ -207,12 +207,12 @@
             </x-slot:pagination_container>
 
             <x-slot:modal_container>
-                <!-- Edit User Modal -->
+                <!-- Edit Staff Modal -->
                 <livewire:modals.admin.users-modal.edit-user-account-modal
                     @staff_account_updated="$refresh" />
 
 
-                <!-- View User Modal -->
+                <!-- View Staff Modal -->
                 <livewire:modals.admin.users-modal.view-user-account-modal
                     wire:model="staff_account_to_viewed" />
             </x-slot:modal_container>

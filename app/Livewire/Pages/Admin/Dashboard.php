@@ -3,6 +3,9 @@ namespace App\Livewire\Pages\Admin;
 
 use App\Models\Staff;
 use App\Models\StaffRole;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
@@ -25,7 +28,7 @@ class Dashboard extends Component
         $this->updateStaffCount();
         $this->activeStaffCount = Staff::where('status', 'Active')->count();
         $this->inactiveStaffCount = Staff::where('status', 'Inactive')->count();
-        
+
         $this->roles = StaffRole::whereHas('staffs')->get();
         $this->getStaffRolesData();
 
@@ -61,15 +64,15 @@ class Dashboard extends Component
         }
 
         $staffRoles = $query->get();
-    
+
         $rolesData = $staffRoles->map(function ($role) {
             // Get all staff members for this role
             $staffMembers = Staff::whereHas('staffRolesPermissions', function ($query) use ($role) {
                 $query->where('staff_role_id', $role->id);
             })->with('user')->get();
-    
+
             $count = $staffMembers->count();
-    
+
             if ($count > 0) {
                 return [
                     'name' => $role->name,
@@ -86,17 +89,17 @@ class Dashboard extends Component
                     })->values()->all(),
                 ];
             }
-    
+
             return null;
         })->filter()->values();
-    
+
         // Sort roles by count based on filter
         if ($this->filters['sort'] === 'asc') {
             $rolesData = $rolesData->sortBy('count');
         } elseif ($this->filters['sort'] === 'desc') {
             $rolesData = $rolesData->sortByDesc('count');
         }
-    
+
         $this->staffRolesData = $rolesData->values();
     }
 
@@ -119,8 +122,10 @@ class Dashboard extends Component
         $this->getStaffRolesData();
     }
 
-    public function render()
+
+    public function render():  Factory|Application|View|\Illuminate\View\View
     {
+        session()->forget('hideSearchBar');
         return view('livewire.pages.admin.dashboard');
     }
 }

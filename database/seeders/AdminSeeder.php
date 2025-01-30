@@ -33,7 +33,7 @@ class AdminSeeder extends Seeder
                 'username' => 'admin', // Admin username
                 'email' => null, // No email for admin
                 'password' => Hash::make('hOwArD123!'), // Hashing the password
-                'user_type' => 1, // User type for admin
+                'user_type' => 1, // Staff type for admin
                 'remember_token' => null,
                 'created_at' => now(),
                 'updated_at' => now(),

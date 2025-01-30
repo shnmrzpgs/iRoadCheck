@@ -58,7 +58,7 @@ class NotificationDropdown extends Component
         $parsed_notification = [
             'title' => $notification->title,
             'message' => $notification->message,
-            'staff_name' => $notification->staff->username ?? 'Unknown Staff',
+            'staff_name' => $notification->staff->username ?? 'Unknown staff',
             'staff_role' => $notification->staff->staff_roles->name ?? 'Unknown Role',
             'report_details' => [
                 'defect' => $notification->report->defect,
@@ -87,14 +87,17 @@ class NotificationDropdown extends Component
     // Helper function to get notification count formatted
     private function getStringedNotificationCount(): string
     {
-        $count = $this->notifications->count();
+        $count = $this->notifications->count(); // Ensure $this->notifications is correctly defined
 
-        if ($count > 9) {
+        // Return "99+" only if the count exceeds 99
+        if ($count > 99) {
             return '99+';
         }
 
-        return (string)$count;
+        // Otherwise, return the actual count as a string
+        return (string) $count;
     }
+
 
     public function render(): Factory|View|Application|\Illuminate\View\View
     {

@@ -39,7 +39,7 @@ class AdminLog extends Model
 
     // Scopes
 
-    // Relationship with the Admin or User model
+    // Relationship with the Admin or Staff model
     public function admin(): BelongsTo
     {
         return $this->belongsTo(User::class, 'admin_id'); // Ensure this matches your setup

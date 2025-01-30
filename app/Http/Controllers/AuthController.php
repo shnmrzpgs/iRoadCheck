@@ -30,26 +30,28 @@ class AuthController extends Controller
 
     }
 
-//    public function StaffSignIn(Request $request)
-//    {
-//        // Validate the incoming request data for staff and residents
-//        $request->validate([
-//            'email' => 'required|email', // Staff/resident login by email
-//            'password' => 'required|min:8',
-//        ]);
-//
-//        // Attempt to log the staff/resident in using email and password
-//        if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'user_type' => 3])) {
-//            return redirect()->route('staff.dashboard'); // Adjust the route as needed
-//        }
-//
-//        // If authentication fails
-//        throw ValidationException::withMessages([
-//            'email' => 'The provided credentials do not match our records.',
-//            'password' => 'The provided password is incorrect.',
-//        ]);
-//    }
-//
+    public function StaffSignIn(Request $request)
+    {
+
+        // Validate the incoming request data for staff and residents
+        $request->validate([
+            'username' => 'required', // staff login by email
+            'password' => 'required|min:8',
+        ]);
+
+        //kuhaon generated password bycrypt then e convert into password
+        // Attempt to log the staff/resident in using email and password
+        if (Auth::attempt(['username' => $request->username, 'password' => $request->password, 'user_type' => 3])) {
+            return redirect()->route('staff.dashboard'); // Adjust the route as needed
+        }
+
+        // If authentication fails
+        throw ValidationException::withMessages([
+            'username' => 'The provided credentials do not match our records.',
+            'password' => 'The provided password is incorrect.',
+        ]);
+    }
+
     public function showLoginForm()
     {
         return view('auth.login');  // Adjust to your actual login view

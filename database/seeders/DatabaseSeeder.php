@@ -67,8 +67,22 @@ class DatabaseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+//            [
+//                'first_name' => 'Sheena Mariz',
+//                'middle_name' => 'D.',
+//                'last_name' => 'PatcherKo',
+//                'date_of_birth' => '1995-02-05',
+//                'sex' => 'female',
+//                'username' => 'sheena_staff', // Staff username
+//                'email' => null, // No email for staff
+//                'password' => Hash::make('password'), // Hashing the password
+//                'user_type' => 3, // User type of staff
+//                'remember_token' => null,
+//                'created_at' => now(),
+//                'updated_at' => now(),
+//            ],
+
         ]);
-        
 
         DB::table('severities')->insert([
             [

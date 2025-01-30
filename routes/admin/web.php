@@ -7,34 +7,6 @@ use Laravel\Fortify\RoutePath;
 
 Route::group(['middleware' => 'AuthAdmin'], function () {
 
-//    Route::get(
-//        RoutePath::for('admin-dashboard', '/admin/dashboard'),
-//        [DashboardController::class, 'showDashboard'])->name('admin-dashboard');
-//
-//    Route::get(
-//        RoutePath::for('admin-manage-user', '/admin/manage-user'),
-//        [ManageUserController::class, 'showManageUser'])->name('admin-manage-user');
-
-//    Route::get(
-//        RoutePath::for('admin-user-type', '/admin/user-type'),
-//        [UserRoleController::class, 'showUserType'])->name('admin-user-type');
-//
-//    Route::get(
-//        RoutePath::for('admin-activity-logs', '/admin/activity-logs'),
-//        [AuditLogsController::class, 'showActivityLogs'])->name('admin-activity-logs');
-//
-//    Route::get(
-//        RoutePath::for('admin-notification', '/admin/notification'),
-//        [NotificationController::class, 'showNotification'])->name('admin-notification');
-
-    /**
-     * Profile Routes
-     */
-//    Route::group(['prefix' => 'profile/'], function () {
-//        Route::get('/admin/profile-edit', App\Http\Controllers\Admin\ProfileController::class)
-//            ->name('admin.profile.profile-edit');
-//    });
-
     Route::get('/admin/dashboard', App\Http\Controllers\admin\DashboardController::class)
         ->name('admin.dashboard');
 
@@ -66,15 +38,6 @@ Route::group(['middleware' => 'AuthAdmin'], function () {
 
     // Login route (make sure this is defined)
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-
-
-
-    //not included routes
-    Route::get('/admin/user-role', App\Http\Controllers\admin\UserRoleController::class)
-        ->name('admin.user-role-table');
-
-    Route::get('/admin/activity-logs', App\Http\Controllers\admin\AuditLogsController::class)
-        ->name('admin.activity-logs-table');
 
 });
 

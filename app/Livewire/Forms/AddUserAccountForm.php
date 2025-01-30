@@ -43,7 +43,7 @@ class AddUserAccountForm extends Form
     public $form;
     public $photo_path;
 
-   
+
     public function clear(): void
     {
         $this->reset([
@@ -85,7 +85,7 @@ class AddUserAccountForm extends Form
 
             DB::beginTransaction();
 
-            // Create the User record
+            // Create the Staff record
             $user = User::create([
                 'first_name' => $this->first_name,
                 'middle_name' => $this->middle_name,
@@ -93,8 +93,8 @@ class AddUserAccountForm extends Form
                 'sex' => $this->sex,
                 'date_of_birth' => $this->date_of_birth,
                 'password' => bcrypt($generatedPassword),
-                'generated_password' => $generatedPassword, 
-                'user_type' => 3, // Staff type
+                'generated_password' => $generatedPassword,
+                'user_type' => 3, // staff type
                 'status' => $this->user_status ? StaffStatus::ACTIVE : StaffStatus::INACTIVE,
                 // 'email_verified_at' => now(),
             ]);
@@ -115,7 +115,7 @@ class AddUserAccountForm extends Form
                 $this->saveProfilePhoto($this->photo_path, $user);
             }
 
-            // Create a corresponding Staff record
+            // Create a corresponding staff record
             $staff = Staff::create([
                 'user_id' => $user->id,
                 'staff_roles_permissions_id' => $staffRolePermission->id, // Assuming $this->user_role maps to a valid staff role

@@ -140,7 +140,7 @@ class AddUserAccountModal extends Component
         // Fetch permissions for the selected role
         $role = StaffRole::find($roleId);
         $this->selectedPermissions = $role ? $role->permissions->pluck('label')->toArray() : [];
-        Log::info('User selected role ID: ' . $roleId);
+        Log::info('Staff selected role ID: ' . $roleId);
     }
 
     public function rules(): array

@@ -35,7 +35,7 @@ class StaffRolesTable extends Component
     public string $sort_by = 'id';
     public string $sort_direction = 'asc';
 
-    // Staff Role Modals to view and edit
+    // staff Role Modals to view and edit
     public ?StaffRole $staff_role_to_viewed = null;
 
     public ?StaffRole $staff_role_to_edited = null;
@@ -139,6 +139,7 @@ class StaffRolesTable extends Component
         // Paginate the results
         $staffRoles = $staffRoleQuery->paginate($this->rowsPerPage);
 
+        session()->forget('hideSearchBar');
         return view('livewire.pages.admin.staff-roles-table', [
             'staffRoles' => $staffRoles,
         ]);

@@ -20,7 +20,6 @@
                         <img src="{{ asset('storage/icons/user.svg') }}" class="absolute left-2.5 top-3 h-4 w-4" alt="user">
                     </div>
 
-
                     <!-- Password -->
                     <div class="relative">
                         <input :type="showPassword ? 'text' : 'password'" class="rounded border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] text-sm text-gray-600 w-full py-2 pl-10 pr-10 bg-[#FFFFF9]"
@@ -56,13 +55,9 @@
                         </div>
                     @endif
 
-
                     <button class="w-3/4 hover:scale-105 bg-gradient-to-r from-[#5A915E] to-[#F8A15E] hover:drop-shadow-md text-white p-3 font-semibold my-6 rounded-full hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier (0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">Log In</button>
-                    <a href="{{ route('admin.forgot-password-send-code') }}" class="hover:font-medium text-[#6AA76F] text-[12px] font-light italic underline mt-2 mb-1">Forgot Password?</a>
                 </form>
-
             </div>
         </div>
-
 </x-app-layout>
 

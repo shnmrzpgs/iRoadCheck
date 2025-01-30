@@ -32,7 +32,7 @@ class ManageUsersTable extends Component
     public Collection $user_statuses;
     public Collection $roles;
 
-    // User account to view
+    // Staff account to view
     public ?Staff $staff_account_to_viewed = null;
     public ?Staff $staff_account_to_edited = null;
 
@@ -218,9 +218,11 @@ class ManageUsersTable extends Component
         } else {
             $query->orderBy('staffs.' . $this->sort_by, $this->sort_direction);
         }
-        
+
         // Paginate the results
         $staffs = $query->paginate($this->rowsPerPage);
+
+        session()->forget('hideSearchBar');
         $staffs = $this->getFilteredQuery()->paginate($this->rowsPerPage);
 
         // Return the view

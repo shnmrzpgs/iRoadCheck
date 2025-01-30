@@ -29,7 +29,7 @@ class ReportController extends Controller
 
         // Get the authenticated staff details
         $staff = auth()->user()->staff; // Assuming `auth()->user()->staff` fetches the staff model
-        $staffName = $staff->username ?? 'Unknown Staff';
+        $staffName = $staff->username ?? 'Unknown staff';
         $staffRole = $staff->staffRolesPermissions->role_name ?? 'Unknown Role'; // Adjust based on your relationships
 
         // Create a notification for the admin
@@ -42,7 +42,7 @@ class ReportController extends Controller
             'is_read' => false,
         ]);
         // Redirect back with success message
-        return redirect()->route('User.manage-tagging')
+        return redirect()->route('Staff.manage-tagging')
             ->with('message', 'Report status updated successfully!');
     }
     public function submitReport(Request $request)

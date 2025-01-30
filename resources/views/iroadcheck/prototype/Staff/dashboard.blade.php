@@ -164,7 +164,7 @@
                                 </select>
                             </div>
 
-                            <!-- User Type Filter -->
+                            <!-- Staff Type Filter -->
                             <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
                                  :class="{
                                 'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.userType !== '',  /* Active state */
@@ -197,7 +197,7 @@
                         <!-- Road maintenance workers data -->
                         <div class="flex mb-2 px-3 pb-3 ">
 
-                            <!-- Bar Graph for the Number of Counts of User types -->
+                            <!-- Bar Graph for the Number of Counts of Staff types -->
                             <div class="w-7/10 max-h-[330px] overflow-auto">
                                 <!-- Charts Section -->
                                 <div class="rounded-full">
@@ -321,7 +321,7 @@
                     offsetX: 20,
                 },
                 xaxis: {
-                    categories: ["Patcher", "User Type 2", "User Type 3", "User Type 4", "User Type 5", "User Type 6"],
+                    categories: ["Patcher", "Staff Type 2", "Staff Type 3", "Staff Type 4", "Staff Type 5", "Staff Type 6"],
                     labels: {
                         show: false
                     }

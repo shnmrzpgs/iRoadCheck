@@ -129,6 +129,7 @@ class SystemLogsTable extends Component
         $systemLogs = $this->getFilteredQuery()
             ->paginate($this->rowsPerPage);
 
+        session()->forget('hideSearchBar');
         return view('livewire.pages.admin.system-logs-table', [
             'systemLogs' => $systemLogs,
         ]);

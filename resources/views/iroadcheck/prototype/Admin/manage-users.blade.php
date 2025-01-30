@@ -66,7 +66,7 @@
                 },
                 validateAndSubmit() {
                     if (Object.values(this.formData).every(value => value.trim())) {
-                        alert('User successfully added!');
+                        alert('Staff successfully added!');
                         this.showAddModal = false;
                     } else {
                         alert('Please fill in all required fields.');
@@ -100,16 +100,16 @@
                 openAddSuccessModal: false,
                 showViewModal: false,
                 users: [
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'john@example.com', userType: 'admin', status: 'Disabled', firstName: 'John', middleName: 'A.', lastName: 'Doe', gender: 'Male' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'jane@example.com', userType: 'User', status: 'Enabled', firstName: 'Jane', middleName: '', lastName: 'Smith', gender: 'Female' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'michael.brown@example.com', userType: 'Moderator', status: 'Enabled', firstName: 'Michael', middleName: 'T.', lastName: 'Brown', gender: 'Male' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'emily.davis@example.com', userType: 'User', status: 'Enabled', firstName: 'Emily', middleName: 'R.', lastName: 'Davis', gender: 'Female' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'chris.johnson@example.com', userType: 'admin', status: 'Disabled', firstName: 'Chris', middleName: '', lastName: 'Johnson', gender: 'Non-binary' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'sarah.wilson@example.com', userType: 'User', status: 'Disabled', firstName: 'Sarah', middleName: 'E.', lastName: 'Wilson', gender: 'Female' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'david.martinez@example.com', userType: 'User', status: 'Enabled', firstName: 'David', middleName: 'L.', lastName: 'Martinez', gender: 'Male' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'sophia.garcia@example.com', userType: 'Moderator', status: 'Enabled', firstName: 'Sophia', middleName: '', lastName: 'Garcia', gender: 'Female' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'ethan.lee@example.com', userType: 'admin', status: 'Enabled', firstName: 'Ethan', middleName: 'H.', lastName: 'Lee', gender: 'Male' },
-                    { profileImage: '{{ asset("storage/icons/profile-graphics.png") }}', email: 'olivia.anderson@example.com', userType: 'User', status: 'Disabled', firstName: 'Olivia', middleName: 'M.', lastName: 'Anderson', gender: 'Female' }
+                    { profileImage: 'Staffsset("storage/icons/profile-graphics.png") }}', email: 'john@example.com', userType: 'admin', status: 'Disabled', firstName: 'John', middleName: 'A.', lastName: 'Doe', gender: 'Male' },
+                    { profileImage: 'Staffsset("storage/icons/profile-graphics.png") }}', email: 'jane@example.com', userType: 'Staff', status: 'Enabled', firstName: 'Jane', middleName: '', lastName: 'Smith', gender: 'Female' },
+                    { profileImage: 'Staffsset("storage/icons/profile-graphics.png") }}', email: 'michael.brown@example.com', userType: 'Moderator', status: 'Enabled', firstName: 'Michael', middleName: 'T.', lastName: 'Brown', gender: 'Male' },
+                    { profileImage: 'Staffsset("storage/icons/profile-graphics.png") }}', email: 'emily.davis@example.com', userType: 'Staff', status: 'Enabled', firstName: 'Emily', middleName: 'R.', lastName: 'Davis', gender: 'Female' },
+                    { profileImage: 'Staffsset("storage/icons/profile-graphics.png") }}', email: 'chris.johnson@example.com', userType: 'admin', status: 'Disabled', firstName: 'Chris', middleName: '', lastName: 'Johnson', gender: 'Non-binary' },
+                    { profileImage: 'Staffsset("storage/icons/profile-graphics.png") }}', email: 'sarah.wilson@example.com', userType: 'Staff', status: 'Disabled', firstName: 'Sarah', middleName: 'E.', lastName: 'Wilson', gender: 'Female' },
+                    { profileImage: 'Staffsset("storage/icons/profile-graphics.png") }}', email: 'david.martinez@example.com', userType: 'Staff', status: 'Enabled', firstName: 'David', middleName: 'L.', lastName: 'Martinez', gender: 'Male' },
+                    { profileImage: 'Staffsset("storage/icons/profile-graphics.png") }}', email: 'sophia.garcia@example.com', userType: 'Moderator', status: 'Enabled', firstName: 'Sophia', middleName: '', lastName: 'Garcia', gender: 'Female' },
+                    { profileImage: 'Staffsset("storage/icons/profile-graphics.png") }}', email: 'ethan.lee@example.com', userType: 'admin', status: 'Enabled', firstName: 'Ethan', middleName: 'H.', lastName: 'Lee', gender: 'Male' },
+                    { profileImage: 'Staffsset("storage/icons/profile-graphics.png") }}', email: 'olivia.anderson@example.com', userType: 'Staff', status: 'Disabled', firstName: 'Olivia', middleName: 'M.', lastName: 'Anderson', gender: 'Female' }
                 ],
                 selectedUser: {},
                 viewUser(user) {
@@ -197,7 +197,7 @@
                             </span>
                         </div>
 
-                        <!-- User Type Filter -->
+                        <!-- Staff Type Filter -->
                         <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
                              :class="{
                                 'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.userType !== '',  /* Active state */
@@ -253,7 +253,7 @@
                         </div>
                     </div>
 
-                    <!-- Add User/Staff Modal -->
+                    <!-- Add Staff/staff Modal -->
                     <div x-show="showAddModal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                         <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-hidden w-full min-w-md max-w-lg min-h-md max-h-lg mx-auto">
                             <div class="bg-[#FBFBFB] rounded-[10px] relative">
@@ -411,7 +411,7 @@
                                     <!-- Access Control Page -->
                                     <div x-show="activeTab === 'access-info'" class="min-h-[35vh] max-h-[35vh] overflow-y-auto mt-4 bg-[#FBFBFB] shadow px-3 py-4 text-sm">
 
-                                        <!-- User Type Dropdown -->
+                                        <!-- Staff Type Dropdown -->
                                         <div class="px-2 mb-4">
                                             <label for="userType" class="block font-medium text-gray-700">User Role</label>
                                             <select id="userType" x-model="formData.userType" @change="assignPermissions"
@@ -550,7 +550,7 @@
 
                                 <!-- Modal Footer -->
                                 <div class="flex items-center justify-end pb-2 px-2 space-x-4">
-                                    <!-- Left Side Buttons (Back and Add User) -->
+                                    <!-- Left Side Buttons (Back and Add Staff) -->
                                     <div class="flex space-x-4">
                                         <!-- Back Button -->
                                         <button
@@ -565,7 +565,7 @@
                                             <span class="ml-2">Back</span>
                                         </button>
 
-                                        <!-- Add User Button -->
+                                        <!-- Add Staff Button -->
                                         <button
                                             type="button"
                                             @click="showAddModal = false; openAddSuccessModal = true"
@@ -805,7 +805,7 @@
                 </div>
             </div>
 
-            <!-- View User Modal -->
+            <!-- View Staff Modal -->
             <div x-show="showViewModal" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                 <div class="p-1 bg-[#3AA76F] border-gray-600 rounded-[12px] shadow-xl overflow-auto w-full max-w-xl max-h-lg">
                     <div class="bg-[#FBFBFB] rounded-[10px] relative">
