@@ -25,11 +25,13 @@ class DatabaseSeeder extends Seeder
                 'last_name' => 'Gloria',
                 'date_of_birth' => '1990-01-01',
                 'sex' => 'male',
-                'username' => 'howardGlen_admin', // Admin username
-                'email' => null, // No email for admin
-                'password' => Hash::make('hOwArD123!'), // Hashing the password
-                'user_type' => 1, // Admin user type
+                'username' => 'howardGlen_admin',
+                'email' => null,
+                'password' => Hash::make('hOwArD123!'),
+                'user_type' => 1,
                 'remember_token' => null,
+                'generated_password' => null, // Add this if necessary
+                'email_verified_at' => null,  // Add this if necessary
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -39,11 +41,29 @@ class DatabaseSeeder extends Seeder
                 'last_name' => 'Resident',
                 'date_of_birth' => '1995-02-02',
                 'sex' => 'female',
-                'username' => null, // No username for resident
+                'username' => null,
                 'email' => 'resident@example.com',
-                'password' => Hash::make('password'), // Hashing the password
-                'user_type' => 2, // Staff type for resident
+                'password' => Hash::make('password'),
+                'user_type' => 2,
                 'remember_token' => null,
+                'generated_password' => null,
+                'email_verified_at' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'first_name' => 'Bright',
+                'middle_name' => 'D.',
+                'last_name' => 'PatcherKo',
+                'date_of_birth' => '1995-02-05',
+                'sex' => 'female',
+                'user_type' => 3,
+                'email' => null,
+                'username' => null,
+                'password' => Hash::make('password'),
+                'generated_password' => 'password',
+                'remember_token' => null,
+                'email_verified_at' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -88,7 +108,7 @@ class DatabaseSeeder extends Seeder
             StaffLogSeeder::class,
             ResidentLogSeeder::class,
             AdminSeeder::class,
-            // StaffSeeder::class,
+            StaffSeeder::class,
             ResidentSeeder::class,
 //            StaffRoleSeeder::class,
 //            StaffPermissionSeeder::class

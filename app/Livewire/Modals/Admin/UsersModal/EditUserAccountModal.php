@@ -69,6 +69,7 @@ class EditUserAccountModal extends Component
     }
 
 
+
     #[On('show-edit-user-account-modal')]
     public function showModal(Staff $staff): void
     {
@@ -98,8 +99,7 @@ class EditUserAccountModal extends Component
         } else {
             $this->currentPhoto = null;
         }
-
-        $role = StaffRole::with('permissions')->find($this->form['user_role']);
+        $role = StaffRolesPermissions::with('permissions', 'staffRole')->find($this->form['user_role']);
         $this->selectedPermissions = $role ? $role->permissions->pluck('name')->toArray() : [];
         // dd($this->staff);
 
@@ -288,7 +288,11 @@ class EditUserAccountModal extends Component
                 ]);
             }
 
-            $staffRolePermission = $this->staff->staffRolesPermissions;
+            $staffRolePermission = StaffRolesPermissions::where('staff_role_id', $this->form['user_role'])->first();
+
+            if (!$staffRolePermission) {
+                throw new \Exception('Invalid role-to-permission mapping');
+            }
             $this->staff->update([
                 'username' => $this->form['username'],
                 'staff_roles_permissions_id' => $staffRolePermission->id,
@@ -297,12 +301,15 @@ class EditUserAccountModal extends Component
 
 
 
+
             DB::commit();
-            session()->flash('message', 'staff Account updated successfully!');
+            session()->flash('feedback', 'Staff Account updated successfully!');
+            session()->flash('feedback_type', 'success');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Failed to update user account: ' . $e->getMessage());
-            session()->flash('error', 'Failed to update staff Account.');
+            session()->flash('feedback', 'Failed to update Staff Account.');
+            session()->flash('feedback_type', 'error');
         }
     }
 
