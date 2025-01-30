@@ -191,9 +191,26 @@ input:invalid {
     animation: bounce-once 0.3s ease;
 }
 
-.leaflet-control-attribution {
-    display: none !important;
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+    font-size: 18px !important;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    line-height: 22px;
 }
+
+.leaflet-control-zoom-in::before {
+    content: "+";
+}
+
+.leaflet-control-zoom-out::before {
+    content: "−";
+}
+
+/*.leaflet-control-attribution {*/
+/*    display: none !important;*/
+/*}*/
 
 /* Custom styles for Leaflet popup */
 .leaflet-popup-content-wrapper,

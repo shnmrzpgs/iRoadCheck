@@ -1,7 +1,19 @@
-<div>
+<!-- Map Container -->
+<div id="map" class="w-full h-[75vh] bg-white drop-shadow"></div>
 
-</div>
 <script>
+    document.addEventListener('livewire:load', function () {
+        setTimeout(() => {
+            let map = L.map('map').setView([10.3157, 123.8854], 13); // Adjust lat/lng
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 80,
+            }).addTo(map);
+
+            setTimeout(() => {
+                map.invalidateSize(); // Ensure it fully loads
+            }, 500);
+        }, 500); // Wait a bit to let Livewire render
+    });
     function mapComponent() {
         return {
 
@@ -16,7 +28,7 @@
             markerLayers: [],
             newStatus: '',
             selectedReport: { status: 'Ongoing' },
-            statuses: ['Ongoing', 'Unfixed', 'Not Found'], // Fixed array syntax
+            statuses: ['Repaired', 'On Going', 'Unfixed'], // Fixed array syntax
 
 
             init() {
@@ -36,6 +48,7 @@
                     minZoom: 13,
                     maxZoom: 18,
                     maxBounds: bounds,
+                    zoomControl: true
                 });
 
                 // Add OpenStreetMap tile layer
@@ -43,7 +56,7 @@
                     maxZoom: 30,
                 }).addTo(this.map);
 
-                this.map.attributionControl.setPrefix(false);
+                // this.map.attributionControl.setPrefix(false);
 
                 // Add markers for each report
                 this.reports.forEach(report => {
@@ -106,13 +119,13 @@
                                     <h3 class="font-semibold mb-2 text-center border-b border-b-white p-1">Legend</h3>
                                     <ul>
                                         <li class="leading-6">
+                                            <span class="inline-block w-3 h-3 bg-green-500 mr-2 rounded-full"></span>Repaired
+                                        </li>
+                                        <li class="leading-6">
                                             <span class="inline-block w-3 h-3 bg-yellow-500 mr-2 rounded-full"></span>On Going
                                         </li>
                                         <li class="leading-6">
                                             <span class="inline-block w-3 h-3 bg-red-500 mr-2 rounded-full"></span>Unfixed
-                                        </li>
-                                        <li class="leading-6">
-                                            <span class="inline-block w-3 h-3 bg-[#6c757d] mr-2 rounded-full"></span>Not Found
                                         </li>
                                     </ul>
                                 </div>
@@ -243,16 +256,14 @@
     }
     function getStatusColor(status) {
         switch (status) {
-            // case 'Repaired':
-            //     return '#28a745'; // Green
+            case 'Repaired':
+                return '#28a745'; // Green
             case 'On Going':
                 return '#ffc107'; // Yellow
             case 'Unfixed':
                 return '#dc3545'; // Red
-            case 'Not Found':
-                return '#6c757d'; // Gray
             default:
-                return '#6c757d'; // Default gray
+                return '#dc3545'; // Red
         }
     }
     function showNotification(message, type = 'success') {
@@ -306,5 +317,4 @@
             }, 300);
         }, 3000);
     }
-
 </script>

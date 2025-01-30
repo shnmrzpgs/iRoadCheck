@@ -10,7 +10,6 @@ import flatpickr from 'flatpickr';
 import '../css/app.css';
 import 'lazysizes';
 
-
 window.Notify = Notify;
 
 window.pushNotification = function (status, title, text) {

@@ -10,6 +10,8 @@
         <title>{{ $title }}</title>
 
         <script src="{{ asset('resources/js/app.js') }}"></script>
+        <script src="{{ asset('js/map.js') }}"></script>
+
 
         <!-- Favicons -->
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('storage/images/IRoadCheck_Logo.png') }}">

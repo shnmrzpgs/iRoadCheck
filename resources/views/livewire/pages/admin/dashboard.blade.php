@@ -105,9 +105,9 @@
             <div class="mt-2 mb-2 overflow-hidden h-auto xl:h-[55vh]">
 
                 <div x-data="{
-    staffData: @entangle('staffRolesData'),
-    filters: @entangle('filters'),
-}" class="m-0 rounded-lg inset-0 p-0">
+                    staffData: @entangle('staffRolesData'),
+                    filters: @entangle('filters'),
+                }" class="m-0 rounded-lg inset-0 p-0">
 
                     <!-- Dropdown Filters -->
                     <div class="flex flex-wrap gap-2 mb-4 mt-4">
