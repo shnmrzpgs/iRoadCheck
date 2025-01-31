@@ -121,8 +121,9 @@ class ManageUsersTable extends Component
                 $query->where(function ($query) {
                     $query->where('users.first_name', 'like', "%{$this->search}%")
                         ->orWhere('users.middle_name', 'like', "%{$this->search}%")
-                        ->orWhere('users.last_name', 'like', "%{$this->search}%");
-                })->orWhere('username', 'like', '%' . $this->search . '%')
+                        ->orWhere('users.last_name', 'like', "%{$this->search}%")
+                        ->orWhere('users.username', 'like', "%{$this->search}%");
+                })
                     ->orWhereHas('staffRolesPermissions.staffRole', function ($query) {
                         $query->where('name', 'like', '%' . $this->search . '%');
                     });
@@ -138,7 +139,7 @@ class ManageUsersTable extends Component
 
         // Apply sorting
         if ($this->sort_by === 'username') {
-            $query->orderBy('staffs.username', $this->sort_direction);
+            $query->orderBy('users.username', $this->sort_direction);
         } elseif (in_array($this->sort_by, ['first_name', 'last_name', 'middle_name'])) {
             $query->orderBy('users.' . $this->sort_by, $this->sort_direction);
         } elseif ($this->sort_by === 'staff_role') {
@@ -193,8 +194,9 @@ class ManageUsersTable extends Component
                 $query->where(function ($query) {
                     $query->where('users.first_name', 'like', "%{$this->search}%")
                         ->orWhere('users.middle_name', 'like', "%{$this->search}%")
-                        ->orWhere('users.last_name', 'like', "%{$this->search}%");
-                })->orWhere('username', 'like', '%' . $this->search . '%')
+                        ->orWhere('users.last_name', 'like', "%{$this->search}%")
+                        ->orWhere('users.username', 'like',  "%{$this->search}%");
+                })
                     ->orWhereHas('staffRolesPermissions.staffRole', function ($query) {
                         $query->where('name', 'like', '%' . $this->search . '%');
                     });
@@ -210,7 +212,7 @@ class ManageUsersTable extends Component
 
         // Sorting logic
         if ($this->sort_by === 'username') {
-            $query->orderBy('staffs.username', $this->sort_direction);
+            $query->orderBy('users.username', $this->sort_direction);
         } elseif (in_array($this->sort_by, ['first_name', 'last_name', 'middle_name'])) {
             $query->orderBy('users.' . $this->sort_by, $this->sort_direction);
         } elseif ($this->sort_by === 'staff_role') {
