@@ -14,7 +14,6 @@ class Staff extends Model
 
     protected $fillable = [
         'user_id',
-        'username',
         'staff_roles_permissions_id',
         // 'generated password',
         'status'
