@@ -5,7 +5,7 @@
     <div class="flex justify-between items-center">
 
         <!-- iRoadCheck Logo -->
-        <a href="{{ route('dashboard') }}" title="Go to Dashboard">
+        <a href="{{ route('residents-dashboard') }}" title="Go to Dashboard">
             <div class="flex justify-center items-center">
                 <img src="{{ asset('storage/images/IRoadCheck_Logo.png') }}" alt="graphicsLogo"
                      class="w-8 max-w-10 mr-1" />

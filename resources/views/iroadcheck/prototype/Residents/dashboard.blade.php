@@ -36,7 +36,7 @@
                         </div>
                         <!-- Card Counts -->
                         <div class="px-4 py-1 mt-1 mb-4 md:mb-0 md:mt-5 ml-auto text-lg text-[#FFAD00] rounded-full bg-[#FBFBFB] font-bold transform group-hover:scale-105 group-hover:translate-x-1 duration-500 ease-in-out shadow">
-                            1243
+                            {{$reportsCount }}
                         </div>
                     </div>
                 </div>

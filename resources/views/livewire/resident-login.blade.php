@@ -31,10 +31,15 @@
 
                 <!-- Email Input -->
                 <div class="relative mb-2">
-                    <input wire:model="email"
+                    <input wire:model="phone"
                            class="w-full text-[14px] py-2 pl-10 pr-10 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#5A915E] focus:border-[#5A915E]"
-                           type="email"
-                           placeholder="Email Address"
+                           name="phone"
+                           type="tel"
+                           id="phone"
+                           pattern="0[0-9]{10}"
+                           maxlength="11"
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);"
+                           placeholder="Phone"
                            required>
                     <img src="{{ asset('storage/icons/user.svg') }}" class="absolute left-2.5 top-3 h-4 w-4" alt="user">
                 </div>
@@ -74,7 +79,7 @@
                 </button>
 
                 <!-- Sign Up Button -->
-                <button @click="window.location.href = '{{ route('signup') }}'"
+                <button @click="window.location.href = '{{ route('signup') }}'" type="button"
                         class="w-3/4 group relative inline-flex h-[calc(48px+4px)] items-center justify-center rounded-full bg-none border-none text-[#F8A15E] hover:text-white py-1 pl-6 pr-6 font-medium transition active:scale-95">
                     <span class="z-10 pr-2">Sign Up</span>
                     <div class="absolute right-1 inline-flex h-10 w-10 items-center justify-end rounded-full bg-[#F8A15E] transition-[width] group-hover:w-[calc(100%-8px)]">

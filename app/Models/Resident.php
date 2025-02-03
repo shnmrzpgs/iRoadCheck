@@ -12,6 +12,7 @@ class Resident extends Model
     protected $fillable = [
         'user_id',
         'phone',
+        'is_activated'
     ];
 
     protected $hidden = [

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
-class AuthResident
+class VerifyResident
 {
     /**
      * Handle an incoming request.
@@ -29,16 +29,12 @@ class AuthResident
                     ->first();
 
                 if ($resident && $resident->is_activated == 1) {
-                    return $next($request);
+                    return redirect()->route('residents-dashboard');
                 }
 
-                // Redirect to verify-code if is_activated is not 1
-                return redirect()->route('verify-code')->with('error', 'Please verify your account.');
             }
+
         }
-
-        // Redirect to residents-login if user is not logged in or user_type is not 2
-        return redirect()->route('residents-login')->with('error', 'Login first!');
+        return $next($request);
     }
-
 }

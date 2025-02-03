@@ -66,7 +66,7 @@ class ReportController extends Controller
         $imagePath = Storage::disk('public')->put('reports/' . $imageName, $image);
         $path = "reports/".$imageName;  // This will return the full URL or relative path to the image
 
-        $annotatedPath = 'reports/report_photo_' . time() . '_annotated.png';
+        $annotatedPath = 'reports/report_photo_' . time() . '_annotated.jpg';
         Report::create([
             'resident_id' => Auth::id(),
             'defect' => "Pothole",
@@ -82,7 +82,8 @@ class ReportController extends Controller
 
 
         ]);
-        session()->flash('message', 'Data saved successfully!');
+
+        return redirect()->route('report-road-issue')->with('success', true);
         // Send a success message back to the frontend
 //        $this->dispatchBrowserEvent('report-saved', ['message' => 'Report submitted successfully!']);
     }

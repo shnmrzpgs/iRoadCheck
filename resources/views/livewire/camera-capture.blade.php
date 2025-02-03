@@ -91,44 +91,47 @@
                 <template x-if="step === 1">
                     <div class="flex flex-col w-full z-0">
                         <!-- Step 1 Content -->
-                        <form id="step1">
-                            <div class="mt-0 mb-2 bg-white shadow-sm rounded-lg w-full mx-auto border-2 border-gray-300 h-[60vh]">
-                                <div class="w-full bg-white shadow-lg rounded-t-lg p-4">
-                                    <h2 class="text-[14px] text-center font-semibold text-gray-600">Type of Road Issue Concern</h2>
-                                </div>
-                                <div class="h-[50vh] overflow-y-auto overflow-x-hidden w-full">
-                                    <div @click="selected = 'pothole'" :class="{ 'bg-gray-100': selected === 'pothole' }" class="flex items-center justify-between border-b-2 border-gray-300 py-6 cursor-pointer px-4">
-                                        <div class="flex items-center">
-                                            <img src="{{ asset('storage/images/pothole.png') }}" alt="Pothole" class="w-16 h-16 rounded mr-2">
-                                            <p class="text-[13px] text-gray-800">Pothole</p>
-                                        </div>
-                                        <input type="radio" name="roadIssue" value="pothole" class="h-5 w-5 cursor-pointer accent-[#4AA76F]" :checked="selected === 'pothole'" style="accent-color: #4AA76F;" />
-                                    </div>
-                                    <div @click="selected = 'raveling'" :class="{ 'bg-gray-100': selected === 'raveling' }" class="flex items-center justify-between border-b-2 border-gray-300 py-6 cursor-pointer px-4">
-                                        <div class="flex items-center">
-                                            <img src="{{ asset('storage/images/raveling.png') }}" alt="Raveling" class="w-16 h-16 rounded mr-2">
-                                            <p class="text-[13px] text-gray-800">Raveling</p>
-                                        </div>
-                                        <input type="radio" name="roadIssue" value="raveling" class="h-5 w-5 cursor-pointer accent-[#4AA76F]" :checked="selected === 'raveling'" style="accent-color: #4AA76F;" />
-                                    </div>
-                                    <div @click="selected = 'block-cracking'" :class="{ 'bg-gray-100': selected === 'block-cracking' }" class="flex items-center justify-between border-b-2 border-gray-300 py-6 cursor-pointer px-4">
-                                        <div class="flex items-center">
-                                            <img src="{{ asset('storage/images/block-craking.png') }}" alt="Block Cracking" class="w-16 h-16 rounded mr-2">
-                                            <p class="text-[13px] text-gray-800">Block Cracking</p>
-                                        </div>
-                                        <input type="radio" name="roadIssue" value="block-cracking" class="h-5 w-5 cursor-pointer accent-[#4AA76F]" :checked="selected === 'block-cracking'" style="accent-color: #4AA76F;" />
-                                    </div>
-                                    <div @click="selected = 'slippage-cracking'" :class="{ 'bg-gray-100': selected === 'slippage-cracking' }" class="flex items-center justify-between border-b-2 border-gray-300 py-6 cursor-pointer px-4">
-                                        <div class="flex items-center">
-                                            <img src="{{ asset('storage/images/slippage-cracking.png') }}" alt="Slippage Cracking" class="w-16 h-16 rounded mr-2">
-                                            <p class="text-[13px] text-gray-800">Slippage Cracking</p>
-                                        </div>
-                                        <input type="radio" name="roadIssue" value="slippage-cracking" class="h-5 w-5 cursor-pointer accent-[#4AA76F]" :checked="selected === 'slippage-cracking'" style="accent-color: #4AA76F;" />
-                                    </div>
-                                </div>
-                                <input type="hidden" name="defect_type" :value="selected">
+                        <div class="mt-0 mb-2 bg-white shadow-sm rounded-lg w-full mx-auto border-2 border-gray-300 h-auto">
+                            <div class="w-full bg-white shadow-lg rounded-t-lg p-4">
+                                <h2 class="text-[16px] text-center font-semibold text-gray-600">Road Defect Reporting Guide</h2>
                             </div>
-                        </form>
+                            <div class="p-4">
+                                <p class="text-[14px] text-gray-700">
+                                    Take a photo of the road defect you wish to report!
+                                    <span class="font-semibold text-red-500">Remember:</span> Reporting at night or during rainy weather is not applicable.
+                                </p>
+                                <p class="mt-2 text-[13px] text-gray-500">
+                                    Refer to the images below to identify common road defects:
+                                </p>
+                            </div>
+                            <div class="h-auto overflow-hidden w-full px-4 pb-4">
+                                <!-- Pothole Reference -->
+                                <div class="flex items-center justify-between border-b-2 border-gray-300 py-4">
+                                    <div class="flex items-center">
+                                        <img src="{{ asset('storage/images/pothole.png') }}" alt="Pothole" class="w-16 h-16 rounded mr-4">
+                                        <div>
+                                            <p class="text-[14px] font-semibold text-gray-800">Pothole</p>
+                                            <p class="text-[12px] text-gray-500">
+                                                A pothole is a localized depression in the road surface caused by wear and tear.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Block Cracking Reference -->
+                                <div class="flex items-center justify-between border-b-2 border-gray-300 py-4">
+                                    <div class="flex items-center">
+                                        <img src="{{ asset('storage/images/block-craking.png') }}" alt="Block Cracking" class="w-16 h-16 rounded mr-4">
+                                        <div>
+                                            <p class="text-[14px] font-semibold text-gray-800">Block Cracking</p>
+                                            <p class="text-[12px] text-gray-500">
+                                                Block cracking appears as a series of interconnected cracks forming a pattern of blocks.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <!-- Next Button-->
                         <div class="mt-6 w-[85%] text-center mx-auto max-w-lg md:mb-50 sm:mb-50">
@@ -383,7 +386,7 @@
                             <input type="hidden" name="time" x-bind:value="time">
                             <input type="hidden" name="photo" x-bind:value="photo">
 
-                            <button type="submit" class="w-2/4 text-sm md:text-md bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">
+                            <button type="submit" class="w-full text-sm md:text-md bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">
                                 Submit Report
                             </button>
                         </form>

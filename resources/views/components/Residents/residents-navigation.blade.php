@@ -15,7 +15,7 @@
         <div class="flex justify-between items-center">
 
             <!-- iRoadCheck Logo -->
-            <a href="{{ route('dashboard') }}" title="Go to Dashboard">
+            <a href="{{ route('residents-dashboard') }}" title="Go to Dashboard">
                 <div class="flex justify-center items-center">
                     <img src="{{ asset('storage/images/IRoadCheck_Logo.png') }}" alt="graphicsLogo"
                          class="w-8 max-w-10 mr-1" />
@@ -102,7 +102,7 @@
                 <nav class="mt-4 space-y-4 flex-1 text-[13px] overflow-x-auto h-[76vh] px-4 leading-6">
 
                     <!-- Dashboard -->
-                    <a href="{{ route('dashboard') }}"
+                    <a href="{{ route('residents-dashboard') }}"
                        @click="activeLink = 'dashboard'; activeChildLink = ''; localStorage.setItem('activeLink', 'dashboard'); localStorage.setItem('activeChildLink', '')"
                        :class="{ 'bg-[#4AA76F] text-white shadow-md font-bold duration-300 ease-in-out': activeLink === 'dashboard',
                     'group-hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md': activeLink !== 'dashboard'}"

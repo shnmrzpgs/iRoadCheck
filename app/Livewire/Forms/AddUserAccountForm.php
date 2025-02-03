@@ -86,6 +86,7 @@ class AddUserAccountForm extends Form
             DB::beginTransaction();
 
             // Create the Staff record
+//        dd($this->form);
             $user = User::create([
                 'first_name' => $this->first_name,
                 'middle_name' => $this->middle_name,
@@ -93,7 +94,7 @@ class AddUserAccountForm extends Form
                 'sex' => $this->sex,
                 'username' => $this->username,
                 'date_of_birth' => $this->date_of_birth,
-                'password' => bcrypt($generatedPassword),
+                'password' => bcrypt($this->password),
                 'generated_password' => $generatedPassword,
                 'user_type' => 3, // staff type
                 'status' => $this->user_status ? StaffStatus::ACTIVE : StaffStatus::INACTIVE,

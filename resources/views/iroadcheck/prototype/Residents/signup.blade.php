@@ -6,7 +6,7 @@
 
     <div x-data="{ step: 1 }" x-cloak class="relative h-screen font-poppins flex items-center justify-center">
 
-        <form action="" method="POST" class="flex flex-col items-center w-full px-5"
+        <form action="{{route('resident-register')}}" method="POST" class="flex flex-col items-center w-full px-5"
             x-data="{
                 showPassword: false,
                 showConfirmPassword: false,
@@ -32,7 +32,10 @@
                 firstInvalidRequirementIndex() {
                     return this.requirements.findIndex(req => !req.isValid);
                 }
-            }">
+            }"
+        >
+            @csrf
+
 
             <div x-show="step === 1" class="bg-white shadow-lg rounded-2xl px-10 py-8 w-full max-w-xs sm:max-w-sm text-center relative z-10">
 
@@ -50,25 +53,25 @@
                 <div class="space-y-4 my-6">
                     <!--First Name-->
                     <div class="relative">
-                        <input type="text" id="first_name" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
+                        <input type="text" name="first_name" id="first_name" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
                         <label for="first_name" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">First Name</label>
                     </div>
 
                     <!--Middle Name-->
                     <div class="relative">
-                        <input type="text" id="middle_name" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
+                        <input type="text" name="middle_name" id="middle_name" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
                         <label for="middle_name" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Middle Name</label>
                     </div>
 
                     <!--Last Name-->
                     <div class="relative">
-                        <input type="text" id="last_name" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
+                        <input type="text" name="last_name" id="last_name" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
                         <label for="last_name" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Last Name</label>
                     </div>
 
                     <!-- Sex -->
                     <div class="relative mb-5 custom-select w-full border-2 border-gray-300 rounded-lg">
-                        <select id="sex" required
+                        <select id="sex" required name="sex"
                                 class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 rounded-lg bg-white appearance-none focus:outline-none focus:ring-2 focus:ring-[#4AA76F] focus:border-[#4AA76F] peer invalid:border-red-500 transition-all">
                             <option value="" disabled selected class="text-gray-500 hover:bg-gray-100">Select Sex</option>
                             <option value="male" class="text-gray-700 hover:bg-gray-100">Male</option>
@@ -81,7 +84,7 @@
                     </div>
                 </div>
 
-                <button @click="step = 2" class="w-full  group relative inline-flex h-[calc(48px+8px)] items-center justify-center rounded-full text-[14px] bg-[#4AA76F] py-1 pl-6 pr-14 font-medium text-neutral-50"><span class="z-10 ml-6">Next</span>
+                <button @click="step = 2" type="button" class="w-full  group relative inline-flex h-[calc(48px+8px)] items-center justify-center rounded-full text-[14px] bg-[#4AA76F] py-1 pl-6 pr-14 font-medium text-neutral-50"><span class="z-10 ml-6">Next</span>
 
                     <div class="absolute right-1 inline-flex h-12 w-12 items-center justify-end rounded-full bg-white bg-opacity-10 transition-[width] group-hover:w-[calc(100%-8px)]">
                         <div class="mr-3.5 flex items-center justify-center">
@@ -132,13 +135,29 @@
 
                     <!--Email Address-->
                     <div class="relative">
-                        <input type="email" id="email" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
-                        <label for="email" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Email Address</label>
+                        <input
+                            name="phone"
+                            type="tel"
+                            id="phone"
+                            required
+                            pattern="0[0-9]{10}"
+                            maxlength="11"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);"
+                            class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] peer"
+                            placeholder=" "
+                        />
+                        <label
+                            for="phone"
+                            class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+                        >
+                            Phone number
+                        </label>
                     </div>
+
 
                     <!-- Create Password Input -->
                     <div class="relative">
-                        <input :type="showPassword ? 'text' : 'password'" x-model="password" @input="validatePassword()" id="password" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
+                        <input name="password" :type="showPassword ? 'text' : 'password'" x-model="password" @input="validatePassword()" id="password" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
                         <label for="password" required class="required absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Create Password</label>
 
                         <!-- Show/Hide Password Toggle -->
@@ -160,7 +179,7 @@
 
                     <!-- Confirm Password Input -->
                     <div class="relative">
-                        <input :type="showConfirmPassword ? 'text' : 'password'" x-model="confirmPassword" id="confirmPassword" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
+                        <input name="confirmPassword" :type="showConfirmPassword ? 'text' : 'password'" x-model="confirmPassword" id="confirmPassword" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
                         <label  for="confirmPassword"  class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Confirm Password</label>
 
                         <!-- Show/Hide Confirm Password Toggle -->
@@ -184,7 +203,7 @@
                 <button class="w-full hover:scale-105 text-[14px] bg-gradient-to-r from-[#5A915E] to-[#F8A15E] shadow-lg text-white p-3 font-medium mb-1 mt-2 rounded-full hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier (0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">Sign Up</button>
 
                 <!-- Go to Log In Page Button -->
-                <button
+                <button type="button"
                     @click="window.location.href = '{{ route('residents-login') }}'"
                     class="relative overflow-hidden w-full p-3 text-[14px] rounded-full font-normal hover:font-semibold text-[#F8A15E] border border-transparent bg-transparent group">
                     <span class="relative z-10 transition-[width] group-hover:text-white">
