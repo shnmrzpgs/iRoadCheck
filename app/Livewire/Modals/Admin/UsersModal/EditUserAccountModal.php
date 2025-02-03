@@ -84,7 +84,7 @@ class EditUserAccountModal extends Component
             'date_of_birth' => $staff->user && $staff->user->date_of_birth
                 ? Carbon::parse($staff->user->date_of_birth)->format('F j, Y')
                 : '',
-            'username' => $staff->username,
+            'username' => $staff->user->username,
             'password' => $staff->user->generated_password ?? '',
             'user_role' => $staff->staffRolesPermissions->staffRole->id,
             'is_disabled' => $staff->status === StaffStatus::INACTIVE,
@@ -123,7 +123,7 @@ class EditUserAccountModal extends Component
             'form.username' => [
                 'required',
                 'string',
-                Rule::unique('staffs', 'username')->ignore($this->staff->id), // Ensure unique username
+                Rule::unique('users', 'username')->ignore($this->staff->user->id), // Ensure unique username
             ],
             'form.date_of_birth' => ['nullable', 'date', 'before_or_equal:' . now()->subYears(18)->toDateString()],
             'form.user_role' => ['required', 'exists:staff_roles,id'],
@@ -198,7 +198,7 @@ class EditUserAccountModal extends Component
             ],
             'account-info' => [
                 'form.password' => ['required', 'string', Password::default()],
-                'form.username' => ['required', 'string', 'unique:staffs,username'],
+                'form.username' => ['required', 'string', 'unique:users,username'],
                 'photo' => ['nullable', 'image', 'max:1024'], // Example for photo validation
             ],
         ];
@@ -249,7 +249,7 @@ class EditUserAccountModal extends Component
             'form.username' => [
                 'required',
                 'string',
-                Rule::unique('staffs', 'username')->ignore($this->staff->id), // Exclude current user
+                Rule::unique('users', 'username')->ignore($this->staff->user->id), // Exclude current user
             ],
             'form.user_role' => ['required', 'exists:staff_roles,id'],
             'form.password' => ['nullable', 'string', Password::default()],
@@ -265,6 +265,7 @@ class EditUserAccountModal extends Component
                 'first_name' => $this->form['first_name'],
                 'middle_name' => $this->form['middle_name'],
                 'last_name' => $this->form['last_name'],
+                'username' => $this->form['username'],
                 'date_of_birth' => $this->form['date_of_birth']
                     ? Carbon::createFromFormat('F j, Y', $this->form['date_of_birth'])->format('Y-m-d')
                     : null,
@@ -294,7 +295,6 @@ class EditUserAccountModal extends Component
                 throw new \Exception('Invalid role-to-permission mapping');
             }
             $this->staff->update([
-                'username' => $this->form['username'],
                 'staff_roles_permissions_id' => $staffRolePermission->id,
                 'status' => $this->form['is_disabled'] ? StaffStatus::INACTIVE : StaffStatus::ACTIVE,
             ]);

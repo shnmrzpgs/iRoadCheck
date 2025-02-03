@@ -33,6 +33,7 @@ class User extends Authenticatable
         'middle_name',
         'last_name',
         'date_of_birth',
+        'username',
         'sex',
         'user_type',
         'email',
@@ -51,6 +52,7 @@ class User extends Authenticatable
         'staff_role' => 'integer',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        
 
     ];
 

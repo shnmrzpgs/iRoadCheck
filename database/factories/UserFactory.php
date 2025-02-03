@@ -93,6 +93,7 @@ class UserFactory extends Factory
             'sex' => $this->faker->randomElement(['Male', 'Female']),
             'user_type' => $userType,
             // 'status' => $this->faker->randomElement(['Active', 'Inactive']),
+            'username' => 'user_' . $this->faker->unique()->numberBetween(1, 1000),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => $this->faker->optional()->dateTimeBetween('-1 year', 'now'),
             'password' => static::$password ??= Hash::make('password'),

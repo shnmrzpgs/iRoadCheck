@@ -16,7 +16,8 @@ class StaffSeeder extends Seeder
          */
         public function run(): void
         {
-            Staff::factory(11)->create();
+            
+
             // Fetch all users of type 'staff'
             $staffUsers = DB::table('users')
                 ->where('user_type', 3) // Staff type ID
@@ -33,12 +34,12 @@ class StaffSeeder extends Seeder
                     DB::table('staffs')->insert([
                         'user_id' => $user->id,
                         'staff_roles_permissions_id' => $staffRole->id, // Reference role_permission ID
-                        'username' => 'staff_' . $user->id,
                         'status' => 'active', // Default to active status
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]);
                 }
             }
+        
         }
 }

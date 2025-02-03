@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
                 'sex' => 'female',
                 'user_type' => 3,
                 'email' => null,
-                'username' => null,
+                'username' => 'patcherKo',
                 'password' => Hash::make('password'),
                 'generated_password' => 'password',
                 'remember_token' => null,

@@ -118,7 +118,7 @@ class AddUserAccountModal extends Component
             ],
             'account-info' => [
                 'form.password' => ['required', 'string', Password::default()],
-                'form.username' => ['required', 'string', 'unique:staffs,username'],
+                'form.username' => ['required', 'string', 'unique:users,username'],
                 'photo' => ['nullable', 'image', 'max:1024'], // Example for photo validation
             ],
         ];
@@ -151,7 +151,7 @@ class AddUserAccountModal extends Component
             'form.username' => [
                 'required',
                 'string',
-                'unique:staffs,username', // Ensure unique username
+                'unique:users,username', // Ensure unique username
             ],
             'form.date_of_birth' => ['nullable', 'date', 'before_or_equal:' . now()->subYears(18)->toDateString()],
             'form.user_role' => ['required', 'exists:staff_roles,id'],

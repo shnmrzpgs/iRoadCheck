@@ -94,7 +94,7 @@
                                 {{ trim(($form['first_name'] ?? '') . ' ' . ($form['middle_name'] ?? '') . ' ' . ($form['last_name'] ?? '')) ?: $staff->user->first_name . ' ' . $staff->user->last_name }}
                             </div>
                             <div class="block text-xs font-normal text-gray-700 italic">
-                                {{ !empty($form['username']) ? $form['username'] : $staff->username }}
+                                {{ !empty($form['username']) ? $form['username'] : $staff->user->username }}
                             </div>
                         </div>
                     </div>
