@@ -120,4 +120,16 @@ class ReportController extends Controller
 
         return redirect()->route('suggestion-reports')->with('success', 'Report submitted successfully!');
     }
+
+    public function manageTagging()
+    {
+        return view('iroadcheck.prototype.Staff.manage-tagging');
+    }
+
+    public function captureRoadDefect()
+    {
+        return view('iroadcheck.prototype.Staff.report-road-issue');
+    }
+
+
 }

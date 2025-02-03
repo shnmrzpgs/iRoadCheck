@@ -4,12 +4,10 @@ import './passRequirements';
 import ApexCharts from 'apexcharts'
 import Alpine from 'alpinejs'
 import Notify from 'simple-notify';
-import 'simple-notify/dist/simple-notify.css';
-import lottie from 'lottie-web';
-import flatpickr from 'flatpickr';
-import '../css/app.css';
 import 'lazysizes';
-
+import 'simple-notify/dist/simple-notify.css';
+import '../css/app.css';
+import "leaflet/dist/leaflet.css";
 
 window.Notify = Notify;
 

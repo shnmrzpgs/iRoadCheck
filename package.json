@@ -26,6 +26,7 @@
         "filepond-plugin-image-transform": "^3.8.7",
         "flatpickr": "^4.6.13",
         "lazysizes": "^5.3.2",
+        "leaflet": "^1.9.4",
         "lottie-web": "^5.12.2",
         "simple-notify": "^1.0.6"
     }
