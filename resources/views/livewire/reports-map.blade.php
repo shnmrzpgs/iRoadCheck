@@ -38,6 +38,8 @@
                     maxBounds: bounds,
                     zoomControl: true
                 });
+                setTimeout(() => { this.map.invalidateSize() }, 0);
+
 
 
 
