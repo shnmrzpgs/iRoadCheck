@@ -48,104 +48,105 @@ select {
 * {
     margin: 0;
     padding: 0;
-  }
+}
 
 body {
     margin: 0;
     padding: 0;
-  }
+}
 
 .fixed.inset-0 {
     margin: 0;
     padding: 0;
 }
-  @keyframes wipeIn {
+@keyframes wipeIn {
     0% {
-      transform: scaleY(0);
-      transform-origin: top;
+        transform: scaleY(0);
+        transform-origin: top;
     }
     100% {
-      transform: scaleY(1);
-      transform-origin: top;
+        transform: scaleY(1);
+        transform-origin: top;
     }
-  }
+}
 
-    /*Sign up css*/
-  .step-indicator {
+/*Sign up css*/
+.step-indicator {
     display: flex;
     justify-content: space-between;
     margin-bottom: 53px;
     font-size: 0.875rem;
-  }
+}
 
-  .step-indicator div {
+.step-indicator div {
     position: relative;
     padding-bottom: 10px;
     cursor: pointer;
-  }
+}
 
-  .step-indicator .current {
+.step-indicator .current {
     color: orange;
     border-bottom: 2px solid orange;
-  }
+}
 
-  .step-indicator .done {
+.step-indicator .done {
     color: green;
-  }
+}
 
-  .step-indicator .done:after {
+.step-indicator .done:after {
     content: '✔';
     position: absolute;
     bottom: 0;
     right: -10px;
     color: green;
-  }
+}
 
-  .form-group input {
+.form-group input {
     display: flex;
     align-items: center;
     margin-bottom: 24px;
     flex: 1;
-  }
+}
 
-  .step3 .form-group input {
+.step3 .form-group input {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
     flex: 1;
-  }
-  .step2 .form-group input {
+}
+.step2 .form-group input {
     display: flex;
     align-items: center;
     margin-bottom: 15px;
     flex: 1;
-  }
-  .step2 .form-group select {
+}
+.step2 .form-group select {
     margin-bottom: 15px;
-  }
+}
 
-  .form-group select {
+.form-group select {
     margin-bottom: 25px;
-  }
+}
 
-  .form-group label {
+.form-group label {
     width: 115px;
     margin-right: 59px;
     text-align: left;
     display: flex;
     margin-bottom: 33px;
     font-size: 0.875rem;
-  }
+}
 
-  input[type=number]::-webkit-outer-spin-button,
-  input[type=number]::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-  }
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
-  input[type=number] {
-      -moz-appearance: textfield; /* Firefox */
-  }
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox */
+}
+
 input:invalid {
     border-color: red;
 }
@@ -212,14 +213,19 @@ input:invalid {
 /*    display: none !important;*/
 /*}*/
 
-/* Custom styles for Leaflet popup */
+#map {
+    height: 75vh;
+    width: 100%;
+}
+
+/*Custom styles for Leaflet popup */
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
     background-color: #f87171; /* Match the background color here */
     color: white;
     border: none; /* Remove border to eliminate gaps */
-    box-shadow: none;
-}
+    box-shadow: none; }
+/*}*/
 
 /* Remove padding around the popup content */
 .leaflet-popup-content {

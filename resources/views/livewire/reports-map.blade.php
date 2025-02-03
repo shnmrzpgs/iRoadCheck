@@ -1,19 +1,7 @@
 <!-- Map Container -->
-<div id="map" class="w-full h-[75vh] bg-white drop-shadow"></div>
+<div></div>
 
 <script>
-    document.addEventListener('livewire:load', function () {
-        setTimeout(() => {
-            let map = L.map('map').setView([10.3157, 123.8854], 13); // Adjust lat/lng
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 80,
-            }).addTo(map);
-
-            setTimeout(() => {
-                map.invalidateSize(); // Ensure it fully loads
-            }, 500);
-        }, 500); // Wait a bit to let Livewire render
-    });
     function mapComponent() {
         return {
 
@@ -43,13 +31,15 @@
 
                 // Initialize the map, focused on Tagum City
                 this.map = L.map('map', {
-                    center: [7.4475, 125.8067],
+                    center: [7.3843, 125.7267],
                     zoom: 14,
                     minZoom: 13,
                     maxZoom: 18,
                     maxBounds: bounds,
                     zoomControl: true
                 });
+
+
 
                 // Add OpenStreetMap tile layer
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -71,25 +61,25 @@
                     }).addTo(this.map);
 
                     const popupContent = `
-                                <div class="max-w-[400px] h-auto rounded-lg shadow-lg text-[12px] font-sans text-white grid grid-row-2">
-                                    <div class="max-h-[300px] bg-white text-gray-700 rounded-t-xl leading-4">
-                                        <div class="px-3 py-2 flex items-center space-x-2 border-b border-gray-300">
-                                            <span style="background-color: ${statusColor}; width: 10px; height: 10px; border-radius: 50%; display: inline-block;"></span>
-                                            <h3 class="font-semibold text-xs">Report ID: ${report.id}</h3>
-                                        </div>
-                                        <div class="px-3 py-2">
-                                            <div>Type of Road Defect: ${report.defect}</div>
-                                            <div>Date Reported: ${report.date}</div>
-                                            <div class="font-semibold">Location: ${report.location}</div>
-                                        </div>
-                                    </div>
-                                    <div class="max-h-[30px] text-white text-center rounded-b-lg cursor-pointer py-2">
-                                        <button x-on:click="viewReport(${report.id})" class="text-[12px] font-semibold">
-                                            View Report
-                                        </button>
-                                    </div>
+                        <div class="max-w-[400px] h-auto rounded-lg shadow-lg text-[12px] font-sans text-white grid grid-row-2">
+                            <div class="max-h-[300px] bg-white text-gray-700 rounded-t-xl leading-4">
+                                <div class="px-3 py-2 flex items-center space-x-2 border-b border-gray-300">
+                                    <span style="background-color: ${statusColor}; width: 10px; height: 10px; border-radius: 50%; display: inline-block;"></span>
+                                    <h3 class="font-semibold text-xs">Report ID: ${report.id}</h3>
                                 </div>
-                            `;
+                                <div class="px-3 py-2">
+                                    <div>Type of Road Defect: ${report.defect}</div>
+                                    <div>Date Reported: ${report.date}</div>
+                                    <div class="font-semibold">Location: ${report.location}</div>
+                                </div>
+                            </div>
+                            <div class="max-h-[30px] text-white text-center rounded-b-lg cursor-pointer py-2">
+                                <button x-on:click="viewReport(${report.id})" class="text-[12px] font-semibold">
+                                    View Report
+                                </button>
+                            </div>
+                        </div>
+                    `;
 
                     marker.on('click', () => {
                         this.viewReport(report.id);
@@ -115,21 +105,21 @@
                     legend.onAdd = function () {
                         const div = L.DomUtil.create('div', 'legend absolute top-0 right-4 z-50 w-32');
                         div.innerHTML = `
-                                <div class="bg-[#3F4243] bg-opacity-90 text-white px-3 py-1 mt-2 rounded shadow-lg text-[12px]">
-                                    <h3 class="font-semibold mb-2 text-center border-b border-b-white p-1">Legend</h3>
-                                    <ul>
-                                        <li class="leading-6">
-                                            <span class="inline-block w-3 h-3 bg-green-500 mr-2 rounded-full"></span>Repaired
-                                        </li>
-                                        <li class="leading-6">
-                                            <span class="inline-block w-3 h-3 bg-yellow-500 mr-2 rounded-full"></span>On Going
-                                        </li>
-                                        <li class="leading-6">
-                                            <span class="inline-block w-3 h-3 bg-red-500 mr-2 rounded-full"></span>Unfixed
-                                        </li>
-                                    </ul>
-                                </div>
-                            `;
+                            <div class="bg-[#3F4243] bg-opacity-90 text-white px-3 py-1 mt-2 rounded shadow-lg text-[12px]">
+                                <h3 class="font-semibold mb-2 text-center border-b border-b-white p-1">Legend</h3>
+                                <ul>
+                                    <li class="leading-6">
+                                        <span class="inline-block w-3 h-3 bg-green-500 mr-2 rounded-full"></span>Repaired
+                                    </li>
+                                    <li class="leading-6">
+                                        <span class="inline-block w-3 h-3 bg-yellow-500 mr-2 rounded-full"></span>On Going
+                                    </li>
+                                    <li class="leading-6">
+                                        <span class="inline-block w-3 h-3 bg-red-500 mr-2 rounded-full"></span>Unfixed
+                                    </li>
+                                </ul>
+                            </div>
+                        `;
                         return div;
                     };
 
@@ -218,25 +208,25 @@
 
                     // Update popup content dynamically
                     const popupContent = `
-                                <div class="max-w-[400px] h-auto rounded-lg shadow-lg text-[12px] font-sans text-white grid grid-row-2">
-                                    <div class="max-h-[300px] bg-white text-gray-700 rounded-t-xl leading-4">
-                                        <div class="px-3 py-2 flex items-center space-x-2 border-b border-gray-300">
-                                            <span style="background-color: ${statusColor}; width: 10px; height: 10px; border-radius: 50%; display: inline-block;"></span>
-                                            <h3 class="font-semibold text-xs">Report ID: ${this.selectedReport.id}</h3>
-                                        </div>
-                                        <div class="px-3 py-2">
-                                            <div>Type of Road Defect: ${this.selectedReport.defect}</div>
-                                            <div>Reported Date: ${this.selectedReport.date}</div>
-                                            <div class="font-semibold">Location: ${this.selectedReport.location}</div>
-                                        </div>
-                                    </div>
-                                    <div class="max-h-[30px] text-white text-center rounded-b-lg cursor-pointer py-2">
-                                        <button class="text-[12px] font-semibold">
-                                            View Report
-                                        </button>
-                                    </div>
+                        <div class="max-w-[400px] h-auto rounded-lg shadow-lg text-[12px] font-sans text-white grid grid-row-2">
+                            <div class="max-h-[300px] bg-white text-gray-700 rounded-t-xl leading-4">
+                                <div class="px-3 py-2 flex items-center space-x-2 border-b border-gray-300">
+                                    <span style="background-color: ${statusColor}; width: 10px; height: 10px; border-radius: 50%; display: inline-block;"></span>
+                                    <h3 class="font-semibold text-xs">Report ID: ${this.selectedReport.id}</h3>
                                 </div>
-                            `;
+                                <div class="px-3 py-2">
+                                    <div>Type of Road Defect: ${this.selectedReport.defect}</div>
+                                    <div>Reported Date: ${this.selectedReport.date}</div>
+                                    <div class="font-semibold">Location: ${this.selectedReport.location}</div>
+                                </div>
+                            </div>
+                            <div class="max-h-[30px] text-white text-center rounded-b-lg cursor-pointer py-2">
+                                <button class="text-[12px] font-semibold">
+                                    View Report
+                                </button>
+                            </div>
+                        </div>
+                    `;
 
                     // Update the popup content
                     this.selectedReport.marker.setPopupContent(popupContent);
@@ -278,12 +268,12 @@
                     <div class="mr-3">
                         <svg class="w-5 h-5 ${
             type === 'success' ? 'text-green-300' : 'text-red-300'
-        }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             ${
             type === 'success'
                 ? '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />'
                 : '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm4-9a1 1 0 00-1-1H7a1 1 0 000 2h6a1 1 0 001-1z" clip-rule="evenodd" />'
-        }
+            }
                         </svg>
                     </div>
                     <div>${message}</div>

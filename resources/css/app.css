@@ -2,6 +2,7 @@
 @import 'flatpickr/dist/flatpickr.css';
 @import 'flatpickr/dist/themes/material_green.css';
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

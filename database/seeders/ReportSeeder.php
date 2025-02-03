@@ -21,7 +21,7 @@ class ReportSeeder extends Seeder
                 'date' => '2024-10-10',
                 'severity' => 3,
                 'status' => 'Unfixed',
-                'image' => 'images/roadDefect-patches.jpg',
+                'image' => 'images/pothole.png',
                 'lat' => 7.4551,
                 'lng' => 125.8132,
 
@@ -33,7 +33,7 @@ class ReportSeeder extends Seeder
                 'date' => '2024-10-10',
                 'severity' => 3,
                 'status' => 'Unfixed',
-                'image' => 'images/roadDefect-patches.jpg',
+                'image' => 'images/pothole1.png',
                 'lat' => 7.4000,
                 'lng' => 125.8132,
 

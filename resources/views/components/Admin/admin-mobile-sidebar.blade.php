@@ -61,6 +61,21 @@
                         Dashboard
                     </p>
                 </a>
+                <!-- Road Defect Reports -->
+                <a href="{{ route('admin.road-defect-reports') }}" loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
+                    {{ request()->routeIs('admin.road-defect-reports') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
+                    <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 527 455"
+                          class="lazyload w-5 h-5 fill-current
+                        {{ request()->routeIs('admin.road-defect-reports') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200' }}">
+                        <path d="M164.541 227.5H109.499C101.414 227.5 94.8604 233.159 94.8604 240.139V360.461C94.8604 367.441 101.414 373.1 109.499 373.1H164.541C172.626 373.1 179.18 367.441 179.18 360.461V240.139C179.18 233.159 172.626 227.5 164.541 227.5Z"/>
+                        <path d="M291.021 81.9004H235.979C227.894 81.9004 221.34 87.559 221.34 94.5393V360.462C221.34 367.442 227.894 373.1 235.979 373.1H291.021C299.106 373.1 305.66 367.442 305.66 360.462V94.5393C305.66 87.559 299.106 81.9004 291.021 81.9004Z"/>
+                        <path d="M417.501 178.967H362.459C354.374 178.967 347.82 184.625 347.82 191.606V360.461C347.82 367.442 354.374 373.1 362.459 373.1H417.501C425.586 373.1 432.14 367.442 432.14 360.461V191.606C432.14 184.625 425.586 178.967 417.501 178.967Z"/>
+                    </svg>
+                    <p x-show="expanded" class="ml-2
+                        {{ request()->routeIs('admin.road-defect-reports') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">
+                        Road Defect Reports
+                    </p>
+                </a>
                 <!-- Manage Staffs -->
                 <a href="{{ route('admin.manage-users-table') }}" loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
                     {{ request()->routeIs('admin.manage-users-table') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">

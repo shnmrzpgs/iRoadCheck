@@ -1,8 +1,9 @@
-<x-app-layout title="iRoadCheck | Manage Tagging">
+<x-app-layout>
+
     <x-Staff.staff-navigation page_title="Manage Tagging" >
-        <div class="flex-1 -mt-2 overflow-y-scroll h-[83vh] md:h-[85vh] xl:h-full xl:overflow-hidden pb-5">
-{{--            <div id="notification" class="fixed top-4 right-4 z-50"></div>--}}
-            <div  x-data="mapComponent()" >
+
+        {{--        <div id="notification" class="fixed top-4 right-4 z-50"></div>--}}
+        <div  x-data="mapComponent()" >
             <div class="text-[#202020] bg-[#FBFBFB]  pt-0 px-4 pb-4 rounded-lg drop-shadow" >
 
                 <!--Page description and Add button-->
@@ -21,7 +22,7 @@
                 <!-- Map Reports Information -->
                 <div class="mt-0 px-2 mb-2 z-0">
                     <div class="m-0 border border-t-gray-300 rounded-lg inset-0 p-0">
-                        <div class="w-full inline-block h-[75vh] max-h-auto align-middle p-0 z-0">
+                        <div class="min-w-full inline-block min-h-[45vh] max-h-auto align-middle p-0 z-0">
                             <div class="flex"
                                  x-data="{ expanded: false }"
                             >
@@ -29,6 +30,9 @@
                                 <!-- Leaflet JS -->
                                 <livewire:reports-map/>
 
+                                <!-- Map Container -->
+                                <div id="map" class="w-full h-[75vh] bg-white drop-shadow"></div>
+{{--                                <div id="map"></div>--}}
 
                                 <!-- Sidebar Toggle Button -->
                                 <button @click="expanded = !expanded"
@@ -70,12 +74,12 @@
                                             <template x-if="!selectedReport.id || Object.keys(selectedReport).length === 0">
                                                 <div class="mb-4 w-full text-[12px] text-gray-500 text-center"
                                                      x-init="lottie.loadAnimation({
-                                                              container: $refs.lottieAnimation,
-                                                              renderer: 'svg',
-                                                              loop: true,
-                                                              autoplay: true,
-                                                              path: '{{ asset("animations/Animation - 1731695507574.json") }}'
-                                                            })">
+                                                      container: $refs.lottieAnimation,
+                                                      renderer: 'svg',
+                                                      loop: true,
+                                                      autoplay: true,
+                                                      path: '{{ asset("animations/Animation - 1731695507574.json") }}'
+                                                    })">
                                                     <div  class="flex flex-col items-center justify-center h-full">
                                                         <!-- Lottie Animation Container -->
                                                         <div x-ref="lottieAnimation" class="w-28 sm:w-36 md:w-48 lg:w-56 max-w-[150px] mt-4 mb-0 drop-shadow-lg"></div>
@@ -119,14 +123,15 @@
                                                             <img
                                                                 :src="'/storage/' + selectedReport.image"
                                                                 alt="Defect Image"
-                                                                class="w-full h-auto rounded-[10px] object-cover cursor-pointer"
+                                                                class="w-full h-auto rounded-[10px] object-contain cursor-pointer"
                                                                 @click="showModal = true; scale = 1"
                                                             >
                                                         </div>
 
                                                     </div>
 
-                                                    <form action="{{ route('update.report.status') }}" method="POST" x-data="{ newStatus: '', statuses: ['On Going', 'Unfixed', 'Not Found'] }">
+
+                                                    <form action="{{ route('update.report.status') }}" method="POST" x-data="{ newStatus: '', statuses: ['Repaired', 'On Going', 'Unfixed'] }">
                                                         @csrf
                                                         @method('PUT')
 
@@ -240,9 +245,9 @@
                 </div>
             </div>
         </div>
-        </div>
 
     </x-Staff.staff-navigation>
+
 </x-app-layout>
 
 
