@@ -91,6 +91,7 @@ class AddUserAccountForm extends Form
                 'middle_name' => $this->middle_name,
                 'last_name' => $this->last_name,
                 'sex' => $this->sex,
+                'username' => $this->username,
                 'date_of_birth' => $this->date_of_birth,
                 'password' => bcrypt($generatedPassword),
                 'generated_password' => $generatedPassword,
@@ -119,7 +120,6 @@ class AddUserAccountForm extends Form
             $staff = Staff::create([
                 'user_id' => $user->id,
                 'staff_roles_permissions_id' => $staffRolePermission->id, // Assuming $this->user_role maps to a valid staff role
-                'username' => $this->username,
                 'status' => $this->user_status ? StaffStatus::ACTIVE : StaffStatus::INACTIVE,
             ]);
 

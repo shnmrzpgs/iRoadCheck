@@ -15,7 +15,6 @@ class StaffFactory extends Factory
         return [
             'user_id' => \App\Models\User::factory(), // Ensure user_id is assigned
             'staff_roles_permissions_id' => \App\Models\StaffRolesPermissions::inRandomOrder()->value('id') ?? 1,
-            'username' => 'staff_' . $this->faker->unique()->numberBetween(1, 1000),
             'status' => 'active',
             'created_at' => now(),
             'updated_at' => now(),

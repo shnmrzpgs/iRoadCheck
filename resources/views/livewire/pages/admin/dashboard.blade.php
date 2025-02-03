@@ -1,7 +1,7 @@
 <x-Admin.admin-navigation page_title="Dashboard" action="{{ route('admin.dashboard') }}" placeholder="Search..." name="search">
 
     <!-- Main Content -->
-    <main class="flex-1 -mt-2 overflow-y-scroll h-[83vh] pb-5">
+    <main class="flex-1 -mt-2 overflow-y-scroll h-[83vh] md:h-[85vh] pb-5">
 
         <!-- Stats Cards -->
         <div class="grid md:grid-cols-4 gap-6 mb-5">
@@ -336,6 +336,84 @@
                 </div>
             </div>
         </div>
+
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var options = {
+                    chart: {
+                        type: 'area', // Change from 'line' to 'area' for the gradient effect
+                        height: 350,
+                        toolbar: {
+                            show: true, // Keep the toolbar visible
+                            tools: {
+                                zoom: false,
+                                zoomin: false,
+                                zoomout: false,
+                                pan: false,
+                                reset: false,
+                                download: true // Keep only the download button
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'top', // Keeps legend under the title
+                        horizontalAlign: 'center',
+                        markers: {
+                            width: 12,
+                            height: 12,
+                            radius: 12
+                        }
+                    },
+                    series: @json($chartData['series']),
+                    xaxis: {
+                        categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                        labels: {
+                            offsetX: 4 // Adjust label positioning if needed
+                        }
+                    },
+                    yaxis: {
+                        // title: {
+                        //     text: "Number of Defects"
+                        // }
+                    },
+                    colors: ['#FFAD00', '#7E91FF', '#4AA76F'], // Line colors
+                    stroke: {
+                        curve: 'smooth', // Makes the lines wavy
+                        width: 3
+                    },
+                    fill: {
+                        type: 'gradient', // Adds gradient background to the lines
+                        gradient: {
+                            shadeIntensity: 1,
+                            opacityFrom: 0.8, // Full opacity at the top
+                            opacityTo: 0, // Transparent at the bottom
+                            stops: [0, 100] // Gradient transition from top to bottom
+                        }
+                    },
+                    markers: {
+
+                        colors: ['#FFAD00', '#7E91FF', '#4AA76F'], // Same colors as the lines
+                        strokeColor: '#fff', // White border around the circles
+                        strokeWidth: 2, // Border width
+                        shape: 'circle', // Circle shape for points
+                        hover: {
+                            size: 10, // Size on hover
+                            sizeOffset: 3
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+
+                };
+
+                var chart = new ApexCharts(document.querySelector("#chart"), options);
+                chart.render();
+            });
+        </script>
+
+
 
     </main>
 

@@ -31,7 +31,7 @@
                                 <span>{{ $staff->user->first_name }} {{ $staff->user->last_name }}</span>
                             </div>
                             <div class="text-gray-600 block text-xs font-normal italic">
-                                <span>{{ $staff->username }}</span>
+                                <span>{{ $staff->user->username }}</span>
                             </div>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                             <h4 class="font-medium text-gray-700 border-b pb-2 border-[#4AA76F]"><strong>Account Information</strong></h4>
                             <ul>
                                 <li class="text-[#4AA76F] mb-1">Status:<i class="ml-8"> {{ $staff->status }}</i></li>
-                                <li class="mb-1">Username:<i class="ml-6"> {{ $staff->username }}</i></li>
+                                <li class="mb-1">Username:<i class="ml-6"> {{ $staff->user->username }}</i></li>
                                 <li class="mb-1">Password: <i class="ml-3">{{ $staff->user->generated_password }}</i></li>
                             </ul>
                         </div>
