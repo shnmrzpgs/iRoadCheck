@@ -28,7 +28,6 @@ export default {
                 'wipe-left': 'wipe-left 1.5s ease-out forwards', // Customize duration and easing
             },
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
                 pop: ["Poppins"]
             },
             colors: {
