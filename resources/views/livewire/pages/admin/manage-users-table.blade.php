@@ -142,7 +142,7 @@
                                     </div>
                                 </td>
 
-                                <td class="px-4 py-3 text-xs">{{ $staff->username }}</td>
+                                <td class="px-4 py-3 text-xs">{{ $staff->user->username }}</td>
                                 <td class="px-4 py-3 text-xs">
                                     {{ optional($staff->staffRolesPermissions->staffRole)->name ?? 'No role assigned' }}
                                 </td>
