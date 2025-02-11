@@ -1,12 +1,17 @@
 <?php
+
 namespace App\Livewire\Pages\Admin;
 
 use App\Models\Staff;
 use App\Models\StaffRole;
+use App\Models\Report;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class Dashboard extends Component
@@ -17,6 +22,14 @@ class Dashboard extends Component
     public $staffRolesData;
     public Collection $roles;
     public $chartData;
+    public int $selectedYear;
+
+    public int $totalReport = 0;
+    public $unfixedReportCount;
+    public $fixedReportCount;
+    public $ongoingReportCount;
+
+    public array $years = [];
 
     public array $filters = [
         'sort' => '',
@@ -25,6 +38,13 @@ class Dashboard extends Component
 
     public function mount(): void
     {
+        $this->years = Report::select(DB::raw('DISTINCT YEAR(date) as year'))
+            ->orderBy('year', 'desc')
+            ->pluck('year')
+            ->toArray();
+
+        $this->selectedYear = Carbon::now()->year;
+
         $this->updateStaffCount();
         $this->activeStaffCount = Staff::where('status', 'Active')->count();
         $this->inactiveStaffCount = Staff::where('status', 'Inactive')->count();
@@ -32,27 +52,72 @@ class Dashboard extends Component
         $this->roles = StaffRole::whereHas('staffs')->get();
         $this->getStaffRolesData();
 
-        $this->chartData = [
-            'categories' => [10, 20, 30, 40, 50], // Example x-axis values (Numbers)
-            'series' => [
-                [
-                    'name' => 'Alligator Crack',
-                    'data' => [5, 10, 15, 10, 20],
-                    'color' => '#FFAD00',
-                ],
-                [
-                    'name' => 'Pothole',
-                    'data' => [8, 14, 10, 12, 18],
-                    'color' => '#7E91FF',
-                ],
-                [
-                    'name' => 'Cracks',
-                    'data' => [3, 6, 12, 9, 14],
-                    'color' => '#4AA76F',
-                ]
-            ]
-        ];
+        $this->updateReportsCount();
+        $this->unfixedReportCount = Report::where('status', 'Unfixed')->count();
+        $this->fixedReportCount = Report::where('status', 'Fixed')->count();
+        $this->ongoingReportCount = Report::where('status', 'Ongoing')->count();
+        $this->loadChartData();
     }
+
+    public function loadChartData(): void
+    {
+        $year = $this->selectedYear;
+        $defectTypes = Report::select('defect')
+            ->whereYear('date', $year)
+            ->distinct()
+            ->pluck('defect');
+
+        $seriesData = [];
+        $colors = [
+            'Alligator Crack' => '#FFAD00',
+            'Pothole' => '#7E91FF',
+            'Cracks' => '#4AA76F',
+            'Raveling' => '#E26161',
+        ];
+
+        foreach ($defectTypes as $defect) {
+            $monthlyData = [];
+            for ($month = 1; $month <= 12; $month++) {
+                $count = Report::whereYear('date', $year)
+                    ->whereMonth('date', $month)
+                    ->where('defect', $defect)
+                    ->count();
+                $monthlyData[] = $count;
+            }
+
+            if (!empty($monthlyData)) {
+                $seriesData[] = [
+                    'name' => $defect,
+                    'data' => $monthlyData,
+                    'color' => $colors[$defect] ?? '#' . substr(md5($defect), 0, 6),
+                ];
+            }
+        }
+
+        if (!empty($seriesData)) {
+            $this->chartData = [
+                'series' => $seriesData
+            ];
+
+            // Update related counts for the selected year
+            $this->unfixedReportCount = Report::whereYear('date', $year)->where('status', 'Unfixed')->count();
+            $this->fixedReportCount = Report::whereYear('date', $year)->where('status', 'Fixed')->count();
+            $this->ongoingReportCount = Report::whereYear('date', $year)->where('status', 'Ongoing')->count();
+            $this->totalReport = Report::whereYear('date', $year)->count();
+
+            // Dispatch with the complete chart data
+            $this->dispatch('chartDataUpdated', $this->chartData);
+        }
+    }
+
+    public function updatedSelectedYear($value): void
+    {
+        if (is_numeric($value) && in_array((int)$value, $this->years)) {
+            $this->selectedYear = (int)$value;
+            $this->loadChartData();
+        }
+    }
+
 
     public function getStaffRolesData(): void
     {
@@ -81,8 +146,8 @@ class Dashboard extends Component
                         return [
                             'name' => trim(
                                 ($staff->user->first_name ?? '') . ' ' .
-                                ($staff->user->middle_name ?? '') . ' ' .
-                                ($staff->user->last_name ?? '')
+                                    ($staff->user->middle_name ?? '') . ' ' .
+                                    ($staff->user->last_name ?? '')
                             ),
                             'avatar' => $staff->user->profilePhoto?->photo_path ?? null,
                         ];
@@ -113,6 +178,11 @@ class Dashboard extends Component
         $this->totalStaff = Staff::count();
     }
 
+    public function updateReportsCount(): void
+    {
+        $this->totalReport = Report::count();
+    }
+
     public function resetFilters(): void
     {
         $this->filters = [
@@ -123,7 +193,7 @@ class Dashboard extends Component
     }
 
 
-    public function render():  Factory|Application|View|\Illuminate\View\View
+    public function render(): Factory|Application|View|\Illuminate\View\View
     {
         session()->forget('hideSearchBar');
         return view('livewire.pages.admin.dashboard');
