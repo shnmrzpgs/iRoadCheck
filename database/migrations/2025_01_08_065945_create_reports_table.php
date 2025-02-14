@@ -16,6 +16,9 @@ return new class extends Migration
             $table->foreignId('resident_id')->references('id')->on('users');
             $table->string('defect');
             $table->string('location');
+            $table->string('street')->default('N/A');
+            $table->string('purok')->default('N/A');
+            $table->string('barangay')->default('N/A');
             $table->date('date');
             $table->time('time')->nullable();
             $table->foreignId('severity')->references('id')->on('severities');

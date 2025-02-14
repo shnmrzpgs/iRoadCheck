@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'AuthResident' => \App\Http\Middleware\AuthResident::class,
             'AuthStaff' => \App\Http\Middleware\AuthStaff::class,
             'VerifyResident' => \App\Http\Middleware\VerifyResident::class,
+            'CheckPWA' => \App\Http\Middleware\CheckPWA::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

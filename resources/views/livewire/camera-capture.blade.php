@@ -382,6 +382,9 @@
                             <input type="hidden" name="latitude" x-bind:value="latitude">
                             <input type="hidden" name="longitude" x-bind:value="longitude">
                             <input type="hidden" name="address" x-bind:value="address">
+                            <input type="hidden" name="purok" x-bind:value="purok">
+                            <input type="hidden" name="street" x-bind:value="street">
+                            <input type="hidden" name="barangay" x-bind:value="barangay">
                             <input type="hidden" name="date" x-bind:value="date">
                             <input type="hidden" name="time" x-bind:value="time">
                             <input type="hidden" name="photo" x-bind:value="photo">
@@ -556,12 +559,82 @@
 
                             const apiKey = "{{ env('GOOGLE_MAP_API') }}";
                             const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${apiKey}`;
-                            fetch(geocodeUrl)
+                            {{--fetch(geocodeUrl)--}}
+                            {{--    .then(response => response.json())--}}
+                            {{--    .then(data => {--}}
+                            {{--        if (data.status === 'OK') {--}}
+                            {{--            this.address = data.results[0].formatted_address;--}}
+                            {{--            // alert(`Address: ${this.address}\nLatitude: ${this.latitude}\nLongitude: ${this.longitude}`);--}}
+                            {{--        } else {--}}
+                            {{--            alert('Unable to get the location name.');--}}
+                            {{--        }--}}
+                            {{--    })--}}
+                            {{--    .catch(error => {--}}
+                            {{--        console.error('Error with geocoding request:', error);--}}
+                            {{--        alert('Unable to retrieve location name.');--}}
+                            {{--    });--}}
+                            const accessToken = 'pk.eyJ1IjoicGlyYXRpY2FtZSIsImEiOiJjbTZyb25ubzYwMTYwMmxxMWFwcmgyd203In0.JGlK5yEI3UaL7NmNP0kh7w';
+                            const mapboxUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.longitude},${this.latitude}.json?access_token=${accessToken}`;
+
+                            // fetch(mapboxUrl)
+                            //     .then(response => response.json())
+                            //     .then(data => {
+                            //         if (data.features.length > 0) {
+                            //             this.address = data.features[0].place_name;
+                            //         } else {
+                            //             alert('Unable to get the location name.');
+                            //         }
+                            //     })
+                            fetch(mapboxUrl)
                                 .then(response => response.json())
                                 .then(data => {
-                                    if (data.status === 'OK') {
-                                        this.address = data.results[0].formatted_address;
-                                        // alert(`Address: ${this.address}\nLatitude: ${this.latitude}\nLongitude: ${this.longitude}`);
+                                    if (data.features.length > 0) {
+                                        const feature = data.features[0];
+                                        this.fullAddress = feature.place_name;
+
+                                        let street = feature.text; // Primary name is usually the street
+                                        let purok = '';
+                                        let barangay = '';
+                                        let city = '';
+                                        let province = '';
+                                        let country = '';
+
+                                        // Iterate through context array to find relevant components
+                                        feature.context.forEach(item => {
+                                            if (item.id.includes('address')) street = item.text;
+                                            if (item.id.includes('neighborhood')) purok = item.text;
+                                            if (item.id.includes('place')) city = item.text;
+                                            if (item.id.includes('locality')) barangay = item.text; // Sometimes barangay is under locality
+                                            if (item.id.includes('region')) province = item.text;
+                                            if (item.id.includes('country')) country = item.text;
+                                        });
+                                        // If purok is empty, find closest match
+                                        if (!purok) {
+                                            const fallbackPurok = data.features.find(f => f.id.includes('neighborhood'));
+                                            purok = fallbackPurok ? fallbackPurok.text : 'N/A';
+                                        }
+
+                                        // Adjust if barangay and city are swapped
+                                        if (barangay.toLowerCase() === city.toLowerCase()) {
+                                            barangay = 'La Filipina'; // Hardcode if pattern consistently wrong
+                                            city = 'Tagum City';
+                                        }
+
+                                        // Save cleaned-up components
+                                        this.street = street || 'N/A';
+                                        this.purok = purok || 'N/A';
+                                        this.barangay = barangay || 'N/A';
+                                        this.city = city || 'N/A';
+                                        this.province = province || 'N/A';
+                                        this.country = country || 'N/A';
+
+                                        alert(`Full Address: ${this.fullAddress}
+Street: ${this.street}
+Purok: ${purok}
+Barangay: ${barangay}
+City: ${city}
+Province: ${province}
+Country: ${country}`);
                                     } else {
                                         alert('Unable to get the location name.');
                                     }
@@ -570,6 +643,7 @@
                                     console.error('Error with geocoding request:', error);
                                     alert('Unable to retrieve location name.');
                                 });
+
                         },
                         error => {
                             console.error('Error getting location:', error);
