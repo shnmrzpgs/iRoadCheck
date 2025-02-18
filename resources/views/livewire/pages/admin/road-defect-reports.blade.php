@@ -1,421 +1,487 @@
 <x-Admin.admin-navigation page_title="Road Defect Reports" >
 
-       <x-Admin.road-defect-reports-page-content-base>
-           <x-slot:page_title>
-               <div class="text-[#4D4F50] font-semibold">Manage Reports</div>
-           </x-slot:page_title>
-
-           <x-slot:page_description>
-               <div class="mt-2 text-[12px] text-primary-800">
-                   This page allows staff to manage the status of specific Road Defect Reports, including updating, reviewing, and tracking their progress.
-               </div>
-           </x-slot:page_description>
-       </x-Admin.road-defect-reports-page-content-base>
-
-    <!-- Leaflet JS -->
-    <script>
-        function mapComponent() {
-            return {
-                reports: [
-                    {
-                        id: 1,
-                        defect: 'Pothole',
-                        location: 'Apokon Road, Tagum City',
-                        date: '2024-10-10',
-                        severity: 'Critical',
-                        status: 'Unfixed',
-                        image: "{{ asset('storage/images/roadDefect-patches.jpg') }}",
-                        lat: 7.4551,
-                        lng: 125.8132,
-                    },
-                    {
-                        id: 2,
-                        defect: 'Cracked Pavement',
-                        location: 'Rizal Street, Downtown Tagum',
-                        date: '2024-10-15',
-                        severity: 'Moderate',
-                        status: 'Ongoing',
-                        image: "{{ asset('storage/images/roadDefect-pothole.jpg') }}",
-                        lat: 7.4483,
-                        lng: 125.8127,
-                    },
-                    {
-                        id: 3,
-                        defect: 'Flooded Road',
-                        location: 'Mabini Street, Tagum City',
-                        date: '2024-09-20',
-                        severity: 'High',
-                        status: 'Repaired',
-                        image: "{{ asset('storage/images/roadDefect-asphaltDepression.jpg') }}",
-                        lat: 7.4520,
-                        lng: 125.8055,
-                    },
-                    {
-                        id: 4,
-                        defect: 'Eroded Shoulder',
-                        location: 'San Miguel Road, Tagum City',
-                        date: '2024-08-30',
-                        severity: 'Critical',
-                        status: 'Unfixed',
-                        image: "{{ asset('storage/images/roadDefect-asphaltDepression.jpg') }}",
-                        lat: 7.4601,
-                        lng: 125.8245,
-                    },
-                    {
-                        id: 5,
-                        defect: 'Sinkhole',
-                        location: 'National Highway, Tagum City Center',
-                        date: '2024-07-18',
-                        severity: 'Critical',
-                        status: 'Ongoing',
-                        image: "{{ asset('storage/images/roadDefect-slippageCrack.png') }}",
-                        lat: 7.4528,
-                        lng: 125.8183,
-                    },
-                    {
-                        id: 6,
-                        defect: 'Debris on Road',
-                        location: 'Quirante Road, Near Coastal Area, Tagum City',
-                        date: '2024-10-01',
-                        severity: 'Low',
-                        status: 'Repaired',
-                        image: "{{ asset('storage/images/roadDefect-slippageCrack.png') }}",
-                        lat: 7.4660,
-                        lng: 125.8070,
-                    },
-                    {
-                        id: 7,
-                        defect: 'Overgrown Vegetation',
-                        location: 'Tagum-Mabini Road, Tagum City',
-                        date: '2024-09-12',
-                        severity: 'Moderate',
-                        status: 'Ongoing',
-                        image: "{{ asset('storage/images/roadDefect-patches.jpg') }}",
-                        lat: 7.4375,
-                        lng: 125.7998,
-                    },
-                    {
-                        id: 8,
-                        defect: 'Loose Gravel',
-                        location: 'Liboganon Road, Tagum City',
-                        date: '2024-10-05',
-                        severity: 'Low',
-                        status: 'Repaired',
-                        image: "{{ asset('storage/images/roadDefect-asphaltDepression.jpg') }}",
-                        lat: 7.4312,
-                        lng: 125.7820,
-                    },
-                    {
-                        id: 9,
-                        defect: 'Missing Signage',
-                        location: 'Visayan Village, Tagum City',
-                        date: '2024-09-25',
-                        severity: 'Moderate',
-                        status: 'Ongoing',
-                        image: "{{ asset('storage/images/roadDefect-pothole.jpg') }}",
-                        lat: 7.4460,
-                        lng: 125.7972,
-                    },
-                    {
-                        id: 10,
-                        defect: 'Damaged Bridge',
-                        location: 'Tagum-Panabo Bridge, Outskirts of Tagum City',
-                        date: '2024-08-05',
-                        severity: 'Critical',
-                        status: 'Unfixed',
-                        image: "{{ asset('storage/images/roadDefect-patches.jpg') }}",
-                        lat: 7.4265,
-                        lng: 125.7712,
-                    },
-                ],
-                markerLayers: [],
-                newStatus: '',
-                selectedReport: { status: 'Repaired' },
-                statuses: ['Repaired', 'Ongoing', 'Unfixed', 'Not Found'], // Fixed array syntax
+    <x-Admin.road-defect-reports-page-content-base>
+       <x-slot:page_description>
+           <div class="mt-2">
+               This map view page allows admin to view the comprehensive reports of the road defects within Tagum City.
+           </div>
+       </x-slot:page_description>
 
 
-                init() {
-                    // Correct bounding box for Tagum City
-                    const bounds = [
-                        [7.3843, 125.7267], // Southwest corner
-                        [7.5100, 125.8867]  // Northeast corner
-                    ];
+        <x-slot:map_container>
+            <div class="flex"
+                 x-data="{
+                     expanded: false,
+                     showFilters: false,
+                     activeFilter: '',
+                     complaintsRange: '',
+                     roadDefects: '',
+                     dateRange: ''
+                    }"
+            >
+                <button @click="expanded = !expanded"
+                        class="hidden lg:flex items-center fixed top-14 right-7 z-[50] bg-gradient-to-b from-[#84D689] to-green-500 text-white rounded-full hover:bg-[#3AA76F] transition-all duration-300 px-4 py-2">
+                    <svg :class="expanded ? '-rotate-90' : 'rotate-90'" class="w-4 h-5 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 00-.707.293l-6 6a1 1 0 001.414 1.414L10 5.414l5.293 5.293a1 1 0 001.414-1.414l-6-6A1 1 0 0010 3z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="text-sm ml-1" x-text="expanded ? 'View Report Information' : 'Hide Report Information'"></span>
+                </button>
 
-                    // Initialize the map, focused on Tagum City
-                    this.map = L.map('map', {
-                        center: [7.4475, 125.8067],
-                        zoom: 14,
-                        minZoom: 13,
-                        maxZoom: 18,
-                        maxBounds: bounds,
-                    });
+                <div class="w-full flex flex-col lg:flex-row">
+                    <!-- Leaflet JS -->
+                    <livewire:admin.comprehensive-report-map/>
 
+                    <!-- Map Container -->
+                    <div id="map" class="w-full h-[78vh] bg-white drop-shadow"></div>
 
-                    // Add OpenStreetMap tile layer
-                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        maxZoom: 30,
-                    }).addTo(this.map);
+                    <!-- Map Information Sidebar -->
+                    <div class="mt-0 h-[78vh] bg-white transition-all duration-300 overflow-hidden"
+                         :class="expanded ? 'w-0 hidden' : 'w-full lg:w-6/10 block' ">
 
-                    this.map.attributionControl.setPrefix(false);
+                        <!-- Sidebar Content -->
+                        <div class="p-0 block h-full flex flex-col">
+                            <div class="w-full bg-gradient-to-b from-[#84D689] to-green-500 h-10 mb-4"></div>
 
-                    legend.onAdd = function () {
-                        const div = L.DomUtil.create('div', 'legend absolute top-0 right-4 z-50 w-32');
-                        div.innerHTML = `
-                                <div class="bg-[#3F4243] bg-opacity-90 text-white px-3 py-1 mt-2 rounded shadow-lg text-[12px]">
-                                    <h3 class="font-semibold mb-2 text-center border-b border-b-white p-1">Legend</h3>
-                                    <ul>
-                                        <li class="leading-6">
-                                            <span class="inline-block w-3 h-3 bg-green-500 mr-2 rounded-full"></span>Repaired
-                                        </li>
-                                        <li class="leading-6">
-                                            <span class="inline-block w-3 h-3 bg-yellow-500 mr-2 rounded-full"></span>On Going
-                                        </li>
-                                        <li class="leading-6">
-                                            <span class="inline-block w-3 h-3 bg-red-500 mr-2 rounded-full"></span>Unfixed
-                                        </li>
-                                    </ul>
+                            <div class="px-5 mt-3 flex flex-col">
+                                <!-- Search Filter-->
+                                <div class="flex w-full items-center px-5 space-x-6">
+                                    <form class="mr-auto relative flex flex-1 h-9 rounded-[6px] border border-gray-200" action="#" method="GET" onsubmit="event.preventDefault();">
+                                        <label for="search-field" class="sr-only">Search</label>
+                                        <svg class="pointer-events-none absolute inset-y-0 left-1 h-full w-4 text-gray-400 ml-2 z-10" viewBox="0 0 20 20" fill="#6AA76F" aria-hidden="false">
+                                            <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+                                        </svg>
+                                        <input id="search-field"
+                                               class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#6AA76F] focus:border-[#6AA76F] drop-shadow-md focus:bg-white bg-white rounded-[6px] border-none block h-full w-full py-0 pl-8 text-gray-900 placeholder:text-gray-400 xs:text-[10px] sm:text-[12px] md:text-[14px] lg:text-[14px]"
+                                               placeholder="Search"
+                                               type="text"
+                                               x-on:input="filterMarkers($event.target.value)">
+                                    </form>
+                                    <!-- Toggle Filters Button -->
+                                    <button
+                                        @click="showFilters = !showFilters"
+                                        class="ml-auto bg-orange-500 text-white px-4 py-2 rounded-md flex items-center shadow-md hover:shadow-lg transition-all">
+                                        <span class="text-xs" x-text="showFilters ? 'Hide Filters' : 'Show Filters'"></span>
+                                        <svg class="ml-2 w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M19 9l-7 7-7-7"
+                                                  x-show="!showFilters" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M19 15l-7-7-7 7"
+                                                  x-show="showFilters" />
+                                        </svg>
+                                    </button>
+
                                 </div>
-                            `;
-                        return div;
-                    };
 
-                    // Add markers for each report
-                    this.reports.forEach(report => {
-                        const statusColor = getStatusColor(report.status);
-
-                        const marker = L.circleMarker([report.lat, report.lng], {
-                            color: 'black',
-                            weight: 1,
-                            radius: 6,
-                            fillColor: statusColor,
-                            fillOpacity: 1,
-                        }).addTo(this.map);
-
-                        const popupContent = `
-                                <div class="max-w-[400px] h-auto rounded-lg shadow-lg text-[12px] font-sans text-white grid grid-row-2">
-                                    <div class="max-h-[300px] bg-white text-gray-700 rounded-t-xl leading-4">
-                                        <div class="px-3 py-2 flex items-center space-x-2 border-b border-gray-300">
-                                            <span style="background-color: ${statusColor}; width: 10px; height: 10px; border-radius: 50%; display: inline-block;"></span>
-                                            <h3 class="font-semibold text-xs">Report ID: ${report.id}</h3>
-                                        </div>
-                                        <div class="px-3 py-2">
-                                            <div>Type of Road Defect: ${report.defect}</div>
-                                            <div>Date Reported: ${report.date}</div>
-                                            <div class="font-semibold">Location: ${report.location}</div>
-                                        </div>
+                                <!-- Filters Section -->
+                                <div x-show="showFilters"
+                                     class="flex flex-col space-y-4 mt-4 transition-all duration-300 overflow-auto max-h-[30vh] px-2">
+                                    <!-- Number of Complaints Filter -->
+                                    <div class="relative flex rounded-[4px] border hover:shadow-md custom-select"
+                                         :class="{
+                                                         'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'complaints',
+                                                         'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'complaints'
+                                                     }">
+                                        <select x-model="complaintsRange"
+                                                @change="activeFilter = 'complaints'"
+                                                class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none">
+                                            <option value="" class="text-gray-400">Number of Complaints</option>
+                                            <option value="low">Low (0-10)</option>
+                                            <option value="medium">Medium (11-50)</option>
+                                            <option value="high">High (51+)</option>
+                                        </select>
                                     </div>
-                                    <div class="max-h-[30px] text-white text-center rounded-b-lg cursor-pointer py-2">
-                                        <button x-on:click="viewReport(${report.id})" class="text-[12px] font-semibold">
-                                            View Report
+
+                                    <!-- Types of Road Defects Filter -->
+                                    <div class="relative flex rounded-[4px] border hover:shadow-md custom-select"
+                                         :class="{
+                                                         'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'roadDefects',
+                                                         'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'roadDefects'
+                                                     }">
+                                        <select x-model="roadDefects"
+                                                @change="activeFilter = 'roadDefects'"
+                                                class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none">
+                                            <option value="" class="text-gray-400 text-[12px]">Types of Road Defects</option>
+                                            <option value="pothole">Potholes</option>
+                                            <option value="cracks">Alligator Cracks</option>
+                                            <option value="erosion">Raveling</option>
+                                            <option value="erosion">Cracks</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Date Range Filter -->
+                                    <div x-data="{
+                                                        value: [$wire.start_date, $wire.end_date],
+                                                        init() {
+                                                            let picker = flatpickr(this.$refs.picker, {
+                                                                mode: 'range',
+                                                                dateFormat: 'Y-m-d',
+                                                                defaultDate: this.value,
+                                                                minDate: $wire.start_date,
+                                                                maxDate: $wire.end_date,
+                                                                allowInput: false,
+                                                                onChange: (date, dateString) => {
+                                                                    this.value = dateString.split(' to ');
+                                                                }
+                                                            });
+                                                            this.$watch('value', () => picker.setDate(this.value));
+                                                        }
+                                                    }"
+                                         class="relative flex rounded-[4px] border hover:shadow-md custom-date-input"
+                                         :class="{
+                                                        'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'dateRange',
+                                                        'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'dateRange'
+                                                    }">
+                                        <input
+                                            class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none"
+                                            x-ref="picker"
+                                            type="text"
+                                            placeholder="Select Date Range"
+                                            x-model="dateRange"
+                                            @focus="activeFilter = 'dateRange'"
+                                        />
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <div class="flex justify-end space-x-2 mt-3">
+                                        <!-- Remove All Filters Button -->
+                                        <button
+                                            @click="clearFilters()"
+                                            class="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center shadow-md hover:shadow-lg transition-all text-xs">
+                                            Remove All Filters
+                                        </button>
+                                        <!-- Apply Filters Button -->
+                                        <button
+                                            @click="applyFilters()"
+                                            class="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center shadow-md hover:shadow-lg transition-all text-xs">
+                                            Apply Filters
                                         </button>
                                     </div>
                                 </div>
-                            `;
 
-                        marker.on('click', () => {
-                            this.viewReport(report.id);
-                            marker.openPopup();
-                        });
 
-                        marker.bindPopup(popupContent); // Customize this popup as needed
-                        report.marker = marker;
+                                <script>
+                                    function applyFilters() {
+                                        // Logic for applying the filters (send selected filter values to backend or process them)
+                                        console.log('Filters applied:', {
+                                            complaintsRange: this.complaintsRange,
+                                            roadDefects: this.roadDefects,
+                                            dateRange: this.dateRange
+                                        });
+                                    }
 
-                        // Store the entire report in markerLayers for easier access
-                        this.markerLayers.push({ marker, report });
-
-                        marker.on('mouseover', function () {
-                            this.openPopup();
-                        });
-                        marker.on('mouseout', function () {
-                            this.closePopup();
-                        });
-                    });
-
-                    // Handle map view updates on move
-                    this.map.on('moveend', () => {
-                        if (this.selectedReport && this.selectedReport.marker) {
-                            this.selectedReport.marker.openPopup();
-                        }
-                    });
-                },
-
-                filterMarkers(query) {
-                    this.map.closePopup(); // Close any open popups before filtering
-                    console.log('filterMarkers called with query:', query); // Debugging line
-
-                    const searchQuery = query.toLowerCase();
-
-                    this.markerLayers.forEach(({ marker, report }) => {
-                        const searchableContent = [
-                            report.defect.toLowerCase(),
-                            report.location.toLowerCase(),
-                            report.status.toLowerCase(),
-                            report.date.toLowerCase()
-                        ].join(' ');
-
-                        if (searchableContent.includes(searchQuery)) {
-                            if (!this.map.hasLayer(marker)) {
-                                marker.addTo(this.map);
-                                console.log('Added marker for:', report.location); // Debugging line
-                            }
-                            // Open the popup without auto-panning
-                            marker.openPopup();
-                        } else {
-                            if (this.map.hasLayer(marker)) {
-                                this.map.removeLayer(marker);
-                                console.log('Removed marker for:', report.location); // Debugging line
-                            }
-                        }
-                    });
-                },
-
-                viewReport(id) {
-                    this.selectedReport = this.reports.find(report => report.id === id);
-                    if (!this.selectedReport) return;
-
-                    const latLng = [this.selectedReport.lat, this.selectedReport.lng];
-                    this.map.setView(latLng, 18, { animate: true });
-
-                    this.selectedReport.marker.openPopup();
-
-                    if (this.pulseLocationIcon) {
-                        this.map.removeLayer(this.pulseLocationIcon);
-                        clearInterval(this.pulseInterval);
-                    }
-
-                    this.pulseLocationIcon = L.circle(latLng, {
-                        color: 'blue',
-                        fillColor: 'blue',
-                        fillOpacity: 0.15,
-                        radius: 25
-                    }).addTo(this.map);
-
-                    let pulseSize = 25;
-                    this.pulseInterval = setInterval(() => {
-                        pulseSize = pulseSize === 25 ? 30 : 25;
-                        this.pulseLocationIcon.setRadius(pulseSize);
-                    }, 500);
-                },
-
-                updateReportStatus() {
-                    if (this.newStatus) {
-                        // Update the status of the selected report
-                        this.selectedReport.status = this.newStatus;
-                        const statusColor = getStatusColor(this.newStatus);
-
-                        // Update marker style to reflect the new status
-                        this.selectedReport.marker.setStyle({
-                            color: 'black',
-                            weight: 1,
-                            fillColor: statusColor,
-                            fillOpacity: 1,
-                        });
-
-                        // Update popup content dynamically
-                        const popupContent = `
-                                <div class="max-w-[400px] h-auto rounded-lg shadow-lg text-[12px] font-sans text-white grid grid-row-2">
-                                    <div class="max-h-[300px] bg-white text-gray-700 rounded-t-xl leading-4">
-                                        <div class="px-3 py-2 flex items-center space-x-2 border-b border-gray-300">
-                                            <span style="background-color: ${statusColor}; width: 10px; height: 10px; border-radius: 50%; display: inline-block;"></span>
-                                            <h3 class="font-semibold text-xs">Report ID: ${this.selectedReport.id}</h3>
+                                    function clearFilters() {
+                                        // Reset all filters
+                                        this.complaintsRange = '';
+                                        this.roadDefects = '';
+                                        this.dateRange = '';
+                                        this.activeFilter = '';
+                                        console.log('All filters cleared');
+                                    }
+                                </script>
+                            </div>
+                            <!--comprehensive reports-->
+                            <div class="flex-1 overflow-y-auto min-h-[25vh] max-h-auto pb-16 px-6">
+                                <div class="space-y-4">
+                                    <template x-for="i in 4" :key="i">
+                                        <div class="bg-white shadow-md p-4 rounded-lg flex justify-between items-center border">
+                                            <div>
+                                                <h3 class="font-bold">Potholes</h3>
+                                                <p class="text-gray-500">Anywhere Street</p>
+                                                <p class="text-sm text-gray-400">Current Report Status: <span x-text="i * 10"></span> days ago</p>
+                                            </div>
+                                            <div class="text-center border-2 border-orange-400 text-orange-400 px-4 py-2 rounded-lg">
+                                                <span class="text-xl font-bold">500</span>
+                                                <p class="text-xs">reports</p>
+                                            </div>
                                         </div>
-                                        <div class="px-3 py-2">
-                                            <div>Type of Road Defect: ${this.selectedReport.defect}</div>
-                                            <div>Reported Date: ${this.selectedReport.date}</div>
-                                            <div class="font-semibold">Location: ${this.selectedReport.location}</div>
-                                        </div>
-                                    </div>
-                                    <div class="max-h-[30px] text-white text-center rounded-b-lg cursor-pointer py-2">
-                                        <button class="text-[12px] font-semibold">
-                                            View Report
-                                        </button>
-                                    </div>
+                                    </template>
                                 </div>
-                            `;
+                            </div>
 
-                        // Update the popup content
-                        this.selectedReport.marker.setPopupContent(popupContent);
-
-                        // Show a success notification
-                        showNotification(`Status updated to: ${this.newStatus}`, 'success');
-
-                        // Clear the input field for new status
-                        this.newStatus = '';
-                    } else {
-                        // Show an error notification
-                        showNotification('Please select a status before updating.', 'error');
-                    }
-                }
-
-            };
-        }
-        function getStatusColor(status) {
-            switch (status) {
-                case 'Repaired':
-                    return '#28a745'; // Green
-                case 'Ongoing':
-                    return '#ffc107'; // Yellow
-                case 'Unfixed':
-                    return '#dc3545'; // Red
-                case 'Not Found':
-                    return '#6c757d'; // Gray
-                default:
-                    return '#6c757d'; // Default gray
-            }
-        }
-        function showNotification(message, type = 'success') {
-            // Create notification container
-            const notification = document.createElement('div');
-            notification.className = `flex items-center px-4 py-2 rounded-lg shadow-md text-white relative transition-transform transform scale-95 opacity-0 ${
-                type === 'success' ? 'bg-green-500' : 'bg-red-500'
-            }`;
-
-            // Add the notification content
-            notification.innerHTML = `
-                    <div class="mr-3">
-                        <svg class="w-5 h-5 ${
-                type === 'success' ? 'text-green-300' : 'text-red-300'
-            }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                            ${
-                type === 'success'
-                    ? '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />'
-                    : '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm4-9a1 1 0 00-1-1H7a1 1 0 000 2h6a1 1 0 001-1z" clip-rule="evenodd" />'
-            }
-                        </svg>
+                        </div>
                     </div>
-                    <div>${message}</div>
-                    <div class="absolute bottom-0 left-0 h-1 bg-white bg-opacity-30 w-full progress-bar"></div>
-                `;
+                </div>
 
-            // Append notification to the container
-            const container = document.getElementById('notification');
-            container.appendChild(notification);
+            </div>
+        </x-slot:map_container>
 
-            // Animate in
-            setTimeout(() => {
-                notification.classList.remove('scale-95', 'opacity-0');
-                notification.classList.add('scale-100', 'opacity-100');
-            }, 50);
+        <x-slot:table_container>
+            <x-admin.crud-page-content-base>
 
-            // Progress bar animation
-            const progressBar = notification.querySelector('.progress-bar');
-            progressBar.style.transition = 'width 3s linear';
-            progressBar.style.width = '0%';
+                <x-slot:page_description>
+                    A table view for the geospatial mapping reports with all the reports occur in the iRoadCheck system.
+                </x-slot:page_description>
 
-            // Remove notification after 3 seconds
-            setTimeout(() => {
-                // Animate out
-                notification.classList.remove('opacity-100', 'scale-100');
-                notification.classList.add('opacity-0', 'scale-95');
+                <x-slot:dropdown_filters_container>
+                    <div x-data="{ activeFilter: 'all' }" class="flex space-x-2">
+                        <!-- All Road Defect Reports Option -->
+                        <div wire:click="resetFiltersAndSearch" class="relative rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md"
+                             :class="{
+                             'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'all',
+                             'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'all'
+                         }"
+                             @click="activeFilter = 'all'">
+                        <span class="text-[12px] block appearance-none w-full text-center px-2 py-2 rounded">
+                            All Staff
+                        </span>
+                        </div>
 
-                // Remove from DOM
-                setTimeout(() => {
-                    notification.remove();
-                }, 300);
-            }, 3000);
-        }
+                        <!-- Date Range Filter -->
+                        <div
+                            x-data="{
+                            value: [$wire.start_date, $wire.end_date],
+                            init() {
+                                let picker = flatpickr(this.$refs.picker, {
+                                    mode: 'range',
+                                    dateFormat: 'Y-m-d',
+                                    defaultDate: this.value,
+                                    minDate: $wire.start_date,
+                                    maxDate: $wire.end_date,
+                                    allowInput: false,
+                                    onChange: (date, dateString) => {
+                                        this.value = dateString.split(' to ');
+                                    }
+                                });
+                                this.$watch('value', () => picker.setDate(this.value));
+                            }
+                        }"
+                            class="relative flex rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md custom-date-input"
+                            :class="{
+                            'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'dateRange',
+                            'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'dateRange'
+                        }"
+                        >
+                            <input
+                                class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none"
+                                x-ref="picker"
+                                type="text"
+                                placeholder="Select Date Range"
+                                wire:model.live="date_range_filter"
+                                @focus="activeFilter = 'dateRange'"
+                            />
+                        </div>
 
-    </script>
+                        <!-- Status Filter -->
+                        <!-- Type of Road Defect -->
+                    </div>
+                </x-slot:dropdown_filters_container>
+
+                <x-slot:action_buttons_container>
+                    <button type="button"
+                            {{--                            wire:click="exportStaffLogs"--}}
+                            class="mt-5 flex gap-x-[8px] w-auto text-xs px-[14px] py-[10px] font-normal tracking-wider text-[#FFFFFF] bg-gradient-to-b from-[#84D689] to-green-500 rounded-full hover:drop-shadow hover:bg-[#4AA76F] hover:scale-105 hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier (0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="15" height="15" class="mt-0.5 mr-0">
+                            <path fill="#ffffff" fill-opacity="1" fill-rule="nonzero" d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 128-168 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l168 0 0 112c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zM384 336l0-48 110.1 0-39-39c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l80 80c9.4 9.4 9.4 24.6 0 33.9l-80 80c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l39-39L384 336zm0-208l-128 0L256 0 384 128z"/>
+                        </svg>
+                        <span class="ml-0 mt-0 text-[#FFFFFF] text-md">Export Reports</span>
+                    </button>
+                </x-slot:action_buttons_container>
+
+                <x-slot:table_container>
+                    <div class="inline-block w-[40vh] md:w-full lg:w-full h-auto md:h-[52vh] lg:h-[55vh] xl:h-[62vh] xl:max-h-[100vh] overflow-y-auto align-middle drop-shadow rounded-b-md">
+                        <table class="w-[100px] md:w-full text-left divide-y divide-gray-300">
+                            <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">
+                                    <button class="flex items-end" wire:click="toggleSorting('id')">
+                                        No.
+                                        <div x-cloak x-show="$wire.sort_by === 'id'">
+                                            <x-arrow-up x-cloak x-show="$wire.sort_direction === 'asc'" />
+                                            <x-arrow-down x-cloak x-show="$wire.sort_direction === 'desc'" />
+                                        </div>
+                                    </button>
+                                </th>
+                                <th scope="col" class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">
+                                    <button class="flex items-end" wire:click="toggleSorting('report_id')">
+                                        Report ID
+                                        <div x-cloak x-show="$wire.sort_by === 'report_id'">
+                                            <x-arrow-up x-cloak x-show="$wire.sort_direction === 'asc'" />
+                                            <x-arrow-down x-cloak x-show="$wire.sort_direction === 'desc'" />
+                                        </div>
+                                    </button>
+                                </th>
+                                <th scope="col" class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">
+                                    <button class="flex items-end" wire:click="toggleSorting('location')">
+                                        Location
+                                        <div x-cloak x-show="$wire.sort_by === 'location'">
+                                            <x-arrow-up x-cloak x-show="$wire.sort_direction === 'asc'" />
+                                            <x-arrow-down x-cloak x-show="$wire.sort_direction === 'desc'" />
+                                        </div>
+                                    </button>
+                                </th>
+                                <th scope="col" class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">
+                                    <button class="flex items-end" wire:click="toggleSorting('dateTime')">
+                                        Date and Time
+                                        <div x-cloak x-show="$wire.sort_by === 'dateTime'">
+                                            <x-arrow-up x-cloak x-show="$wire.sort_direction === 'asc'" />
+                                            <x-arrow-down x-cloak x-show="$wire.sort_direction === 'desc'" />
+                                        </div>
+                                    </button>
+                                </th>
+                                <th scope="col" class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">
+                                    <button class="flex items-end" wire:click="toggleSorting('severity')">
+                                        Severity
+                                        <div x-cloak x-show="$wire.sort_by === 'severity'">
+                                            <x-arrow-up x-cloak x-show="$wire.sort_direction === 'asc'" />
+                                            <x-arrow-down x-cloak x-show="$wire.sort_direction === 'desc'" />
+                                        </div>
+                                    </button>
+                                </th>
+                                <th scope="col" class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">
+                                    <button class="flex items-end" wire:click="toggleSorting('location')">
+                                        Current Status
+                                        <div x-cloak x-show="$wire.sort_by === 'location'">
+                                            <x-arrow-up x-cloak x-show="$wire.sort_direction === 'asc'" />
+                                            <x-arrow-down x-cloak x-show="$wire.sort_direction === 'desc'" />
+                                        </div>
+                                    </button>
+                                </th>
+                                <th scope="col" class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">
+                                    <button class="flex items-end" wire:click="toggleSorting('updatedBy')">
+                                        Updated Status By
+                                        <div x-cloak x-show="$wire.sort_by === 'updatedBy'">
+                                            <x-arrow-up x-cloak x-show="$wire.sort_direction === 'asc'" />
+                                            <x-arrow-down x-cloak x-show="$wire.sort_direction === 'desc'" />
+                                        </div>
+                                    </button>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-300 bg-white relative">
+                            @forelse ($roadDefectReports as $report)
+                                <tr class="{{ $loop->iteration % 2 === 0 ? 'bg-white' : 'bg-gray-50' }} hover:bg-gray-100">
+                                    <td class="px-4 py-3 text-xs">{{ $loop->iteration }}</td>
+                                    <td class="px-4 py-3 text-xs">{{ $report->report_id }}</td>
+                                    <td class="px-4 py-3 text-xs">{{ $report->location }}</td>
+                                    <td class="px-4 py-3 text-xs">{{ \Carbon\Carbon::parse($report->date_reported)->timezone('Asia/Manila')->format('F j, Y') }}</td>
+                                    <td class="px-4 py-3 text-xs">{{ $report->severity }}</td>
+                                    @php
+                                        $statusColors = [
+                                            'Repaired' => '#28a745',
+                                            'On Going' => '#ffc107',
+                                            'Unfixed' => '#dc3545',
+                                        ];
+                                        $color = $statusColors[$report->status] ?? '#dc3545';
+                                    @endphp
+                                    <td class="px-4 py-3 text-xs font-semibold" style="color: {{ $color }};">
+                                        {{ $report->status }}
+                                    </td>
+
+                                    <td class="px-4 py-3 text-xs">{{ $report->updated_by }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="8" class="px-4 py-2 text-center text-gray-500">No road defect reports found.</td>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Loading indicator for pagination -->
+                    <div wire:loading.class.remove="opacity-0 pointer-events-none" x-cloak x-transition
+                         class="absolute inset-0 w-full min-h-full bg-black/50 flex justify-center items-center transition-all pointer-events-none opacity-0">
+                        <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
+                    </div>
+                </x-slot:table_container>
+
+                <x-slot:modal_container>
+                </x-slot:modal_container>
+
+                <x-slot:pagination_container>
+                    {{ $roadDefectReports->links('vendor.pagination.custom') }}
+                </x-slot:pagination_container>
+
+
+
+                {{--            <div class="mt-2 mb-6">--}}
+                {{--                <div class="overflow-x-auto m-0 border border-t-gray-300 rounded-lg inset-0 p-0">--}}
+                {{--                    <div class="min-w-full inline-block max-h-[55vh] min-h-[55vh] overflow-y-auto align-middle p-0 z-0">--}}
+                {{--                        <!-- Table -->--}}
+                {{--                        <table x-data="mapComponent()" class="min-w-full min-h-full divide-y divide-gray-300 gap-y-5">--}}
+                {{--                            <thead>--}}
+                {{--                            <tr>--}}
+                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-[#757575] rounded-tl-lg">No.</th>--}}
+                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-[#757575]">Report ID</th>--}}
+                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-[#757575]">Location</th>--}}
+                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-[#757575]">Date Reported</th>--}}
+                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-10 text-left text-xs font-semibold text-[#757575]">Severity</th>--}}
+                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-10 text-left text-xs font-semibold text-[#757575]">Current Status</th>--}}
+                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-10 text-left text-xs font-semibold text-[#757575]">Updated By</th>--}}
+                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 px-2 text-left text-xs font-semibold text-[#757575] rounded-tr-lg">Actions</th>--}}
+                {{--                            </tr>--}}
+                {{--                            </thead>--}}
+                {{--                            <tbody class="divide-y divide-gray-300 bg-white">--}}
+                {{--                            <template x-for="(report, index) in reports" :key="report.id">--}}
+                {{--                                <tr :class="index % 2 == 0 ? 'bg-white' : 'bg-slate-50'" class="hover:bg-slate-200 text-left">--}}
+                {{--                                    <!-- No. Column -->--}}
+                {{--                                    <td class="whitespace-nowrap py-3 text-xs pl-5">--}}
+                {{--                                        <div x-text="index + 1"></div>--}}
+                {{--                                    </td>--}}
+
+                {{--                                    <!-- Defect Column -->--}}
+                {{--                                    <td class="whitespace-nowrap py-3 pl-4 text-xs">--}}
+                {{--                                        <div x-text="report.defect"></div>--}}
+                {{--                                    </td>--}}
+
+                {{--                                    <!-- Location Column -->--}}
+                {{--                                    <td class="whitespace-nowrap py-3 pl-4 text-xs">--}}
+                {{--                                        <div x-text="report.location"></div>--}}
+                {{--                                    </td>--}}
+
+                {{--                                    <!-- Date Column -->--}}
+                {{--                                    <td class="whitespace-nowrap py-3 pl-4 text-xs">--}}
+                {{--                                        <div x-text="report.date"></div>--}}
+                {{--                                    </td>--}}
+
+                {{--                                    <!-- Severity Column -->--}}
+                {{--                                    <td class="whitespace-nowrap py-3 pl-4 text-xs">--}}
+                {{--                                        <div x-text="report.severity"></div>--}}
+                {{--                                    </td>--}}
+
+                {{--                                    <!-- Status Column -->--}}
+                {{--                                    <td class="whitespace-nowrap py-3 pl-4 text-xs font-medium">--}}
+                {{--                                        <div :class="{--}}
+                {{--                                                    'text-green-600 font-bold': report.status === 'Repaired',--}}
+                {{--                                                    'text-yellow-600 font-bold': report.status === 'Ongoing',--}}
+                {{--                                                    'text-red-600 font-bold': report.status === 'Unfixed',--}}
+                {{--                                                }" x-text="report.status">--}}
+                {{--                                        </div>--}}
+                {{--                                    </td>--}}
+
+                {{--                                    <!-- Updated By Whom Column -->--}}
+                {{--                                    <td class="whitespace-nowrap py-3 pl-4 text-xs">--}}
+                {{--                                        <div x-text=""></div>--}}
+                {{--                                    </td>--}}
+
+                {{--                                    <!-- Actions Column -->--}}
+                {{--                                    <td class="flex whitespace-nowrap py-6 text-left">--}}
+                {{--                                        <!-- Edit Button -->--}}
+                {{--                                        <button @click="editReport(report.id)"--}}
+                {{--                                                class="flex items-center text-orange-500 hover:underline hover:text-orange-600 font-medium transition active:scale-95 mr-5 pl-2">--}}
+                {{--                                            <img src="{{ asset('storage/icons/edit-icon.png') }}" alt="Edit Icon" class="w-4 h-4 mr-2 transition-transform duration-200 ease-in-out group-hover:rotate-12" />--}}
+                {{--                                            <span class="text-xs font-medium">Edit</span>--}}
+                {{--                                        </button>--}}
+
+                {{--                                        <!-- View Button -->--}}
+                {{--                                        <button @click="viewReport(report.id)"--}}
+                {{--                                                class="flex items-center text-[#3251FF] hover:underline hover:text-[#1d3fcc] font-medium transition active:scale-95 pl-8">--}}
+                {{--                                            <img src="{{ asset('storage/icons/view-icon.png') }}" alt="View Icon" class="w-5 h-5 mr-2 transition-transform duration-200 ease-in-out group-hover:rotate-12" />--}}
+                {{--                                            <span class="text-xs font-medium">View</span>--}}
+                {{--                                        </button>--}}
+                {{--                                    </td>--}}
+                {{--                                </tr>--}}
+                {{--                            </template>--}}
+                {{--                            </tbody>--}}
+
+                {{--                        </table>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
+
+            </x-admin.crud-page-content-base>
+        </x-slot:table_container>
+
+    </x-Admin.road-defect-reports-page-content-base>
 
 </x-Admin.admin-navigation>
 

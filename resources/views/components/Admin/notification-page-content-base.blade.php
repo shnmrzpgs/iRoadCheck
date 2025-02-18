@@ -12,8 +12,8 @@
         </div>
 
         <!--Notifications Tabs-->
-        <div class="bg-none rounded-[6px]">
-            <div
+        <div class="lazyload bg-none rounded-[6px]">
+            <div loading="lazy"
                 x-data="{
                     activeTab: 'all', // Default active tab
                     activeTabWidth: 0,
@@ -41,8 +41,8 @@
             class="flex justify-start relative">
 
             <!-- Active Tab Indicator -->
-            <div
-                class="absolute bottom-0 left-0 h-[2px] bg-[#6AA76F] transition-all duration-300"
+            <div loading="lazy"
+                class="lazyload absolute bottom-0 left-0 h-[2px] bg-[#6AA76F] transition-all duration-300"
                 :style="{ width: activeTabWidth + 'px', transform: `translateX(${activeTabPosition}px)` }">
             </div>
 

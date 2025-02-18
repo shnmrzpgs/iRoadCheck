@@ -131,7 +131,7 @@
 
                 <!-- Logout Button -->
                 <a href="javascript:void(0);"
-                   @click="logout"
+                   @click="logoutStaff"
                    class="group flex items-center block py-2.5 px-5 rounded hover:text-[#4AA76F] hover:shadow-md font-medium text-[#4D4F50]">
 
                     <!-- Icon -->
@@ -149,16 +149,16 @@
         </x-Staff.staff-web-sidebar>
 
         <!-- Mobile screens Sidebar -->
-        <x-Admin.admin-mobile-sidebar/>
+        <x-Staff.staff-mobile-sidebar/>
 
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col">
 
-            <x-Admin.admin-header>
+            <x-Staff.staff-header>
                 <x-slot:page_title_and_search_bar>
                     <h1 class="lg:text-[22px] text-md md:text-lg mt-0 font-semibold text-[#4AA76F] md:mt-3 md:mr-3 lg:mr-1">{{$page_title}}</h1>
 
-                    @if (!request()->routeIs('admin.profile-edit') && !request()->routeIs('staff.manage-tagging') && !request()->routeIs('staff.capture-road-defect') && !request()->routeIs('staff.suggestion-reports') && !session('hideSearchBar'))
+                    @if (!request()->routeIs('staff.profile-edit') && !request()->routeIs('staff.manage-tagging') && !request()->routeIs('staff.capture-road-defect') && !request()->routeIs('staff.suggestion-reports') && !session('hideSearchBar'))
                     <!-- Search Bar -->
                         <div class="flex mt-2 lg:mt-3 w-48 lg:w-80 items-center px-0 lg:px-5">
                             <div class="relative flex flex-1 h-8 rounded-full">
@@ -180,13 +180,13 @@
                 </x-slot:page_title_and_search_bar>
 
                 <x-slot:notification_dropdown>
-{{--                    <livewire:admin.notification-dropdown/>--}}
+{{--                    <livewire:staff.notification-dropdown/>--}}
                 </x-slot:notification_dropdown>
 
-                <x-slot:admin_profile_name>
+                <x-slot:staff_profile_name>
                     <!-- Profile Icon with Click and Bounce Microinteraction -->
                     <a x-ref="content"
-                       href="{{ route('admin.profile-edit') }}"
+                       href="{{ route('staff.profile-edit') }}"
                        @click="handleClick()"
                        :class="{ 'scale-105 animate-bounce-once': isClicked }"
                        class="lazyload -my-1.5 flex items-center p-1.5 transition-transform duration-150 ease-in-out transform"
@@ -201,8 +201,8 @@
                             </span>
                         </span>
                     </a>
-                </x-slot:admin_profile_name>
-            </x-Admin.admin-header>
+                </x-slot:staff_profile_name>
+            </x-Staff.staff-header>
 
             <!-- Content Area -->
             <main
@@ -214,11 +214,11 @@
         </div>
 
         <script>
-            function logout() {
+            function logoutStaff() {
                 // Create the logout form dynamically
                 let form = document.createElement('form');
                 form.method = 'POST';
-                form.action = '{{ route('logout') }}'; // Laravel logout route
+                form.action = '{{ route('logoutStaff') }}'; // Laravel logout route
 
                 // Add CSRF token for security
                 let csrfToken = document.createElement('input');
@@ -232,6 +232,5 @@
                 form.submit();
             }
         </script>
-
     </div>
 </div>

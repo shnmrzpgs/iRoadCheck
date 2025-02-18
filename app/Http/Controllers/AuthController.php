@@ -54,13 +54,25 @@ class AuthController extends Controller
 
     public function showLoginForm()
     {
-        return view('auth.login');  // Adjust to your actual login view
+        return view('iroadcheck.prototype.Admin.login');  // Adjust to your actual login view
     }
 
     public function Logout()
     {
         Auth::logout(); // Log the user out
         return redirect()->route('admin-sign-in-show')->with('success', 'You have been logged out successfully.');
+    }
+
+
+    public function showLoginFormStaff()
+    {
+        return view('iroadcheck.prototype.Staff.login');  // Adjust to your actual login view
+    }
+
+    public function LogoutStaff()
+    {
+        Auth::logout(); // Log the user out
+        return redirect()->route('staff-sign-in-show')->with('success', 'You have been logged out successfully.');
     }
 }
 
