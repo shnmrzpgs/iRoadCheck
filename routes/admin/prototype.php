@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 //Route::view('/prototype/admin/admin-signup', 'iroadcheck.prototype.admin.admin-signup');
 
+Route::view('/prototype/data-privacy-act', 'iroadcheck.prototype.data-privacy-act')->name('admin.data-privacy-act');
 Route::view('/prototype/landing-page', 'iroadcheck.prototype.landing-page')->name('admin.landing-page');
 Route::view('/prototype/email-message', 'iroadcheck.prototype.email-message');
 
