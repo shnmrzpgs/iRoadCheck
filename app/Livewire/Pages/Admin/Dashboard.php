@@ -34,6 +34,8 @@ class Dashboard extends Component
     public array $filters = [
         'sort' => '',
         'staffRole' => '',
+        'selectedYear' => '',
+        'barangay' => '',
     ];
 
     public function mount(): void
@@ -188,6 +190,8 @@ class Dashboard extends Component
         $this->filters = [
             'sort' => '',
             'staffRole' => '',
+            'selectedYear' => '',
+            'barangay' => '',
         ];
         $this->getStaffRolesData();
     }

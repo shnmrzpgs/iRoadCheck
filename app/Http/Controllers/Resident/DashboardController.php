@@ -9,17 +9,25 @@ use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
     public function showDashboard()
-    {
-        // Get the authenticated user
-        $user = Auth::user();
-
-        // Retrieve all reports by the user
-        $reportsCount  = DB::table('reports')
-            ->where('resident_id', $user->id)
-            ->count();
-
-        // Pass the count to the Blade view
-        return view('iroadcheck.prototype.Residents.dashboard', compact('reportsCount'));
+{
+    // Ensure user is authenticated
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Please log in first.');
     }
+
+    $user = Auth::user();
+
+    // Retrieve all reports by the authenticated user
+    $reports = DB::table('reports')
+        ->where('resident_id', $user->id)
+        ->select('id', 'defect as defectType', 'location', 'status', 'date')
+        ->get();
+
+    $reportsCount = $reports->count();
+
+    return view('iroadcheck.prototype.Residents.dashboard', compact('reports', 'reportsCount'));
 }
+}
+
+
 

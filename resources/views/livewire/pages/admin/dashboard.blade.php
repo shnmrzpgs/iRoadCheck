@@ -4,7 +4,10 @@
     <main class="flex -mt-2 overflow-y-scroll h-[85vh] pb-5">
 
         <div class="flex flex-col gap-4 w-full">
-            <div class="bg-[#FBFBFB] px-4 pb-2 rounded-lg drop-shadow mb-2">
+            <div  x-data="{
+                    filters: @entangle('filters'),
+                }" 
+             class="bg-[#FBFBFB] px-4 pb-2 rounded-lg drop-shadow mb-2">
                 <div class="flex flex-col lg:gap-2 gap-1 mr-auto mb-2 pt-2">
                     <!-- Page Description -->
                     <div class="flex px-0 border-b border-b-gray-300 py-2">
@@ -19,13 +22,13 @@
                     </div>
 
                     <div class="flex justify-between gap-2">
-                        <div class="flex flex-wrap gap-2 mb-4 mt-4">
+                        <div  class="flex flex-wrap gap-2 mb-4 mt-4">
                             <div class="relative rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md flex justify-center items-center"
                                 :class="{
-                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] ': filters.sort === '' && filters.status === ''  && filters.userType === '',  /* Active state */
-                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort !== '' || filters.status !== '' || filters.userType !== ''  /* Default and hover state */
+                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] ': filters.barangay === ''  && filters.selectedYear === '',  /* Active state */
+                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.barangay !== '' || filters.selectedYear !== ''  /* Default and hover state */
                                 }"
-                                @click="filters.sort = ''; filters.status = ''; filters.userType = '';">
+                                @click="$wire.call('resetFilters')">
                                 <span class="text-[12px] block appearance-none w-full text-center px-2 py-2 rounded">
                                     All Reports
                                 </span>
@@ -34,10 +37,10 @@
                             <!-- Staff Type Filter -->
                             <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
                                 :class="{
-                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.userType !== '',  /* Active state */
-                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.userType === ''  /* Default and hover state */
+                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.barangay !== '',  /* Active state */
+                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.barangay === ''  /* Default and hover state */
                              }">
-                                <select x-model="filters.userType" @change="console.log('Filters:', filters)"
+                                <select x-model="filters.barangay" @change="console.log('Filters:', filters)"
                                     class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
                                     <option value="" class="text-gray-400 text-[12px]">Barangay</option>
                                     <option value="patcher" class="text-gray-700">Magugpo North</option>
@@ -49,8 +52,8 @@
                             <!-- Date Range Filter -->
                             <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
                                 :class="{
-                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.userType !== '',  /* Active state */
-                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.userType === ''  /* Default and hover state */
+                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.selectedYear !== '',  /* Active state */
+                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters !== selectedYear === ''  /* Default and hover state */
                              }">
                                 <select
                                     wire:model.live="selectedYear"
