@@ -105,7 +105,7 @@
                 </div>
             </div>
 
-            {{ $admin_profile_name }}
+            {{ $staff_profile_name }}
 
         </div>
     </div>
