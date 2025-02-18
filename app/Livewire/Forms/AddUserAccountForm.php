@@ -95,7 +95,7 @@ class AddUserAccountForm extends Form
                 'username' => $this->username,
                 'date_of_birth' => $this->date_of_birth,
                 'password' => bcrypt($this->password),
-                'generated_password' => $generatedPassword,
+                'generated_password' => $this->password,
                 'user_type' => 3, // staff type
                 'status' => $this->user_status ? StaffStatus::ACTIVE : StaffStatus::INACTIVE,
                 // 'email_verified_at' => now(),
