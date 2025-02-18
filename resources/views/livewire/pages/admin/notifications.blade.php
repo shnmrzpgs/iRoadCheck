@@ -10,7 +10,7 @@
 
         <x-slot:notification_tabs>
             <!-- Active Tab Indicator -->
-            <div
+            <div loading="lazy"
                 class="absolute bottom-0 left-0 h-[2px] bg-[#6AA76F] transition-all duration-300"
                 :style="{ width: activeTabWidth + 'px', transform: `translateX(${activeTabPosition}px)` }">
             </div>
@@ -23,6 +23,7 @@
                 }"
                  @click="setActiveTab('all', $event)"
                  wire:click="setFilter('all')"
+                 loading="lazy"
                  class="flex text-[12px] py-1 px-7 text-center justify-around cursor-pointer transition-transform transform duration-300 hover:scale-105">
                 <span>All</span>
             </div>
@@ -34,6 +35,7 @@
                 }"
                 @click="setActiveTab('unread', $event)"
                 wire:click="setFilter('unread')"
+                loading="lazy"
                 class="flex text-[12px] py-1 px-4 text-center justify-around cursor-pointer transition-transform transform duration-300 hover:scale-105">
                 <span>Unread</span>
             </div>
@@ -45,6 +47,7 @@
                 }"
                 @click="setActiveTab('read', $event)"
                 wire:click="setFilter('read')"
+                loading="lazy"
                 class="flex text-[12px] py-1 px-6 text-center justify-around cursor-pointer transition-transform transform duration-300 hover:scale-105">
                 <span>Read</span>
             </div>
@@ -54,6 +57,7 @@
                     'flex': activeTab === 'unread' || activeTab === 'all',
                     'hidden': activeTab === 'read'
                 }"
+                loading="lazy"
                 class="text-[12px] py-1 pr-2 text-center justify-around rounded-[4px] cursor-pointer ml-auto">
                 <span class="font-semibold text-gray-500 hover:text-[#E37878]">
                     Mark all as Read
@@ -74,8 +78,8 @@
 
                             <!-- Notification Icon -->
                             <div class="flex-shrink-0">
-                                <img src="{{ asset('storage/icons/road.png') }}" alt="Notification Icon"
-                                     class="w-14 h-14 object-cover shadow rounded-lg">
+                                <img src="{{ asset('storage/icons/road.png') }}" alt="Notification Icon" loading="lazy"
+                                     class="lazyload w-14 h-14 object-cover shadow rounded-lg">
                             </div>
 
                             <!-- Notification Details -->
@@ -87,7 +91,7 @@
 
                             <!-- Time Ago -->
                             <div class="flex items-center space-x-2 text-gray-400 text-[10px]">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" loading="lazy" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-8V6a1 1 0 112 0v4h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd" />
                                 </svg>
                                 <span>{{ $notification->created_at->diffForHumans() }}</span>
@@ -101,8 +105,8 @@
 
                             <!-- Notification Icon -->
                             <div class="flex-shrink-0">
-                                <img src="{{ asset('storage/icons/road.png') }}" alt="Notification Icon"
-                                     class="w-14 h-14 object-cover shadow rounded-lg">
+                                <img src="{{ asset('storage/icons/road.png') }}" alt="Notification Icon" loading="lazy"
+                                     class="lazyload w-14 h-14 object-cover shadow rounded-lg">
                             </div>
 
                             <!-- Notification Details -->
@@ -114,7 +118,7 @@
 
                             <!-- Time Ago -->
                             <div class="flex items-center space-x-2 text-gray-400 text-[10px]">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" loading="lazy" class="lazyload h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-8V6a1 1 0 112 0v4h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd" />
                                 </svg>
                                 <span>{{ $notification->created_at->diffForHumans() }}</span>
@@ -125,7 +129,7 @@
                     <!-- Empty State -->
                     <div class="flex flex-col items-center justify-center h-full">
                         <img src="{{ asset('storage/icons/no-content-notification.gif') }}" loading="lazy" alt="no-content-notification" class="lazyload w-28 h-28 mb-2 opacity-35" />
-                        <p class="text-[13px] font-light italic text-gray-400">No notifications available.</p>
+                        <p class="lazyload text-[13px] font-light italic text-gray-400">No notifications available.</p>
                     </div>
                 @endforelse
             </div>
@@ -218,7 +222,7 @@
     </style>
 
     <!-- Loading indicator for pagination -->
-    <div wire:loading.class.remove="opacity-0 pointer-events-none" x-cloak x-transition
+    <div wire:loading.class.remove="opacity-0 pointer-events-none" x-cloak x-transition loading="lazy"
          class="z-50 absolute inset-0 w-full min-h-full bg-black/50 flex justify-center items-center transition-all pointer-events-none opacity-0">
         <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
     </div>

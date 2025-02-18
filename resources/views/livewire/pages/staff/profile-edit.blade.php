@@ -1,9 +1,9 @@
-<x-Admin.admin-navigation page_title="Profile Settings">
+<x-Staff.staff-navigation page_title="Profile Settings">
 
-    <x-admin.profile-page-content-base>
+    <x-staff.profile-page-content-base>
 
         <x-slot:profile_picture>
-            <livewire:pages.admin.profile-picture-upload />
+            <livewire:pages.staff.profile-picture-upload />
         </x-slot:profile_picture>
 
         <x-slot:preview_names_and_user_type>
@@ -112,6 +112,39 @@
             </button>
         </x-slot:save_button_container>
 
+        {{-- Access Control Information --}}
+        <x-slot:staff_role>
+            <!-- Staff Role Label -->
+            <label for="role_id" class="text-lg font-medium text-gray-900">
+                Staff Role:
+            </label>
+
+            <!-- Staff Role Display -->
+            <div id="role_id" wire:model="staff_role"
+                 class="text-lg font-medium text-gray-600 bg-transparent outline-none border-none">
+                {{ $staff_role }}
+            </div>
+        </x-slot:staff_role>
+
+        <x-slot:permissions>
+            <div class="text-gray-600 font-semibold w-full">Permissions:</div>
+            <div
+                class="min-h-[15vh] max-h-[30vh] overflow-y-auto mt-2 py-2 px-5"
+                style="{{ $permissions->count() > 5 ? 'display: flex; flex-wrap: wrap;' : 'display: flex; flex-direction: column;' }}"
+            >
+                @forelse ($permissions as $permission)
+                    <div
+                        class="text-gray-600 text-[13px] {{ $permissions->count() > 5 ? 'w-1/2' : 'w-full' }} mb-2"
+                    >
+                        <li>{{ ucfirst($permission->label) }}</li>
+                    </div>
+                @empty
+                    <div class="text-gray-600 text-[13px] italic">No Permissions Assigned</div>
+                @endforelse
+            </div>
+        </x-slot:permissions>
+
+
         {{--Account Settings Information--}}
         <x-slot:username>
             <label for="username" class="w-3/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
@@ -119,10 +152,10 @@
             </label>
             <div class="flex flex-col w-full">
                 <div class="relative">
-                <input type="text" name="username" id="username" wire:model.defer="username"
-                       class="w-full mb-2 flex-1 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow
+                    <input type="text" name="username" id="username" wire:model.defer="username"
+                           class="w-full mb-2 flex-1 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow
                         @error('username') border-red-500 @enderror"
-                       placeholder="Enter Username">
+                           placeholder="Enter Username">
                 </div>
                 <div>
                     @error('username')
@@ -249,7 +282,7 @@
             </button>
         </x-slot:update_button_container>
 
-    </x-admin.profile-page-content-base>
+    </x-staff.profile-page-content-base>
 
     <!--Feedback Messages-->
     @if (session()->has('feedback'))
@@ -360,5 +393,5 @@
         <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
     </div>
 
-</x-Admin.admin-navigation>
+</x-Staff.staff-navigation>
 

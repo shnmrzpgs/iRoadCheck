@@ -21,7 +21,7 @@ Route::group(['middleware' => 'VerifyResident'], function () {
     Route::post('resident/code-verify', [ResidentAuth::class, 'verifyCode'])->name('verifyCode');
 
 });
-Route::group(['middleware' => 'AuthResident'], function () {
+Route::group(['middleware' => 'AuthResident', 'CheckPWA'], function () {
     Route::get('/resident/dashboard', [DashboardController::class, 'showDashboard'])->name('residents-dashboard');
     Route::get('/prototype/residents/report-history', [ReportHistory::class, 'showReportHistory'])->name('report-history');
 //    Route::post('resident/submit-report', [ReportController::class, 'storeReport'])->name('submit-report');

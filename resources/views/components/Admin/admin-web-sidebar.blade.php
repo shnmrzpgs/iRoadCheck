@@ -1,6 +1,6 @@
 <!-- Web screens Sidebar -->
 <aside
-    :class="expanded ? 'w-60' : 'w-24'"
+    :class="expanded ? 'w-64' : 'w-24'"
     class="bg-[#FBFBFB] hidden h-[95vh] lg:block rounded-xl drop-shadow-md transition-all duration-300 ease-in-out mx-4 mt-5">
 
     <!-- Arrow Icon -->
@@ -25,7 +25,7 @@
         <div class="absolute w-full h-[1px] bg-gray-300"></div>
     </div>
 
-    <nav class="mt-4 space-y-4 flex-1 text-[13px] overflow-x-auto h-[76vh] px-4 leading-6">
+    <nav class="mt-0 space-y-4 flex-1 text-[13px] overflow-x-auto h-[72vh] px-4 leading-6">
         {{ $navbar_links }}
     </nav>
 </aside>

@@ -98,6 +98,23 @@ class NotificationDropdown extends Component
         return (string) $count;
     }
 
+    public function markAsRead($notificationId): void
+    {
+        $notification = Notification::find($notificationId);
+
+        if ($notification && !$notification->is_read) {
+            $notification->update(['is_read' => true]);
+        }
+
+        // Refresh the notification list
+        $this->notifications = auth()->user()->admin_notifications()
+            ->where('is_read', false)
+            ->orderByDesc('created_at')
+            ->get();
+
+        $this->notifications_count = $this->getStringedNotificationCount();
+    }
+
 
     public function render(): Factory|View|Application|\Illuminate\View\View
     {

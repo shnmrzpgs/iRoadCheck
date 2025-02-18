@@ -191,7 +191,7 @@ input:invalid {
 .animate-bounce-once {
     animation: bounce-once 0.3s ease;
 }
-
+/* Customize zoom button style */
 .leaflet-control-zoom-in,
 .leaflet-control-zoom-out {
     font-size: 18px !important;
@@ -214,7 +214,7 @@ input:invalid {
 /*}*/
 
 #map {
-    height: 75vh;
+    height: 78vh;
     width: 100%;
 }
 

@@ -15,39 +15,36 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        // Check if an admin user already exists
-        $adminUser = DB::table('users')
-            ->join('user_types', 'users.user_type', '=', 'user_types.id')
-            ->where('user_types.type', 'admin')
-            ->first();  // Get the first admin if it exists
+        // Fetch all users of type 'staff'
+        $adminUsers = DB::table('users')
+            ->where('user_type', 1) // Staff type ID
+            ->select('id') // Only select user IDs
+            ->get();
 
-        // If no admin exists, create one
-        if (!$adminUser) {
-            // Create the admin user
-            $adminUser = User::create([
-                'first_name' => 'John',
-                'middle_name' => 'Doe',
-                'last_name' => 'Admin',
-                'date_of_birth' => '1990-01-01',
-                'sex' => 'male',
-                'username' => 'admin', // Admin username
-                'email' => null, // No email for admin
-                'password' => Hash::make('hOwArD123!'), // Hashing the password
-                'user_type' => 1, // Staff type for admin
-                'remember_token' => null,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
 
-        // Ensure only one admin by checking if the user already exists in the 'admins' table
-        if (!DB::table('admins')->where('user_id', $adminUser->id)->exists()) {
-            // Insert into the 'admins' table
+        // Insert into the admins table
+        foreach ($adminUsers as $user) {
             DB::table('admins')->insert([
-                'user_id' => $adminUser->id,
+                'user_id' => $user->id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
         }
+//
+//        // Insert into the admins table
+//        foreach ($adminUsers as $user) {
+//            // Assign a random admin role (if available)
+//            $adminRole = DB::table('admin_roles')->inRandomOrder()->first();
+//
+//            if ($adminRole) {
+//                DB::table('admins')->insert([
+//                    'user_id' => $user->id,
+//                    'admin_roles_id' => $adminRole->id, // Reference to admin role ID
+//                    'status' => 'active', // Default to active status
+//                    'created_at' => now(),
+//                    'updated_at' => now(),
+//                ]);
+//            }
+//        }
     }
 }

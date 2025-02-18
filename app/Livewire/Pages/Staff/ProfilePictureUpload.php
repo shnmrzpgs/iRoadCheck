@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Livewire\Pages\Admin;
+namespace App\Livewire\Pages\Staff;
 
-use App\Models\AdminLog;
+use App\Models\StaffLog;
 use App\Models\UserProfilePhoto;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -14,6 +14,7 @@ use Livewire\WithFileUploads;
 
 class ProfilePictureUpload extends Component
 {
+
     use WithFileUploads;
 
     public $profilePicture;
@@ -143,15 +144,13 @@ class ProfilePictureUpload extends Component
         $this->currentProfilePicture = $path;
 
         // Log the admin action for auditing purposes
-        AdminLog::create([
-            'admin_id' => $user->id,
+        StaffLog::create([
+            'staff_id' => $user->id,
             'action' => 'Profile photo updated successfully.',
             'dateTime' => now(),
             'user_id' => $user->id,
         ]);
     }
-
-
 
     public function removeProfilePicture(): void
     {
@@ -175,8 +174,8 @@ class ProfilePictureUpload extends Component
             $this->currentProfilePicture = null;
 
             // Log the update action for auditing purposes
-            AdminLog::create([
-                'admin_id' => $user->id,
+            StaffLog::create([
+                'staff_id' => $user->id,
                 'action' => 'Profile photo removed successfully.',
                 'dateTime' => now(),
                 'user_id' => $user->id,
@@ -193,6 +192,6 @@ class ProfilePictureUpload extends Component
 
     public function render(): Factory|Application|View|\Illuminate\View\View
     {
-        return view('livewire.pages.admin.profile-picture-upload');
+        return view('livewire.pages.staff.profile-picture-upload');
     }
 }

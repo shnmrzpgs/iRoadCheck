@@ -71,7 +71,7 @@
                         <path d="M291.021 81.9004H235.979C227.894 81.9004 221.34 87.559 221.34 94.5393V360.462C221.34 367.442 227.894 373.1 235.979 373.1H291.021C299.106 373.1 305.66 367.442 305.66 360.462V94.5393C305.66 87.559 299.106 81.9004 291.021 81.9004Z"/>
                         <path d="M417.501 178.967H362.459C354.374 178.967 347.82 184.625 347.82 191.606V360.461C347.82 367.442 354.374 373.1 362.459 373.1H417.501C425.586 373.1 432.14 367.442 432.14 360.461V191.606C432.14 184.625 425.586 178.967 417.501 178.967Z"/>
                     </svg>
-                    <p x-show="expanded" class="ml-2
+                    <p class="ml-2
                         {{ request()->routeIs('admin.road-defect-reports') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">
                         Road Defect Reports
                     </p>
@@ -90,15 +90,15 @@
                     </p>
                 </a>
                 <!-- staff Role -->
-                <a href="{{ route('admin.staff-role-table') }}" loading="lazy" class="group flex items-center block py-2.5 px-5 rounded font-medium
-                    {{ request()->routeIs('admin.staff-role-table') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
+                <a href="{{ route('admin.staff-roles-table') }}" loading="lazy" class="group flex items-center block py-2.5 px-5 rounded font-medium
+                    {{ request()->routeIs('admin.staff-roles-table') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
                          class="lazyload w-5 h-5 fill-current
-                        {{ request()->routeIs('admin.staff-role-table') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200' }}">
+                        {{ request()->routeIs('admin.staff-roles-table') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200' }}">
                         <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
                     </svg>
                     <p class="ml-2
-                        {{ request()->routeIs('admin.staff-role-table') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">
+                        {{ request()->routeIs('admin.staff-roles-table') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">
                         Staff Role
                     </p>
                 </a>

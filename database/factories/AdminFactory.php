@@ -13,7 +13,7 @@ class AdminFactory extends Factory
 
     public function definition(): array
     {
-//        return [
+        return [
 //            'first_name' => $this->faker->firstName,
 //            'middle_name' => $this->faker->optional()->firstName,
 //            'last_name' => $this->faker->lastName,
@@ -24,6 +24,6 @@ class AdminFactory extends Factory
 //            'remember_token' => Str::random(10),
 //            'created_at' => now(),
 //            'updated_at' => now(),
-//        ];
+        ];
     }
 }

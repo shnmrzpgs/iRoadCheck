@@ -8,9 +8,9 @@ Route:: get('/staff/auth/sign-in', function () {
     return view('iroadcheck.prototype.Staff.login');
 })->name('staff-sign-in-show');
 
-//Route::get(
-//    RoutePath::for('staff-logout', '/staff/auth/logout'),
-//    [AuthController::class, 'Logout'])->name('staff-logout');
+Route::get(
+    RoutePath::for('staff-logout', '/staff/auth/logout'),
+    [AuthController::class, 'LogoutStaff'])->name('staff-logout');
 
 Route::post(
     RoutePath::for('staff-sign-in', '/staff/auth/sign-in'),
