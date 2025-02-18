@@ -20,7 +20,7 @@ class ReportSeeder extends Seeder
                 'location' => 'Apokon Road, Tagum City',
                 'date' => '2024-10-10',
                 'severity' => 3,
-                'status' => 'Unfixed',
+                'status' => 'On Going',
                 'image' => 'images/pothole.png',
                 'lat' => 7.4551,
                 'lng' => 125.8132,
@@ -38,6 +38,29 @@ class ReportSeeder extends Seeder
                 'lng' => 125.8132,
 
             ],
+            [
+                'resident_id' => 3,
+                'defect' => 'Alligator Cracks',
+                'location' => 'Pioneer Avenue, Tagum City',
+                'date' => '2024-11-05',
+                'severity' => 4,
+                'status' => 'Unfixed',
+                'image' => 'images/pothole1.png',
+                'lat' => 7.4482,
+                'lng' => 125.8074,
+            ],
+            [
+                'resident_id' => 4,
+                'defect' => 'Raveling',
+                'location' => 'Rizal Street, Tagum City',
+                'date' => '2024-11-08',
+                'severity' => 2,
+                'status' => 'Repaired',
+                'image' => 'images/pothole1.png',
+                'lat' => 7.4505,
+                'lng' => 125.8101,
+            ],
+
         ]);
     }
 }
