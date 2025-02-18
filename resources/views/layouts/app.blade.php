@@ -8,9 +8,10 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ $title }}</title>
-        @laravelPWA
+{{--        @laravelPWA--}}
         <script src="{{ asset('resources/js/app.js') }}"></script>
         <script src="{{ asset('js/map.js') }}"></script>
+        <script src="{{ asset('geoJSON/tagumCityRoad.js') }}"></script>
 
 
         <!-- Favicons -->
