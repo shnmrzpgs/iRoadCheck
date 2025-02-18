@@ -30,8 +30,13 @@ Route::group(['middleware' => 'AuthStaff'], function () {
     Route::get('/staff/report-history', App\Http\Controllers\staff\ReportHistoryController::class)
         ->name('staff.report-history');
 
+    Route::get('/staff/profile-edit', App\Http\Controllers\staff\ProfileController::class)
+        ->name('staff.profile-edit');
+
+    Route::post('/logoutStaff', [AuthController::class, 'LogoutStaff'])->name('logoutStaff');
+
     // Login route (make sure this is defined)
-    Route::get('/Staff/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::get('/login', [AuthController::class, 'showLoginFormStaff'])->name('login');
 
 });
 
