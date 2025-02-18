@@ -1,6 +1,6 @@
 <div>
     <div
-         x-data="{
+        x-data="{
             isHovered: false,
             preview: @entangle('profilePicture').defer,
             hasProfilePicture: @entangle('currentProfilePicture'),
@@ -8,7 +8,7 @@
             showLoading: false, // State for loading
             loadingTimer: null // Timer for auto-hiding loading indicator
         }"
-         class="relative">
+        class="relative">
 
         <!-- Horizontal Loading Bar -->
         <div x-show="showLoading" class="fixed top-0 left-0 w-full h-2 z-50 animate-wipe-right">
@@ -42,10 +42,10 @@
                          class="lazyload w-full h-full object-cover">
                 @else
                     <!-- Default image if no profile picture is set -->
-                    <img src="{{ asset('/storage/icons/profile-graphics.png') }}"
-                         alt="Default Profile Picture"
+                    <img src="{{ auth()->user()->profile_picture_url }}"
+                         alt="Profile Picture"
                          loading="lazy"
-                         class="lazyload  w-full h-full object-cover">
+                         class="lazyload w-full h-full object-cover">
                 @endif
             </template>
 
@@ -131,8 +131,8 @@
             x-init="
             setTimeout(() => {
                 openModal = false;
-                setTimeout(() => location.reload(), 300); // Reload the page after the notification disappears
-            }, 3000); // Auto-hide after 3 seconds
+                setTimeout(() => location.reload(), 100); // Reload the page after the notification disappears
+            }, 1000); // Auto-hide after 1 second
 
             @if (session('feedback_type') === 'success')
                 lottie.loadAnimation({
@@ -140,8 +140,8 @@
                     renderer: 'svg',
                     loop: true,
                     autoplay: true,
-                    path: '{{ asset('animations/Animation - 1732372548058.json') }}'
-                });
+                    path: '{{ asset('animations/Animation - 1732372548058.json') }}',
+                }).setSpeed(2); // Set speed multiplier (1 is normal, 2 is twice as fast)
             @elseif (session('feedback_type') === 'info')
                 lottie.loadAnimation({
                     container: $refs.lottieAnimation,

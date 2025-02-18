@@ -1,11 +1,13 @@
 <div class="w-full h-full relative rounded-[6px] font-pop">
 
-    <div class="bg-none rounded-[4px]">
+    <div loading="eager" class="bg-none rounded-[4px]">
 
-        <!--image bg-->
+        <!-- Image Background -->
         <div class="relative overflow-hidden rounded-[10px] shadow w-full h-[110px]" x-cloak>
-            <img src="{{ asset('storage/images/profile-backgroundImage2.png') }}" alt="profile name background"
-                 class="absolute top-0 left-0 w-full h-full object-cover">
+            <img src="{{ asset('storage/images/profile-backgroundImage2.png') }}"
+                 alt="profile name background"
+                 class="absolute top-0 left-0 w-full h-full object-cover"
+                 loading="eager">
         </div>
 
         <!--Profile Name -->

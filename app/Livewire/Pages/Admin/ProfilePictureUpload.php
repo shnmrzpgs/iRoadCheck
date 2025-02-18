@@ -191,8 +191,6 @@ class ProfilePictureUpload extends Component
         }
     }
 
-
-
     public function render(): Factory|Application|View|\Illuminate\View\View
     {
         return view('livewire.pages.admin.profile-picture-upload');

@@ -2,7 +2,6 @@
 
     <x-admin.profile-page-content-base>
 
-        <!-- FilePond for Profile Picture Upload -->
         <x-slot:profile_picture>
             <livewire:pages.admin.profile-picture-upload />
         </x-slot:profile_picture>
@@ -252,41 +251,41 @@
 
     </x-admin.profile-page-content-base>
 
-    @if (session()->has('feedback') && session('feedback_type') !== 'error')
+    <!--Feedback Messages-->
+    @if (session()->has('feedback'))
         <div
             x-data="{ openModal: true }"
             x-init="
-        setTimeout(() => {
-            openModal = false;
-            setTimeout(() => location.reload(), 300); // Reload the page after the notification disappears
-        }, 3000); // Auto-hide after 4 seconds
+            setTimeout(() => {
+                openModal = false;
+                setTimeout(() => location.reload(), 100); // Reload the page after the notification disappears
+            }, 1000); // Auto-hide after 1 second
 
-        @if (session('feedback_type') === 'success')
-            lottie.loadAnimation({
-                container: $refs.lottieAnimation,
-                renderer: 'svg',
-                loop: true,
-                autoplay: true,
-                path: '{{ asset('animations/Animation - 1732372548058.json') }}'
-            });
-        @elseif (session('feedback_type') === 'info')
-            lottie.loadAnimation({
-                container: $refs.lottieAnimation,
-                renderer: 'svg',
-                loop: true,
-                autoplay: true,
-                path: '{{ asset('animations/Animation - 1737008068327.json') }}'
-            });
-        @elseif (session('feedback_type') === 'error')
-            lottie.loadAnimation({
-                container: $refs.lottieAnimation,
-                renderer: 'svg',
-                loop: true,
-                autoplay: true,
-                path: '{{ asset('animations/Animation - 1732451860692.json') }}'
-            });
-        @endif
-    "
+            @if (session('feedback_type') === 'success')
+                lottie.loadAnimation({
+                    container: $refs.lottieAnimation,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    path: '{{ asset('animations/Animation - 1732372548058.json') }}',
+                }).setSpeed(2); // Set speed multiplier (1 is normal, 2 is twice as fast)
+            @elseif (session('feedback_type') === 'info')
+                lottie.loadAnimation({
+                    container: $refs.lottieAnimation,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    path: '{{ asset('animations/Animation - 1737008068327.json') }}'
+                });
+            @elseif (session('feedback_type') === 'error')
+                lottie.loadAnimation({
+                    container: $refs.lottieAnimation,
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    path: '{{ asset('animations/Animation - 1732451860692.json') }}'
+                });
+            @endif"
             x-cloak
         >
             <!-- Notification -->
@@ -300,10 +299,10 @@
                 x-transition:leave-end="opacity-0 -translate-y-2"
                 class="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-md border-l-4"
                 :class="{
-                    'border-green-500': '{{ session('feedback_type') }}' === 'success',
-                    'border-blue-500': '{{ session('feedback_type') }}' === 'info',
-                    'border-red-500': '{{ session('feedback_type') }}' === 'error',
-                }"
+                'border-green-500': '{{ session('feedback_type') }}' === 'success',
+                'border-blue-500': '{{ session('feedback_type') }}' === 'info',
+                'border-red-500': '{{ session('feedback_type') }}' === 'error',
+            }"
             >
                 <!-- Content -->
                 <div class="p-4 flex items-center space-x-4">
@@ -316,10 +315,10 @@
                     <div>
                         <p class="font-bold text-lg"
                            :class="{
-                                'text-green-600': '{{ session('feedback_type') }}' === 'success',
-                                'text-blue-600': '{{ session('feedback_type') }}' === 'info',
-                                'text-red-600': '{{ session('feedback_type') }}' === 'error',
-                           }">
+                            'text-green-600': '{{ session('feedback_type') }}' === 'success',
+                            'text-blue-600': '{{ session('feedback_type') }}' === 'info',
+                            'text-red-600': '{{ session('feedback_type') }}' === 'error',
+                       }">
                             {{ strtoupper(session('feedback_type')) }}
                         </p>
                         <p class="text-sm text-gray-700">
@@ -333,10 +332,10 @@
                     <div
                         class="absolute top-0 left-0 h-full"
                         :class="{
-                            'bg-green-500': '{{ session('feedback_type') }}' === 'success',
-                            'bg-blue-500': '{{ session('feedback_type') }}' === 'info',
-                            'bg-red-500': '{{ session('feedback_type') }}' === 'error',
-                        }"
+                        'bg-green-500': '{{ session('feedback_type') }}' === 'success',
+                        'bg-blue-500': '{{ session('feedback_type') }}' === 'info',
+                        'bg-red-500': '{{ session('feedback_type') }}' === 'error',
+                    }"
                         style="animation: progress 4s linear;"></div>
                 </div>
             </div>
@@ -354,6 +353,7 @@
             }
         }
     </style>
+
     <!-- Loading indicator for pagination -->
     <div wire:loading.class.remove="opacity-0 pointer-events-none" x-cloak x-transition
          class="z-50 absolute inset-0 w-full min-h-full bg-black/50 flex justify-center items-center transition-all pointer-events-none opacity-0">
