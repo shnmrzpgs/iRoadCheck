@@ -52,7 +52,7 @@ class User extends Authenticatable
         'staff_role' => 'integer',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        
+
 
     ];
 
@@ -113,10 +113,16 @@ class User extends Authenticatable
     // Custom accessor for profile picture URL
     public function getProfilePictureUrlAttribute(): string
     {
-        return $this->profilePhoto && $this->profilePhoto->photo_path
-            ? asset('storage/' . $this->profilePhoto->photo_path)
-            : asset('storage/icons/profile-graphics.png'); // Default profile picture if no photo
+        if ($this->profilePhoto && $this->profilePhoto->photo_path) {
+            return asset('storage/' . $this->profilePhoto->photo_path);
+        }
+
+        // Check the gender and return the appropriate default image
+        return $this->sex === 'female'
+            ? asset('storage/icons/profile2-graphics.png')
+            : asset('storage/icons/profile-graphics.png');
     }
+
 
 
     public function admin(): HasOne
