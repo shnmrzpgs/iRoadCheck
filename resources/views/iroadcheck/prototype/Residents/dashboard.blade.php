@@ -4,18 +4,31 @@
             <div class="w-full md:w-[85%] flex flex-col md:flex-row justify-center">
 
                 <!-- Welcome Message -->
-                <div class="w-full md:w-[85%] bg-gray-100 rounded-lg p-6 lg:-ml-22 mb-5 md:mb-0 mr-5" style="box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.25);">
-                    <div class="flex items-center">
+                <div class="w-full md:w-[85%] bg-gray-100 rounded-lg p-6 lg:-ml-22 mb-5 md:mb-0 mr-5 relative overflow-hidden"
+                    style="box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.25);">
+
+                    <!-- Background Image -->
+                    <div class="absolute inset-0 bg-cover bg-center opacity-30"
+                        style="background-image: url('{{ asset('storage/images/bg-profileName.png') }}');">
+                    </div>
+
+                    <!-- Content -->
+                    <div class="relative z-10 flex items-center">
                         <a href="{{ route('profile-info') }}">
-                            <img src="{{ asset('storage/icons/profile-graphics.png') }}" alt="Profile Image" class="w-14 h-146 md:w-20 md:h-20 rounded-full border border-customGreen bg-green-500">
+                            <img src="{{ Auth::user()->profilePhoto ? asset('storage/' . Auth::user()->profilePhoto->photo_path) : asset('storage/icons/profile-graphics.png') }}"
+                                alt="Profile Image"
+                                class="w-14 h-14 md:w-20 md:h-20 rounded-full border border-customGreen bg-green-500">
                         </a>
                         <div class="ml-4 text-left">
                             <p class="text-lg md:text-2xl text-green-600 font-semibold">Good Morning!</p>
-                            <p class="text-gray-600 text-sm md:text-md">{{ sprintf('%s %s', Auth::user()->first_name, Auth::user()->last_name) }}</p>
-
+                            <p class="text-gray-600 text-sm md:text-md">
+                                {{ sprintf('%s %s', Auth::user()->first_name, Auth::user()->last_name) }}
+                            </p>
                         </div>
                     </div>
                 </div>
+
+
 
                 <!-- Resident Owner Account Total Reports Card -->
                 <div class="w-full md:w-[50%] bg-white rounded-lg shadow-md py-0 px-2 overflow-hidden
@@ -25,8 +38,8 @@
                     <!-- Background graphic -->
                     <div class="absolute inset-x-0 bottom-0 opacity-90 transform group-hover:scale-125 transition-transform group-hover:translate-x-1 duration-700 ease-in-out">
                         <img src="{{ asset('storage/images/bg-cardGraphics-orange.png') }}"
-                             class="w-full h-auto rounded-b-lg object-cover"
-                             alt="Card background graphic">
+                            class="w-full h-auto rounded-b-lg object-cover"
+                            alt="Card background graphic">
                     </div>
 
                     <div class="flex flex-col text-[#FFAD00] pl-2 pr-3 pt-7 relative z-10">
@@ -48,7 +61,7 @@
 
                 <!-- General Header -->
                 <div class="w-full bg-transparent h-10 py-6 px-3 border-b-2 border-gray-500 flex justify-between items-center">
-                    <p class="text-gray-500 font-semibold text-sm">Report History</p>
+                    <p class="text-gray-500 font-semibold text-sm">Recent Reports</p>
                     <a href="{{ route('report-history') }}" class="text-[#4362FF] text-sm flex items-center">
                         See More
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -58,14 +71,16 @@
                 </div>
 
                 <!-- Preview Reports History Information -->
-                <div class="mt-0 w-full h-[300px] py-4 flex flex-col items-center justify-center" x-data="reportData()">
+                <div class="mt-0 w-full max-h-[300px] py-4 flex flex-col"
+                    x-data="reportData()" x-init="loadReports({{ $reports->toJson() }})">
+
                     <!-- Conditional Rendering based on Report History -->
                     <div x-data="{ showModal: false }" class="w-full">
 
                         <!-- Display Icons and Message if no reports yet -->
                         <template x-if="reports.length === 0">
                             <div class="flex flex-col items-center justify-center text-gray-400"
-                                 x-data="{ animation: null }" x-init="animation = lottie.loadAnimation({
+                                x-data="{ animation: null }" x-init="animation = lottie.loadAnimation({
                                     container: $refs.lottieAnimation, // the DOM element
                                     renderer: 'svg', // render as SVG
                                     loop: true, // loop the animation
@@ -85,25 +100,31 @@
                             <div class="">
                                 <div class="overflow-auto max-h-[300px]">
                                     <!-- Table Header -->
-                                    <table class="min-w-full bg-white divide-y divide-gray-300 px-2">
+                                    <table class="min-w-full bg-white divide-y divide-gray-300 px-2 h-auto ">
                                         <thead class="bg-gray-100">
-                                        <tr>
-                                            <th class="bg-white sticky top-0 py-3 px-4 text-start text-xs font-semibold text-gray-600 border-b whitespace-nowrap">Report ID</th>
-                                            <th class="bg-white sticky top-0 py-3 px-4 text-start text-xs font-semibold text-gray-600 border-b whitespace-nowrap">Type of Defect</th>
-                                            <th class="bg-white sticky top-0 py-3 px-4 text-start text-xs font-semibold text-gray-600 border-b whitespace-nowrap">Status</th>
-                                            <th class="bg-white sticky top-0 py-3 px-4 text-start text-xs font-semibold text-gray-600 border-b whitespace-nowrap">Date</th>
-                                        </tr>
+                                            <tr>
+                                                <th class="bg-white sticky top-0 py-3 px-4 text-start text-xs font-semibold text-gray-600 border-b whitespace-nowrap">Report ID</th>
+                                                <th class="bg-white sticky top-0 py-3 px-4 text-start text-xs font-semibold text-gray-600 border-b whitespace-nowrap">Type of Defect</th>
+                                                <th class="bg-white sticky top-0 py-3 px-4 text-start text-xs font-semibold text-gray-600 border-b whitespace-nowrap">Location</th>
+                                                <th class="bg-white sticky top-0 py-3 px-4 text-start text-xs font-semibold text-gray-600 border-b whitespace-nowrap">Status</th>
+                                                <th class="bg-white sticky top-0 py-3 px-4 text-start text-xs font-semibold text-gray-600 border-b whitespace-nowrap">Date</th>
+                                            </tr>
                                         </thead>
                                         <!-- Table Content -->
                                         <tbody>
-                                        <template x-for="(report, index) in reports" :key="report.id">
-                                            <tr class="even:bg-gray-200 odd:bg-[#FBFBFA]">
-                                                <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap" x-text="report.id"></td>
-                                                <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap" x-text="report.defectType"></td>
-                                                <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap" x-text="report.status"></td>
-                                                <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap" x-text="report.date"></td>
-                                            </tr>
-                                        </template>
+                                            <template x-for="(report, index) in reports" :key="report.id">
+                                                <tr class="even:bg-gray-200 odd:bg-[#FBFBFA]">
+                                                    <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap" x-text="report.id"></td>
+                                                    <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap" x-text="report.defectType"></td>
+                                                    <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap" x-text="report.location"></td>
+                                                    <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap" :class="{
+                                                        'text-green-600': report.status === 'Fixed',
+                                                        'text-yellow-500': report.status === 'Ongoing',
+                                                        'text-red-600': report.status === 'Unfixed'
+                                                    }" x-text="report.status"></td>
+                                                    <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap" x-text="formatDate(report.date)"></td>
+                                                </tr>
+                                            </template>
                                         </tbody>
                                     </table>
                                 </div>
@@ -125,36 +146,27 @@
                 </button>
             </div>
         </div>
-
         <script>
             function reportData() {
                 const totalRows = 12;
                 return {
-                    reports:
-                        [
-                            // { id: '0001', defectType: 'Pothole', status: 'On-going', date: '07/10/24' },
-                            // { id: '0002', defectType: 'Crack', status: 'On-going', date: '07/10/24' },
-                            // { id: '0003', defectType: 'Pothole', status: 'Resolved', date: '06/15/24' },
-                            // { id: '0004', defectType: 'Debris', status: 'On-going', date: '07/05/24' },
-                            // { id: '0005', defectType: 'Crack', status: 'Resolved', date: '06/20/24' },
-                            // { id: '0006', defectType: 'Pothole', status: 'On-going', date: '07/12/24' },
-                            // { id: '0007', defectType: 'Debris', status: 'Resolved', date: '06/30/24' },
-                            // { id: '0008', defectType: 'Pothole', status: 'On-going', date: '07/14/24' },
-                            // { id: '0009', defectType: 'Crack', status: 'Resolved', date: '06/25/24' },
-                            // { id: '0010', defectType: 'Debris', status: 'On-going', date: '07/06/24' },
-                            // { id: '0011', defectType: 'Pothole', status: 'Resolved', date: '06/18/24' },
-                            // { id: '0012', defectType: 'Crack', status: 'On-going', date: '07/08/24' },
-                            // { id: '0013', defectType: 'Debris', status: 'Resolved', date: '06/28/24' },
-                            // { id: '0014', defectType: 'Pothole', status: 'On-going', date: '07/13/24' },
-                            // { id: '0015', defectType: 'Crack', status: 'Resolved', date: '06/22/24' },
-                            // { id: '0016', defectType: 'Debris', status: 'On-going', date: '07/09/24' },
-                            // { id: '0017', defectType: 'Pothole', status: 'Resolved', date: '06/27/24' },
-                            // { id: '0018', defectType: 'Crack', status: 'On-going', date: '07/11/24' },
-                            // { id: '0019', defectType: 'Debris', status: 'Resolved', date: '06/29/24' },
-                            // { id: '0020', defectType: 'Pothole', status: 'On-going', date: '07/15/24' }
-                        ],
+                    reports: [],
+                    loadReports(data) {
+                        this.reports = data.map(report => ({
+                            ...report,
+                            formattedDate: this.formatDate(report.date)
+                        }));
+                    },
+                    formatDate(dateString) {
+                        if (!dateString) return '';
+                        const options = {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        };
+                        return new Date(dateString).toLocaleDateString('en-US', options);
+                    },
                     emptyRows() {
-                        // Calculate how many empty rows to add based on the total desired rows
                         return Math.max(totalRows - this.reports.length, 0);
                     }
                 }
@@ -162,4 +174,3 @@
         </script>
     </x-residents.residents-navigation>
 </x-app-layout>
-
