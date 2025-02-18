@@ -47,7 +47,7 @@ class Notifications extends Component
         }
     }
 
-    public function viewNotification(Notification $notification): void
+    public function viewNotification(Notification $notification)
     {
         // Mark the notification as read
         $notification->update(['is_read' => true]);
@@ -77,8 +77,8 @@ class Notifications extends Component
             'created_at' => $notification->created_at->diffForHumans(),
         ];
 
-        // Dispatch the event to display the modal
-        $this->dispatch('show-view-notification-modal', ['notification' => $notificationData]);
+        // Redirect to the report details page
+        return redirect()->route('admin.road-defect-reports', ['report_id' => $notification->report_id]);
     }
 
 
