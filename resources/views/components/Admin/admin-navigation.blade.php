@@ -2,7 +2,7 @@
 @props(['page_title' => '','action' => '', 'placeholder' => '', 'name' => '', 'main_class' => ''])
 
 <div x-cloak
-     class=" bg-none font-pop mx-0 px-0"
+     class="bg-none font-pop mx-0 px-0"
      x-data="{
         open: false,
         expanded: JSON.parse(localStorage.getItem('sidebarExpanded')) ?? true,
@@ -89,15 +89,15 @@
                     </p>
                 </a>
                 <!-- staff Role -->
-                <a href="{{ route('admin.staff-role-table') }}" loading="lazy" class="group flex items-center block py-2.5 px-5 rounded font-medium
-                    {{ request()->routeIs('admin.staff-role-table') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
+                <a href="{{ route('admin.staff-roles-table') }}" loading="lazy" class="group flex items-center block py-2.5 px-5 rounded font-medium
+                    {{ request()->routeIs('admin.staff-roles-table') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
                          class="lazyload w-5 h-5 fill-current
-                        {{ request()->routeIs('admin.staff-role-table') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200' }}">
+                        {{ request()->routeIs('admin.staff-roles-table') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200' }}">
                         <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
                     </svg>
                     <p x-show="expanded" class="ml-2
-                        {{ request()->routeIs('admin.staff-role-table') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">
+                        {{ request()->routeIs('admin.staff-roles-table') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">
                         Staff Role
                     </p>
                 </a>
@@ -179,7 +179,7 @@
                 <x-slot:page_title_and_search_bar>
                     <h1 class="lg:text-[22px] text-md md:text-lg mt-0 font-semibold text-[#4AA76F] md:mt-3 md:mr-3 lg:mr-1">{{$page_title}}</h1>
 
-                    @if (!request()->routeIs('admin.profile-edit') && !session('hideSearchBar'))
+                    @if (!request()->routeIs('admin.profile-edit') && !request()->routeIs('admin.road-defect-reports') && !session('hideSearchBar'))
                         <!-- Search Bar -->
                         <div class="flex mt-2 lg:mt-3 w-48 lg:w-80 items-center px-0 lg:px-5">
                             <div class="relative flex flex-1 h-8 rounded-full">
