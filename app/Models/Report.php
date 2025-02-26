@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Report extends Model
 {
     protected $fillable = [
-        'resident_id',
+        'reporter_id',
         'defect',
         'lat',
         'lng',

@@ -68,7 +68,7 @@ class ReportController extends Controller
 
         $annotatedPath = 'reports/report_photo_' . time() . '_annotated.jpg';
         Report::create([
-            'resident_id' => Auth::id(),
+            'reporter_id' => Auth::id(),
             'defect' => "Pothole",
             'lat' => $request->latitude,
             'lng' => $request->longitude,
@@ -102,7 +102,7 @@ class ReportController extends Controller
 
         // Save the report data
         $report = new Report();
-        $report->resident_id = Auth::id();
+        $report->reporter_id = Auth::id();
         $report->defect = $validated['defect_type'];
         $report->report_id = $validated['report_id'];
         $report->date = $validated['date_time'];

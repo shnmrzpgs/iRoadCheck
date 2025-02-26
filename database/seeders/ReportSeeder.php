@@ -15,7 +15,7 @@ class ReportSeeder extends Seeder
     {
         DB::table('reports')->insert([
             [
-                'resident_id' => 2,
+                'reporter_id' => 2,
                 'defect' => 'Pothole',
                 'location' => 'Apokon Road, Tagum City',
                 'date' => '2025-03-10',
@@ -27,7 +27,7 @@ class ReportSeeder extends Seeder
 
             ],
             [
-                'resident_id' => 2,
+                'reporter_id' => 2,
                 'defect' => 'Raveling',
                 'location' => 'Magugpo South',
                 'date' => '2025-07-10',
@@ -39,7 +39,7 @@ class ReportSeeder extends Seeder
 
             ],
             [
-                'resident_id' => 1,
+                'reporter_id' => 1,
                 'defect' => 'Cracks',
                 'location' => 'Magugpo North',
                 'date' => '2025-01-20',
@@ -51,7 +51,7 @@ class ReportSeeder extends Seeder
 
             ],
             [
-                'resident_id' => 1,
+                'reporter_id' => 1,
                 'defect' => 'Pothole',
                 'location' => 'Apokon Road',
                 'date' => '2025-03-25',
@@ -63,7 +63,7 @@ class ReportSeeder extends Seeder
 
             ],
             [
-                'resident_id' => 2,
+                'reporter_id' => 2,
                 'defect' => 'Pothole',
                 'location' => 'Apokon Road',
                 'date' => '2025-06-25',
@@ -75,7 +75,7 @@ class ReportSeeder extends Seeder
 
             ],
             [
-                'resident_id' => 2,
+                'reporter_id' => 2,
                 'defect' => 'Alligator Crack',
                 'location' => 'Apokon Road',
                 'date' => '2025-02-25',
@@ -87,7 +87,7 @@ class ReportSeeder extends Seeder
 
             ],
             [
-                'resident_id' => 1,
+                'reporter_id' => 1,
                 'defect' => 'Raveling',
                 'location' => 'Magugpo South',
                 'date' => '2025-07-10',
@@ -99,7 +99,7 @@ class ReportSeeder extends Seeder
 
             ],
             [
-                'resident_id' => 1,
+                'reporter_id' => 1,
                 'defect' => 'Pothole',
                 'location' => 'Apokon Road',
                 'date' => '2022-03-25',
@@ -111,7 +111,7 @@ class ReportSeeder extends Seeder
 
             ],
             [
-                'resident_id' => 1,
+                'reporter_id' => 1,
                 'defect' => 'Raveling',
                 'location' => 'Magugpo South',
                 'date' => '2024-07-10',
@@ -123,7 +123,7 @@ class ReportSeeder extends Seeder
 
             ],
             [
-                'resident_id' => 3,
+                'reporter_id' => 3,
                 'defect' => 'Alligator Cracks',
                 'location' => 'Pioneer Avenue, Tagum City',
                 'date' => '2024-11-05',
@@ -134,7 +134,7 @@ class ReportSeeder extends Seeder
                 'lng' => 125.8074,
             ],
             [
-                'resident_id' => 4,
+                'reporter_id' => 4,
                 'defect' => 'Raveling',
                 'location' => 'Rizal Street, Tagum City',
                 'date' => '2024-11-08',

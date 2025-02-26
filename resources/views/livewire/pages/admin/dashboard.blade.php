@@ -4,10 +4,10 @@
     <main class="flex -mt-2 overflow-y-scroll h-[85vh] pb-5">
 
         <div class="flex flex-col gap-4 w-full">
-            <div  x-data="{
+            <div x-data="{
                     filters: @entangle('filters'),
-                }" 
-             class="bg-[#FBFBFB] px-4 pb-2 rounded-lg drop-shadow mb-2">
+                }"
+                class="bg-[#FBFBFB] px-4 pb-2 rounded-lg drop-shadow mb-2">
                 <div class="flex flex-col lg:gap-2 gap-1 mr-auto mb-2 pt-2">
                     <!-- Page Description -->
                     <div class="flex px-0 border-b border-b-gray-300 py-2">
@@ -22,7 +22,19 @@
                     </div>
 
                     <div class="flex justify-between gap-2">
-                        <div  class="flex flex-wrap gap-2 mb-4 mt-4">
+                        <div class="flex flex-wrap gap-2 mb-4 mt-4">
+                            <div class="relative flex flex-1 justify-center">
+                                <svg class="pointer-events-none absolute inset-y-0 left-1 h-full w-4 text-gray-400 ml-2 z-0"
+                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#4AA76F">
+                                    <path d="M368 208A160 160 0 1 0 48 208a160 160 0 1 0 320 0zM337.1 371.1C301.7 399.2 256.8 416 208 416C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208c0 48.8-16.8 93.7-44.9 129.1l124 124 17 17L478.1 512l-17-17-124-124z" />
+                                </svg>
+                                <input
+                                    id="search-field"
+                                    class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] shadow-[0px_1px_5px_rgba(0,0,0,0.2)] focus:bg-white bg-white rounded-[4px] block h-full w-full py-0 pl-8 text-gray-900 placeholder:text-gray-400 text-xs"
+                                    wire:model.live="search"
+                                    placeholder="{{ $placeholder ?? 'Search...' }}"
+                                    type="search" />
+                            </div>
                             <div class="relative rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md flex justify-center items-center"
                                 :class="{
                                 'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] ': filters.barangay === ''  && filters.selectedYear === '',  /* Active state */
@@ -301,7 +313,7 @@
 
 
             <script>
-document.addEventListener("DOMContentLoaded", function() {
+            document.addEventListener("DOMContentLoaded", function() {
     let chart;
 
     try {
@@ -318,58 +330,82 @@ document.addEventListener("DOMContentLoaded", function() {
                         pan: false,
                         reset: false,
                         download: true,
+                    },
+                    export: {
+                        csv: {
+                            filename: "Defects_Report_Summary",
+                            columnDelimiter: ',',
+                            headerCategory: 'Month',
+                            headerValue: 'Value'
+                        },
+                        png: {
+                            filename: "Defects_Report_Summary",
+                            background: '#ffffff',
+                            scale: 2,
+                            beforeDownload: function({ element }) {
+                                appendTitleAndYearLabel(element, "Defects Report Summary");
+                            }
+                        },
+                        svg: {
+                            filename: "Defects_Report_Summary",
+                            width: 800,
+                            height: 600,
+                            beforeDownload: function({ element }) {
+                                appendTitleAndYearLabel(element, "Defects Report Summary");
+                            }
+                        }
                     }
                 }
             },
-                            legend: {
-                                position: 'bottom',
-                                horizontalAlign: 'center',
-                                markers: {
-                                    width: 12,
-                                    height: 12,
-                                    radius: 12
-                                }
-                            },
-                            xaxis: {
-                                categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                                labels: {
-                                    offsetX: 4
-                                }
-                            },
-                            colors: ['#FFAD00', '#7E91FF', '#4AA76F', '#E26161'],
-                            stroke: {
-                                curve: 'smooth',
-                                width: 3
-                            },
-                            fill: {
-                                type: 'gradient',
-                                gradient: {
-                                    shadeIntensity: 1,
-                                    opacityFrom: 0.8,
-                                    opacityTo: 0,
-                                    stops: [0, 100]
-                                }
-                            },
-                            markers: {
-                                colors: ['#FFAD00', '#7E91FF', '#4AA76F', '#E26161'],
-                                strokeColor: '#fff',
-                                strokeWidth: 2,
-                                shape: 'circle',
-                                hover: {
-                                    size: 10,
-                                    sizeOffset: 3
-                                }
-                            },
-                            dataLabels: {
-                                enabled: false
-                            },
-                            series: @json($chartData['series'] ?? [])
+            legend: {
+                position: 'bottom',
+                horizontalAlign: 'center',
+                markers: {
+                    width: 12,
+                    height: 12,
+                    radius: 12
+                }
+            },
+            xaxis: {
+                categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                labels: {
+                    offsetX: 4
+                }
+            },
+            colors: ['#FFAD00', '#7E91FF', '#4AA76F', '#E26161'],
+            stroke: {
+                curve: 'smooth',
+                width: 3
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.8,
+                    opacityTo: 0,
+                    stops: [0, 100]
+                }
+            },
+            markers: {
+                colors: ['#FFAD00', '#7E91FF', '#4AA76F', '#E26161'],
+                strokeColor: '#fff',
+                strokeWidth: 2,
+                shape: 'circle',
+                hover: {
+                    size: 10,
+                    sizeOffset: 3
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            series: @json($chartData['series'] ?? [])
         };
 
         chart = new ApexCharts(document.querySelector("#chart"), chartOptions);
         chart.render();
 
-        // Listen for Livewire events
+        // Listen for Livewire updates
         Livewire.on('chartDataUpdated', function(data) {
             try {
                 console.log('Chart data received:', data);
@@ -382,11 +418,62 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.error('Chart update error:', error);
             }
         });
+
+        // Modified function to match the second image style
+        function appendTitleAndYearLabel(svgElement, title) {
+            if (!svgElement) return;
+
+            // Create a container group for the title and subtitle
+            let titleGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+            titleGroup.setAttribute("transform", "translate(0, 0)");
+            svgElement.appendChild(titleGroup);
+
+            // Create the main title centered
+            let titleText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            titleText.setAttribute("x", "50%");
+            titleText.setAttribute("y", 30);
+            titleText.setAttribute("fill", "#000");
+            titleText.setAttribute("font-size", "18");
+            titleText.setAttribute("font-weight", "bold");
+            titleText.setAttribute("text-anchor", "middle");
+            titleText.textContent = title;
+            titleGroup.appendChild(titleText);
+
+            // Create the "Year: YYYY" subtitle centered below the title
+            let yearText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            yearText.setAttribute("x", "50%");
+            yearText.setAttribute("y", 50);
+            yearText.setAttribute("fill", "#666");
+            yearText.setAttribute("font-size", "14");
+            yearText.setAttribute("text-anchor", "middle");
+            // Get the selected year from Livewire component's selectedYear property
+            const selectedYear = @json($selectedYear ?? Carbon::now()->year);
+            yearText.textContent = "Year: " + selectedYear;
+            titleGroup.appendChild(yearText);
+            
+            // Calculate the height of the title and subtitle and shift the chart down
+            let chartGroup = svgElement.querySelector("g.apexcharts-inner");
+            if (chartGroup) {
+                let currentTransform = chartGroup.getAttribute("transform") || "";
+                // Parse current transform or default to 0,0
+                let match = currentTransform.match(/translate\(([^,]+),([^)]+)\)/);
+                let x = match ? parseFloat(match[1]) : 0;
+                let y = match ? parseFloat(match[2]) : 0;
+                // Add extra space for the title (60px)
+                chartGroup.setAttribute("transform", `translate(${x}, ${y + 30})`);
+            }
+            
+            // Adjust the height of the SVG to accommodate the title
+            let height = parseInt(svgElement.getAttribute("height")) || 600;
+            svgElement.setAttribute("height", (height + 30) + "");
+        }
+
     } catch (error) {
         console.error('Chart initialization error:', error);
     }
 });
-</script>
+            </script>
+
         </div>
     </main>
 
