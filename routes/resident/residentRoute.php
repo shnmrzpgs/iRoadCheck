@@ -11,6 +11,9 @@ use App\Livewire\ResidentLogin;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('/resident/install', function () {
+    return view('livewire.resident-install');
+})->middleware('PwaRedirect');
 
 Route::view('/resident/login', 'iroadcheck.prototype.Residents.login')->name('residents-login');
 Route::post('resident/register', [ResidentAuth::class, 'signup'])->name('resident-register');
@@ -21,7 +24,7 @@ Route::group(['middleware' => 'VerifyResident'], function () {
     Route::post('resident/code-verify', [ResidentAuth::class, 'verifyCode'])->name('verifyCode');
 
 });
-Route::group(['middleware' => 'AuthResident', 'CheckPWA'], function () {
+Route::group(['middleware' => ['AuthResident', 'CheckPWA']], function () {
     Route::get('/resident/dashboard', [DashboardController::class, 'showDashboard'])->name('residents-dashboard');
     Route::get('/prototype/residents/report-history', [ReportHistory::class, 'showReportHistory'])->name('report-history');
 //    Route::post('resident/submit-report', [ReportController::class, 'storeReport'])->name('submit-report');
