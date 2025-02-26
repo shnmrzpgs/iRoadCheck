@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('resident_id')->references('id')->on('users');
+            $table->foreignId('reporter_id')->references('id')->on('users');
             $table->string('defect');
             $table->string('location');
             $table->string('street')->default('N/A');
