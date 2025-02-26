@@ -38,15 +38,32 @@ self.addEventListener('activate', event => {
     );
 });
 
-// Serve from Cache
+// Serve from Cache with X-PWA Header
 self.addEventListener("fetch", event => {
     event.respondWith(
-        caches.match(event.request)
-            .then(response => {
-                return response || fetch(event.request);
-            })
-            .catch(() => {
-                return caches.match('offline');
-            })
-    )
+        (async () => {
+            // Clone the request to modify headers
+            const modifiedRequest = new Request(event.request, {
+                headers: new Headers({
+                    ...Object.fromEntries(event.request.headers.entries()),
+                    'X-PWA': 'true'
+                }),
+                method: event.request.method,
+                mode: event.request.mode,
+                credentials: event.request.credentials,
+                redirect: event.request.redirect,
+                referrer: event.request.referrer
+            });
+
+            try {
+                // Try network first
+                const networkResponse = await fetch(modifiedRequest);
+                return networkResponse;
+            } catch {
+                // If offline, try cache
+                const cachedResponse = await caches.match(event.request);
+                return cachedResponse || caches.match('/offline');
+            }
+        })()
+    );
 });

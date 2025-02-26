@@ -17,7 +17,7 @@ class CheckPWA
     {
         // Check if the request has the PWA header
         if (!$request->headers->has('X-PWA') || $request->headers->get('X-PWA') !== 'true') {
-            return redirect('/')->with('error', 'Access denied: Only accessible from PWA.');
+            return redirect('resident/install')->with('error', 'Access denied: Only accessible from PWA.');
         }
 
         return $next($request);

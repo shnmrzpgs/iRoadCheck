@@ -1,14 +1,14 @@
 <?php
 
 return [
-    'name' => 'LaravelPWA',
+    'name' => 'iRoadCheck',
     'manifest' => [
-        'name' => env('APP_NAME', 'My PWA App'),
-        'short_name' => 'PWA',
-        'start_url' => '/resident/login',
+        'name' => env('APP_NAME', 'iRoadCheck'),
+        'short_name' => 'iRoadCheck',
+        'start_url' => '/resident/dashboard',
         'background_color' => '#ffffff',
         'theme_color' => '#000000',
-        'display' => 'standalone',
+        'display' => 'fullscreen',
         'orientation'=> 'any',
         'status_bar'=> 'black',
         'icons' => [

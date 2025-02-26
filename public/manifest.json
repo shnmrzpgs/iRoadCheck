@@ -12,5 +12,12 @@
     "css": [
       "assets/app-7QyeXbnw.css"
     ]
-  }
+  },
+    "name": "iRoadCheck",
+    "short_name": "iRoadCheck",
+        "start_url": "/resident/dashboard"
+
 }
+
+
+
