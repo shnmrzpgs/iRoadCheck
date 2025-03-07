@@ -72,15 +72,7 @@ class StaffsDataExport implements FromView, WithEvents, WithDrawings
                 $headerRow = 13; // Adjust based on your template
                 $sheet->getStyle("A{$headerRow}:E{$headerRow}")->applyFromArray([
                     'font' => ['bold' => true],
-                    'borders' => [
-                        'allBorders' => [
-                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                        ],
-                    ],
-                    'fill' => [
-                        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                        'startColor' => ['rgb' => 'E2E8F0'],
-                    ],
+                   
                 ]);
 
                 // Set column widths
@@ -98,16 +90,32 @@ class StaffsDataExport implements FromView, WithEvents, WithDrawings
 
     public function drawings(): array
     {
-        $drawing = new Drawing();
-        $drawing->setName('Logo');
-        $drawing->setDescription('System Logo');
-        $drawing->setPath(public_path('storage/images/IRoadCheck_Logo.png')); // Adjust the path to your logo image
-        $drawing->setHeight(80); // Set the height of the logo
-        $drawing->setCoordinates('A1');
-        $drawing->setOffsetX(25);
-        $drawing->setOffsetY(100);
+        $drawings = [];
 
-        return [$drawing];
+        // Left Logo
+        $leftDrawing = new Drawing();
+        $leftDrawing->setName('Left Logo');
+        $leftDrawing->setDescription('Left Logo');
+        $leftDrawing->setPath(public_path('storage/images/tagum_city_logo.png')); // Update path if necessary
+        $leftDrawing->setHeight(100); // Adjust height as needed
+        $leftDrawing->setCoordinates('B2'); // Starting cell
+        $leftDrawing->setOffsetX(5); // Fine-tune horizontal positioning
+        $leftDrawing->setOffsetY(5); // Fine-tune vertical positioning
+
+        // Right Logo
+        $rightDrawing = new Drawing();
+        $rightDrawing->setName('Right Logo');
+        $rightDrawing->setDescription('Right Logo');
+        $rightDrawing->setPath(public_path('storage/images/IRoadCheck_Logo.png')); // Update path if necessary
+        $rightDrawing->setHeight(100); // Adjust height as needed
+        $rightDrawing->setCoordinates('D2'); // Starting cell for the right logo
+        $rightDrawing->setOffsetX(5); // Fine-tune horizontal positioning
+        $rightDrawing->setOffsetY(5); // Fine-tune vertical positioning
+
+        $drawings[] = $leftDrawing;
+        $drawings[] = $rightDrawing;
+
+        return $drawings;
     }
 
     public function view(): View
