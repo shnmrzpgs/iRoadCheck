@@ -20,3 +20,11 @@ require __DIR__ . '/staff/userRoute.php';
 Route::get('/search', function () {
     return view('components.search-bar');
 })->name('search');
+
+Route::get('/data-privacy-statement', function () {
+    return view('iroadcheck.prototype.data-privacy-statement');
+})->name('data-privacy-statement');
+
+Route::get('/landing-page', function () {
+    return view('iroadcheck.prototype.landing-page');
+})->name('landing-page');
