@@ -87,7 +87,7 @@ class ResidentAuth extends Controller
             $resident->save();
 
             // Optionally, you can log the user in or redirect them to the dashboard
-            return redirect()->route('residents-dashboard')->with('success', 'Account activated successfully!');
+            return redirect()->route('resident.dashboard')->with('success', 'Account activated successfully!');
         } else {
             // Handle the case where the code is invalid
 //            session()->flash('error', 'The verification code is incorrect. Please try again.');
