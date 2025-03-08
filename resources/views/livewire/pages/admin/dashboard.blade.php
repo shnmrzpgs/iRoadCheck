@@ -4,10 +4,7 @@
     <main class="flex -mt-2 overflow-y-scroll h-[85vh] pb-5">
 
         <div class="flex flex-col gap-4 w-full">
-            <div x-data="{
-                    filters: @entangle('filters'),
-                }"
-                class="bg-[#FBFBFB] px-4 pb-2 rounded-lg drop-shadow mb-2">
+            <div class="bg-[#FBFBFB] px-4 pb-2 rounded-lg drop-shadow mb-2">
                 <div class="flex flex-col lg:gap-2 gap-1 mr-auto mb-2 pt-2">
                     <!-- Page Description -->
                     <div class="flex px-0 border-b border-b-gray-300 py-2">
@@ -21,43 +18,50 @@
                         </div>
                     </div>
 
-                    <div class="flex justify-between gap-2">
-                        <div class="flex flex-wrap gap-2 mb-4 mt-4">
-                            <div class="relative flex flex-1 justify-center">
-                                <svg class="pointer-events-none absolute inset-y-0 left-1 h-full w-4 text-gray-400 ml-2 z-0"
-                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#4AA76F">
-                                    <path d="M368 208A160 160 0 1 0 48 208a160 160 0 1 0 320 0zM337.1 371.1C301.7 399.2 256.8 416 208 416C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208c0 48.8-16.8 93.7-44.9 129.1l124 124 17 17L478.1 512l-17-17-124-124z" />
-                                </svg>
-                                <input
-                                    id="search-field"
-                                    class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] shadow-[0px_1px_5px_rgba(0,0,0,0.2)] focus:bg-white bg-white rounded-[4px] block h-full w-full py-0 pl-8 text-gray-900 placeholder:text-gray-400 text-xs"
-                                    wire:model.live="search"
-                                    placeholder="{{ $placeholder ?? 'Search...' }}"
-                                    type="search" />
-                            </div>
+                    <!-- Container for search and filters -->
+                    <div class="flex flex-wrap md:flex-nowrap items-center gap-2 w-full">
+                        <!-- Search Bar -->
+                        <div class="relative flex flex-1 md:flex-none w-full md:w-auto">
+                            <svg class="pointer-events-none absolute inset-y-0 left-1 h-full w-4 text-gray-400 ml-2 z-0"
+                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#4AA76F">
+                                <path d="M368 208A160 160 0 1 0 48 208a160 160 0 1 0 320 0zM337.1 371.1C301.7 399.2 256.8 416 208 416C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208c0 48.8-16.8 93.7-44.9 129.1l124 124 17 17L478.1 512l-17-17-124-124z" />
+                            </svg>
+                            <input
+                                class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] 
+                            shadow-[0px_1px_5px_rgba(0,0,0,0.2)] focus:bg-white bg-white rounded-[4px] 
+                            block w-full md:w-[250px] lg:w-[300px] py-2 pl-8 text-gray-900 placeholder:text-gray-400 text-xs"
+                                wire:model.live="search"
+                                placeholder="{{ $placeholder ?? 'Search...' }}"
+                                type="search" />
+                        </div>
+
+                        <!-- Filters -->
+                        <div class="flex flex-wrap md:flex-nowrap gap-2">
+                            <!-- All Reports Filter -->
                             <div class="relative rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md flex justify-center items-center"
                                 :class="{
-                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] ': filters.barangay === ''  && filters.selectedYear === '',  /* Active state */
-                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.barangay !== '' || filters.selectedYear !== ''  /* Default and hover state */
+                                    'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] ': filters.sort === '' && filters.status === ''  && filters.userType === '',  
+                                    'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort !== '' || filters.status !== '' || filters.userType !== ''  
                                 }"
-                                @click="$wire.call('resetFilters')">
+                                @click="$wire.resetFilter();">
                                 <span class="text-[12px] block appearance-none w-full text-center px-2 py-2 rounded">
                                     All Reports
                                 </span>
                             </div>
 
-                            <!-- Staff Type Filter -->
+                            <!-- Barangay Filter -->
                             <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
                                 :class="{
-                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.barangay !== '',  /* Active state */
-                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.barangay === ''  /* Default and hover state */
-                             }">
-                                <select x-model="filters.barangay" @change="console.log('Filters:', filters)"
+                                        'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.selectedBarangay !== '',  
+                                        'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.selectedBarangay === ''  
+                                    }">
+                                <select wire:model.live="selectedBarangay"
+                                    @change="activeFilter = 'selectedBarangay'"
                                     class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
-                                    <option value="" class="text-gray-400 text-[12px]">Barangay</option>
-                                    <option value="patcher" class="text-gray-700">Magugpo North</option>
-                                    <option value="user-type-2" class="text-gray-700">Magugpo South</option>
-                                    <option value="user-type-3" class="text-gray-700">Apokon</option>
+                                    <option value="" default class="text-gray-400 text-[12px]">Barangay</option>
+                                    @foreach($barangays as $barangay)
+                                    <option value="{{ $barangay }}">{{ $barangay }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -76,10 +80,12 @@
                                 </select>
                             </div>
                         </div>
-                        <div class=" flex justify-center items-center">
-                            <div class="font-semibold text-[#FFAD00] pl-2 pr-3 text-lg opacity-90 transform group-hover:scale-110 group-hover:translate-y-1 group-hover:translate-x-4 transition-all duration-500 ease-in-out">
-                                Total Reports : {{ $totalReport }}
-                            </div>
+                    </div>
+
+
+                    <div class=" flex items-center justify-start lg:justify-end md:justify-end">
+                        <div class="font-semibold text-[#FFAD00] pl-2 pr-3 text-lg opacity-90 transform group-hover:scale-110 group-hover:translate-y-1 group-hover:translate-x-4 transition-all duration-500 ease-in-out">
+                            Total Reports : {{ $totalReport }}
                         </div>
                     </div>
                 </div>
@@ -89,7 +95,7 @@
                     <div class="flex flex-col text-[#202020] bg-[#FBFBFB] px-4 pb-2 pt-2 rounded-lg drop-shadow mb-4 xl:w-8/10">
                         <div class="xl:flex-row px-3 gap-2">
                             <div class="w-full max-h-[450px] pt-2 overflow-hidden">
-                                <div id="chart"></div>
+                                <div id="chart" wire.model.live="chartDataUpdated"></div>
                             </div>
                         </div>
                     </div>
@@ -167,7 +173,7 @@
                                 <div class="flex flex-col text-[#E26161] mt-6 px-5 pt-4 relative z-10">
                                     <!-- Card Title -->
                                     <div class="font-semibold text-md opacity-90 transform group-hover:scale-105 group-hover:translate-y-1 group-hover:translate-x-1 transition-all duration-500 ease-in-out">
-                                        Fixed Reports
+                                        Repaired Reports
                                     </div>
 
                                     <!-- Card Counts -->
@@ -310,171 +316,173 @@
                     </div>
                 </div>
             </div>
-
-
-            <script>
-            document.addEventListener("DOMContentLoaded", function() {
-    let chart;
-
-    try {
-        const chartOptions = {
-            chart: {
-                type: 'area',
-                height: 350,
-                toolbar: {
-                    show: true,
-                    tools: {
-                        zoom: false,
-                        zoomin: false,
-                        zoomout: false,
-                        pan: false,
-                        reset: false,
-                        download: true,
-                    },
-                    export: {
-                        csv: {
-                            filename: "Defects_Report_Summary",
-                            columnDelimiter: ',',
-                            headerCategory: 'Month',
-                            headerValue: 'Value'
-                        },
-                        png: {
-                            filename: "Defects_Report_Summary",
-                            background: '#ffffff',
-                            scale: 2,
-                            beforeDownload: function({ element }) {
-                                appendTitleAndYearLabel(element, "Defects Report Summary");
-                            }
-                        },
-                        svg: {
-                            filename: "Defects_Report_Summary",
-                            width: 800,
-                            height: 600,
-                            beforeDownload: function({ element }) {
-                                appendTitleAndYearLabel(element, "Defects Report Summary");
-                            }
-                        }
-                    }
-                }
-            },
-            legend: {
-                position: 'bottom',
-                horizontalAlign: 'center',
-                markers: {
-                    width: 12,
-                    height: 12,
-                    radius: 12
-                }
-            },
-            xaxis: {
-                categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                labels: {
-                    offsetX: 4
-                }
-            },
-            colors: ['#FFAD00', '#7E91FF', '#4AA76F', '#E26161'],
-            stroke: {
-                curve: 'smooth',
-                width: 3
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shadeIntensity: 1,
-                    opacityFrom: 0.8,
-                    opacityTo: 0,
-                    stops: [0, 100]
-                }
-            },
-            markers: {
-                colors: ['#FFAD00', '#7E91FF', '#4AA76F', '#E26161'],
-                strokeColor: '#fff',
-                strokeWidth: 2,
-                shape: 'circle',
-                hover: {
-                    size: 10,
-                    sizeOffset: 3
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            series: @json($chartData['series'] ?? [])
-        };
-
-        chart = new ApexCharts(document.querySelector("#chart"), chartOptions);
-        chart.render();
-
-        // Listen for Livewire updates
-        Livewire.on('chartDataUpdated', function(data) {
-            try {
-                console.log('Chart data received:', data);
-                if (chart && data.series && Array.isArray(data.series)) {
-                    chart.updateSeries(data.series);
-                } else {
-                    console.warn('Invalid chart data received:', data);
-                }
-            } catch (error) {
-                console.error('Chart update error:', error);
-            }
-        });
-
-        // Modified function to match the second image style
-        function appendTitleAndYearLabel(svgElement, title) {
-            if (!svgElement) return;
-
-            // Create a container group for the title and subtitle
-            let titleGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
-            titleGroup.setAttribute("transform", "translate(0, 0)");
-            svgElement.appendChild(titleGroup);
-
-            // Create the main title centered
-            let titleText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            titleText.setAttribute("x", "50%");
-            titleText.setAttribute("y", 30);
-            titleText.setAttribute("fill", "#000");
-            titleText.setAttribute("font-size", "18");
-            titleText.setAttribute("font-weight", "bold");
-            titleText.setAttribute("text-anchor", "middle");
-            titleText.textContent = title;
-            titleGroup.appendChild(titleText);
-
-            // Create the "Year: YYYY" subtitle centered below the title
-            let yearText = document.createElementNS("http://www.w3.org/2000/svg", "text");
-            yearText.setAttribute("x", "50%");
-            yearText.setAttribute("y", 50);
-            yearText.setAttribute("fill", "#666");
-            yearText.setAttribute("font-size", "14");
-            yearText.setAttribute("text-anchor", "middle");
-            // Get the selected year from Livewire component's selectedYear property
-            const selectedYear = @json($selectedYear ?? Carbon::now()->year);
-            yearText.textContent = "Year: " + selectedYear;
-            titleGroup.appendChild(yearText);
-            
-            // Calculate the height of the title and subtitle and shift the chart down
-            let chartGroup = svgElement.querySelector("g.apexcharts-inner");
-            if (chartGroup) {
-                let currentTransform = chartGroup.getAttribute("transform") || "";
-                // Parse current transform or default to 0,0
-                let match = currentTransform.match(/translate\(([^,]+),([^)]+)\)/);
-                let x = match ? parseFloat(match[1]) : 0;
-                let y = match ? parseFloat(match[2]) : 0;
-                // Add extra space for the title (60px)
-                chartGroup.setAttribute("transform", `translate(${x}, ${y + 30})`);
-            }
-            
-            // Adjust the height of the SVG to accommodate the title
-            let height = parseInt(svgElement.getAttribute("height")) || 600;
-            svgElement.setAttribute("height", (height + 30) + "");
-        }
-
-    } catch (error) {
-        console.error('Chart initialization error:', error);
-    }
-});
-            </script>
-
         </div>
     </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var chart;
+
+            function initializeChart(chartData) {
+
+                // Custom CSV export function to filter out zero values
+                function customCSVExport() {
+                    // Get the series data
+                    const series = chartData.series;
+                    const categories = chartData.categories;
+
+                    // Create CSV header
+                    let csvContent = "Defect Type,Month,Count\n";
+
+                    // Loop through series and add only non-zero values
+                    series.forEach(s => {
+                        s.data.forEach((value, index) => {
+                            if (value > 0) {
+                                // Add to CSV only if count > 0
+                                csvContent += `${s.name},${categories[index]},${value}\n`;
+                            }
+                        });
+                    });
+
+                    // Create a blob and trigger download
+                    const blob = new Blob([csvContent], {
+                        type: 'text/csv;charset=utf-8;'
+                    });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.setAttribute('href', url);
+                    link.setAttribute('download', `defects-report-${chartData.selectedYear}.csv`);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+
+                var options = {
+                    chart: {
+                        type: 'area',
+                        height: 350,
+                        toolbar: {
+                            show: true,
+                            tools: {
+                                zoom: false,
+                                zoomin: false,
+                                zoomout: false,
+                                pan: false,
+                                reset: false,
+                                download: true,
+                            },
+                            export: {
+                                csv: {
+                                    filename: `defects-report-${chartData.selectedYear}`,
+                                    headerCategory: 'Month',
+                                    headerValue: 'Count',
+                                },
+                                png: {
+                                    filename: "Defects_Report_Summary",
+                                    background: '#ffffff',
+                                    scale: 2,
+                                },
+                                svg: {
+                                    filename: "Defects_Report_Summary",
+                                    width: 800,
+                                    height: 600,
+                                }
+                            }
+                        },
+                        events: {
+                            beforeMount: function(chart, options) {
+                                // Override the default export button action
+                                chart.exports.handleCSVExport = function() {
+                                    customCSVExport();
+                                };
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'bottom',
+                        horizontalAlign: 'center',
+                        markers: {
+                            width: 12,
+                            height: 12,
+                            radius: 12
+                        }
+                    },
+                    series: chartData.series,
+                    xaxis: {
+                        categories: chartData.categories,
+                        labels: {
+                            offsetX: 4
+                        }
+                    },
+                    yaxis: {},
+                    colors: chartData.series.map(series => series.color),
+                    stroke: {
+                        curve: 'smooth',
+                        width: 3
+                    },
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shadeIntensity: 1,
+                            opacityFrom: 0.8,
+                            opacityTo: 0,
+                            stops: [0, 100]
+                        }
+                    },
+                    markers: {
+                        colors: chartData.series.map(series => series.color),
+                        strokeColor: '#fff',
+                        strokeWidth: 2,
+                        shape: 'circle',
+                        hover: {
+                            size: 10,
+                            sizeOffset: 3
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    title: {
+                        text: "Monthly Defects Report",
+                        align: 'center',
+                        style: {
+                            fontSize: '16px',
+                            fontWeight: 'bold',
+                            fontFamily: 'Arial, sans-serif',
+                            color: '#000000'
+                        },
+                        offsetY: 10,
+                        margin: 10,
+                        floating: false
+                    },
+                    subtitle: {
+                        text: `Year: ${chartData.selectedYear || @json($selectedYear)}`,
+                        align: 'center',
+                        offsetY: 30,
+                        style: {
+                            fontSize: '12px',
+                            fontFamily: 'Arial, sans-serif',
+                            color: '#666666'
+                        }
+                    },
+                };
+
+                chart = new ApexCharts(document.querySelector("#chart"), options);
+                chart.render();
+            }
+
+            // Initial chart render
+            initializeChart(@json($chartData));
+
+            // Listen for chart data updates from Livewire
+            Livewire.on('chartDataUpdated', (event) => {
+                // Handle both formats for backward compatibility
+                const data = event.data || event[0];
+                initializeChart(data);
+            });
+        });
+    </script>
+
 
 </x-Admin.admin-navigation>

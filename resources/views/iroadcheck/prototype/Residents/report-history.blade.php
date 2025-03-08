@@ -180,7 +180,7 @@
                                                         <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap" x-text="report.defect"></td>
                                                         <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap" x-text="report.location"></td>
                                                         <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap" :class="{
-                                                                'text-green-600': report.status === 'Fixed',
+                                                                'text-green-600': report.status === 'Repaired',
                                                                 'text-yellow-500': report.status === 'Ongoing',
                                                                 'text-red-600': report.status === 'Unfixed'
                                                             }" x-text="report.status"></td>

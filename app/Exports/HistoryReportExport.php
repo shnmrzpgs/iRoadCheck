@@ -8,17 +8,16 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
-use App\Models\Staff;
-use App\Models\StaffRole;
+use App\Models\Report;
 
-class StaffsDataExport implements FromView, WithEvents, WithDrawings
+class HistoryReportExport implements FromView, WithEvents, WithDrawings
 {
-    protected $staffs;
+    protected $reports;
     protected $filters;
 
-    public function __construct($staffs, array $filters = [])
+    public function __construct($reports, array $filters = [])
     {
-        $this->staffs = $staffs;
+        $this->reports = $reports;
         $this->filters = $filters;
     }
 
@@ -32,12 +31,16 @@ class StaffsDataExport implements FromView, WithEvents, WithDrawings
             $subtitle[] = "Status: {$status}";
         }
 
-        // Add Staff Role filter info
-        if (!empty($this->filters['staff_role_id'])) {
-            $role = StaffRole::find($this->filters['staff_role_id']);
-            if ($role) {
-                $subtitle[] = "Staff Role: {$role->name}";
-            }
+        // Add defect filter info
+        if (!empty($this->filters['defect'])) {
+            $defect = ucfirst($this->filters['defect']);
+            $subtitle[] = "Defect: {$defect}";
+        }
+
+          // Add location filter info
+          if (!empty($this->filters['barangay'])) {
+            $barangay = ucfirst($this->filters['barangay']);
+            $subtitle[] = "Barangay: {$barangay}";
         }
 
         // Add search term if present
@@ -55,7 +58,7 @@ class StaffsDataExport implements FromView, WithEvents, WithDrawings
                 $sheet = $event->sheet->getDelegate();
 
                 // Set the print area
-                $sheet->getPageSetup()->setPrintArea('A1:E' . ($this->staffs->count() + 10));
+                $sheet->getPageSetup()->setPrintArea('A1:E' . ($this->reports->count() + 10));
 
                 // Apply styles to the header
                 $sheet->getStyle('A1:E7')->getAlignment()->setHorizontal('center');
@@ -73,13 +76,14 @@ class StaffsDataExport implements FromView, WithEvents, WithDrawings
                 $sheet->getStyle("A{$headerRow}:E{$headerRow}")->applyFromArray([
                     'font' => ['bold' => true],
                    
+                    
                 ]);
 
                 // Set column widths
                 $sheet->getColumnDimension('A')->setWidth(8);  // No.
-                $sheet->getColumnDimension('B')->setWidth(30); // Name
-                $sheet->getColumnDimension('C')->setWidth(20); // Username
-                $sheet->getColumnDimension('D')->setWidth(25); // Role
+                $sheet->getColumnDimension('B')->setWidth(20); // defect
+                $sheet->getColumnDimension('C')->setWidth(50); // location
+                $sheet->getColumnDimension('D')->setWidth(25); // date
                 $sheet->getColumnDimension('E')->setWidth(15); // Status
 
                 // Auto-height for all rows
@@ -120,9 +124,10 @@ class StaffsDataExport implements FromView, WithEvents, WithDrawings
 
     public function view(): View
     {
-        return view('exports.staffs', [
-            'staffs' => $this->staffs,
+        return view('exports.reports-history', [
+            'reports' => $this->reports,
             'subtitle' => $this->getSubtitle(),
         ]);
+
     }
 }
