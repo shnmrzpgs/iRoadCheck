@@ -1,169 +1,36 @@
 <x-residents.residents-navigation>
-    <div class="flex flex-col items-center justify-center w-full mb-20 lg:hidden" x-data="{ step: 1, selected: '', cameraOpen: false, photoCaptured: false, photo: null, locationCaptured: false, openSuccessModal: false }">
+
+    <div class="flex flex-col items-center justify-center w-full mb-10 lg:hidden" x-data="{  step: 1, selected: '', cameraOpen: false, photoCaptured: false, photo: null, locationCaptured: false, openSuccessModal: false }">
         <div class="w-full md:w-[85%] flex flex-col justify-center items-center">
 
             <!-- Breadcrumbs Report Road Issue Steps -->
-            <nav class="sticky z-10 -top-3 py-5 overflow-hidden bg-[#F5F5F5] left-0 w-full flex flex-col justify-center items-center text-gray-700 rounded-lg lg:pl-4">
-
-                <!-- Steps Count -->
-                <div class="w-[80%] md:w-[50%] lg:w-[30%] flex justify-center items-center lg:justify-start space-x-2 mb-2">
-                    <!-- Step 1 -->
-                    <div :class="step >= 1 ? 'text-green-600 font-bold' : 'text-gray-700'" class="text-xs text-center">Step 1</div>
-
-                    <!-- Separator -->
-                    <div class="relative flex items-center w-full">
-                        <div class="w-full h-0.5 bg-gray-300 absolute top-1/2 transform -translate-y-1/2"></div>
-                        <div x-show="step >= 1" class="w-full h-0.5 bg-gradient-to-r from-green-500 to-blue-500 absolute top-1/2 transform -translate-y-1/2 transition-all duration-300"
-                             x-transition:enter="transition-opacity transform ease-out duration-300"
-                             x-transition:leave="transition-opacity transform ease-in duration-200">
-                        </div>
-                    </div>
-
-                    <!-- Step 2 -->
-                    <div :class="step >= 2 ? 'text-green-600 font-bold' : 'text-gray-700'" class="text-xs text-center">Step 2</div>
-
-                    <!-- Separator -->
-                    <div class="relative flex items-center w-full">
-                        <div class="w-full h-0.5 bg-gray-300 absolute top-1/2 transform -translate-y-1/2"></div>
-                        <div x-show="step >= 2" class="w-full h-0.5 bg-gradient-to-r from-green-500 to-blue-500 absolute top-1/2 transform -translate-y-1/2 transition-all duration-300"
-                             x-transition:enter="transition-opacity transform ease-out duration-300"
-                             x-transition:leave="transition-opacity transform ease-in duration-200">
-                        </div>
-                    </div>
-
-                    <!-- Step 3 -->
-                    <div :class="step >= 3 ? 'text-green-600 font-bold' : 'text-gray-700'" class="text-xs text-center">Step 3</div>
-                </div>
+            <nav class="sticky z-10 -top-3 py-3 overflow-hidden bg-[#F5F5F5] left-0 w-full flex flex-col justify-center items-center text-gray-700 rounded-lg lg:pl-4">
 
                 <!-- Steps Description -->
                 <div class="text-center text-[13px] md:text-sm">
-                    <div :class="step === 1 ? 'text-gray-500 font-medium' : 'hidden'">Choose name of the road defect issue.</div>
-                    <div :class="step === 2 ? 'text-gray-500 font-medium' : 'hidden'">Capture actual road condition.</div>
-                    <div :class="step === 3 ? 'text-gray-500 font-medium' : 'hidden'">View your Report Road Concern Information</div>
+                    <div :class="step === 1 ? 'text-gray-500 font-medium' : 'hidden'">Capture actual road condition.</div>
+                    <div :class="step === 2 ? 'text-gray-500 font-medium' : 'hidden'">View your Report Road Concern Information</div>
                 </div>
 
             </nav>
 
             <!-- Steps Content -->
             <div class="w-full flex justify-center items-center mx-auto">
-{{--                <div x-data="{--}}
-{{--    latitude: 0,--}}
-{{--    longitude: 0,--}}
-{{--    address: '',--}}
-{{--    date: '',--}}
-{{--    time: '',--}}
-{{--    photo: '',--}}
-{{--    photoCaptured: false,--}}
-{{--    submitReport() {--}}
-{{--        const reportData = {--}}
-{{--            latitude: this.latitude,--}}
-{{--            longitude: this.longitude,--}}
-{{--            address: this.address,--}}
-{{--            date: this.date,--}}
-{{--            time: this.time,--}}
-{{--            photo: this.photo,--}}
-{{--        };--}}
 
-{{--        fetch({'{{route('submit.report')}}'}, {--}}
-{{--            method: 'POST',--}}
-{{--            headers: {--}}
-{{--                'Content-Type': 'application/json',--}}
-{{--                'X-CSRF-TOKEN': '{{ csrf_token() }}', // Include CSRF token for Laravel--}}
-{{--            },--}}
-{{--            body: JSON.stringify(reportData),--}}
-{{--        })--}}
-{{--        .then(response => response.json())--}}
-{{--        .then(data => {--}}
-{{--            if (data.success) {--}}
-{{--                alert('Report submitted successfully!');--}}
-{{--                // Optional: Reset data or navigate--}}
-{{--            } else {--}}
-{{--                alert('Failed to submit report. Please try again.');--}}
-{{--            }--}}
-{{--        })--}}
-{{--        .catch(error => {--}}
-{{--            console.error('Error submitting report:', error);--}}
-{{--            alert('An error occurred while submitting the report.');--}}
-{{--        });--}}
-{{--    }--}}
-{{--}">--}}
-                <!-- Step 1 | Choose Road Defect Issue -->
-                <template x-if="step === 1">
-                    <div class="flex flex-col w-full z-0">
-                        <!-- Step 1 Content -->
-                        <div class="mt-0 mb-2 bg-white shadow-sm rounded-lg w-full mx-auto border-2 border-gray-300 h-auto">
-                            <div class="w-full bg-white shadow-lg rounded-t-lg p-4">
-                                <h2 class="text-[16px] text-center font-semibold text-gray-600">Road Defect Reporting Guide</h2>
-                            </div>
-                            <div class="p-4">
-                                <p class="text-[14px] text-gray-700">
-                                    Take a photo of the road defect you wish to report!
-                                    <span class="font-semibold text-red-500">Remember:</span> Reporting at night or during rainy weather is not applicable.
-                                </p>
-                                <p class="mt-2 text-[13px] text-gray-500">
-                                    Refer to the images below to identify common road defects:
-                                </p>
-                            </div>
-                            <div class="h-auto overflow-hidden w-full px-4 pb-4">
-                                <!-- Pothole Reference -->
-                                <div class="flex items-center justify-between border-b-2 border-gray-300 py-4">
-                                    <div class="flex items-center">
-                                        <img src="{{ asset('storage/images/pothole.png') }}" alt="Pothole" class="w-16 h-16 rounded mr-4">
-                                        <div>
-                                            <p class="text-[14px] font-semibold text-gray-800">Pothole</p>
-                                            <p class="text-[12px] text-gray-500">
-                                                A pothole is a localized depression in the road surface caused by wear and tear.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Block Cracking Reference -->
-                                <div class="flex items-center justify-between border-b-2 border-gray-300 py-4">
-                                    <div class="flex items-center">
-                                        <img src="{{ asset('storage/images/block-craking.png') }}" alt="Block Cracking" class="w-16 h-16 rounded mr-4">
-                                        <div>
-                                            <p class="text-[14px] font-semibold text-gray-800">Block Cracking</p>
-                                            <p class="text-[12px] text-gray-500">
-                                                Block cracking appears as a series of interconnected cracks forming a pattern of blocks.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                <!-- Step 1 | Capture Road Defect -->
+                <template x-if="step === 1 && !showModal">
+                    <div class="flex items-center justify-center flex-col mt-2 mb-2 bg-none w-full mx-auto h-[55vh] relative" x-data="captureHandler()">
+
+                        <div class="z-0 relative w-full bg-white border-2 border-gray-300 shadow-md rounded-lg overflow-hidden">
+                            <x-Residents.svg-report-road-issue/>
                         </div>
 
+                        <livewire:first-login-modal/>
 
-                        <!-- Next Button-->
-                        <div class="mt-6 w-[85%] text-center mx-auto max-w-lg md:mb-50 sm:mb-50">
-                            <button @click.prevent="step = 2"
-                                    class="w-full bg-customGreen text-lg font-semibold text-white shadow-md border-2 md:mb-50 group relative inline-flex h-[calc(48px+8px)] items-center justify-center rounded-full py-1 pl-6 pr-14">
-                                <span class="z-10 text-sm">Next</span>
-                                <div class="absolute right-1 inline-flex h-12 w-12 items-center justify-end rounded-full bg-white bg-opacity-15 transition-[width] group-hover:w-[calc(100%-8px)]">
-                                    <div class="mr-3.5 flex items-center justify-center">
-                                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-50"><path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </button>
-                        </div>
-                    </div>
-                </template>
-
-                <!-- Step 2 | Capture Road Defect -->
-                <template x-if="step === 2">
-                    <div class="mt-4 mb-2 bg-none w-full mx-auto h-[60vh] relative" x-data="captureHandler()">
-
-                        <div x-data="{ animation: null }" x-init="animation = lottie.loadAnimation({
-                                container: $refs.lottieAnimation, // the DOM element
-                                renderer: 'svg', // render as SVG
-                                loop: true, // loop the animation
-                                autoplay: true, // start playing the animation
-                                path: '{{ asset("animations/Animation - Capturing.json") }}'
-                                })" class="z-0 relative w-full bg-white border-2 border-gray-300 shadow-md rounded-lg overflow-hidden">
-                            <div x-ref="lottieAnimation" speed="1"
-                                 class="z-0 w-full h-full object-cover bg-none left-0 top-0 transform scale-125" direction="1" playMode="normal" loop autoplay>
-                            </div>
-                        </div>
+                        <!-- "How to Capture Road Issue" link to reopen modal -->
+                        <button wire:click="$dispatch('openFirstLoginModal')" class="mt-3 text-blue-600 underline text-sm">
+                            How to Capture Road Issues Properly?
+                        </button>
 
                         <!-- Report Road Issue Button -->
                         <div class="mt-10 w-[85%] text-center mx-auto max-w-md">
@@ -173,21 +40,6 @@
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12.2222 26.25H17.7778C21.6791 26.25 23.6297 26.25 25.031 25.3308C25.6375 24.9328 26.1584 24.4214 26.5637 23.8259C27.5 22.4501 27.5 20.5349 27.5 16.7045C27.5 12.8743 27.5 10.959 26.5637 9.58325C26.1584 8.98768 25.6375 8.4763 25.031 8.07835C24.1305 7.48766 23.0034 7.27654 21.2775 7.20108C20.4539 7.20108 19.7449 6.58835 19.5834 5.79545C19.341 4.60611 18.2774 3.75 17.0421 3.75H12.9579C11.7226 3.75 10.6589 4.60611 10.4167 5.79545C10.2551 6.58835 9.54606 7.20108 8.7225 7.20108C6.99666 7.27654 5.86944 7.48766 4.96905 8.07835C4.36244 8.4763 3.8416 8.98768 3.43628 9.58325C2.5 10.959 2.5 12.8743 2.5 16.7045C2.5 20.5349 2.5 22.4501 3.43628 23.8259C3.8416 24.4214 4.36244 24.9328 4.96905 25.3308C6.3703 26.25 8.32094 26.25 12.2222 26.25ZM20 16.25C20 19.0114 17.7614 21.25 15 21.25C12.2386 21.25 10 19.0114 10 16.25C10 13.4886 12.2386 11.25 15 11.25C17.7614 11.25 20 13.4886 20 16.25ZM22.5 11.5625C21.9822 11.5625 21.5625 11.9822 21.5625 12.5C21.5625 13.0178 21.9822 13.4375 22.5 13.4375H23.75C24.2677 13.4375 24.6875 13.0178 24.6875 12.5C24.6875 11.9822 24.2677 11.5625 23.75 11.5625H22.5Z" />
                                 </svg>
                                 <span class="text-sm">Open Camera</span>
-                            </button>
-                        </div>
-
-                        <!-- Back Button -->
-                        <div class="mt-5 w-[85%] text-center mx-auto max-w-md">
-                            <button @click.prevent="step = 1"
-                                    class="w-full bg-none border border-customGreen text-lg font-semibold text-customGreen lg:py-1 lg:text-[14px] md:mb-50 group relative inline-flex h-[calc(48px+8px)] items-center justify-center rounded-full py-1 pl-14 pr-6">
-                                <div class="absolute left-1 inline-flex h-12 transition-all rounded-full bg-customGreen group-hover:w-[calc(100%-8px)]">
-                                    <div class="flex items-center justify-center h-12 w-12">
-                                        <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-50 rotate-180">
-                                            <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <span class="z-10 -pl-4 text-customGreen group-hover:text-white text-sm">Back</span>
                             </button>
                         </div>
 
@@ -213,7 +65,7 @@
                             </button>
 
                             <!-- Camera Preview -->
-                            <video id="camera-stream" autoplay playsinline class="w-full h-full object-cover"></video>
+                            <video id="camera-stream" autoplay playsinline class="w-full h-full object-contain"></video>
 
                             <!-- Flash Button -->
                             <button @click="captureHandler().toggleFlash()"
@@ -256,7 +108,7 @@
 
                                 <!-- Captured Photo Preview -->
                                 <div class="border border-[#4AA76F] rounded-lg mb-3">
-                                    <img :src="photo" alt="Captured photo" class="w-full h-[30vh] max-w-md mx-auto rounded-lg shadow transform scale-x-[-1]">
+                                    <img :src="photo" alt="Captured photo" class="w-full h-[30vh] max-w-md mx-auto rounded-lg shadow">
                                 </div>
 
                                 <!-- Retry Button -->
@@ -314,8 +166,7 @@
                             </div>
 
                             <!-- Confirm Button -->
-                            <button @click.prevent="step = 3"
-                                    {{--@click="confirmCapture()"--}}
+                            <button @click.prevent="step = 2"
                                     class="w-3/4 fixed hover:scale-105 bottom-5 bg-[#4AA76F] hover:drop-shadow-md text-white p-3 font-semibold mt-6 mb-3 rounded-full hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
                                 Confirm
                             </button>
@@ -323,14 +174,14 @@
                     </div>
                 </template>
 
-                <!-- Step 3 -->
-                <template x-if="step === 3">
+                <!-- Step 2 -->
+                <template x-if="step === 2">
                     <!-- Review Road Report Information -->
                     <div class="mt-0 pt-2 pb-4 mx-auto bg-white w-full flex flex-col items-center justify-center h-full max-w-md shadow-sm rounded-lg border-2 border-gray-300 lg:h-[600px]">
 
                         <!-- Captured Road Photo -->
                         <div class="text-center text-sm flex flex-col items-center my-3">
-                            <span class="font-semibold text-[#4AA76F] -mb-2">Actual Captured Road Photo</span>
+                            <span class="font-semibold text-[#4AA76F] mb-2">Actual Captured Road Photo</span>
                             <img :src="photo" alt="Road Defect" class="w-[80%]" />
                         </div>
 
@@ -419,35 +270,6 @@
     </div>
 
 </x-residents.residents-navigation>
-
-{{--<script>--}}
-{{--    function submitReport() {--}}
-{{--        fetch("{{ route('submit.report') }}", {--}}
-{{--            method: 'POST',--}}
-{{--            headers: {--}}
-{{--                'Content-Type': 'application/json',--}}
-{{--                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')--}}
-{{--            },--}}
-{{--            body: JSON.stringify({--}}
-{{--                latitude: this.latitude,--}}
-{{--                longitude: this.longitude,--}}
-{{--                address: this.address,--}}
-{{--                date: this.date,--}}
-{{--                time: this.time,--}}
-{{--                photo: this.photo--}}
-{{--            })--}}
-{{--        })--}}
-{{--            .then(response => response.json())--}}
-{{--            .then(data => {--}}
-{{--                if (data.message) {--}}
-{{--                    alert('Report submitted successfully!');--}}
-{{--                } else {--}}
-{{--                    alert('Error submitting report.');--}}
-{{--                }--}}
-{{--            })--}}
-{{--            .catch(error => console.error('Error:', error));--}}
-{{--    }--}}
-{{--</script>--}}
 
 <script>
     function captureHandler() {
@@ -629,13 +451,13 @@
                                         this.country = country || 'N/A';
 
                                         alert(`Full Address: ${this.fullAddress}
-Street: ${this.street}
-Purok: ${purok}
-Barangay: ${barangay}
-City: ${city}
-Province: ${province}
-Country: ${country}`);
-                                    } else {
+                                            Street: ${this.street}
+                                            Purok: ${purok}
+                                            Barangay: ${barangay}
+                                            City: ${city}
+                                            Province: ${province}
+                                            Country: ${country}`);
+                                        } else {
                                         alert('Unable to get the location name.');
                                     }
                                 })

@@ -3,6 +3,9 @@
 namespace App\Livewire;
 
 use App\Models\Report;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Livewire\Component;
 
@@ -11,6 +14,7 @@ class CameraCapture extends Component
     public $image;
     public $latitude;
     public $longitude;
+
 
     // Method to handle the captured image and location
     public function storeData($latitude, $longitude, $photo)
@@ -45,7 +49,7 @@ class CameraCapture extends Component
         // Send a success message back to the frontend
 //        $this->dispatchBrowserEvent('report-saved', ['message' => 'Report submitted successfully!']);
     }
-    public function render()
+    public function render(): Factory|Application|View|\Illuminate\View\View
     {
         return view('livewire.camera-capture');
     }
