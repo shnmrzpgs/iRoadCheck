@@ -377,7 +377,7 @@
             </div>
 
             <!-- Main Content Area -->
-            <main class="flex-1 flex flex-col overflow-y-auto mt-6 pt-2 pb-10 h-[80vh] lg:mx-1 mb-4 ml-4 lg:-ml-12 pr-5 {{ ' '.$main_class }}">
+            <main class="flex-1 flex flex-col overflow-y-auto mt-6 pt-2 pb-10 h-[545px] lg:h-[95vh] lg:mx-1 mb-4 ml-4 lg:-ml-12 pr-5 {{ ' '.$main_class }}">
                 {{ $slot }}
             </main>
         </div>

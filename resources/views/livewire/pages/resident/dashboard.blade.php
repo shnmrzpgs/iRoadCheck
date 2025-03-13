@@ -93,7 +93,6 @@
                         <table class="min-w-full bg-white divide-y divide-gray-300 px-2 h-auto">
                             <thead class="bg-gray-100">
                                 <tr>
-                                    <th class="bg-white sticky top-0 py-3 px-4 text-start text-xs font-semibold text-gray-600 border-b whitespace-nowrap">Report ID</th>
                                     <th class="bg-white sticky top-0 py-3 px-4 text-start text-xs font-semibold text-gray-600 border-b whitespace-nowrap">Type of Defect</th>
                                     <th class="bg-white sticky top-0 py-3 px-4 text-start text-xs font-semibold text-gray-600 border-b whitespace-nowrap">Location</th>
                                     <th class="bg-white sticky top-0 py-3 px-4 text-start text-xs font-semibold text-gray-600 border-b whitespace-nowrap">Status</th>
@@ -103,7 +102,6 @@
                             <tbody>
                                 @foreach($reports as $report)
                                 <tr class="even:bg-gray-200 odd:bg-[#FBFBFA]">
-                                    <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap">{{ $report->id }}</td>
                                     <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap">{{ $report->defectType }}</td>
                                     <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap">{{ $report->location }}</td>
                                     <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap  
