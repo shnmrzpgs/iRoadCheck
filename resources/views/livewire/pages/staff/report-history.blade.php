@@ -78,7 +78,12 @@
                         <tbody class="divide-y divide-gray-300 bg-white relative">
                             @forelse ($reports as $report)
                             <tr class="{{ $loop->iteration % 2 === 0 ? 'bg-white' : 'bg-gray-50' }} hover:bg-gray-100">
-                                <td class="px-4 py-3 text-[11px] lg:text-xs">{{ $report->id }}</td>
+                                <td class="px-2 py-3 text-[11px] lg:text-xs">
+                                    {{ $sort_direction === 'asc' 
+                                        ? ($reports->firstItem() + $loop->index) 
+                                        : ($reports->total() - $reports->firstItem() - $loop->index + 1) 
+                                    }}
+                                </td>
                                 <td class="px-4 py-3 text-[11px] lg:text-xs">{{ $report->defect ?? 'N/A' }}</td>
                                 <td class="px-4 py-3 text-[11px] lg:text-xs">{{ $report->street }}, {{ $report->purok }}, {{ $report->barangay }}</td>
                                 <td class="px-4 py-3 text-[11px] lg:text-xs">{{ $report->date ? \Carbon\Carbon::parse($report->date)->format('F j, Y'): 'N/A' }}</td>
@@ -88,7 +93,6 @@
                                     {{ $report->status === 'Unfixed' ? 'text-red-600' : '' }}">
                                     {{ ucfirst($report->status ?? 'N/A') }}
                                 </td>
-
                                 <td class="pr-5 py-3 text-[11px] lg:text-xs">
                                     <div class="flex">
                                         <button class="flex items-center text-[#3251FF] hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95 hover:bg-blue-100 hover:shadow py-1 px-3 rounded-md"
