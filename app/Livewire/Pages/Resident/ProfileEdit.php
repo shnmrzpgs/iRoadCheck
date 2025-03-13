@@ -64,49 +64,37 @@ class ProfileEdit extends Component
         }
     }
 
-  public function updateBasicInfo(): void
-{
-    $user = Auth::user();
-    if (!$user instanceof User) {
-        throw new \Exception('Authenticated user is not an instance of User model.');
+    public function updateBasicInfo(): void
+    {
+        $user = Auth::user();
+        if (!$user instanceof User) {
+            throw new \Exception('Authenticated user is not an instance of User model.');
+        }
+    
+        // Validate input fields
+        $validated = $this->validate([
+            'first_name' => ['required', 'string', 'max:255'],
+            'middle_name' => ['nullable', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'sex' => ['required', 'string', 'in:male,female'],
+            'date_of_birth' => ['nullable', 'date'],
+        ]);
+    
+        // Update user fields
+        $user->update([
+            'first_name' => $validated['first_name'],
+            'middle_name' => $validated['middle_name'] ?? null,
+            'last_name' => $validated['last_name'],
+            'sex' => $validated['sex'],
+            'date_of_birth' => $validated['date_of_birth']
+                ? Carbon::parse($validated['date_of_birth'])->format('Y-m-d')
+                : null, // Store in Y-m-d format
+        ]);
+    
+        // Dispatch a success message
+        session()->flash('success', 'Basic information updated successfully.');
     }
-
-    // Validate input fields
-    $validated = $this->validate([
-        'first_name' => ['required', 'string', 'max:255'],
-        'middle_name' => ['nullable', 'string', 'max:255'],
-        'last_name' => ['required', 'string', 'max:255'],
-        'sex' => ['required', 'in:male,female'],
-        'date_of_birth' => ['required', 'date', 'before:18 years ago'],
-    ]);
-
-    // Convert display date format to 'Y-m-d' before saving
-    try {
-        $validated['date_of_birth'] = Carbon::createFromFormat('F j, Y', $this->date_of_birth)->format('Y-m-d');
-    } catch (\Exception $e) {
-        session()->flash('feedback', 'Invalid date format. Please use a valid format (e.g., January 1, 2000).');
-        session()->flash('feedback_type', 'error');
-        return;
-    }
-
-    // Capitalize names
-    $validated['first_name'] = ucwords(strtolower($validated['first_name']));
-    $validated['middle_name'] = $validated['middle_name'] ? ucwords(strtolower($validated['middle_name'])) : null;
-    $validated['last_name'] = ucwords(strtolower($validated['last_name']));
-
-    // Update user details
-    $user->update($validated);
-
-    // Refresh Livewire state to reflect changes
-    $this->first_name = $user->first_name;
-    $this->middle_name = $user->middle_name;
-    $this->last_name = $user->last_name;
-    $this->sex = $user->sex;
-    $this->date_of_birth = Carbon::parse($user->date_of_birth)->format('F j, Y');
-
-    session()->flash('feedback', 'Personal information updated successfully.');
-    session()->flash('feedback_type', 'success');
-}
+    
 
 
     public function updateAccountInfo(): void
