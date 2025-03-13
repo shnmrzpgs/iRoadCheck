@@ -21,7 +21,8 @@ class Dashboard extends Component
 
         $this->reports = DB::table('reports')
             ->where('reporter_id', $userId)
-            ->select('id', 'defect as defectType', 'location', 'status', 'date')
+            ->select('id', 'defect as defectType', 'location', 'street', 'purok', 'barangay', 'status', 'date')
+            ->orderBy('date', 'desc')
             ->get();
 
         $this->reportsCount = count($this->reports);
