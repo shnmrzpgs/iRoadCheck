@@ -10,7 +10,7 @@
                 <svg class="absolute left-1 inset-y-0 w-4 h-full text-gray-400 ml-2 z-10" fill="#4AA76F" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
                 </svg>
-                <input id="search-field" class="w-full h-full pl-8 py-0 text-sm lg:text-[14px] text-gray-900 placeholder:text-gray-400 bg-white rounded-full border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] shadow"
+                <input wire:model.live="search" class="w-full h-full pl-8 py-0 text-sm lg:text-[14px] text-gray-900 placeholder:text-gray-400 bg-white rounded-full border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] shadow"
                     placeholder="Search" type="search">
             </form>
         </div>
@@ -88,7 +88,12 @@
                         <tbody class="divide-y divide-gray-300 bg-white relative">
                             @forelse ($reports as $report)
                             <tr class="{{ $loop->iteration % 2 === 0 ? 'bg-white' : 'bg-gray-50' }} hover:bg-gray-100">
-                                <td class="px-2 py-3 text-[11px] lg:text-xs">{{ $report->id }}</td>
+                                <td class="px-2 py-3 text-[11px] lg:text-xs">
+                                    {{ $sort_direction === 'asc' 
+                                        ? ($reports->firstItem() + $loop->index) 
+                                        : ($reports->total() - $reports->firstItem() - $loop->index + 1) 
+                                    }}
+                                </td>
                                 <td class="px-2 py-3 text-[11px] lg:text-xs">{{ $report->defect ?? 'N/A' }}</td>
                                 <td class="px-2 py-3 text-[11px] lg:text-xs">{{ $report->street }}, {{ $report->purok }}, {{ $report->barangay }}</td>
                                 <td class="px-2 py-3 text-[11px] lg:text-xs">{{ $report->date ? \Carbon\Carbon::parse($report->date)->format('F j, Y'): 'N/A' }}</td>
