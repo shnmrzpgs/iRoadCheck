@@ -30,9 +30,9 @@ class Notification extends Model
         return $this->belongsTo(User::class, 'staff_user_id');
     }
 
-    public function roles(): BelongsToMany
+    public function resident(): BelongsTo
     {
-        return $this->belongsToMany(StaffRole::class, 'staff_roles_permissions');
+        return $this->belongsTo(User::class, 'resident_user_id');
     }
 
 }
