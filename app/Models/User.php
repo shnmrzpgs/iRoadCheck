@@ -150,10 +150,10 @@ class User extends Authenticatable
         return $this->hasMany(StaffLog::class);
     }
 
-//    public function residentLogs(): HasMany
-//    {
-//        return $this->hasMany(ResidentLog::class);
-//    }
+    public function residentLogs(): HasMany
+    {
+        return $this->hasMany(ResidentLog::class);
+    }
 
 
     public function userTypes(): BelongsTo
