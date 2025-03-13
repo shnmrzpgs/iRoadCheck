@@ -21,10 +21,5 @@ class UserProfilePhoto extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function admin(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'admin_id'); // Ensure this matches your setup
-    }
-
 
 }
