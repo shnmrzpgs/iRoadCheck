@@ -14,7 +14,7 @@
 
                 <!-- Install PWA Button -->
                 <button id="installPWAButton"
-                        class="w-3/4 bg-gradient-to-r from-[#5A915E] to-[#F8A15E] hover:scale-105 hover:drop-shadow-md text-white p-3 font-semibold mt-6 mb-3 rounded-full transition-all duration-300">
+                        class="w-full bg-gradient-to-r from-[#5A915E] to-[#F8A15E] hover:scale-105 hover:drop-shadow-md text-white p-3 font-semibold mt-6 mb-3 rounded-full transition-all duration-300">
                     Install
                 </button>
             </div>
