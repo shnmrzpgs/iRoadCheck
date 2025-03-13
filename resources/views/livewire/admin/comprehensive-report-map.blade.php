@@ -1,6 +1,8 @@
 <div></div>
 
 <script>
+    var geoJsonData = @json($geoJsonData);
+    console.log("GeoJSON from Livewire:", geoJsonData);
     function mapComponent() {
         return {
             reports: @json($reports),
@@ -47,26 +49,26 @@
                 // Load and add GeoJSON with enhanced styling and interactions
                 this.loadGeoJSON();
 
-                {{--fetch("{{ asset('geoJSON/tagumCityRoad.json') }}")--}}
-                {{--    .then(response => response.json())--}}
-                {{--    .then(data => {--}}
-                {{--        console.log("GeoJSON Loaded:", data); // Debugging step--}}
+                fetch("{{ asset('geoJSON/tagumCityRoad.json') }}")
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("GeoJSON Loaded:", data); // Debugging step
 
-                {{--        // ✅ Use `this.map` instead of `map`--}}
-                {{--        L.geoJSON(data, {--}}
-                {{--            style: {--}}
-                {{--                color: "blue",--}}
-                {{--                weight: 2,--}}
-                {{--                opacity: 0.8--}}
-                {{--            },--}}
-                {{--            onEachFeature: function (feature, layer) {--}}
-                {{--                if (feature.properties && feature.properties.name) {--}}
-                {{--                    layer.bindPopup(`<b>Road Name:</b> ${feature.properties.name}`);--}}
-                {{--                }--}}
-                {{--            }--}}
-                {{--        }).addTo(this.map); // ✅ Use `this.map`--}}
-                {{--    })--}}
-                {{--    .catch(error => console.error("Error loading GeoJSON:", error));--}}
+                        // ✅ Use `this.map` instead of `map`
+                        L.geoJSON(data, {
+                            style: {
+                                color: "blue",
+                                weight: 2,
+                                opacity: 0.8
+                            },
+                            onEachFeature: function (feature, layer) {
+                                if (feature.properties && feature.properties.name) {
+                                    layer.bindPopup(`<b>Road Name:</b> ${feature.properties.name}`);
+                                }
+                            }
+                        }).addTo(this.map); // ✅ Use `this.map`
+                    })
+                    .catch(error => console.error("Error loading GeoJSON:", error));
 
                 // ✅ Revalidate size every 5 seconds in case of dynamic changes
                 setInterval(() => {
