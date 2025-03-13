@@ -74,5 +74,11 @@ class AuthController extends Controller
         Auth::logout(); // Log the user out
         return redirect()->route('staff-sign-in-show')->with('success', 'You have been logged out successfully.');
     }
+
+    public function LogoutResident()
+    {
+        Auth::logout(); // Log the user out
+        return redirect()->route('residents-login')->with('success', 'You have been logged out successfully.');
+    }
 }
 

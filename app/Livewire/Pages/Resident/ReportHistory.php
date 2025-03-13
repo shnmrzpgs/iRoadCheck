@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Pages\Staff;
+namespace App\Livewire\Pages\Resident;
 
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -146,19 +146,17 @@ class ReportHistory extends Component
             $this->dispatch('notification', [
                 'type' => 'error',
                 'title' => 'Export Failed',
-                'message' => 'Failed to export staff data. Please try again.'
+                'message' => 'Failed to export resident data. Please try again.'
             ]);
         }
     }
 
-    public function render(): Factory|View|Application
+    public function render()
     {
-        session()->forget('hideSearchBar');
-        // Apply pagination and pass directly to the view
         $reports = $this->getFilteredQuery()->paginate($this->rowsPerPage);
         Log::info("Reports retrieved in render: " . $reports->count());
 
-        return view('livewire.pages.staff.report-history', [
+        return view('livewire.pages.resident.report-history', [
             'reports' => $reports
         ]);
     }

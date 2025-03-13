@@ -19,6 +19,13 @@ class Report extends Model
         'image_annotated',
         'status'
     ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'date' => 'date',
+    ];
+    
     public function severity()
     {
         return $this->belongsTo(Severity::class);

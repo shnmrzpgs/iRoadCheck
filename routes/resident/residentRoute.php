@@ -18,18 +18,27 @@ Route::get('/resident/install', function () {
 Route::view('/resident/login', 'iroadcheck.prototype.Residents.login')->name('residents-login');
 Route::post('resident/register', [ResidentAuth::class, 'signup'])->name('resident-register');
 
+Route::post('/logoutResident', [AuthController::class, 'LogoutResident'])->name('logoutResident');
 
 Route::group(['middleware' => 'VerifyResident'], function () {
     Route::view('resident/verify-code', 'iroadcheck.prototype.Residents.verify-user-enterCode')->name('verify-code');
     Route::post('resident/code-verify', [ResidentAuth::class, 'verifyCode'])->name('verifyCode');
 
 });
-Route::group(['middleware' => ['AuthResident', 'CheckPWA']], function () {
-    Route::get('/resident/dashboard', [DashboardController::class, 'showDashboard'])->name('residents-dashboard');
-    Route::get('/prototype/residents/report-history', [ReportHistory::class, 'showReportHistory'])->name('report-history');
+Route::group(['middleware' => ['AuthResident']], function () {
+ 
 //    Route::post('resident/submit-report', [ReportController::class, 'storeReport'])->name('submit-report');
     Route::post('/submit-report', [ReportController::class, 'submitReport'])->name('submit.report');
     Route::view('/prototype/residents/report-road-issue', 'iroadcheck.prototype.Residents.report-road-issue')->name('report-road-issue');
     Route::get('/send-sms', [SMSController::class, 'sendSMS']);
+
+    Route::get('/resident/dashboard', App\Http\Controllers\resident\DashboardController::class)
+    ->name('resident.dashboard');
+
+    Route::get('/resident/report-history', App\Http\Controllers\resident\ReportHistoryController::class)
+    ->name('resident.report-history');
+
+    Route::get('/resident/profile-edit', App\Http\Controllers\resident\ProfileController::class)
+    ->name('resident.profile-edit');
 });
 

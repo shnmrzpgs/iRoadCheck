@@ -28,8 +28,8 @@ class Dashboard extends Component
     public $unfixedReportCount;
     public $fixedReportCount;
     public $ongoingReportCount;
-
-    public array $years = [];
+    public $selectedBarangay = '';
+    public $search = '';
 
     public array $filters = [
         'sort' => '',
@@ -40,12 +40,9 @@ class Dashboard extends Component
 
     public function mount(): void
     {
-        $this->years = Report::select(DB::raw('DISTINCT YEAR(date) as year'))
-            ->orderBy('year', 'desc')
-            ->pluck('year')
-            ->toArray();
 
         $this->selectedYear = Carbon::now()->year;
+        $this->updateReportCounts(true);
 
         $this->updateStaffCount();
         $this->activeStaffCount = Staff::where('status', 'Active')->count();
@@ -55,21 +52,32 @@ class Dashboard extends Component
         $this->getStaffRolesData();
 
         $this->updateReportsCount();
-        $this->unfixedReportCount = Report::where('status', 'Unfixed')->count();
-        $this->fixedReportCount = Report::where('status', 'Fixed')->count();
-        $this->ongoingReportCount = Report::where('status', 'Ongoing')->count();
         $this->loadChartData();
     }
 
     public function loadChartData(): void
     {
         $year = $this->selectedYear;
-        $defectTypes = Report::select('defect')
-            ->whereYear('date', $year)
-            ->distinct()
-            ->pluck('defect');
 
+        $query = Report::whereYear('date', $year);
+
+        // Apply search filter
+        if (!empty($this->search)) {
+            $query->where(function ($q) {
+                $q->where('defect', 'like', '%' . $this->search . '%')
+                    ->orWhere('barangay', 'like', '%' . $this->search . '%')
+                    ->orWhere('status', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        // Apply barangay filter if selected
+        if (!empty($this->selectedBarangay)) {
+            $query->where('barangay', $this->selectedBarangay);
+        }
+
+        $defectTypes = $query->select('defect')->distinct()->pluck('defect');
         $seriesData = [];
+
         $colors = [
             'Alligator Crack' => '#FFAD00',
             'Pothole' => '#7E91FF',
@@ -80,44 +88,125 @@ class Dashboard extends Component
         foreach ($defectTypes as $defect) {
             $monthlyData = [];
             for ($month = 1; $month <= 12; $month++) {
-                $count = Report::whereYear('date', $year)
-                    ->whereMonth('date', $month)
+                $count = clone $query; // Clone query to avoid conflicts
+                $monthlyData[] = $count->whereMonth('date', $month)
                     ->where('defect', $defect)
                     ->count();
-                $monthlyData[] = $count;
             }
 
-            if (!empty($monthlyData)) {
-                $seriesData[] = [
-                    'name' => $defect,
-                    'data' => $monthlyData,
-                    'color' => $colors[$defect] ?? '#' . substr(md5($defect), 0, 6),
-                ];
-            }
+            $seriesData[] = [
+                'name' => $defect,
+                'data' => $monthlyData,
+                'color' => $colors[$defect] ?? '#' . substr(md5($defect), 0, 6),
+            ];
         }
 
-        if (!empty($seriesData)) {
-            $this->chartData = [
-                'series' => $seriesData
-            ];
+        $this->chartData = [
+            'categories' => [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December'
+            ],
+            'series' => $seriesData
+        ];
 
-            // Update related counts for the selected year
-            $this->unfixedReportCount = Report::whereYear('date', $year)->where('status', 'Unfixed')->count();
-            $this->fixedReportCount = Report::whereYear('date', $year)->where('status', 'Fixed')->count();
-            $this->ongoingReportCount = Report::whereYear('date', $year)->where('status', 'Ongoing')->count();
-            $this->totalReport = Report::whereYear('date', $year)->count();
+        $this->dispatch('chartDataUpdated', $this->chartData);
+    }
 
-            // Dispatch with the complete chart data
-            $this->dispatch('chartDataUpdated', $this->chartData);
+    public function updateReportCounts($initialLoad = false): void
+    {
+        $query = Report::query();
+
+        // On initial load, get overall counts without any year filter
+        if ($initialLoad) {
+            // Apply search filter if not initial load
+            if (!empty($this->search)) {
+                $query->where(function ($q) {
+                    $q->where('defect', 'like', '%' . $this->search . '%')
+                        ->orWhere('barangay', 'like', '%' . $this->search . '%')
+                        ->orWhere('status', 'like', '%' . $this->search . '%');
+                });
+            }
+
+            // Apply barangay filter if not initial load
+            if (!empty($this->selectedBarangay)) {
+                $query->where('barangay', $this->selectedBarangay);
+            }
+
+            $this->totalReport = $query->count();
+            $this->unfixedReportCount = clone $query;
+            $this->fixedReportCount = clone $query;
+            $this->ongoingReportCount = clone $query;
+
+            $this->unfixedReportCount = $this->unfixedReportCount->where('status', 'Unfixed')->count();
+            $this->fixedReportCount = $this->fixedReportCount->where('status', 'Repaired')->count();
+            $this->ongoingReportCount = $this->ongoingReportCount->where('status', 'Ongoing')->count();
+        } else {
+            // When filtering, apply year and other filters
+            // Apply search filter
+            if (!empty($this->search)) {
+                $query->where(function ($q) {
+                    $q->where('defect', 'like', '%' . $this->search . '%')
+                        ->orWhere('barangay', 'like', '%' . $this->search . '%')
+                        ->orWhere('status', 'like', '%' . $this->search . '%');
+                });
+            }
+
+            // Apply barangay filter
+            if (!empty($this->selectedBarangay)) {
+                $query->where('barangay', $this->selectedBarangay);
+            }
+
+            // Apply year filter
+            $query->whereYear('date', $this->selectedYear);
+
+            $this->totalReport = $query->count();
+            $this->unfixedReportCount = clone $query;
+            $this->fixedReportCount = clone $query;
+            $this->ongoingReportCount = clone $query;
+
+            $this->unfixedReportCount = $this->unfixedReportCount->where('status', 'Unfixed')->count();
+            $this->fixedReportCount = $this->fixedReportCount->where('status', 'Repaired')->count();
+            $this->ongoingReportCount = $this->ongoingReportCount->where('status', 'Ongoing')->count();
         }
     }
 
-    public function updatedSelectedYear($value): void
+    public function updatedSelectedBarangay(): void
     {
-        if (is_numeric($value) && in_array((int)$value, $this->years)) {
-            $this->selectedYear = (int)$value;
-            $this->loadChartData();
-        }
+        $this->updateReportCounts(); // Now uses filters
+        $this->loadChartData();
+    }
+
+    public function updatedSelectedYear(): void
+    {
+        $this->updateReportCounts(); // Now uses filters
+        $this->loadChartData();
+    }
+
+
+    public function updatedSearch(): void
+    {
+        $this->updateReportCounts(); // Now uses filters
+        $this->loadChartData();
+    }
+
+    public function resetFilter(): void
+    {
+        $this->search = '';
+        $this->selectedBarangay = '';
+        $this->selectedYear = Carbon::now()->year;
+
+        $this->updateReportCounts(true); // Reload counts with default values
+        $this->loadChartData(); // Reload charts
     }
 
 
@@ -200,6 +289,13 @@ class Dashboard extends Component
     public function render(): Factory|Application|View|\Illuminate\View\View
     {
         session()->forget('hideSearchBar');
-        return view('livewire.pages.admin.dashboard');
+
+        $barangays = Report::select('barangay')->distinct()->pluck('barangay');
+        $years = Report::selectRaw('DISTINCT YEAR(date) as year')->pluck('year');
+
+        return view('livewire.pages.admin.dashboard', [
+            'barangays' => $barangays,
+            'years' => $years
+        ]);
     }
 }
