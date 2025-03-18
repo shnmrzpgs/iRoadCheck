@@ -1,6 +1,5 @@
 @props(['page_title' => '', 'main_class' => ''])
-<div x-cloak="true"
-   >
+<div x-cloak>
 
     <!--Header-->
     <div class="w-full bg-white shadow-sm p-3 border-b-2 border-gray-200 sticky top-0 left-0 z-50 ">
@@ -8,7 +7,7 @@
         <div class="flex justify-between items-center">
 
             <!-- iRoadCheck Logo -->
-            <a href="{{ route('residents-dashboard') }}" title="Go to Dashboard">
+            <a href="{{ route('resident.dashboard') }}" title="Go to Dashboard">
                 <div class="flex justify-center items-center">
                     <img src="{{ asset('storage/images/IRoadCheck_Logo.png') }}" alt="graphicsLogo"
                          class="w-8 max-w-10 mr-1" />
@@ -17,40 +16,20 @@
             </a>
 
             <!-- Notifications and Profile Icon -->
-            <div class="flex items-center space-x-3"
-                 x-data="{
-                isClicked: false,
-                handleClick() {
-                    this.isClicked = true;
-                    setTimeout(() => this.isClicked = false, 150); // Reset scale after 150ms
-                    }
-                }">
+            <div class="flex items-center space-x-3">
 
-                <a href="{{ route('notifications') }}"
-                   @click="activeLink = ''; localStorage.setItem('activeLink', '');">
-                    <svg
-                        class="w-6 h-6 hover:text-[#4AA76F] {{ request()->routeIs('notifications') ? 'text-[#4AA76F]' : 'text-gray-400' }}"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 448 512"
-                        fill="{{ request()->routeIs('notifications') ? '#4AA76F' : 'currentColor' }}"
-                        stroke="{{ request()->routeIs('notifications') ? '#4AA76F' : 'currentColor' }}">
-                        <path
-                            fill="fillCurrent"
-                            d="M224 0c-17.7 0-32 14.3-32 32l0 19.2C119 66 64 130.6 64 208l0 18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416l384 0c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8l0-18.8c0-77.4-55-142-128-156.8L256 32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3l-64 0-64 0c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z" />
-                    </svg>
-                </a>
+                <livewire:resident.notification/>
 
                 <div x-data="{ openDropdown: false }" class="relative">
                     <!-- Profile Icon -->
-                    <a @click="openDropdown = !openDropdown; activeLink = ''; localStorage.setItem('activeLink', '');"
+                    <a @click="openDropdown = !openDropdown; activeLink = ''"
                         class="cursor-pointer " >
                         <div :class="{
                                 'border-2 border-customGreen rounded-full': openDropdown
                              }">
-                            <img src="{{ asset('storage/icons/profile-graphics.png') }}" alt="Profile Image"
-
+                            <img src="{{ Auth::user()->profile_picture_url }}" alt="Profile Image"
                                  class="w-8 h-8 rounded-full hover:bg-customGreen
-                            {{ request()->routeIs('profile-info') ? 'border-2 border-customGreen bg-customGreen' : 'border border-gray-400' }}">
+                                {{ request()->routeIs('profile-info') ? 'border-2 border-customGreen bg-customGreen' : 'border border-gray-400' }}">
                         </div>
                     </a>
 
@@ -62,23 +41,24 @@
                         <ul class="space-y-2">
                             <!-- Profile Info Link -->
                             <li>
-                                <a href="{{ route('profile-info') }}"
+                                <a href="{{ route('resident.profile-edit') }}"
                                    class="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-t-lg border-b border-gray-300 text-sm">
                                     Profile Settings
                                 </a>
                             </li>
                             <!-- Logout Option -->
                             <li>
-                                <form action="{{ route('logout') }}" method="POST" class="block rounded-b-lg px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">
-                                    @csrf
-                                    <button type="submit" class="w-full text-left">Logout</button>
-                                </form>
+                                <a href="javascript:void(0);"
+                                   @click="logoutResident">
+                                    <div method="POST" class="block rounded-b-lg px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">
+                                        @csrf
+                                        <button type="submit" class="w-full text-left">Logout</button>
+                                    </div>
+                                </a>
                             </li>
                         </ul>
                     </div>
                 </div>
-
-
             </div>
         </div>
 
@@ -95,20 +75,20 @@
                 <nav class="mt-4 space-y-4 flex-1 text-[13px] overflow-x-auto h-[76vh] px-4 leading-6">
 
                     <!-- Dashboard -->
-                    <a href="{{ route('residents-dashboard') }}"
+                    <a href="{{ route('resident.dashboard') }}"
                        class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md
-                       {{ request()->routeIs('residents-dashboard') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : '' }}">
+                       {{ request()->routeIs('resident.dashboard') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : '' }}">
 
                         <!-- Icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
                              class="w-5 h-5 fill-current
-                             {{ request()->routeIs('residents-dashboard') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200 ease-in-out' }}">
+                             {{ request()->routeIs('resident.dashboard') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200 ease-in-out' }}">
                             <path d="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z" />
                         </svg>
 
                         <!-- Text -->
                         <p class="ml-2
-                            {{ request()->routeIs('residents-dashboard') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out' }}">
+                            {{ request()->routeIs('resident.dashboard') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out' }}">
                             Dashboard
                         </p>
                     </a>
@@ -154,20 +134,20 @@
                     </a>
 
                     <!-- Report History -->
-                    <a href="{{ route('report-history') }}"
+                    <a href="{{ route('resident.report-history') }}"
                        class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md
-                        {{ request()->routeIs('report-history') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : '' }}">
+                        {{ request()->routeIs('resident.report-history') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : '' }}">
 
                         <!-- Icon -->
                         <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"
                              class="w-6 h-6 mt-1 fill-current
-         {{ request()->routeIs('report-history') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200 ease-in-out' }}">
+                            {{ request()->routeIs('resident.report-history') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200 ease-in-out' }}">
                             <path d="M7.5 0C9.48912 0 11.3968 0.790176 12.8033 2.1967C14.2098 3.60322 15 5.51088 15 7.5C15 9.48912 14.2098 11.3968 12.8033 12.8033C11.3968 14.2098 9.48912 15 7.5 15C5.51088 15 3.60322 14.2098 2.1967 12.8033C0.790176 11.3968 0 9.48912 0 7.5C0 5.51088 0.790176 3.60322 2.1967 2.1967C3.60322 0.790176 5.51088 0 7.5 0ZM6.79688 3.51562V7.28613L5.03906 9.92285L4.64941 10.5088L5.81836 11.2881L6.20801 10.7021L8.08301 7.88965L8.2002 7.71387V7.5V3.51562V2.8125H6.79395V3.51562H6.79688Z"/>
                         </svg>
 
                         <!-- Text -->
                         <p class="ml-2
-        {{ request()->routeIs('report-history') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out' }}">
+                            {{ request()->routeIs('resident.report-history') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold duration-200 ease-in-out' }}">
                             Report History
                         </p>
                     </a>
@@ -180,11 +160,11 @@
                 class="mx-auto fixed pl-0 pr-4 bottom-0 gap-x-10 xxs:gap-x-8 xs:gap-x-10 sm:gap-x-14 md:gap-x-24 lg:hidden left-0 right-0 bg-white shadow-[0px_5px_40px_rgba(0,0,0,0.5)] flex justify-center items-center sm:py-2 py-2 sm:rounded-2xl w-[100%] sm:w-[82%] sm:mb-2 z-50">
 
                 <!-- Dashboard -->
-                <a href="{{ route('residents-dashboard') }}"
+                <a href="{{ route('resident.dashboard') }}"
                    class="group relative flex flex-col items-center transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
 
                     <!-- Wave Shape -->
-                    <div class="absolute top-0 left-0 w-full h-full z-0 {{ request()->routeIs('residents-dashboard') ? 'block' : 'hidden' }}">
+                    <div class="absolute top-0 left-0 w-full h-full z-0 {{ request()->routeIs('resident.dashboard') ? 'block' : 'hidden' }}">
                         <svg class="absolute -ml-4 md:-mt-8 -mt-[31px] w-[90px] h-[88px]" viewBox="0 0 67 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M63.5002 0C47.4347 0 51.7801 24.9995 33.1106 24.9995C14.4412 24.9995 19.0618 0 4.00012 0C-11.0615 0 33.1105 0 33.1105 0C33.1105 0 79.5658 0 63.5002 0Z" fill="#4AA76F"/>
                             <circle cx="33.5" cy="30" r="2" fill="#4AA76F"/>
@@ -195,7 +175,7 @@
                     <div>
                         <!-- Icon -->
                         <div class="z-50 relative flex justify-center items-center mt-3 sm:-pb-2 ml-[18px]
-                            {{ request()->routeIs('residents-dashboard') ? '-top-4 text-white h-5 w-5' : 'text-[#4AA76F] h-6 w-6 pb-0.5 -top-1' }}">
+                            {{ request()->routeIs('resident.dashboard') ? '-top-4 text-white h-5 w-5' : 'text-[#4AA76F] h-6 w-6 pb-0.5 -top-1' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" zoomAndPan="magnify" viewBox="0 0 375 374.999991" preserveAspectRatio="xMidYMid meet" version="1.0">
                                 <defs>
                                     <clipPath id="a3a56458c2"><path d="M 45 100 L 331 100 L 331 357.609375 L 45 357.609375 Z M 45 100 " clip-rule="nonzero" /></clipPath>
@@ -209,7 +189,7 @@
                         </div>
 
                         <!-- Label -->
-                        <span class="text-[10px] {{ request()->routeIs('residents-dashboard') ? 'text-[#4AA76F] font-semibold' : 'text-[#4AA76F]' }}">
+                        <span class="text-[10px] {{ request()->routeIs('resident.dashboard') ? 'text-[#4AA76F] font-semibold' : 'text-[#4AA76F]' }}">
                             Dashboard
                         </span>
                     </div>
@@ -275,11 +255,11 @@
                 </a>
 
                 <!-- Report History -->
-                <a href="{{ route('report-history') }}"
+                <a href="{{ route('resident.report-history') }}"
                    class="group relative flex flex-col items-center transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
 
                     <!-- Wave Shape -->
-                    <div class="absolute top-0 left-0 w-full h-full z-0 {{ request()->routeIs('report-history') ? 'block' : 'hidden' }}">
+                    <div class="absolute top-0 left-0 w-full h-full z-0 {{ request()->routeIs('resident.report-history') ? 'block' : 'hidden' }}">
                         <svg class="absolute -ml-7 md:-mt-8 -mt-[31px] w-[90px] h-[88px]" viewBox="0 0 67 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M63.5002 0C47.4347 0 51.7801 24.9995 33.1106 24.9995C14.4412 24.9995 19.0618 0 4.00012 0C-11.0615 0 33.1105 0 33.1105 0C33.1105 0 79.5658 0 63.5002 0Z" fill="#4AA76F"/>
                             <circle cx="33.5" cy="30" r="2" fill="#4AA76F"/>
@@ -290,14 +270,14 @@
                     <div>
                         <!-- Icon -->
                         <div class="z-50 relative flex justify-center items-center mt-3 sm:-pb-4 ml-[8px]
-                            {{ request()->routeIs('report-history') ? '-top-3 md:-top-3 text-white h-5 w-5' : 'text-[#4AA76F] h-6 w-6' }}">
+                            {{ request()->routeIs('resident.report-history') ? '-top-3 md:-top-3 text-white h-5 w-5' : 'text-[#4AA76F] h-6 w-6' }}">
                             <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill="currentColor" d="M7.5 0C9.48912 0 11.3968 0.790176 12.8033 2.1967C14.2098 3.60322 15 5.51088 15 7.5C15 9.48912 14.2098 11.3968 12.8033 12.8033C11.3968 14.2098 9.48912 15 7.5 15C5.51088 15 3.60322 14.2098 2.1967 12.8033C0.790176 11.3968 0 9.48912 0 7.5C0 5.51088 0.790176 3.60322 2.1967 2.1967C3.60322 0.790176 5.51088 0 7.5 0ZM6.79688 3.51562V7.28613L5.03906 9.92285L4.64941 10.5088L5.81836 11.2881L6.20801 10.7021L8.08301 7.88965L8.2002 7.71387V7.5V3.51562V2.8125H6.79395V3.51562H6.79688Z"/>
                             </svg>
                         </div>
 
                         <!-- Label -->
-                        <span class="text-[10px] {{ request()->routeIs('report-history') ? 'text-[#4AA76F] font-semibold' : 'text-[#4AA76F]' }}">
+                        <span class="text-[10px] {{ request()->routeIs('resident.report-history') ? 'text-[#4AA76F] font-semibold' : 'text-[#4AA76F]' }}">
                             History
                         </span>
                     </div>
@@ -312,3 +292,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    function logoutResident() {
+        // Create the logout form dynamically
+        let form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route('logoutResident') }}'; // Laravel logout route
+
+        // Add CSRF token for security
+        let csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = '_token';
+        csrfToken.value = '{{ csrf_token() }}'; // Laravel CSRF token
+        form.appendChild(csrfToken);
+
+        // Append the form to the body and submit it
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>

@@ -34,21 +34,21 @@ class CameraCapture extends Component
 
         session()->flash('message', 'Data saved successfully!');
     }
-    public function submitReport(Request $request)
-    {
-        dd($request);
-        // Save the data to the database
-        Report::create([
-            'latitude' => $latitude,
-            'longitude' => $longitude,
-            'address' => $address,
-            'date' => $date,
-            'time' => $time,
-        ]);
-        session()->flash('message', 'Data saved successfully!');
-        // Send a success message back to the frontend
-//        $this->dispatchBrowserEvent('report-saved', ['message' => 'Report submitted successfully!']);
-    }
+//    public function submitReport(Request $request)
+//    {
+//        dd($request);
+//        // Save the data to the database
+//        Report::create([
+//            'latitude' => $latitude,
+//            'longitude' => $longitude,
+//            'address' => $address,
+//            'date' => $date,
+//            'time' => $time,
+//        ]);
+//        session()->flash('message', 'Data saved successfully!');
+//        // Send a success message back to the frontend
+////        $this->dispatchBrowserEvent('report-saved', ['message' => 'Report submitted successfully!']);
+//    }
     public function render(): Factory|Application|View|\Illuminate\View\View
     {
         return view('livewire.camera-capture');

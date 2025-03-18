@@ -18,6 +18,7 @@ class RoadDefectReports extends Component
     public string $sortDirection = 'desc';
     public int $rowsPerPage = 10;
     public array $geoJsonData = [];
+    public $reports = [];
 
     protected $queryString = ['search', 'sortBy', 'sortDirection'];
 
@@ -26,6 +27,8 @@ class RoadDefectReports extends Component
      */
     public function mount(): void
     {
+        $this->reports = Report::all();
+
         $path = public_path('geoJSON/tagumCityRoad.json');
 
         if (File::exists($path)) {

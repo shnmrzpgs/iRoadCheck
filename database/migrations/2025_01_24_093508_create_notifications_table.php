@@ -11,9 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
+//        Schema::create('notifications', function (Blueprint $table) {
+//            $table->id();
+//            $table->foreignId('reporter_id')->references('id')->on('users');
+////            $table->foreignId('admin_user_id')->constrained('users')->onDelete('cascade');
+//            $table->foreignId('report_id')->nullable()->constrained('reports')->onDelete('cascade');
+//            $table->string('title');
+//            $table->text('message');
+//            $table->boolean('is_read')->default(false);
+//            $table->timestamps();
+//        });
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('admin_user_id')->constrained('users')->onDelete('cascade');
+            $table->morphs('notifiable'); // ✅ Handles both 'notifiable_id' and 'notifiable_type'
             $table->foreignId('report_id')->nullable()->constrained('reports')->onDelete('cascade');
             $table->string('title');
             $table->text('message');
@@ -22,7 +32,7 @@ return new class extends Migration
         });
     }
 
-    /**
+        /**
      * Reverse the migrations.
      */
     public function down(): void

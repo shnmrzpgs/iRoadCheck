@@ -25,7 +25,10 @@ class ComprehensiveReportMap extends Component
     }
     public function render(): Factory|Application|View|\Illuminate\View\View
     {
-        return view('livewire.admin.comprehensive-report-map');
+        return view('livewire.admin.comprehensive-report-map',[
+            'reports' => $this->reports,
+            'geoJsonData' => $this->geoJsonData,
+            ]);
     }
 }
 

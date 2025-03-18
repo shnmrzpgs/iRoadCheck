@@ -80,7 +80,7 @@
 
                             <!-- File Input -->
                             <input type="file" class="hidden" x-ref="fileInput" @change="preview = $event.target.files[0]; showLoading = true; clearTimeout(loadingTimer); loadingTimer = setTimeout(() => { showLoading = false; }, 2000);" accept="image/*" wire:model="photo">
-                            
+
                             <!-- Error Message -->
                             @error('photo')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -351,7 +351,7 @@
         <x-slot:footer>
 
             <div>
-                
+
 
                 <!-- Buttons -->
                 <div class="flex justify-between mt-6">
@@ -448,7 +448,7 @@
             @endif"
             x-cloak
         >
-            <!-- Notification -->
+            <!-- Notifications -->
             <div
                 x-show="openModal"
                 x-transition:enter="transition ease-out duration-300"

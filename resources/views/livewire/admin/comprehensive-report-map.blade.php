@@ -2,7 +2,7 @@
 
 <script>
     var geoJsonData = @json($geoJsonData);
-    console.log("GeoJSON from Livewire:", geoJsonData);
+    // console.log("GeoJSON from Livewire:", geoJsonData);
     function mapComponent() {
         return {
             reports: @json($reports),
@@ -12,7 +12,7 @@
                 3: 'Serious',
                 4: 'Dangerous'
             },
-            markerLayerGroup: null,
+            markerLayers: [],
             selectedReport: null,
             newStatus: '',
             statuses: ['Repaired', 'On Going', 'Unfixed'],
@@ -31,7 +31,7 @@
                     center: [7.448, 125.809],
                     zoom: 14,
                     minZoom: 12,
-                    maxZoom: 18,
+                    maxZoom: 28,
                     maxBounds: bounds,
                     zoomControl: false
                 });
@@ -40,7 +40,7 @@
                 L.control.zoom({ position: 'bottomleft' }).addTo(this.map);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 30 }).addTo(this.map);
 
-                this.markerLayerGroup = L.layerGroup().addTo(this.map);
+                // this.markerLayerGroup = L.layerGroup().addTo(this.map);
                 this.reports.forEach(report => this.addMarker(report));
 
                 this.addLegend();
@@ -49,26 +49,26 @@
                 // Load and add GeoJSON with enhanced styling and interactions
                 this.loadGeoJSON();
 
-                fetch("{{ asset('geoJSON/tagumCityRoad.json') }}")
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log("GeoJSON Loaded:", data); // Debugging step
+                {{--fetch("{{ asset('geoJSON/tagumCityRoad.json') }}")--}}
+                {{--    .then(response => response.json())--}}
+                {{--    .then(data => {--}}
+                {{--        console.log("GeoJSON Loaded:", data); // Debugging step--}}
 
-                        // ✅ Use `this.map` instead of `map`
-                        L.geoJSON(data, {
-                            style: {
-                                color: "blue",
-                                weight: 2,
-                                opacity: 0.8
-                            },
-                            onEachFeature: function (feature, layer) {
-                                if (feature.properties && feature.properties.name) {
-                                    layer.bindPopup(`<b>Road Name:</b> ${feature.properties.name}`);
-                                }
-                            }
-                        }).addTo(this.map); // ✅ Use `this.map`
-                    })
-                    .catch(error => console.error("Error loading GeoJSON:", error));
+                {{--        // ✅ Use `this.map` instead of `map`--}}
+                {{--        L.geoJSON(data, {--}}
+                {{--            style: {--}}
+                {{--                color: "blue",--}}
+                {{--                weight: 2,--}}
+                {{--                opacity: 0.8--}}
+                {{--            },--}}
+                {{--            onEachFeature: function (feature, layer) {--}}
+                {{--                if (feature.properties && feature.properties.name) {--}}
+                {{--                    layer.bindPopup(`<b>Road Name:</b> ${feature.properties.name}`);--}}
+                {{--                }--}}
+                {{--            }--}}
+                {{--        }).addTo(this.map); // ✅ Use `this.map`--}}
+                {{--    })--}}
+                {{--    .catch(error => console.error("Error loading GeoJSON:", error));--}}
 
                 // ✅ Revalidate size every 5 seconds in case of dynamic changes
                 setInterval(() => {
@@ -146,6 +146,7 @@
             },
 
             addMarker(report) {
+
                 const statusColor = this.getStatusColor(report.status);
 
                 const marker = L.circleMarker([report.lat, report.lng], {
@@ -154,7 +155,7 @@
                     radius: 6,
                     fillColor: statusColor,
                     fillOpacity: 1
-                }).addTo(this.markerLayerGroup);
+                }).addTo(this.map);
 
                 const popupContent = document.createElement('div');
                 popupContent.className = "max-w-[400px] h-auto rounded-lg shadow-lg text-[12px] font-sans text-white grid grid-row-2";

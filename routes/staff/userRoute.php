@@ -30,6 +30,9 @@ Route::group(['middleware' => 'AuthStaff'], function () {
     Route::get('/staff/report-history', App\Http\Controllers\staff\ReportHistoryController::class)
         ->name('staff.report-history');
 
+    Route::get('/staff/notifications', App\Http\Controllers\staff\NotificationsController::class)
+        ->name('staff.notifications');
+
     Route::get('/staff/profile-edit', App\Http\Controllers\staff\ProfileController::class)
         ->name('staff.profile-edit');
 

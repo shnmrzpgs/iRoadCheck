@@ -58,4 +58,10 @@ class Staff extends Model
     {
         return $this->hasOne(UserProfilePhoto::class, 'user_id', 'id');
     }
+
+//    public function staffRolesPermission(): BelongsTo
+//    {
+//        return $this->belongsTo(StaffRolesPermissions::class, 'staff_roles_permission_id');
+//    }
+
 }

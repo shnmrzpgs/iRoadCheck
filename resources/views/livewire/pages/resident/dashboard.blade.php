@@ -104,9 +104,9 @@
                                 <tr class="even:bg-gray-200 odd:bg-[#FBFBFA]">
                                     <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap">{{ $report->defectType }}</td>
                                     <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap">{{ $report->location }}</td>
-                                    <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap  
-                                    {{ $report->status === 'Repaired' ? 'text-green-600' : '' }} 
-                                    {{ $report->status === 'Ongoing' ? 'text-yellow-500' : '' }} 
+                                    <td class="py-3 px-4 text-start text-xs text-gray-800 border-b whitespace-nowrap
+                                    {{ $report->status === 'Repaired' ? 'text-green-600' : '' }}
+                                    {{ $report->status === 'Ongoing' ? 'text-yellow-500' : '' }}
                                     {{ $report->status === 'Unfixed' ? 'text-red-600' : '' }}">
                                         {{ $report->status }}
                                     </td>

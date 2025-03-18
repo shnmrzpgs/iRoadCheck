@@ -26,7 +26,7 @@ Route::group(['middleware' => 'VerifyResident'], function () {
 
 });
 Route::group(['middleware' => ['AuthResident']], function () {
- 
+
 //    Route::post('resident/submit-report', [ReportController::class, 'storeReport'])->name('submit-report');
     Route::post('/submit-report', [ReportController::class, 'submitReport'])->name('submit.report');
     Route::view('/prototype/residents/report-road-issue', 'iroadcheck.prototype.Residents.report-road-issue')->name('report-road-issue');
@@ -40,5 +40,8 @@ Route::group(['middleware' => ['AuthResident']], function () {
 
     Route::get('/resident/profile-edit', App\Http\Controllers\resident\ProfileController::class)
     ->name('resident.profile-edit');
+
+    Route::get('/resident/notifications', App\Http\Controllers\resident\NotificationController::class)
+        ->name('resident.notifications');
 });
 
