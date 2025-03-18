@@ -102,12 +102,12 @@
                 <div class=" border-b border-b-gray-200">
 
                     <div class="flex px-2 py-4 my-1 bg-gray-100 rounded-md">
-                        <!-- Notification Message Icon -->
+                        <!-- Notifications Message Icon -->
                         <div class="w-10 h-10 border rounded-full border-[#FFAD20] flex items-center justify-center">
                             <img src="{{ asset('storage/icons/notification-message-icon.png') }}" alt="message-icon" class="w-4 h-4">
                         </div>
 
-                        <!-- Notification Message -->
+                        <!-- Notifications Message -->
                         <div class="pl-3 py-2 mr-auto text-[13px] text-[#474747] font-semibold">
                             <span>Successfully</span>
                             <span>add Users</span>
@@ -146,12 +146,12 @@
                 <div class=" border-b border-b-gray-200">
 
                     <div class="flex px-2 py-4 my-1 bg-gray-100 rounded-md">
-                        <!-- Notification Message Icon -->
+                        <!-- Notifications Message Icon -->
                         <div class="w-10 h-10 border rounded-full border-[#FFAD20] flex items-center justify-center">
                             <img src="{{ asset('storage/icons/notification-message-icon.png') }}" alt="message-icon" class="w-4 h-4">
                         </div>
 
-                        <!-- Notification Message -->
+                        <!-- Notifications Message -->
                         <div class="pl-3 py-2 mr-auto text-[13px] text-[#474747] font-semibold">
                             <span>Successfully</span>
                             <span>add Users</span>
@@ -190,12 +190,12 @@
                 <div class=" border-b border-b-gray-200">
 
                     <div class="flex px-2 py-4 my-1 rounded-md">
-                        <!-- Notification Message Icon -->
+                        <!-- Notifications Message Icon -->
                         <div class="w-10 h-10 border rounded-full border-[#FFAD20] flex items-center justify-center">
                             <img src="{{ asset('storage/icons/notification-message-icon.png') }}" alt="message-icon" class="w-4 h-4">
                         </div>
 
-                        <!-- Notification Message -->
+                        <!-- Notifications Message -->
                         <div class="pl-3 py-2 mr-auto text-[13px] text-[#474747]">
                             <span>Successfully</span>
                             <span>add Users</span>
@@ -234,12 +234,12 @@
                 <div class=" border-b border-b-gray-200">
 
                     <div class="flex px-2 py-4 my-1 rounded-md">
-                        <!-- Notification Message Icon -->
+                        <!-- Notifications Message Icon -->
                         <div class="w-10 h-10 border rounded-full border-[#FFAD20] flex items-center justify-center">
                             <img src="{{ asset('storage/icons/notification-message-icon.png') }}" alt="message-icon" class="w-4 h-4">
                         </div>
 
-                        <!-- Notification Message -->
+                        <!-- Notifications Message -->
                         <div class="pl-3 py-2 mr-auto text-[13px] text-[#474747]">
                             <span>Successfully</span>
                             <span>add Users</span>
@@ -278,12 +278,12 @@
                 <div class=" border-b border-b-gray-200">
 
                     <div class="flex px-2 py-4 my-1 rounded-md">
-                        <!-- Notification Message Icon -->
+                        <!-- Notifications Message Icon -->
                         <div class="w-10 h-10 border rounded-full border-[#FFAD20] flex items-center justify-center">
                             <img src="{{ asset('storage/icons/notification-message-icon.png') }}" alt="message-icon" class="w-4 h-4">
                         </div>
 
-                        <!-- Notification Message -->
+                        <!-- Notifications Message -->
                         <div class="pl-3 py-2 mr-auto text-[13px] text-[#474747]">
                             <span>Successfully</span>
                             <span>add Users</span>
@@ -322,12 +322,12 @@
                 <div class=" border-b border-b-gray-200">
 
                     <div class="flex px-2 py-4 my-1 rounded-md">
-                        <!-- Notification Message Icon -->
+                        <!-- Notifications Message Icon -->
                         <div class="w-10 h-10 border rounded-full border-[#FFAD20] flex items-center justify-center">
                             <img src="{{ asset('storage/icons/notification-message-icon.png') }}" alt="message-icon" class="w-4 h-4">
                         </div>
 
-                        <!-- Notification Message -->
+                        <!-- Notifications Message -->
                         <div class="pl-3 py-2 mr-auto text-[13px] text-[#474747]">
                             <span>Successfully</span>
                             <span>add Users</span>

@@ -184,8 +184,8 @@
                                 <div x-data="{
                                         init() {
                                             flatpickr($refs.input, {
-                                                dateFormat: 'F j, Y', 
-                                                defaultDate: @js($this->form->date_of_birth) ?? null, 
+                                                dateFormat: 'F j, Y',
+                                                defaultDate: @js($this->form->date_of_birth) ?? null,
                                                  maxDate: new Date(),
                                                  minDate: new Date(new Date().setFullYear(new Date().getFullYear() - 100)),
                                                 onChange: (_, dateStr) => @this.set('form.date_of_birth', dateStr), // Send F j, Y to Livewire
@@ -454,7 +454,7 @@
                 });
             @endif"
         x-cloak>
-        <!-- Notification -->
+        <!-- Notifications -->
         <div
             x-show="openModal"
             x-transition:enter="transition ease-out duration-300"

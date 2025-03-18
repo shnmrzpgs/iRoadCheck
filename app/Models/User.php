@@ -56,7 +56,6 @@ class User extends Authenticatable
 
     ];
 
-
     protected $hidden = [
         'password',
         'generated_password',
@@ -75,7 +74,7 @@ class User extends Authenticatable
         'name',
     ];
 
-    public static function where(string $string, string $string1, string $string2) {}
+//    public static function where(string $string, string $string1) {}
 
     public function profilePhotos()
     {
@@ -124,7 +123,6 @@ class User extends Authenticatable
     }
 
 
-
     public function admin(): HasOne
     {
         return $this->hasOne(Admin::class);
@@ -150,16 +148,27 @@ class User extends Authenticatable
         return $this->hasMany(StaffLog::class);
     }
 
-//    public function residentLogs(): HasMany
-//    {
-//        return $this->hasMany(ResidentLog::class);
-//    }
+    public function residentLogs(): HasMany
+    {
+        return $this->hasMany(ResidentLog::class);
+    }
 
 
     public function userTypes(): BelongsTo
     {
         return $this->belongsTo(UserType::class, 'user_type' );
     }
+
+    public function staffRolesPermissions(): BelongsTo
+    {
+        return $this->belongsTo(StaffRolesPermissions::class, 'staff_roles_permission_id');
+    }
+
+
+//    public function staffRole(): BelongsTo
+//    {
+//        return $this->belongsTo(StaffRole::class, 'staff_role_id');
+//    }
 
     public function permissions(): BelongsToMany
     {
@@ -168,17 +177,24 @@ class User extends Authenticatable
 
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(StaffRole::class, 'staff_roles_permissions');
+        return $this->belongsToMany(StaffRole::class, 'staff_role_id');
     }
+
 
     public function profilePhoto(): HasOne
     {
         return $this->hasOne(UserProfilePhoto::class);
     }
 
-    public function admin_notifications(): HasMany
+    public function notifications(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
-        return $this->hasMany(Notification::class, 'admin_user_id', 'id');
+        return $this->morphMany(Notification::class, 'notifiable');
     }
+
+
+//    public function admin_notifications(): HasMany
+//    {
+//        return $this->hasMany(Notification::class, 'admin_user_id', 'id');
+//    }
 
 }

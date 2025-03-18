@@ -1,6 +1,6 @@
 <x-residents.residents-navigation>
 
-    <div class="flex flex-col items-center justify-center w-full mb-10 lg:hidden" x-data="{  step: 1, selected: '', cameraOpen: false, photoCaptured: false, photo: null, locationCaptured: false, openSuccessModal: false }">
+    <div class="flex flex-col items-center justify-center w-full mb-10 lg:hidden" x-data="{  step: 1, selected: '', cameraOpen: false, photoCaptured: false, photo: null, locationCaptured: false}">
         <div class="w-full md:w-[85%] flex flex-col justify-center items-center">
 
             <!-- Breadcrumbs Report Road Issue Steps -->
@@ -123,13 +123,13 @@
 
                             <!-- Body -->
                             <div
-                                class="h-[25vh] w-full flex flex-col justify-center items-center overflow-y-auto space-y-4 mx-auto text-start"
+                                class="h-[30vh] w-full flex flex-col justify-center items-center overflow-y-auto space-y-4 mx-auto text-start"
                             >
-                                <!-- Type of Defect -->
-                                <div class="text-sm flex justify-start items-start w-3/4">
-                                    <div class="w-1/2 text-gray-300">Type of Defect:</div>
-                                    <div class="w-1/2 font-semibold text-[#4AA76F]">Pothole</div>
-                                </div>
+{{--                                <!-- Type of Defect -->--}}
+{{--                                <div class="text-sm flex justify-start items-start w-3/4">--}}
+{{--                                    <div class="w-1/2 text-gray-300">Type of Defect:</div>--}}
+{{--                                    <div class="w-1/2 font-semibold text-[#4AA76F]">Pothole</div>--}}
+{{--                                </div>--}}
 
                                 <!-- Report ID -->
                                 <div class="text-sm flex justify-start items-start w-3/4">
@@ -187,11 +187,11 @@
 
                         <!-- Report Details -->
                         <div class="space-y-3 text-start w-10/12">
-                            <!-- Type of Defect -->
-                            <div class="text-xs md:text-sm flex">
-                                <div class="w-2/5 text-gray-600">Type of Defect:</div>
-                                <div class="w-3/5 font-semibold text-[#4AA76F]">Pothole</div>
-                            </div>
+{{--                            <!-- Type of Defect -->--}}
+{{--                            <div class="text-xs md:text-sm flex">--}}
+{{--                                <div class="w-2/5 text-gray-600">Type of Defect:</div>--}}
+{{--                                <div class="w-3/5 font-semibold text-[#4AA76F]">Pothole</div>--}}
+{{--                            </div>--}}
 
                             <!-- Report ID -->
                             <div class="text-xs md:text-sm flex">
@@ -228,7 +228,7 @@
                         </div>
 
                         <!-- Submit Report Button -->
-                        <form action="{{ route('submit.report') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('submit.report') }}"  method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="latitude" x-bind:value="latitude">
                             <input type="hidden" name="longitude" x-bind:value="longitude">
@@ -251,7 +251,7 @@
 {{--                        </button>--}}
 
                         <!-- Success Modal -->
-                        <x-success-modal successMessage="Your report road concern submitted successfully." x-show="openSuccessModal"></x-success-modal>
+{{--                        <x-success-modal successMessage="Your report road concern submitted successfully." x-show="openSuccessModal"></x-success-modal>--}}
 
                         <!-- Error Modal | This should be pop up if the user inputs is not valid-->
                         {{--<x-error-modal errorMessage='Oops! Something went wrong. Please try again.' x-show="openErrorModal"></x-error-modal>--}}
@@ -290,7 +290,7 @@
                 this.cameraOpen = true;
                 document.body.classList.add('overflow-hidden');
                 const video = document.getElementById('camera-stream');
-                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
                     .then(stream => {
                         this.videoStream = stream;
                         video.srcObject = stream;
@@ -478,7 +478,7 @@
                     alert('Geolocation is not supported by your browser.');
                 }
 
-                },
+            },
 
             // Retry Photo Capture
             retryCapture() {

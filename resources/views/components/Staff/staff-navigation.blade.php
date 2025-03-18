@@ -180,7 +180,7 @@
                 </x-slot:page_title_and_search_bar>
 
                 <x-slot:notification_dropdown>
-{{--                    <livewire:staff.notification-dropdown/>--}}
+                    <livewire:staff.notification-dropdown/>
                 </x-slot:notification_dropdown>
 
                 <x-slot:staff_profile_name>

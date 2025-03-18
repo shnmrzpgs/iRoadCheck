@@ -321,7 +321,7 @@
             @endif"
             x-cloak
         >
-            <!-- Notification -->
+            <!-- Notifications -->
             <div
                 x-show="openModal"
                 x-transition:enter="transition ease-out duration-300"

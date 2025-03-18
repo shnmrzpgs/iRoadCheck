@@ -57,5 +57,10 @@ class Admin extends Model
         return $this->hasOne(UserProfilePhoto::class);
     }
 
+    public function notifications(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Notification::class, 'notifiable');
+    }
+
 
 }

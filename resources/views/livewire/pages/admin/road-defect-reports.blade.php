@@ -7,7 +7,6 @@
            </div>
        </x-slot:page_description>
 
-
         <x-slot:map_container>
             <div class="flex"
                  x-data="{
@@ -28,6 +27,7 @@
                 </button>
 
                 <div class="w-full flex flex-col lg:flex-row">
+
                     <!-- Leaflet JS -->
                     <livewire:admin.comprehensive-report-map/>
 
@@ -95,9 +95,9 @@
                                     <!-- Types of Road Defects Filter -->
                                     <div class="relative flex rounded-[4px] border hover:shadow-md custom-select"
                                          :class="{
-                                                         'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'roadDefects',
-                                                         'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'roadDefects'
-                                                     }">
+                                                 'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'roadDefects',
+                                                 'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'roadDefects'
+                                             }">
                                         <select x-model="roadDefects"
                                                 @change="activeFilter = 'roadDefects'"
                                                 class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none">
@@ -111,27 +111,27 @@
 
                                     <!-- Date Range Filter -->
                                     <div x-data="{
-                                                        value: [$wire.start_date, $wire.end_date],
-                                                        init() {
-                                                            let picker = flatpickr(this.$refs.picker, {
-                                                                mode: 'range',
-                                                                dateFormat: 'Y-m-d',
-                                                                defaultDate: this.value,
-                                                                minDate: $wire.start_date,
-                                                                maxDate: $wire.end_date,
-                                                                allowInput: false,
-                                                                onChange: (date, dateString) => {
-                                                                    this.value = dateString.split(' to ');
-                                                                }
-                                                            });
-                                                            this.$watch('value', () => picker.setDate(this.value));
-                                                        }
-                                                    }"
+                                        value: [$wire.start_date, $wire.end_date],
+                                        init() {
+                                            let picker = flatpickr(this.$refs.picker, {
+                                                mode: 'range',
+                                                dateFormat: 'Y-m-d',
+                                                defaultDate: this.value,
+                                                minDate: $wire.start_date,
+                                                maxDate: $wire.end_date,
+                                                allowInput: false,
+                                                onChange: (date, dateString) => {
+                                                    this.value = dateString.split(' to ');
+                                                }
+                                            });
+                                            this.$watch('value', () => picker.setDate(this.value));
+                                        }
+                                    }"
                                          class="relative flex rounded-[4px] border hover:shadow-md custom-date-input"
                                          :class="{
-                                                        'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'dateRange',
-                                                        'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'dateRange'
-                                                    }">
+                                                'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'dateRange',
+                                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'dateRange'
+                                            }">
                                         <input
                                             class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none"
                                             x-ref="picker"
@@ -159,26 +159,6 @@
                                     </div>
                                 </div>
 
-
-                                <script>
-                                    function applyFilters() {
-                                        // Logic for applying the filters (send selected filter values to backend or process them)
-                                        console.log('Filters applied:', {
-                                            complaintsRange: this.complaintsRange,
-                                            roadDefects: this.roadDefects,
-                                            dateRange: this.dateRange
-                                        });
-                                    }
-
-                                    function clearFilters() {
-                                        // Reset all filters
-                                        this.complaintsRange = '';
-                                        this.roadDefects = '';
-                                        this.dateRange = '';
-                                        this.activeFilter = '';
-                                        console.log('All filters cleared');
-                                    }
-                                </script>
                             </div>
                             <!--comprehensive reports-->
                             <div class="flex-1 overflow-y-auto min-h-[25vh] max-h-auto pb-16 px-6">
@@ -248,9 +228,9 @@
                         }"
                             class="relative flex rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md custom-date-input"
                             :class="{
-                            'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'dateRange',
-                            'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'dateRange'
-                        }"
+                                'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'dateRange',
+                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'dateRange'
+                            }"
                         >
                             <input
                                 class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none"
@@ -377,11 +357,11 @@
                             @endforelse
                             </tbody>
                         </table>
-                    </div>
-                    <!-- Loading indicator for pagination -->
-                    <div wire:loading.class.remove="opacity-0 pointer-events-none" x-cloak x-transition
-                         class="absolute inset-0 w-full min-h-full bg-black/50 flex justify-center items-center transition-all pointer-events-none opacity-0">
-                        <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
+                        <!-- Loading indicator for pagination -->
+                        <div wire:loading.class.remove="opacity-0 pointer-events-none" x-cloak x-transition
+                             class="absolute inset-0 w-full min-h-full bg-black/50 flex justify-center items-center transition-all pointer-events-none opacity-0">
+                            <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
+                        </div>
                     </div>
                 </x-slot:table_container>
 
@@ -392,91 +372,6 @@
                     {{ $roadDefectReports->links('vendor.pagination.custom') }}
                 </x-slot:pagination_container>
 
-
-
-                {{--            <div class="mt-2 mb-6">--}}
-                {{--                <div class="overflow-x-auto m-0 border border-t-gray-300 rounded-lg inset-0 p-0">--}}
-                {{--                    <div class="min-w-full inline-block max-h-[55vh] min-h-[55vh] overflow-y-auto align-middle p-0 z-0">--}}
-                {{--                        <!-- Table -->--}}
-                {{--                        <table x-data="mapComponent()" class="min-w-full min-h-full divide-y divide-gray-300 gap-y-5">--}}
-                {{--                            <thead>--}}
-                {{--                            <tr>--}}
-                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-[#757575] rounded-tl-lg">No.</th>--}}
-                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-[#757575]">Report ID</th>--}}
-                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-[#757575]">Location</th>--}}
-                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-[#757575]">Date Reported</th>--}}
-                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-10 text-left text-xs font-semibold text-[#757575]">Severity</th>--}}
-                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-10 text-left text-xs font-semibold text-[#757575]">Current Status</th>--}}
-                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 pl-4 pr-10 text-left text-xs font-semibold text-[#757575]">Updated By</th>--}}
-                {{--                                <th class="sticky top-0 z-10 bg-white py-3.5 px-2 text-left text-xs font-semibold text-[#757575] rounded-tr-lg">Actions</th>--}}
-                {{--                            </tr>--}}
-                {{--                            </thead>--}}
-                {{--                            <tbody class="divide-y divide-gray-300 bg-white">--}}
-                {{--                            <template x-for="(report, index) in reports" :key="report.id">--}}
-                {{--                                <tr :class="index % 2 == 0 ? 'bg-white' : 'bg-slate-50'" class="hover:bg-slate-200 text-left">--}}
-                {{--                                    <!-- No. Column -->--}}
-                {{--                                    <td class="whitespace-nowrap py-3 text-xs pl-5">--}}
-                {{--                                        <div x-text="index + 1"></div>--}}
-                {{--                                    </td>--}}
-
-                {{--                                    <!-- Defect Column -->--}}
-                {{--                                    <td class="whitespace-nowrap py-3 pl-4 text-xs">--}}
-                {{--                                        <div x-text="report.defect"></div>--}}
-                {{--                                    </td>--}}
-
-                {{--                                    <!-- Location Column -->--}}
-                {{--                                    <td class="whitespace-nowrap py-3 pl-4 text-xs">--}}
-                {{--                                        <div x-text="report.location"></div>--}}
-                {{--                                    </td>--}}
-
-                {{--                                    <!-- Date Column -->--}}
-                {{--                                    <td class="whitespace-nowrap py-3 pl-4 text-xs">--}}
-                {{--                                        <div x-text="report.date"></div>--}}
-                {{--                                    </td>--}}
-
-                {{--                                    <!-- Severity Column -->--}}
-                {{--                                    <td class="whitespace-nowrap py-3 pl-4 text-xs">--}}
-                {{--                                        <div x-text="report.severity"></div>--}}
-                {{--                                    </td>--}}
-
-                {{--                                    <!-- Status Column -->--}}
-                {{--                                    <td class="whitespace-nowrap py-3 pl-4 text-xs font-medium">--}}
-                {{--                                        <div :class="{--}}
-                {{--                                                    'text-green-600 font-bold': report.status === 'Repaired',--}}
-                {{--                                                    'text-yellow-600 font-bold': report.status === 'Ongoing',--}}
-                {{--                                                    'text-red-600 font-bold': report.status === 'Unfixed',--}}
-                {{--                                                }" x-text="report.status">--}}
-                {{--                                        </div>--}}
-                {{--                                    </td>--}}
-
-                {{--                                    <!-- Updated By Whom Column -->--}}
-                {{--                                    <td class="whitespace-nowrap py-3 pl-4 text-xs">--}}
-                {{--                                        <div x-text=""></div>--}}
-                {{--                                    </td>--}}
-
-                {{--                                    <!-- Actions Column -->--}}
-                {{--                                    <td class="flex whitespace-nowrap py-6 text-left">--}}
-                {{--                                        <!-- Edit Button -->--}}
-                {{--                                        <button @click="editReport(report.id)"--}}
-                {{--                                                class="flex items-center text-orange-500 hover:underline hover:text-orange-600 font-medium transition active:scale-95 mr-5 pl-2">--}}
-                {{--                                            <img src="{{ asset('storage/icons/edit-icon.png') }}" alt="Edit Icon" class="w-4 h-4 mr-2 transition-transform duration-200 ease-in-out group-hover:rotate-12" />--}}
-                {{--                                            <span class="text-xs font-medium">Edit</span>--}}
-                {{--                                        </button>--}}
-
-                {{--                                        <!-- View Button -->--}}
-                {{--                                        <button @click="viewReport(report.id)"--}}
-                {{--                                                class="flex items-center text-[#3251FF] hover:underline hover:text-[#1d3fcc] font-medium transition active:scale-95 pl-8">--}}
-                {{--                                            <img src="{{ asset('storage/icons/view-icon.png') }}" alt="View Icon" class="w-5 h-5 mr-2 transition-transform duration-200 ease-in-out group-hover:rotate-12" />--}}
-                {{--                                            <span class="text-xs font-medium">View</span>--}}
-                {{--                                        </button>--}}
-                {{--                                    </td>--}}
-                {{--                                </tr>--}}
-                {{--                            </template>--}}
-                {{--                            </tbody>--}}
-
-                {{--                        </table>--}}
-                {{--                    </div>--}}
-                {{--                </div>--}}
 
             </x-admin.crud-page-content-base>
         </x-slot:table_container>

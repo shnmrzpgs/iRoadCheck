@@ -1,6 +1,8 @@
 <div></div>
 
 <script>
+    var geoJsonData = @json($geoJsonData);
+    // console.log("GeoJSON from Livewire:", geoJsonData);
     function mapComponent() {
         return {
             reports: @json($reports),
@@ -10,7 +12,7 @@
                 3: 'Serious',
                 4: 'Dangerous'
             },
-            markerLayerGroup: null,
+            markerLayers: [],
             selectedReport: null,
             newStatus: '',
             statuses: ['Repaired', 'On Going', 'Unfixed'],
@@ -29,7 +31,7 @@
                     center: [7.448, 125.809],
                     zoom: 14,
                     minZoom: 12,
-                    maxZoom: 18,
+                    maxZoom: 28,
                     maxBounds: bounds,
                     zoomControl: false
                 });
@@ -38,7 +40,7 @@
                 L.control.zoom({ position: 'bottomleft' }).addTo(this.map);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 30 }).addTo(this.map);
 
-                this.markerLayerGroup = L.layerGroup().addTo(this.map);
+                // this.markerLayerGroup = L.layerGroup().addTo(this.map);
                 this.reports.forEach(report => this.addMarker(report));
 
                 this.addLegend();
@@ -144,6 +146,7 @@
             },
 
             addMarker(report) {
+
                 const statusColor = this.getStatusColor(report.status);
 
                 const marker = L.circleMarker([report.lat, report.lng], {
@@ -152,7 +155,7 @@
                     radius: 6,
                     fillColor: statusColor,
                     fillOpacity: 1
-                }).addTo(this.markerLayerGroup);
+                }).addTo(this.map);
 
                 const popupContent = document.createElement('div');
                 popupContent.className = "max-w-[400px] h-auto rounded-lg shadow-lg text-[12px] font-sans text-white grid grid-row-2";

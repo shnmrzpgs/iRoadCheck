@@ -10,7 +10,7 @@
 
     </div>
 
-    <!-- Notification and Profile Icons -->
+    <!-- Notifications and Profile Icons -->
     <div class="flex">
 
             <div x-data="{
@@ -54,7 +54,7 @@
                     </div>
                 </div>
 
-                <!-- Notification -->
+                <!-- Notifications -->
                 {{ $notification_dropdown }}
 
         </div>

@@ -7,19 +7,28 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Livewire\Component;
+use Illuminate\Support\Facades\File;
 
 class ComprehensiveReportMap extends Component
 {
     public $reports = [];
+    public $geoJsonData = [];
 
     public function mount(): void
     {
-        // Fetch reports when the component is mounted
         $this->reports = Report::all();
+
+        $path = public_path('geoJSON/tagumCityRoad.json'); // Adjust path if needed
+        if (File::exists($path)) {
+            $this->geoJsonData = json_decode(File::get($path), true);
+        }
     }
     public function render(): Factory|Application|View|\Illuminate\View\View
     {
-        return view('livewire.admin.comprehensive-report-map');
+        return view('livewire.admin.comprehensive-report-map',[
+            'reports' => $this->reports,
+            'geoJsonData' => $this->geoJsonData,
+            ]);
     }
 }
 

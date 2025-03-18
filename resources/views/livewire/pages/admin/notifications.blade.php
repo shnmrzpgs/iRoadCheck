@@ -71,18 +71,18 @@
             <div class="w-full rounded-[4px] bg-none border border-gray-200 h-[480px]">
                 @forelse($notifications as $notification)
                     @if($notification->is_read)
-                        <!-- Read Notification -->
+                        <!-- Read Notifications -->
                         <div
                             class="border-b border-b-gray-200 flex px-4 py-4 cursor-pointer hover:bg-gray-100"
                             wire:click="viewNotification({{ $notification->id }})">
 
-                            <!-- Notification Icon -->
+                            <!-- Notifications Icon -->
                             <div class="flex-shrink-0">
                                 <img src="{{ asset('storage/icons/road.png') }}" alt="Notification Icon" loading="lazy"
                                      class="lazyload w-14 h-14 object-cover shadow rounded-lg">
                             </div>
 
-                            <!-- Notification Details -->
+                            <!-- Notifications Details -->
                             <div class="pl-3 mr-auto text-[13px] text-[#474747]">
                                 <p>
                                     <span class="font-semibold">{{ $notification->title }}</span> <br/> {{ $notification->message }}
@@ -98,18 +98,18 @@
                             </div>
                         </div>
                     @else
-                        <!-- Unread Notification -->
+                        <!-- Unread Notifications -->
                         <div
                             class="border-b border-b-gray-200 bg-gray-200 flex px-4 py-4 cursor-pointer hover:bg-gray-100"
                             wire:click="viewNotification({{ $notification->id }})">
 
-                            <!-- Notification Icon -->
+                            <!-- Notifications Icon -->
                             <div class="flex-shrink-0">
                                 <img src="{{ asset('storage/icons/road.png') }}" alt="Notification Icon" loading="lazy"
                                      class="lazyload w-14 h-14 object-cover shadow rounded-lg">
                             </div>
 
-                            <!-- Notification Details -->
+                            <!-- Notifications Details -->
                             <div class="pl-3 mr-auto text-[13px] text-[#474747] font-semibold">
                                 <p>
                                     <span class="font-semibold">{{ $notification->title }}</span> <br/> {{ $notification->message }}
@@ -158,7 +158,7 @@
             "
                 x-cloak
             >
-                <!-- Notification -->
+                <!-- Notifications -->
                 <div
                     x-show="openModal"
                     x-transition:enter="transition ease-out duration-300"

@@ -16,7 +16,6 @@ Route::group(['middleware' => 'AuthAdmin'], function () {
     Route::get('/admin/road-defect-reports/{report_id}', [App\Http\Controllers\admin\RoadDefectReportsController::class, 'show'])
         ->name('admin.road-defect-reports');
 
-
     Route::get('/admin/road-defect-reports', App\Http\Controllers\admin\RoadDefectReportsController::class)
         ->name('admin.road-defect-reports');
 

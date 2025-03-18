@@ -439,7 +439,7 @@
                     </div>
                 </div>
                 <div class="flex">
-                    <!-- Notification -->
+                    <!-- Notifications -->
                     <div x-data="{
                                 tooltipVisible: false,
                                 tooltipText: 'Notifications',
@@ -482,7 +482,7 @@
                             </div>
                         </div>
 
-                        <!--Notification icon-->
+                        <!--Notifications icon-->
                         <svg
                             x-ref="content"
                             @click="dropdownVisible = !dropdownVisible; activeLink = 'notifications'; localStorage.setItem('activeLink', 'notifications')"
@@ -499,7 +499,7 @@
                             <path fill="fill-current" d="M7.1,20a5,5,0,0,0,9.8,0Z"/>
                         </svg>
 
-                        <!-- Dropdown Notification -->
+                        <!-- Dropdown Notifications -->
                         <div x-show="dropdownVisible"
                              x-transition:enter="transition ease-out duration-200"
                              x-transition:enter-start="transform opacity-0 scale-100"
@@ -513,23 +513,23 @@
                             <div class="py-1 px-4 z-50">
                                 <h1 class="text-[14px] pt-4 pb-2 px-1 border-b-[#4AA76F] border-b-[2px] text-[#4AA76F] font-semibold">Notifications</h1>
 
-                                <!-- Notification List -->
+                                <!-- Notifications List -->
                                 <ul class="overflow-y-auto overflow-x-hidden max-h-[320px] mt-2 mb-10 space-y-2 px-2">
                                     <li class="block text-sm text-[#4D4F50]">
                                         <div class="hover:bg-gray-200 flex justify-between py-4 rounded-md bg-gray-100">
                                             <div class="flex pl-3 items-center space-x-3">
-                                                <!-- Notification Message Icon -->
+                                                <!-- Notifications Message Icon -->
                                                 <div class="w-8 h-8 border rounded-full border-[#FFAD20] flex items-center justify-center">
                                                     <img src="{{ asset('storage/icons/notification-message-icon.png') }}" alt="message-icon" class="w-4 h-4">
                                                 </div>
-                                                <!-- Notification Message -->
+                                                <!-- Notifications Message -->
                                                 <div class="text-[12px] text-[#474747] font-semibold">
                                                     <span>Successfully</span>
                                                     <span>add Users</span>
                                                 </div>
                                             </div>
 
-                                            <!-- Time of Notification Message -->
+                                            <!-- Time of Notifications Message -->
                                             <div x-data="{
                                                         now: new Date(),
                                                         notificationDate: new Date('2024-10-09T12:00:00'),

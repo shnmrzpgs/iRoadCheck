@@ -356,4 +356,32 @@ input[type="radio"] {
     color: white;
 }
 
+/* Floating Dot Animation */
+@keyframes float1 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(5px, -5px); }
+}
+
+@keyframes float2 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-5px, 5px); }
+}
+
+@keyframes float3 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(3px, -3px); }
+}
+
+@keyframes float4 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-3px, 3px); }
+}
+
+/* Apply Animation to Dots */
+.floating-dot1 { animation: float1 2s infinite ease-in-out; }
+.floating-dot2 { animation: float2 3s infinite ease-in-out; }
+.floating-dot3 { animation: float3 2.5s infinite ease-in-out; }
+.floating-dot4 { animation: float4 3.2s infinite ease-in-out; }
+
+
 

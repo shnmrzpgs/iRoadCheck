@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('reporter_id')->references('id')->on('users');
             $table->string('defect');
-            $table->string('location');
+//            $table->string('location');
+            $table->string('location')->nullable()->default('Unknown');
             $table->string('street')->default('N/A');
             $table->string('purok')->default('N/A');
             $table->string('barangay')->default('N/A');

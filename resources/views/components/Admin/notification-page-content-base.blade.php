@@ -1,4 +1,4 @@
-<div class="text-[#202020] bg-[#F9F9F9] p-8 h-full rounded-lg drop-shadow">
+<div class="text-[#202020] bg-[#F9F9F9] p-8 h-full rounded-lg drop-shadow  z-[-1]">
 
     <div class="w-full relative mx-auto bg-none rounded-[6px]">
 

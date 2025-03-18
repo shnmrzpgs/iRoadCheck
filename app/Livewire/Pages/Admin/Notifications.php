@@ -9,65 +9,74 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Foundation\Application;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Redirect;
 use Livewire\Attributes\On;
 use Livewire\Component;
-
-
+use Livewire\Features\SupportRedirects\Redirector;
 
 class Notifications extends Component
 {
+    public string $filter = 'all';
+    public string $search = '';
+    public $notifications = [];
+    public string $notifications_count = '0';
 
-    public string $filter = 'all'; // default filter
-    public string $search = '';   // search query
+    public function mount(): void
+    {
+        $this->loadNotifications();
+    }
 
     public function setFilter(string $filter): void
     {
         $this->filter = $filter;
+        $this->fetchNotifications();
     }
 
     public function updatedSearch(): void
     {
-        $this->render();
+        $this->fetchNotifications();
     }
 
     public function markAllAsRead(): void
     {
-        $unreadNotificationsCount = Notification::where('admin_user_id', auth()->id())
+        $unreadNotifications = Notification::where('notifiable_id', auth()->id())
+            ->where('notifiable_type', auth()->user()::class) // ✅ Added 'notifiable_type' here
             ->where('is_read', false)
-            ->count();
+            ->update(['is_read' => true]);
 
-        if ($unreadNotificationsCount > 0) {
-            Notification::where('admin_user_id', auth()->id())
-                ->where('is_read', false)
-                ->update(['is_read' => true]);
+        $this->loadNotifications();
 
+        if ($unreadNotifications) {
             session()->flash('success', 'All notifications have been marked as read.');
         } else {
             session()->flash('info', 'No unread notifications to mark as read.');
         }
     }
 
-    public function viewNotification(Notification $notification)
+    public function viewNotification(Notification $notification): Redirector
     {
         // Mark the notification as read
         $notification->update(['is_read' => true]);
 
-        // Retrieve the staff details associated with the action (assuming the notification contains this information)
-        $staff = Staff::find($notification->admin_user_id); // Assuming you store admin user id in the notification
-        $staffName = $staff->username ?? 'Unknown staff';
-        $staffRole = $staff->staff->staff_roles->name ?? 'Unknown Role'; // Adjust based on your relationships
+        // Retrieve the staff details associated with the action
+        $staff = Staff::find($notification->admin_user_id);
+
+        $staffName = $staff?->username ?? 'Unknown staff';
+        $staffRole = $staff?->staff?->staff_roles?->name ?? 'Unknown Role'; // Improved null handling
 
         // Get the report details
         $report = $notification->report;
-        $reportDetails = [
+
+        // Prevent potential null errors if report data is missing
+        $reportDetails = $report ? [
             'defect' => $report->defect,
             'location' => $report->location,
             'status' => $report->status,
             'severity' => $report->severity,
             'updated_at' => $report->updated_at->diffForHumans(),
-        ];
+        ] : [];
 
-        // Prepare the notification data to be displayed
+        // Prepare the notification data
         $notificationData = [
             'title' => $notification->title,
             'message' => $notification->message,
@@ -78,34 +87,33 @@ class Notifications extends Component
         ];
 
         // Redirect to the report details page
-        return redirect()->route('admin.road-defect-reports', ['report_id' => $notification->report_id]);
+        return Redirect::route('admin.road-defect-reports', ['report_id' => $notification->report_id]);
     }
-
 
     public function markReportAsFixed(Report $report): void
     {
         $report->update(['status' => 'fixed']);
 
-        // Create a notification for the admin
         Notification::create([
-            'admin_user_id' => 1, // Assign to relevant admin(s)
+            'notifiable_id' => auth()->id(),  // ✅ Correct ID
+            'notifiable_type' => auth()->user()::class, // ✅ Correct 'notifiable_type' for polymorphic
             'report_id' => $report->id,
             'title' => 'Report Fixed',
-            'message' => "The report for defect '{$report->defect}' at '{$report->location}' has been marked as fixed by staff: " .
-                auth()->user()->name,
+            'message' => "The report for defect '{$report->defect}' at '{$report->location}' has been marked as fixed by staff: " . auth()->user()->name,
             'is_read' => false,
         ]);
 
+        $this->loadNotifications();
         $this->dispatch('report-fixed', ['message' => 'Report marked as fixed and admin notified.']);
     }
 
-
     #[On('show-view-notification-modal')]
-    public function render(): Factory|Application|View|\Illuminate\View\View
+    public function fetchNotifications(): void
     {
         $query = Notification::query()
-            ->where('admin_user_id', auth()->id())
-            ->with('report');
+            ->where('notifiable_id', auth()->id())
+            ->where('notifiable_type', auth()->user()::class) // ✅ Added 'notifiable_type' here
+            ->with(['report', 'staff']);
 
         if ($this->filter === 'unread') {
             $query->where('is_read', false);
@@ -123,10 +131,35 @@ class Notifications extends Component
             });
         }
 
-        $notifications = $query->orderByDesc('created_at')->get();
+        $this->notifications = $query->orderByDesc('created_at')->get();
+        $this->notifications_count = $this->getStringedNotificationCount();
 
-        session()->forget('hideSearchBar');
-        return view('livewire.pages.admin.notifications', ['notifications' => $notifications]);
+        $this->dispatch('notifications-updated', ['notifications' => $this->notifications]);
     }
 
+    private function loadNotifications(): void
+    {
+        $this->notifications = Notification::where('notifiable_id', auth()->id())
+            ->where('notifiable_type', auth()->user()::class) // ✅ Added 'notifiable_type' here
+            ->with(['report', 'staff'])
+            ->orderByDesc('created_at')
+            ->get();
+
+        $this->notifications_count = $this->getStringedNotificationCount();
+    }
+
+    // Helper function to get notification count formatted
+    private function getStringedNotificationCount(): string
+    {
+        $count = count($this->notifications);
+
+        return $count > 99 ? '99+' : (string) $count;
+    }
+
+    public function render(): Factory|Application|View|\Illuminate\View\View
+    {
+        return view('livewire.pages.admin.notifications', [
+            'notifications' => $this->notifications
+        ]);
+    }
 }

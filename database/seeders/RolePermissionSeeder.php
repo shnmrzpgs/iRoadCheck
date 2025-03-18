@@ -90,26 +90,25 @@ class RolePermissionSeeder extends Seeder
 
         // Define roles and their corresponding permissions
         $roles = [
-            'Manager' => ['view_dashboard', 'edit_settings', 'manage_users', 'generate_reports', 'manage_inventory'],
-            'Supervisor' => ['view_dashboard', 'generate_reports', 'manage_inventory'],
-            'Clerk' => ['view_dashboard', 'manage_inventory'],
-            'Administrator' => ['view_dashboard', 'edit_settings', 'manage_users', 'generate_reports', 'manage_inventory'],
-            'HR Manager' => ['view_dashboard', 'edit_settings', 'manage_users'],
-            'Accountant' => ['view_dashboard', 'generate_reports', 'manage_inventory'],
-            'IT Specialist' => ['view_dashboard', 'edit_settings'],
-            'Salesperson' => ['view_dashboard', 'manage_inventory', 'generate_reports'],
-            'Customer Support' => ['view_dashboard', 'generate_reports'],
-            'Quality Analyst' => ['view_dashboard', 'generate_reports', 'manage_inventory'],
-            'Operations Head' => ['view_dashboard', 'edit_settings', 'manage_inventory', 'generate_reports'],
-            'Marketing Manager' => ['view_dashboard', 'generate_reports'],
-            'Data Analyst' => ['view_dashboard', 'generate_reports'],
-            'Product Manager' => ['view_dashboard', 'edit_settings', 'manage_inventory'],
-            'Logistics Coordinator' => ['view_dashboard', 'manage_inventory', 'generate_reports'],
-            'Finance Officer' => ['view_dashboard', 'generate_reports', 'edit_settings'],
-            'Procurement Manager' => ['view_dashboard', 'manage_inventory'],
-            'Training Specialist' => ['view_dashboard', 'generate_reports'],
-            'Project Manager' => ['view_dashboard', 'edit_settings', 'manage_users', 'generate_reports'],
-            'Business Analyst' => ['view_dashboard', 'generate_reports'],
+            'Patcher' => [
+                'view_dashboard',
+                'manage_inventory',
+                'create_posts',
+                'edit_posts',
+                'delete_posts',
+                'approve_comments',
+                'assign_tasks',
+                'complete_tasks',
+            ],
+            'Graveler' => [
+                'view_dashboard',
+                'generate_reports',
+                'view_reports',
+                'export_data',
+                'import_data',
+                'view_finances',
+                'handle_customer_support',
+            ],
         ];
 
         // Loop through roles and assign permissions
