@@ -9,7 +9,7 @@
             window.location.href = url;
         }
     }"
-     class="relative z-[9999]">
+     class="relative">
 
     <!-- Notifications Icon -->
     <svg x-ref="content"
@@ -41,7 +41,7 @@
          x-transition:leave="transition ease-in duration-75"
          x-transition:leave-start="transform opacity-100 scale-100"
          x-transition:leave-end="transform opacity-0 scale-95"
-         class="lazyload absolute right-1 mt-2 w-[350px] rounded-md shadow-[0px_5px_40px_rgba(0,0,0,0.3)] bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-[9999]">
+         class="lazyload absolute right-1 mt-2 w-[350px] rounded-md shadow-[0px_5px_40px_rgba(0,0,0,0.3)] bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-[1000]">
 
         <div class="py-1 px-4">
             <h1 class="text-[14px] pt-4 pb-2 px-1 border-b-[#4AA76F] border-b-[2px] text-[#4AA76F] font-semibold">
@@ -59,7 +59,7 @@
                 @else
                     @foreach ($notifications as $notification)
                         <li class="relative block text-sm text-[#4D4F50]"
-                            @click="$wire.markAsRead('{{ $notification->id }}').then(() => redirectTo('{{ route('admin.road-defect-reports', ['id' => $notification->id]) }}'))">
+                            @click="$wire.markAsRead('{{ $notification->id }}').then(() => redirectTo('{{ route('staff.road-defect-reports', ['id' => $notification->id]) }}'))">
                             <div class="hover:bg-gray-200 flex justify-between py-4 rounded-md bg-gray-100">
                                 <div class="flex pl-3 items-center space-x-3">
                                     <!-- Notifications Message Icon -->
@@ -104,7 +104,7 @@
             </ul>
 
             <!-- View All Notifications Link -->
-            <a href="{{ route('admin.notifications') }}"
+            <a href="{{ route('staff.notifications') }}"
                class="flex justify-center items-center">
                 <div class="fixed -mt-10 px-24 py-1 bg-[#4AA76F] text-sm text-white hover:bg-[#2AA76F] font-medium rounded-[4px]">
                     <p class="text-[12px]">View All Notifications</p>

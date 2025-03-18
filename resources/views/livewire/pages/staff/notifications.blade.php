@@ -1,6 +1,6 @@
-<x-Admin.admin-navigation page_title="Notifications" action="{{ route('admin.notifications') }}" placeholder="Search..." id="search" name="search" wire:model.live="search">
+<x-Staff.staff-navigation page_title="Notifications" action="{{ route('staff.notifications') }}" placeholder="Search..." id="search" name="search" wire:model.live="search">
 
-    <x-Admin.notification-page-content-base>
+    <x-Staff.notification-page-content-base>
 
         <x-slot:page_description>
             <p class="mt-0 lg:text-sm text-xs text-[#656565] pl-3">
@@ -11,8 +11,8 @@
         <x-slot:notification_tabs>
             <!-- Active Tab Indicator -->
             <div loading="lazy"
-                class="absolute bottom-0 left-0 h-[2px] bg-[#6AA76F] transition-all duration-300"
-                :style="{ width: activeTabWidth + 'px', transform: `translateX(${activeTabPosition}px)` }">
+                 class="absolute bottom-0 left-0 h-[2px] bg-[#6AA76F] transition-all duration-300"
+                 :style="{ width: activeTabWidth + 'px', transform: `translateX(${activeTabPosition}px)` }">
             </div>
 
             <!-- Tabs -->
@@ -53,13 +53,13 @@
             </div>
 
             <button wire:click="markAllAsRead"
-                :class="{
+                    :class="{
                     'flex': activeTab === 'unread' || activeTab === 'all',
                     'hidden': activeTab === 'read'
                 }"
-                loading="lazy"
-                class="text-[12px] py-1 pr-2 text-center justify-around rounded-[4px] cursor-pointer ml-auto">
-                <span class="font-semibold text-gray-500 hover:text-[#E37878]">
+                    loading="lazy"
+                    class="text-[12px] py-1 pr-2 text-center justify-around rounded-[4px] cursor-pointer ml-auto">
+                <span class="hidden md:block font-semibold text-gray-500 hover:text-[#E37878]">
                     Mark all as Read
                 </span>
             </button>
@@ -135,12 +135,12 @@
             </div>
         </x-slot:notification_lists>
 
-    </x-Admin.notification-page-content-base>
+    </x-Staff.notification-page-content-base>
 
     @if (session('success') || session('info'))
-            <div
-                x-data="{ openModal: true }"
-                x-init="
+        <div
+            x-data="{ openModal: true }"
+            x-init="
                 setTimeout(() => {
                     openModal = false;
                     setTimeout(() => location.reload(), 300); // Reload the page after the notification disappears
@@ -156,58 +156,58 @@
                     path: animationPath
                 });
             "
-                x-cloak
-            >
-                <!-- Notifications -->
-                <div
-                    x-show="openModal"
-                    x-transition:enter="transition ease-out duration-300"
-                    x-transition:enter-start="opacity-0 -translate-y-2"
-                    x-transition:enter-end="opacity-100 translate-y-0"
-                    x-transition:leave="transition ease-in duration-300"
-                    x-transition:leave-start="opacity-100 translate-y-0"
-                    x-transition:leave-end="opacity-0 -translate-y-2"
-                    class="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-md border-l-4"
-                    :class="{
+            x-cloak
+        >
+            <!-- Notifications -->
+            <div
+                x-show="openModal"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 -translate-y-2"
+                x-transition:enter-end="opacity-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="opacity-100 translate-y-0"
+                x-transition:leave-end="opacity-0 -translate-y-2"
+                class="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-md border-l-4"
+                :class="{
                     'border-green-500': '{{ session('success') }}',
                     'border-blue-500': '{{ session('info') }}'
                 }"
-                >
-                    <!-- Content -->
-                    <div class="z-50 p-4 flex items-center space-x-4">
-                        <!-- Lottie Animation -->
-                        <div class="flex-shrink-0">
-                            <div x-ref="lottieAnimation" class="w-12 h-12"></div>
-                        </div>
+            >
+                <!-- Content -->
+                <div class="z-50 p-4 flex items-center space-x-4">
+                    <!-- Lottie Animation -->
+                    <div class="flex-shrink-0">
+                        <div x-ref="lottieAnimation" class="w-12 h-12"></div>
+                    </div>
 
-                        <!-- Message -->
-                        <div>
-                            <p class="font-bold text-lg"
-                               :class="{
+                    <!-- Message -->
+                    <div>
+                        <p class="font-bold text-lg"
+                           :class="{
                                'text-green-600': '{{ session('success') }}',
                                'text-blue-600': '{{ session('info') }}'
                            }">
-                                {{ session('success') ? 'MARK ALL AS READ' : 'NO NOTIFICATIONS TO MARK' }}
-                            </p>
-                            <p class="text-sm text-gray-700">
-                                {{ session('success') ?? session('info') }}
-                            </p>
-                        </div>
+                            {{ session('success') ? 'MARK ALL AS READ' : 'NO NOTIFICATIONS TO MARK' }}
+                        </p>
+                        <p class="text-sm text-gray-700">
+                            {{ session('success') ?? session('info') }}
+                        </p>
                     </div>
+                </div>
 
-                    <!-- Progress Bar -->
-                    <div class="mx-5 mb-3 relative h-1 bg-gray-200">
-                        <div
-                            class="absolute top-0 left-0 h-full"
-                            :class="{
+                <!-- Progress Bar -->
+                <div class="mx-5 mb-3 relative h-1 bg-gray-200">
+                    <div
+                        class="absolute top-0 left-0 h-full"
+                        :class="{
                             'bg-green-500': '{{ session('success') }}',
                             'bg-blue-500': '{{ session('info') }}'
                         }"
-                            style="animation: progress 3s linear;"></div>
-                    </div>
+                        style="animation: progress 3s linear;"></div>
                 </div>
             </div>
-        @endif
+        </div>
+    @endif
 
     <!-- Progress Bar Animation -->
     <style>
@@ -226,4 +226,4 @@
          class="z-50 absolute inset-0 w-full min-h-full bg-black/50 flex justify-center items-center transition-all pointer-events-none opacity-0">
         <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
     </div>
-</x-Admin.admin-navigation>
+</x-Staff.staff-navigation>

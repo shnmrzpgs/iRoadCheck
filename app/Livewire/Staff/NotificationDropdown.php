@@ -1,19 +1,15 @@
 <?php
 
-namespace App\Livewire\Admin;
+namespace App\Livewire\Staff;
 
 use App\Models\Notification;
+use App\Models\Staff;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use Livewire\Features\SupportRedirects\Redirector;
-use App\Models\Report;
-use App\Models\Staff;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Redirect;
-
 
 class NotificationDropdown extends Component
 {
@@ -34,8 +30,9 @@ class NotificationDropdown extends Component
 
     public function fetchNotifications(): void
     {
-        $this->notifications = Notification::with(['report']) // Removed 'staff' since no `notifiable_type`
-        ->where('notifiable_id', auth()->id())
+        $this->notifications = Notification::with(['report'])
+            ->where('notifiable_id', auth()->id())
+            ->where('notifiable_type', Staff::class) // ✅ Ensured correct notifiable type
             ->where('is_read', false)
             ->orderByDesc('created_at')
             ->get();
@@ -46,31 +43,35 @@ class NotificationDropdown extends Component
     public function onStaffReportUpdated(): void
     {
         $this->fetchNotifications();
-
         $this->dispatch('staff_report_updated');
     }
 
     public function viewNotification(Notification $notification): Redirector
     {
-        $parsed_notification = [
-            'title' => $notification->title,
-            'message' => $notification->message,
-            'report_details' => [
-                'defect' => $notification->report->defect ?? 'N/A',
-                'location' => $notification->report->location ?? 'N/A',
-                'status' => $notification->report->status ?? 'N/A',
-            ],
-            'created_at' => $notification->created_at->diffForHumans(),
-        ];
+        // Confirm ownership of the notification before marking it as read
+        if (
+            $notification->notifiable_id === auth()->id() &&
+            $notification->notifiable_type === Staff::class
+        ) {
+            $parsed_notification = [
+                'title' => $notification->title,
+                'message' => $notification->message,
+                'report_details' => [
+                    'defect' => $notification->report->defect ?? 'N/A',
+                    'location' => $notification->report->location ?? 'N/A',
+                    'status' => $notification->report->status ?? 'N/A',
+                ],
+                'created_at' => $notification->created_at->diffForHumans(),
+            ];
 
-        $this->dispatch('show-view-notification-modal', ['notification' => $parsed_notification]);
+            $this->dispatch('show-view-notification-modal', ['notification' => $parsed_notification]);
+            $notification->update(['is_read' => true]);
+            $this->fetchNotifications();
 
-        $notification->update(['is_read' => true]);
+            return redirect()->route('staff.road-defect-reports', ['report_id' => $notification->report_id]);
+        }
 
-        $this->fetchNotifications();
-
-        // Correct redirect to report details page
-        return redirect()->route('admin.road-defect-reports', ['report_id' => $notification->report_id]);
+        return redirect()->route('dashboard')->with('error', 'Unauthorized action.');
     }
 
     private function getStringedNotificationCount(): string
@@ -92,6 +93,6 @@ class NotificationDropdown extends Component
 
     public function render(): Factory|View|Application|\Illuminate\View\View
     {
-        return view('livewire.admin.notification-dropdown');
+        return view('livewire.staff.notification-dropdown');
     }
 }

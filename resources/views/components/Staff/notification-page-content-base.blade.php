@@ -1,4 +1,4 @@
-<div class="text-[#202020] bg-[#F9F9F9] p-8 h-full rounded-lg drop-shadow  z-[-1]">
+<div class="text-[#202020] bg-[#F9F9F9] p-8 h-full rounded-lg drop-shadow">
 
     <div class="w-full relative mx-auto bg-none rounded-[6px]">
 
@@ -14,7 +14,7 @@
         <!--Notifications Tabs-->
         <div class="lazyload bg-none rounded-[6px]">
             <div loading="lazy"
-                x-data="{
+                 x-data="{
                     activeTab: 'all', // Default active tab
                     activeTabWidth: 0,
                     activeTabPosition: 0,
@@ -37,14 +37,14 @@
                      });
                 }
             }"
-            x-init="initializeTabs()"
-            class="flex justify-start relative">
+                 x-init="initializeTabs()"
+                 class="flex justify-start relative">
 
-            <!-- Active Tab Indicator -->
-            <div loading="lazy"
-                class="lazyload absolute bottom-0 left-0 h-[2px] bg-[#6AA76F] transition-all duration-300"
-                :style="{ width: activeTabWidth + 'px', transform: `translateX(${activeTabPosition}px)` }">
-            </div>
+                <!-- Active Tab Indicator -->
+                <div loading="lazy"
+                     class="lazyload absolute bottom-0 left-0 h-[2px] bg-[#6AA76F] transition-all duration-300"
+                     :style="{ width: activeTabWidth + 'px', transform: `translateX(${activeTabPosition}px)` }">
+                </div>
 
                 {{ $notification_tabs }}
 

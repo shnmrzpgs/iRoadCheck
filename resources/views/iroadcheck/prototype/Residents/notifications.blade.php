@@ -1,7 +1,5 @@
 <x-app-layout>
-
     <x-residents.residents-navigation>
-
         <div class="flex flex-col justify-center items-center mb-28 w-full lg:w-[90%] lg:ml-16 xl:ml-20">
 
             <!-- Notifications Header -->
@@ -16,7 +14,7 @@
                 <div class="w-full">
                     <p class="text-[14px] text-black font-semibold">Today</p>
 
-                    <!-- Notification 1 -->
+                    <!-- Notifications 1 -->
                     <div class="flex items-center bg-white border border-gray-200 rounded-lg shadow-md p-4 mt-4">
                         <!-- Image Section -->
                         <div class="flex-shrink-0">
@@ -34,7 +32,7 @@
                         </div>
                     </div>
 
-                    <!-- Notification 2 -->
+                    <!-- Notifications 2 -->
                     <div class="flex items-center bg-white border border-gray-200 rounded-lg shadow-md p-4 mt-4">
                         <!-- Image Section -->
                         <div class="flex-shrink-0">
@@ -58,7 +56,7 @@
                     <!-- Section Title -->
                     <p class="text-[14px    ] font-normal text-gray-800 mb-4">Earlier</p>
 
-                    <!-- Notification Cards -->
+                    <!-- Notifications Cards -->
                     <div class="space-y-4">
 
                         <div class="flex items-center bg-white border border-gray-200 rounded-lg px-4 py-3 shadow-md">
@@ -119,7 +117,5 @@
 
             </div>
         </div>
-
     </x-residents.residents-navigation>
-
 </x-app-layout>
