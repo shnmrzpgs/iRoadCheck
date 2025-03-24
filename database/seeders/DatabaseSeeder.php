@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
                 'sex' => 'male',
                 'username' => 'howardGlen_admin',
                 'email' => null,
-                'password' => Hash::make('hOwArD123!'),
+                'password' => Hash::make('password'),
                 'user_type' => 1,
                 'remember_token' => null,
                 'generated_password' => null, // Add this if necessary
@@ -112,6 +112,8 @@ class DatabaseSeeder extends Seeder
             ResidentSeeder::class,
 //            StaffRoleSeeder::class,
 //            StaffPermissionSeeder::class
+            BarangaysTableSeeder::class,
+            StreetsTableSeeder::class,
         ]);
     }
 }

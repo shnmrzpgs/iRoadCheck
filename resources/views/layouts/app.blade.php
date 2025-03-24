@@ -10,8 +10,8 @@
         <title>{{ $title }}</title>
 {{--        @laravelPWA--}}
         <script src="{{ asset('resources/js/app.js') }}"></script>
-        <script src="{{ asset('js/map.js') }}"></script>
-        <script src="{{ asset('geoJSON/tagumCityRoad.json') }}"></script>
+{{--        <script src="{{ asset('js/map.js') }}"></script>--}}
+{{--        <script src="{{ asset('geoJSON/tagumCityRoad.json') }}"></script>--}}
 
 
         <!-- Favicons -->

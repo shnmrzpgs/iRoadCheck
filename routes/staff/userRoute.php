@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReportController;
+use App\Livewire\ManageTagging;
+use App\Livewire\ReportsMap;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,6 +25,9 @@ Route::group(['middleware' => 'AuthStaff'], function () {
 
     Route::get('/staff/capture-road-defect', [App\Http\Controllers\ReportController::class, 'captureRoadDefect'])
         ->name('staff.capture-road-defect');
+    Route::post('/staff/temporary-update', [App\Http\Controllers\ReportController::class, 'TempUpdate'])
+        ->name('staff.temporary-update');
+//    Route::get('staff/manage-map', ReportsMap::class)->name('manage.tagging');
 
     Route::get('/staff/suggestion-reports', App\Http\Controllers\staff\SuggestionReportsController::class)
         ->name('staff.suggestion-reports');

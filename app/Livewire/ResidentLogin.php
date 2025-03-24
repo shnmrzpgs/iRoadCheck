@@ -24,7 +24,7 @@ class ResidentLogin extends Component
         if ($resident) {
             // Attempt to log in using the related user's credentials
             if (auth()->attempt(['id' => $resident->user_id, 'password' => $this->password])) {
-                return redirect()->route('resident.dashboard'); // Adjust to your intended route
+                return $this->redirect('/resident/dashboard', navigate: true); // Adjust to your intended route
             } else {
                 session()->flash('error', 'Invalid phone or password.');
             }

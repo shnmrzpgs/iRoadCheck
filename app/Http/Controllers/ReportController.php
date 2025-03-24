@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Notification;
 use App\Models\Report;
+use App\Models\Suggestion;
 use App\Models\Staff;
+use App\Models\TemporaryReport;
+use App\Models\TemporaryUpdate;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -137,155 +140,291 @@ class ReportController extends Controller
 ////        $this->dispatchBrowserEvent('report-saved', ['message' => 'Report submitted successfully!']);
 //    }
 
-    public function submitReport(Request $request)
+//    public function submitReport(Request $request)
+//    {
+//        // Decode base64 photo
+//        $photoData = str_replace('data:image/png;base64,', '', $request->photo);
+//        $image = base64_decode($photoData);
+//
+//        // Generate filenames
+//        $timestamp = time();
+//        $imageName = "report_photo_{$timestamp}.png";
+//        $annotatedPath = "output/reports/report_photo_{$timestamp}_annotated.jpg";
+//        $jsonPath = storage_path("app/public/output/reports/report_photo_{$timestamp}.json");
+//
+//        // Save image
+//        $imagePath = Storage::disk('public')->put("reports/{$imageName}", $image);
+//        $fullImagePath = "reports/{$imageName}";
+//
+//        // Wait for the JSON file to be generated
+//        $issue_name = "Unknown";
+//        $timeout = 10; // Max wait time in seconds
+//        $startTime = time();
+//
+//        while (!file_exists($jsonPath) && (time() - $startTime) < $timeout) {
+//            usleep(500000); // Wait 0.5 seconds before checking again
+//        }
+//
+//        // If JSON exists, read and extract issue name
+//        if (file_exists($jsonPath)) {
+//            $jsonData = json_decode(file_get_contents($jsonPath), true);
+//
+//            if (!empty($jsonData['prediction'])) {
+//                $highestPrediction = collect($jsonData['prediction'])
+//                    ->sortByDesc(fn($p) => $p['best_probability'] * ($p['rect']['width'] * $p['rect']['height']))
+//                    ->first();
+//                $issue_name = $highestPrediction['name'] ?? 'Unknown';
+//            }
+//            else{
+//                // ✅ Error feedback
+//                session()->flash('feedback', 'No road defect found. Please try again.');
+//                session()->flash('feedback_type', 'error');
+//
+//                return redirect()->route('report-road-issue');
+////                return redirect()->route('report-road-issue')->with('error', 'No road issues found, please retry!.');
+//            }
+//        }
+//
+//        // Check if report already exists
+//        $existingReport = Report::where([
+//            ['lat', '=', $request->latitude],
+//            ['lng', '=', $request->longitude],
+//            ['street', '=', $request->street],
+//            ['barangay', '=', $request->barangay],
+//            ['defect', '=', $issue_name]
+//        ])->first();
+//
+//        if ($existingReport) {
+//            // Save to suggestions table instead
+//            Suggestion::create([
+//                'report_id' => $existingReport->id,
+//                'reporter_id' => Auth::id(),
+//                'is_match' => false, // Default to false until user confirms
+//                'response_deadline' => Carbon::now()->addDays(5), // Set deadline 5 days later
+//                'defect' => $issue_name,
+//                'lat' => $request->latitude,
+//                'lng' => $request->longitude,
+//                'location' => $request->address,
+//                'street' => $request->street,
+//                'purok' => $request->purok,
+//                'barangay' => $request->barangay,
+//                'date' => Carbon::createFromFormat('F d, Y', $request->date)->format('Y-m-d'),
+//                'time' => Carbon::parse($request->time)->format('H:i:s'),
+//                'severity' => 1,
+//                'image' => $fullImagePath,
+//                'image_annotated' => $annotatedPath,
+//                'status' => "Unfixed"
+//            ]);
+//            return redirect()->route('report-road-issue')->with('success', 'Your report was marked as existing, please check Suggestions.');
+//        }
+
+        // No existing report found, save as new report
+//        $report = Report::create([
+//            'reporter_id' => Auth::id(),
+//            'defect' => $issue_name,
+//            'lat' => $request->latitude,
+//            'lng' => $request->longitude,
+//            'location' => $request->address,
+//            'street' => $request->street,
+//            'purok' => $request->purok,
+//            'barangay' => $request->barangay,
+//            'date' => Carbon::createFromFormat('F d, Y', $request->date)->format('Y-m-d'),
+//            'time' => Carbon::parse($request->time)->format('H:i:s'),
+//            'severity' => 1,
+//            'image' => $fullImagePath,
+//            'image_annotated' => $annotatedPath,
+//            'status' => "Unfixed"
+//        ]);
+//        $reporter = Auth::user();
+//
+//        // ✅ Fetch Admins and Staff
+//        $admins = User::where('user_type', 1)->get();
+//        $staff = Staff::with('user')->get();
+//
+//        if ($admins->isEmpty() && $staff->isEmpty()) {
+//            throw new \Exception('No admins or staff found.');
+//        }
+//
+//        // ✅ Admin & Staff Notification
+//        $notificationData = [
+//            'report_id' => $report->id,
+//            'title' => 'Report Created',
+//            'message' => "A new report has been submitted by {$reporter->name} at {$request->address}.",
+//            'is_read' => false,
+//        ];
+//
+//        // ✅ Notify Admins
+//        $this->notifyUsers($admins, $notificationData, User::class);
+//
+//        // ✅ Notify Staff only if the reporter is NOT a staff member
+//        if ($reporter->user_type !== 3) {
+//            $this->notifyUsers($staff, $notificationData, Staff::class);
+//        }
+//
+//        // ✅ Reporter Notification - Corrected Message
+//        Notification::create([
+//            'report_id' => $report->id,
+//            'title' => 'Report Submitted',
+//            'message' => "You submitted a new road issue successfully at {$request->address}.",
+//            'notifiable_id' => $reporter->id,
+//            'notifiable_type' => User::class,
+//            'is_read' => false,
+//        ]);
+//
+//        // ✅ Success feedback
+//        session()->flash('feedback', 'Report submitted successfully!');
+//        session()->flash('feedback_type', 'success');
+//
+//        return redirect()->route('report-road-issue')->with('success', true);
+//        // Send a success message back to the frontend
+////        $this->dispatchBrowserEvent('report-saved', ['message' => 'Report submitted successfully!']);
+//    }
+    public function TempSubmitReport(Request $request)
     {
-        try {
-            // ✅ Validate and decode base64 photo data
-            if (!$request->has('photo') || !str_contains($request->photo, 'data:image/png;base64,')) {
-                throw new \Exception('Invalid or missing image format.');
-            }
+        // Decode base64 photo
+        $photoData = str_replace('data:image/png;base64,', '', $request->photo);
+        $image = base64_decode($photoData);
 
-            $image = base64_decode(str_replace('data:image/png;base64,', '', $request->photo));
-            if (!$image) {
-                throw new \Exception('Image decoding failed.');
-            }
+        // Generate filenames
+        $timestamp = time();
+        $imageName = "report_photo_{$timestamp}.png";
+        $annotatedPath = "output/reports/report_photo_{$timestamp}_annotated.jpg";
+        $jsonPath = storage_path("app/public/output/reports/report_photo_{$timestamp}.json");
 
-            // ✅ Generate unique file names for the image
-            $timestamp = now()->timestamp;
-            $imageName = "report_photo_{$timestamp}.png";
-            $annotatedPath = "reports/report_photo_{$timestamp}_annotated.jpg";
+        // Save image
+        $imagePath = Storage::disk('public')->put("reports/{$imageName}", $image);
+        $fullImagePath = "reports/{$imageName}";
 
-            // ✅ Date/Time formatting with fallback
-            $formattedDate = Carbon::parse($request->date)->format('Y-m-d') ?? now()->format('Y-m-d');
-            $formattedTime = Carbon::parse($request->time)->format('H:i:s') ?? now()->format('H:i:s');
+        // Wait for the JSON file to be generated
+        $issue_name = "Unknown";
+        $timeout = 10; // Max wait time in seconds
+        $startTime = time();
 
-            // ✅ Save the image to storage
-            $path = "reports/{$imageName}";
-            Storage::disk('public')->put($path, $image);
-
-            // ✅ Create the report entry
-            $report = Report::create([
-                'reporter_id' => Auth::id(),
-                'defect' => "Pothole",
-                'lat' => $request->latitude,
-                'lng' => $request->longitude,
-                'location' => $request->address,
-                'date' => $formattedDate,
-                'time' => $formattedTime,
-                'severity' => 1,
-                'image' => $path,
-                'image_annotated' => $annotatedPath,
-                'status' => "Unfixed"
-            ]);
-
-            // ✅ Reporter Data
-            $reporter = Auth::user();
-
-            // ✅ Fetch Admins and Staff
-            $admins = User::where('user_type', 1)->get();
-            $staff = Staff::with('user')->get();
-
-            if ($admins->isEmpty() && $staff->isEmpty()) {
-                throw new \Exception('No admins or staff found.');
-            }
-
-            // ✅ Admin & Staff Notification
-            $notificationData = [
-                'report_id' => $report->id,
-                'title' => 'Report Created',
-                'message' => "A new report has been submitted by {$reporter->name} at {$request->address}.",
-                'is_read' => false,
-            ];
-
-            // ✅ Notify Admins
-            $this->notifyUsers($admins, $notificationData, User::class);
-
-            // ✅ Notify Staff only if the reporter is NOT a staff member
-            if ($reporter->user_type !== 3) {
-                $this->notifyUsers($staff, $notificationData, Staff::class);
-            }
-
-            // ✅ Reporter Notification - Corrected Message
-            Notification::create([
-                'report_id' => $report->id,
-                'title' => 'Report Submitted',
-                'message' => "You submitted a new road issue successfully at {$request->address}.",
-                'notifiable_id' => $reporter->id,
-                'notifiable_type' => User::class,
-                'is_read' => false,
-            ]);
-
-            // ✅ Success feedback
-            session()->flash('feedback', 'Report submitted successfully!');
-            session()->flash('feedback_type', 'success');
-
-            return redirect()->route('report-road-issue');
-
-        } catch (\Exception $e) {
-            // ✅ Enhanced error logging for precise debugging
-            Log::error('Report Submission Error: ' . $e->getMessage(), [
-                'request_data' => $request->all(),
-                'admin_count' => User::where('user_type', 1)->count(),
-                'staff_count' => Staff::count(),
-            ]);
-
-            // ✅ Error feedback
-            session()->flash('feedback', 'Something went wrong while submitting the report. Please try again.');
-            session()->flash('feedback_type', 'error');
-
-            return redirect()->route('report-road-issue');
+        while (!file_exists($jsonPath) && (time() - $startTime) < $timeout) {
+            usleep(500000); // Wait 0.5 seconds before checking again
         }
+
+        // If JSON exists, read and extract issue name
+        if (file_exists($jsonPath)) {
+            $jsonData = json_decode(file_get_contents($jsonPath), true);
+
+            if (empty($jsonData['prediction'])) {
+                $predictions = collect($jsonData['prediction'])
+                    ->sortByDesc(fn($p) => $p['best_probability'] * ($p['rect']['width'] * $p['rect']['height']))
+                    ->pluck('name')
+                    ->unique()
+                    ->values();
+
+                $issue_name = $predictions->isNotEmpty() ? $predictions->implode(', ') : 'Unknown';
+            } else {
+                return redirect()->back()->with('no_defect_modal_open', true);
+            }
+        }
+
+        // 🔍 Check if `street` and `barangay` exist, otherwise extract from `address`
+        $street = $request->street;
+        $barangay = $request->barangay;
+
+        if (!$street || !$barangay) {
+            $fullAddress = strtolower($request->address);
+
+            // Get all stored streets and barangays from the database
+            $storedStreets = \DB::table('streets')->pluck('name')->toArray();
+            $storedBarangays = \DB::table('barangays')->pluck('name')->toArray();
+
+            // Search for a matching street in the full address
+            foreach ($storedStreets as $savedStreet) {
+                if (str_contains($fullAddress, strtolower($savedStreet))) {
+                    $street = $savedStreet;
+                    break;
+                }
+            }
+
+            // Search for a matching barangay in the full address
+            foreach ($storedBarangays as $savedBarangay) {
+                if (str_contains($fullAddress, strtolower($savedBarangay))) {
+                    $barangay = $savedBarangay;
+                    break;
+                }
+            }
+        }
+
+        // Ensure they are not null
+        $street = $street ?? 'Unknown Street';
+        $barangay = $barangay ?? 'Unknown Barangay';
+
+
+        // Find existing report or create new one
+        $report = TemporaryReport::where('reporter_id', Auth::id())->first();
+
+        $data = [
+            'defect' => $issue_name,
+            'lat' => $request->latitude,
+            'lng' => $request->longitude,
+            'location' => $request->address,
+            'street' => $street,
+            'purok' => $request->purok ?? 'Unknown Purok',
+            'barangay' => $barangay,
+            'date' => Carbon::createFromFormat('F d, Y', $request->date)->format('Y-m-d'),
+            'time' => Carbon::parse($request->time)->format('H:i:s'),
+            'severity' => 1,
+            'image' => $fullImagePath,
+            'image_annotated' => $annotatedPath,
+            'status' => "Unfixed"
+        ];
+
+        if ($report) {
+            // Update existing report
+            $report->update($data);
+        } else {
+            // Create new report
+            $report = TemporaryReport::create(array_merge(['reporter_id' => Auth::id()], $data));
+        }
+
+        return redirect()->route('report-road-issue')->with('success', true);
     }
 
-    /**
-     * ✅ Helper function to notify users (Admins or Staff)
-     */
-    private function notifyUsers($users, $notificationData, $notifiableType)
+
+    public function TempUpdate(Request $request)
     {
-        foreach ($users as $user) {
-            Notification::create(array_merge($notificationData, [
-                'notifiable_id' => $user->id ?? $user->user_id,
-                'notifiable_type' => $notifiableType,
-            ]));
-//            Log::info("Notification sent to {$notifiableType} ID: {$user->id ?? $user->user_id}");
-        }
-    }
+        // Decode base64 photo
+        $photoData = str_replace('data:image/png;base64,', '', $request->photo);
+        $image = base64_decode($photoData);
+
+        // Generate filenames
+        $timestamp = time();
+        $imageName = "update_photo_{$timestamp}.png";
+//        $annotatedPath = "update/update_photo_{$timestamp}_annotated.jpg";
+//        $jsonPath = storage_path("app/public/output/reports/report_photo_{$timestamp}.json");
+
+        // Save image
+         Storage::disk('public')->put("updates/{$imageName}", $image);
+        $fullImagePath = "updates/{$imageName}";
+        // Wait for the JSON file to be
 
 
+//        return redirect()->back()->with('no_defect_modal_open', true);
 
-    public function storeReport(Request $request)
-    {
-        // Validate incoming request
-        $validated = $request->validate([
-            'defect_type' => 'required|string',
-            'report_id' => 'required|string|unique:reports,report_id',
-            'date_time' => 'required|date',
-            'location' => 'required|string',
-            'image' => 'required|image|max:2048', // Example validation
-            'lat' => 'required', // Example validation
-            'lng' => 'required', // Example validation
-        ]);
+        $report = TemporaryUpdate::where('reporter_id', Auth::id())->first();
 
-        // Save the report data
-        $report = new Report();
-        $report->reporter_id = Auth::id();
-        $report->defect = $validated['defect_type'];
-        $report->report_id = $validated['report_id'];
-        $report->date = $validated['date_time'];
-        $report->severity = "1";
-        $report->status = "Unfixed";
-        $report->location = $validated['location'];
-        $report->lat = $validated['lat'];
-        $report->lng = $validated['lng'];
+        $data = [
+            'reporter_id' => Auth::id(),
+            'date' => Carbon::createFromFormat('F d, Y', $request->date)->format('Y-m-d'),
+            'time' => Carbon::parse($request->time)->format('H:i:s'),
+            'image' => $fullImagePath,
+            'lat' => $request->latitude,
+            'lng' => $request->longitude,
+        ];
 
-        // Save the image
-        if ($request->hasFile('image')) {
-            $report->image = $request->file('image')->store('uploads/defect-images', 'public');
+        if ($report) {
+            // Update existing report
+            $report->update($data);
+        } else {
+            // Create new report
+            $report = TemporaryUpdate::create(array_merge(['reporter_id' => Auth::id()], $data));
         }
 
-        $report->save();
-
-        return redirect()->route('suggestion-reports')->with('success', 'Report submitted successfully!');
+        return redirect()->back()->with('success', true);
     }
 
     public function manageTagging()
@@ -295,7 +434,7 @@ class ReportController extends Controller
 
     public function captureRoadDefect()
     {
-        return view('iroadcheck.prototype.Staff.report-road-issue');
+        return view('iroadcheck.prototype.Staff.update-road-issue');
     }
 
 

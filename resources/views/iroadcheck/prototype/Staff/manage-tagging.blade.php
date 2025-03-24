@@ -121,7 +121,7 @@
                                                         <div class="font-semibold text-[12px] mt-4 mb-2 text-[#1AA76F]">Road Image:</div>
                                                         <div class="w-full rounded-[10px] p-4 drop-shadow bg-white">
                                                             <img
-                                                                :src="'/storage/' + selectedReport.image"
+                                                                :src="'/storage/' + selectedReport.image_annotated"
                                                                 alt="Defect Image"
                                                                 class="w-full h-auto rounded-[10px] object-contain cursor-pointer"
                                                                 @click="showModal = true; scale = 1"
@@ -131,7 +131,8 @@
                                                     </div>
 
 
-                                                    <form action="{{ route('update.report.status') }}" method="POST" x-data="{ newStatus: '', statuses: ['Repaired', 'On Going', 'Unfixed'] }">
+                                                    <form action="{{ route('update.report.status') }}" method="POST"
+                                                          x-data="{ newStatus: '', statuses: ['Repaired', 'On Going', 'Unfixed'] }">
                                                         @csrf
                                                         @method('PUT')
 
@@ -146,25 +147,35 @@
                                                         <!-- Status Dropdown -->
                                                         <div class="relative flex items-center rounded-[4px] border transition-all duration-100 custom-select">
                                                             <!-- Status Color Indicator -->
-                                                            <span :style="{ backgroundColor: getStatusColor(newStatus || selectedReport.status) }" class="w-3 h-3 rounded-full ml-2"></span>
+                                                            <span :style="{ backgroundColor: getStatusColor(newStatus || selectedReport.status) }"
+                                                                  class="w-3 h-3 rounded-full ml-2"></span>
 
                                                             <!-- Dropdown -->
-                                                            <select name="newStatus" x-model="newStatus" class="text-[14px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none">
-                                                                <option value="" class="text-gray-400 text-[12px]" x-text="newStatus || selectedReport.status || 'Select Status'"></option>
+                                                            <select name="newStatus" x-model="newStatus"
+                                                                    class="text-[14px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none">
+                                                                <option value="" class="text-gray-400 text-[12px]">Select Status</option>
                                                                 <template x-for="status in statuses" :key="status">
-                                                                    <option :value="status" :selected="selectedReport.status === status" class="text-gray-700" x-text="status"></option>
+                                                                    <option :value="status" class="text-gray-700" x-text="status"></option>
                                                                 </template>
                                                             </select>
                                                         </div>
 
-                                                        <!-- Update Report Status -->
-                                                        <div class="flex justify-center items-center mt-10">
+                                                        <!-- Buttons: Show only when a status is selected -->
+                                                        <div class="flex flex-col items-center mt-10 space-y-3" x-show="newStatus" x-transition>
+                                                            <!-- Capture Button -->
+                                                            <button type="button"
+                                                                    class="relative w-auto gap-x-[8px] bg-[#FFA500] px-[12px] py-[8px] font-normal tracking-wider text-white rounded-full hover:drop-shadow hover:scale-105 hover:ease-in-out hover:transition-transform hover:bg-[#FF8C00] hover:shadow-md">
+                                                                <span class="mt-[2px] px-2 text-[14px]">Capture</span>
+                                                            </button>
+
+                                                            <!-- Update Report Status Button -->
                                                             <button type="submit"
                                                                     class="relative w-auto gap-x-[8px] bg-[#4AA76F] px-[12px] py-[8px] font-normal tracking-wider text-white rounded-full hover:drop-shadow hover:scale-105 hover:ease-in-out hover:transition-transform hover:bg-[#3AA76F] hover:shadow-md">
                                                                 <span class="mt-[2px] px-2 text-[14px]">Update Report</span>
                                                             </button>
                                                         </div>
                                                     </form>
+
 
 
 
@@ -236,7 +247,7 @@
                         :style="'transform: translate(' + scrollX + 'px, ' + scrollY + 'px);'"
                     >
                         <img
-                            :src="'/storage/' + selectedReport.image"
+                            :src="'/storage/' + selectedReport.image_annotated"
                             alt="Defect Image"
                             :style="'transform: scale(' + scale + '); transition: transform 0.2s; height: 400px; width: auto;'"
                             class="rounded-[10px] sticky"

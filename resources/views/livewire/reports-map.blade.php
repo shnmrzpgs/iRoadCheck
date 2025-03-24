@@ -1,5 +1,7 @@
 <!-- Map Container -->
-<div></div>
+<div>
+
+</div>
 
 <script>
     function mapComponent() {

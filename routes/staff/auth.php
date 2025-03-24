@@ -4,7 +4,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\RoutePath;
 
-Route:: get('/staff/auth/sign-in', function () {
+Route:: get('/staff/login', function () {
     return view('iroadcheck.prototype.Staff.login');
 })->name('staff-sign-in-show');
 

@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-resident-layout>
 
     <livewire:camera-capture/>
     <!--Feedback Messages-->
@@ -113,4 +113,4 @@
 {{--            });--}}
 {{--        </script>--}}
 {{--    @endif--}}
-</x-app-layout>
+</x-app-resident-layout>

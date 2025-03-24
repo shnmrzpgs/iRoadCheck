@@ -12,12 +12,18 @@ class Report extends Model
         'lat',
         'lng',
         'location',
+        'street',
+        'purok',
+        'barangay',
+        'city',
         'date',
         'time',
         'severity',
         'image',
         'image_annotated',
-        'status'
+        'status',
+        'report_count',
+        'updated_image'
     ];
 
     protected $casts = [
@@ -25,9 +31,18 @@ class Report extends Model
         'updated_at' => 'datetime',
         'date' => 'date',
     ];
-    
+
     public function severity()
     {
         return $this->belongsTo(Severity::class);
     }
+    public function suggestions()
+    {
+        return $this->hasMany(Suggestion::class, 'report_id');
+    }
+    public function report()
+    {
+        return $this->belongsTo(Report::class, 'report_id');
+    }
+
 }
