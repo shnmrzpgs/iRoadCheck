@@ -9,15 +9,13 @@
 
         <title>{{ $title }}</title>
 {{--        @laravelPWA--}}
-        <script src="{{ asset('resources/js/app.js') }}"></script>
-        <script src="{{ asset('js/map.js') }}"></script>
-        <script src="{{ asset('geoJSON/tagumCityRoad.json') }}"></script>
-
+{{--        <script src="{{ asset('resources/js/app.js') }}"></script>--}}
+{{--        <script src="{{ asset('js/map.js') }}"></script>--}}
+{{--        <script src="{{ asset('geoJSON/tagumCityRoad.js') }}"></script>--}}
 
         <!-- Favicons -->
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('storage/images/IRoadCheck_Logo.png') }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('storage/images/IRoadCheck_Logo.png') }}">
-
 
         <!-- Google Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
