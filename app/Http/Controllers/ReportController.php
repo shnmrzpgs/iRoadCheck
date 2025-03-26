@@ -172,7 +172,7 @@ class ReportController extends Controller
                 'location' => $request->address,
                 'date' => $formattedDate,
                 'time' => $formattedTime,
-                'severity' => 1,
+                'label' => 1,
                 'image' => $path,
                 'image_annotated' => $annotatedPath,
                 'status' => "Unfixed"
@@ -181,15 +181,22 @@ class ReportController extends Controller
             // ✅ Reporter Data
             $reporter = Auth::user();
 
-            // ✅ Fetch Admins and Staff
+            // ✅ Fetch Admins
             $admins = User::where('user_type', 1)->get();
-            $staff = Staff::with('user')->get();
+
+            // ✅ Fetch Staff excluding those who are Admins
+            $staff = Staff::with('user')->whereDoesntHave('user', function ($query) {
+                $query->where('user_type', 1);
+            })->get();
 
             if ($admins->isEmpty() && $staff->isEmpty()) {
                 throw new \Exception('No admins or staff found.');
             }
 
-            // ✅ Admin & Staff Notification
+            // ✅ Combine Admins and Staff, excluding the reporter
+            $usersToNotify = $admins->merge($staff)->where('id', '!=', $reporter->id)->unique('id');
+
+            // ✅ Notification Data
             $notificationData = [
                 'report_id' => $report->id,
                 'title' => 'Report Created',
@@ -197,15 +204,10 @@ class ReportController extends Controller
                 'is_read' => false,
             ];
 
-            // ✅ Notify Admins
-            $this->notifyUsers($admins, $notificationData, User::class);
+            // ✅ Notify Users
+            $this->notifyUsers($usersToNotify, $notificationData, User::class);
 
-            // ✅ Notify Staff only if the reporter is NOT a staff member
-            if ($reporter->user_type !== 3) {
-                $this->notifyUsers($staff, $notificationData, Staff::class);
-            }
-
-            // ✅ Reporter Notification - Corrected Message
+            // ✅ Reporter Notification
             Notification::create([
                 'report_id' => $report->id,
                 'title' => 'Report Submitted',
@@ -247,9 +249,9 @@ class ReportController extends Controller
                 'notifiable_id' => $user->id ?? $user->user_id,
                 'notifiable_type' => $notifiableType,
             ]));
-//            Log::info("Notification sent to {$notifiableType} ID: {$user->id ?? $user->user_id}");
         }
     }
+
 
 
 
