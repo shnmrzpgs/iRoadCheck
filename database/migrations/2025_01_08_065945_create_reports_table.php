@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+
 return new class extends Migration
 {
     /**
@@ -22,7 +23,7 @@ return new class extends Migration
             $table->string('barangay')->default('N/A');
             $table->date('date');
             $table->time('time')->nullable();
-            $table->foreignId('severity')->references('id')->on('severities');
+            $table->foreignId('label')->references('id')->on('severities');
             $table->string('status');
             $table->string('image');
             $table->string('image_annotated')->nullable();
