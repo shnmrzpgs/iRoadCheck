@@ -11,11 +11,11 @@
         </div>
 
         <!--Profile Name -->
-        <div class="absolute flex items-start p-2">
-            <div class="relative ml-10 -mt-24">
+        <div class="absolute flex items-center md:items-start justify-center md:justify-start p-2">
+            <div class="relative ml-32 md:ml-10 -mt-24">
                 {{ $profile_picture }}
             </div>
-            <div class="relative text-start text-[#4D4F50] ml-6 -mt-[90px]">
+            <div class="relative text-start text-[#4D4F50] md:ml-6 md:-mt-[90px] hidden md:block">
                 {{ $preview_names_and_user_type }}
             </div>
         </div>
