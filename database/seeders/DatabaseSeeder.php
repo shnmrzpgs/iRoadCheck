@@ -86,16 +86,16 @@ class DatabaseSeeder extends Seeder
 
         DB::table('severities')->insert([
             [
-                'severity' => 'Shallow',
+                'label' => 'Shallow',
             ],
             [
-                'severity' => 'Tolerable',
+                'label' => 'Tolerable',
             ],
             [
-                'severity' => 'Serious',
+                'label' => 'Serious',
             ],
             [
-                'severity' => 'Dangerous',
+                'label' => 'Dangerous',
             ],
         ]);
 
