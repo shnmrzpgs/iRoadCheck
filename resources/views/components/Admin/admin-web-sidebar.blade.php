@@ -1,5 +1,6 @@
 <!-- Web screens Sidebar -->
 <aside
+    wire:ignore
     :class="expanded ? 'w-64' : 'w-24'"
     class="bg-[#FBFBFB] hidden h-[95vh] lg:block rounded-xl drop-shadow-md transition-all duration-300 ease-in-out mx-4 mt-5">
 
