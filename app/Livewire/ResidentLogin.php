@@ -2,6 +2,9 @@
 
 namespace App\Livewire;
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Livewire\Component;
 
 class ResidentLogin extends Component
@@ -34,7 +37,7 @@ class ResidentLogin extends Component
     }
 
 
-    public function render()
+    public function render(): Factory|View|Application|\Illuminate\View\View
     {
         return view('livewire.resident-login');
     }
