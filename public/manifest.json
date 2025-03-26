@@ -15,7 +15,11 @@
   },
     "name": "iRoadCheck",
     "short_name": "iRoadCheck",
-        "start_url": "/resident/dashboard"
+        "start_url": "/resident/login",
+    "permissions": [
+        "geolocation",
+        "camera"
+    ]
 
 }
 

@@ -17,6 +17,7 @@ Route::get('/resident/install', function () {
 
 Route::view('/resident/login', 'iroadcheck.prototype.Residents.login')->name('residents-login');
 Route::post('resident/register', [ResidentAuth::class, 'signup'])->name('resident-register');
+Route::view('/prototype/residents/signup', 'iroadcheck.prototype.Residents.signup')->name('signup');
 
 Route::post('/logoutResident', [AuthController::class, 'LogoutResident'])->name('logoutResident');
 
@@ -29,7 +30,9 @@ Route::group(['middleware' => ['AuthResident']], function () {
 
 //    Route::post('resident/submit-report', [ReportController::class, 'storeReport'])->name('submit-report');
     Route::post('/submit-report', [ReportController::class, 'submitReport'])->name('submit.report');
-    Route::view('/prototype/residents/report-road-issue', 'iroadcheck.prototype.Residents.report-road-issue')->name('report-road-issue');
+    Route::post('/submit-temp-report', [ReportController::class, 'TempSubmitReport'])->name('temp.submit.report');
+    Route::view('/residents/report-road-issue', 'iroadcheck.prototype.Residents.report-road-issue')->name('report-road-issue');
+    Route::view('/residents/review-report', 'iroadcheck.prototype.Residents.review-report')->name('review-report');
     Route::get('/send-sms', [SMSController::class, 'sendSMS']);
 
     Route::get('/resident/dashboard', App\Http\Controllers\resident\DashboardController::class)

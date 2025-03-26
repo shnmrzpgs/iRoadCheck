@@ -25,11 +25,11 @@ Route::view('/component/admin/profile-settings', 'iroadcheck.prototype.Admin.pro
 
 //Staff
 Route::view('/component/Staff/dashboard', 'iroadcheck.prototype.Staff.dashboard')->name('Staff.dashboard');
-Route::view('/component/Staff/manage-tagging', 'iroadcheck.prototype.Staff.manage-tagging')->name('Staff.manage-tagging');
+Route::view('staff/manage-tagging', 'iroadcheck.prototype.Staff.manage-tagging')->name('Staff.manage-tagging');
 Route::view('/component/Staff/reports', 'iroadcheck.prototype.Staff.reports')->name('Staff.reports');
 Route::view('/component/Staff/profile-settings', 'iroadcheck.prototype.Staff.profile-settings')->name('Staff.profile-settings');
 Route::view('/component/Staff/notifications', 'iroadcheck.prototype.Staff.notifications')->name('Staff.notifications');
-Route::view('/component/Staff/report-road-issue', 'iroadcheck.prototype.Staff.report-road-issue')->name('Staff.report-road-issue');
+Route::view('/component/Staff/report-road-issue', 'iroadcheck.prototype.Staff.update-road-issue')->name('Staff.report-road-issue');
 Route::view('/component/Staff/suggestion-reports', 'iroadcheck.prototype.Staff.suggestion-reports')->name('Staff.suggestion-reports');
 Route::view('/component/Staff/report-history', 'iroadcheck.prototype.Staff.report-history')->name('Staff.report-history');
 
@@ -38,11 +38,11 @@ Route::view('/prototype/residents/login', 'iroadcheck.prototype.Residents.login'
 Route::view('/prototype/residents/forgotPassword', 'iroadcheck.prototype.Residents.forgotPassword')->name('forgotPassword');
 Route::view('/prototype/residents/EnterCode', 'iroadcheck.prototype.Residents.EnterCode')->name('EnterCode');
 Route::view('/prototype/residents/createNewPass', 'iroadcheck.prototype.Residents.createNewPass')->name('createNewPass');
-Route::view('/prototype/residents/signup', 'iroadcheck.prototype.Residents.signup')->name('signup');
+//Route::view('/prototype/residents/signup', 'iroadcheck.prototype.Residents.signup')->name('signup');
 Route::view('/prototype/residents/verify-user', 'iroadcheck.prototype.Residents.verify-user')->name('verify-user');
 
 Route::view('/prototype/residents/dashboard', 'iroadcheck.prototype.Residents.dashboard')->name('dashboard');
-Route::view('/prototype/residents/report-road-issue', 'iroadcheck.prototype.Residents.report-road-issue')->name('report-road-issue');
+//Route::view('/prototype/residents/report-road-issue', 'iroadcheck.prototype.Residents.report-road-issue')->name('report-road-issue');
 Route::view('/prototype/residents/suggestion-reports', 'iroadcheck.prototype.Residents.suggestion-reports')->name('suggestion-reports');
 Route::view('/prototype/residents/report-history', 'iroadcheck.prototype.Residents.report-history')->name('report-history');
 Route::view('/prototype/residents/profile-info', 'iroadcheck.prototype.Residents.profile-info')->name('profile-info');

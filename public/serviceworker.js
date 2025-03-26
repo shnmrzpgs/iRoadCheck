@@ -15,55 +15,51 @@ var filesToCache = [
 
 // Cache on install
 self.addEventListener("install", event => {
-    this.skipWaiting();
+    self.skipWaiting();
     event.waitUntil(
-        caches.open(staticCacheName)
-            .then(cache => {
-                return cache.addAll(filesToCache);
-            })
-    )
+        caches.open(staticCacheName).then(cache => {
+            return cache.addAll(filesToCache);
+        })
+    );
 });
 
-// Clear cache on activate
-self.addEventListener('activate', event => {
+// Clear old caches on activate
+self.addEventListener("activate", event => {
     event.waitUntil(
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames
-                    .filter(cacheName => (cacheName.startsWith("pwa-")))
-                    .filter(cacheName => (cacheName !== staticCacheName))
+                    .filter(cacheName => cacheName.startsWith("pwa-") && cacheName !== staticCacheName)
                     .map(cacheName => caches.delete(cacheName))
             );
         })
     );
 });
 
-// Serve from Cache with X-PWA Header
+// Serve from Cache & Ensure `X-PWA` Header
 self.addEventListener("fetch", event => {
-    event.respondWith(
-        (async () => {
-            // Clone the request to modify headers
-            const modifiedRequest = new Request(event.request, {
-                headers: new Headers({
-                    ...Object.fromEntries(event.request.headers.entries()),
-                    'X-PWA': 'true'
-                }),
-                method: event.request.method,
-                mode: event.request.mode,
-                credentials: event.request.credentials,
-                redirect: event.request.redirect,
-                referrer: event.request.referrer
-            });
+    const request = event.request;
 
-            try {
-                // Try network first
-                const networkResponse = await fetch(modifiedRequest);
-                return networkResponse;
-            } catch {
-                // If offline, try cache
-                const cachedResponse = await caches.match(event.request);
+    // Clone the request and add the `X-PWA` header
+    const modifiedHeaders = new Headers(request.headers);
+    modifiedHeaders.set("X-PWA", "true");
+
+    const modifiedRequest = new Request(request, {
+        headers: modifiedHeaders,
+        method: request.method,
+        mode: request.mode,
+        credentials: request.credentials,
+        redirect: request.redirect
+    });
+
+    event.respondWith(
+        fetch(modifiedRequest)
+            .then(response => {
+                return response;
+            })
+            .catch(async () => {
+                const cachedResponse = await caches.match(request);
                 return cachedResponse || caches.match('/offline');
-            }
-        })()
+            })
     );
 });

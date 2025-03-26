@@ -29,6 +29,8 @@ return new class extends Migration
             $table->string('image_annotated')->nullable();
             $table->decimal('lat', 10, 8);
             $table->decimal('lng', 11, 8);
+            $table->integer('report_count')->default(1);
+            $table->string('updated_image')->nullable();
             $table->timestamps();
         });
     }

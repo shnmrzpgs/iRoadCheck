@@ -7,7 +7,7 @@
         <div class="flex justify-between items-center">
 
             <!-- iRoadCheck Logo -->
-            <a href="{{ route('resident.dashboard') }}" title="Go to Dashboard">
+            <a href="{{ route('resident.dashboard') }}" wire:navigate title="Go to Dashboard">
                 <div class="flex justify-center items-center">
                     <img src="{{ asset('storage/images/IRoadCheck_Logo.png') }}" alt="graphicsLogo"
                          class="w-8 max-w-10 mr-1" />
@@ -41,8 +41,8 @@
                         <ul class="space-y-2">
                             <!-- Profile Info Link -->
                             <li>
-                                <a href="{{ route('resident.profile-edit') }}"
-                                   class="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-t-lg border-b border-gray-300 text-sm">
+                                <a href="{{ route('resident.profile-edit') }}" wire:navigate
+                                    class="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-t-lg border-b border-gray-300 text-sm">
                                     Profile Settings
                                 </a>
                             </li>
@@ -75,7 +75,7 @@
                 <nav class="mt-4 space-y-4 flex-1 text-[13px] overflow-x-auto h-[76vh] px-4 leading-6">
 
                     <!-- Dashboard -->
-                    <a href="{{ route('resident.dashboard') }}"
+                    <a href="{{ route('resident.dashboard') }}" wire:navigate
                        class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md
                        {{ request()->routeIs('resident.dashboard') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : '' }}">
 
@@ -95,7 +95,7 @@
 
 
                     <!-- Report Road Issue -->
-                    <a href="{{ route('report-road-issue') }}" loading="lazy"
+                    <a href="{{ route('report-road-issue') }}" wire:navigate loading="lazy"
                        class="group flex items-center block py-2.5 px-5 rounded font-medium
                         {{ request()->routeIs('report-road-issue') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
 
@@ -115,7 +115,7 @@
                     </a>
 
                     <!-- Suggestion Reports -->
-                    <a href="{{ route('suggestion-reports') }}"
+                    <a href="{{ route('suggestion-reports') }}" wire:navigate
                        class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md
                            {{ request()->routeIs('suggestion-reports') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : '' }}">
 
@@ -134,7 +134,7 @@
                     </a>
 
                     <!-- Report History -->
-                    <a href="{{ route('resident.report-history') }}"
+                    <a href="{{ route('resident.report-history') }}" wire:navigate
                        class="group mx-2 flex items-center block py-2.5 px-4 rounded font-medium text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md
                         {{ request()->routeIs('resident.report-history') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : '' }}">
 
@@ -160,7 +160,7 @@
                 class="mx-auto fixed pl-0 pr-4 bottom-0 gap-x-10 xxs:gap-x-8 xs:gap-x-10 sm:gap-x-14 md:gap-x-24 lg:hidden left-0 right-0 bg-white shadow-[0px_5px_40px_rgba(0,0,0,0.5)] flex justify-center items-center sm:py-2 py-2 sm:rounded-2xl w-[100%] sm:w-[82%] sm:mb-2 z-50">
 
                 <!-- Dashboard -->
-                <a href="{{ route('resident.dashboard') }}"
+                <a href="{{ route('resident.dashboard') }}" wire:navigate
                    class="group relative flex flex-col items-center transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
 
                     <!-- Wave Shape -->
@@ -197,7 +197,7 @@
 
 
                 <!-- Report Road Issue -->
-                <a href="{{ route('report-road-issue') }}"
+                <a href="{{ route('report-road-issue') }}" wire:navigate
                    class="group relative flex flex-col items-center transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
 
                     <!-- Wave Shape -->
@@ -226,7 +226,7 @@
                     </div>
                 </a>
                 <!-- Suggestion Reports -->
-                <a href="{{ route('suggestion-reports') }}"
+                <a href="{{ route('suggestion-reports') }}" wire:navigate
                    class="group relative flex flex-col items-center transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
 
                     <!-- Wave Shape -->
@@ -255,7 +255,7 @@
                 </a>
 
                 <!-- Report History -->
-                <a href="{{ route('resident.report-history') }}"
+                <a href="{{ route('resident.report-history') }}" wire:navigate
                    class="group relative flex flex-col items-center transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
 
                     <!-- Wave Shape -->

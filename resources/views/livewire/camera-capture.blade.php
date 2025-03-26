@@ -25,6 +25,8 @@
                             <x-Residents.svg-report-road-issue/>
                         </div>
 
+                        <livewire:review-report/>
+                        <livewire:no-defect-modal/>
                         <livewire:first-login-modal/>
 
                         <!-- "How to Capture Road Issue" link to reopen modal -->
@@ -68,13 +70,14 @@
                             <video id="camera-stream" autoplay playsinline class="w-full h-full object-contain"></video>
 
                             <!-- Flash Button -->
-                            <button @click="captureHandler().toggleFlash()"
+                            <button @click="toggleFlash()"
                                     class="absolute bottom-10 left-7 bg-gray-500 hover:bg-gray-600 text-white flex justify-center items-center w-12 h-12 rounded-full shadow-lg transition-all transform hover:scale-110 active:scale-95 active:bg-gray-700">
                                 <!-- Flash Icon -->
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" stroke="currentColor" class="w-6 h-6 pt-1 text-white">
                                     <path d="M296 160h-120l32-128c3.4-13.7-8-26-21.9-26-5.9 0-11.8 2.7-15.9 7.7L8.1 212.1C-3.2 226.4 5.4 248 23.1 248h120l-32 128c-3.4 13.7 8 26 21.9 26 5.9 0 11.8-2.7 15.9-7.7L311.9 179.9C323.2 165.6 314.6 144 296 144z"/>
                                 </svg>
                             </button>
+
 
                             <!-- Capture Button -->
                             <button @click="capturePhotoAndLocation()"
@@ -85,7 +88,6 @@
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12.2222 26.25H17.7778C21.6791 26.25 23.6297 26.25 25.031 25.3308C25.6375 24.9328 26.1584 24.4214 26.5637 23.8259C27.5 22.4501 27.5 20.5349 27.5 16.7045C27.5 12.8743 27.5 10.959 26.5637 9.58325C26.1584 8.98768 25.6375 8.4763 25.031 8.07835C24.1305 7.48766 23.0034 7.27654 21.2775 7.20108C20.4539 7.20108 19.7449 6.58835 19.5834 5.79545C19.341 4.60611 18.2774 3.75 17.0421 3.75H12.9579C11.7226 3.75 10.6589 4.60611 10.4167 5.79545C10.2551 6.58835 9.54606 7.20108 8.7225 7.20108C6.99666 7.27654 5.86944 7.48766 4.96905 8.07835C4.36244 8.4763 3.8416 8.98768 3.43628 9.58325C2.5 10.959 2.5 12.8743 2.5 16.7045C2.5 20.5349 2.5 22.4501 3.43628 23.8259C3.8416 24.4214 4.36244 24.9328 4.96905 25.3308C6.3703 26.25 8.32094 26.25 12.2222 26.25ZM20 16.25C20 19.0114 17.7614 21.25 15 21.25C12.2386 21.25 10 19.0114 10 16.25C10 13.4886 12.2386 11.25 15 11.25C17.7614 11.25 20 13.4886 20 16.25ZM22.5 11.5625C21.9822 11.5625 21.5625 11.9822 21.5625 12.5C21.5625 13.0178 21.9822 13.4375 22.5 13.4375H23.75C24.2677 13.4375 24.6875 13.0178 24.6875 12.5C24.6875 11.9822 24.2677 11.5625 23.75 11.5625H22.5Z" />
                                 </svg>
                             </button>
-
                             <!-- Toggle Camera Button -->
                             <button @click="toggleCamera"
                                     class="absolute bottom-10 right-7 bg-orange-400 bg-opacity-90 hover:bg-orange-400 hover:bg-opacity-90 text-white flex justify-center items-center w-12 h-12 rounded-full shadow-lg transition-all transform hover:scale-110 active:scale-95 active:bg-yellow-700">
@@ -130,11 +132,16 @@
 {{--                                    <div class="w-1/2 text-gray-300">Type of Defect:</div>--}}
 {{--                                    <div class="w-1/2 font-semibold text-[#4AA76F]">Pothole</div>--}}
 {{--                                </div>--}}
+                                <!-- Type of Defect -->
+                                <div class="text-sm flex justify-start items-start w-3/4">
+{{--                                    <div class="w-1/2 text-gray-300">Type of Defect:</div>--}}
+{{--                                    <div class="w-1/2 font-semibold text-[#4AA76F]">Pothole</div>--}}
+                                </div>
 
                                 <!-- Report ID -->
                                 <div class="text-sm flex justify-start items-start w-3/4">
-                                    <div class="w-1/2 text-gray-300">Report ID:</div>
-                                    <div class="w-1/2 font-semibold text-[#4AA76F]">00001</div>
+{{--                                    <div class="w-1/2 text-gray-300">Report ID:</div>--}}
+{{--                                    <div class="w-1/2 font-semibold text-[#4AA76F]">00001</div>--}}
                                 </div>
 
                                 <!-- Date and Time -->
@@ -149,9 +156,9 @@
 
                                 <!-- Location -->
                                 <div class="text-sm flex flex-col justify-start items-start w-3/4">
-                                    <div class="text-gray-300 font-medium text-md italic mb-1">Location</div>
+                                    <div class="text-gray-300 font-medium text-md italic mb-1"></div>
                                     <div class="text-sm flex justify-start items-start w-full">
-                                        <div class="w-1/2 text-gray-300">Address:</div>
+                                        <div class="w-1/2 text-gray-300">Location</div>
                                         <div class="w-1/2 font-semibold text-[#4AA76F]" x-text="address"></div>
                                     </div>
                                     <div class="text-sm flex justify-start items-start w-full">
@@ -164,13 +171,50 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Confirm Button (Now inside the form) -->
+
+                            <!-- Submit Report Button -->
+                            <form action="{{ route('temp.submit.report') }}" id="reportForm"  method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="latitude" x-bind:value="latitude">
+                                <input type="hidden" name="longitude" x-bind:value="longitude">
+                                <input type="hidden" name="address" x-bind:value="address">
+                                <input type="hidden" name="purok" x-bind:value="purok">
+                                <input type="hidden" name="street" x-bind:value="street">
+                                <input type="hidden" name="barangay" x-bind:value="barangay">
+                                <input type="hidden" name="date" x-bind:value="date">
+                                <input type="hidden" name="time" x-bind:value="time">
+                                <input type="hidden" name="photo" x-bind:value="photo">
+
+                                <!-- Full-Screen Loading Overlay (Initially Hidden) -->
+                                <div id="loadingOverlay" class="fixed inset-0 flex items-center justify-center bg-black backdrop-blur-sm bg-opacity-60 hidden z-50">
+                                    <div class="flex flex-col items-center">
+                                        <div
+                                            class="inline-block h-20 w-20 animate-spin rounded-full border-8 border-solid border-green-600 border-e-transparent"
+                                            role="status">
+                                        </div>
+                                        <p class="text-white text-lg font-semibold mt-4">Scanning image...</p>
+                                    </div>
+                                </div>
+{{--                                <button type="submit" class="w-full text-sm md:text-md bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">--}}
+{{--                                    Submit Report--}}
+{{--                                </button>--}}
 
                             <!-- Confirm Button -->
-                            <button @click.prevent="step = 2"
+                            <button id="submitBtn" type="submit"
                                     class="w-3/4 fixed hover:scale-105 bottom-5 bg-[#4AA76F] hover:drop-shadow-md text-white p-3 font-semibold mt-6 mb-3 rounded-full hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
                                 Confirm
                             </button>
+                            </form>
+                            <script>
+                                document.getElementById('reportForm').addEventListener('submit', function() {
+                                    document.getElementById('submitBtn').classList.add('hidden'); // Hide the button
+                                    document.getElementById('loadingOverlay').classList.remove('hidden'); // Show full-screen loading
+                                });
+                            </script>
+
                         </div>
+
                     </div>
                 </template>
 
@@ -227,23 +271,23 @@
                             </div>
                         </div>
 
-                        <!-- Submit Report Button -->
-                        <form action="{{ route('submit.report') }}"  method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" name="latitude" x-bind:value="latitude">
-                            <input type="hidden" name="longitude" x-bind:value="longitude">
-                            <input type="hidden" name="address" x-bind:value="address">
-                            <input type="hidden" name="purok" x-bind:value="purok">
-                            <input type="hidden" name="street" x-bind:value="street">
-                            <input type="hidden" name="barangay" x-bind:value="barangay">
-                            <input type="hidden" name="date" x-bind:value="date">
-                            <input type="hidden" name="time" x-bind:value="time">
-                            <input type="hidden" name="photo" x-bind:value="photo">
+{{--                        <!-- Submit Report Button -->--}}
+{{--                        <form action="{{ route('temp.submit.report') }}" id="reportForm"  method="POST" enctype="multipart/form-data">--}}
+{{--                            @csrf--}}
+{{--                            <input type="hidden" name="latitude" x-bind:value="latitude">--}}
+{{--                            <input type="hidden" name="longitude" x-bind:value="longitude">--}}
+{{--                            <input type="hidden" name="address" x-bind:value="address">--}}
+{{--                            <input type="hidden" name="purok" x-bind:value="purok">--}}
+{{--                            <input type="hidden" name="street" x-bind:value="street">--}}
+{{--                            <input type="hidden" name="barangay" x-bind:value="barangay">--}}
+{{--                            <input type="hidden" name="date" x-bind:value="date">--}}
+{{--                            <input type="hidden" name="time" x-bind:value="time">--}}
+{{--                            <input type="hidden" name="photo" x-bind:value="photo">--}}
 
-                            <button type="submit" class="w-full text-sm md:text-md bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">
-                                Submit Report
-                            </button>
-                        </form>
+{{--                            <button type="submit" class="w-full text-sm md:text-md bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">--}}
+{{--                                Submit Report--}}
+{{--                            </button>--}}
+{{--                        </form>--}}
 {{--                        <button--}}
 {{--                            x-on:click="submitReport; openSuccessModal = true; setTimeout(() => location.reload(), 2000);"--}}
 {{--                            class="w-2/4 text-sm md:text-md: bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">--}}
@@ -254,7 +298,7 @@
 {{--                        <x-success-modal successMessage="Your report road concern submitted successfully." x-show="openSuccessModal"></x-success-modal>--}}
 
                         <!-- Error Modal | This should be pop up if the user inputs is not valid-->
-                        {{--<x-error-modal errorMessage='Oops! Something went wrong. Please try again.' x-show="openErrorModal"></x-error-modal>--}}
+                        <x-error-modal errorMessage='Oops! No road issues found, please retry!.' x-show="openErrorModal"></x-error-modal>
 
                     </div>
 
@@ -272,25 +316,29 @@
 </x-residents.residents-navigation>
 
 <script>
+
     function captureHandler() {
         return {
             cameraOpen: false,
             photoCaptured: false,
             locationCaptured: false,
-            // latitude: null,
-            // longitude: null,
+            latitude: null,
+            longitude: null,
             // photo: null,
             videoStream: null,
             // address: '',
             isFrontCamera: true, // Tracks whether the front camera is active
             stream: null, // Stores the media stream
+            submitReport() {
+                document.getElementById('reportForm').submit();
+            },
 
             // Open Camera
             openCamera() {
                 this.cameraOpen = true;
                 document.body.classList.add('overflow-hidden');
                 const video = document.getElementById('camera-stream');
-                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
+                navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
                     .then(stream => {
                         this.videoStream = stream;
                         video.srcObject = stream;
@@ -318,22 +366,51 @@
                             });
                             this.time = currentDateTime.toLocaleTimeString(); // Format: HH:MM:SS AM/PM
 
-                            const apiKey = "{{ env('GOOGLE_MAP_API') }}";
-                            const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${apiKey}`;
-                            fetch(geocodeUrl)
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.status === 'OK') {
-                                        this.address = data.results[0].formatted_address;
-                                        // alert(`Address: ${this.address}\nLatitude: ${this.latitude}\nLongitude: ${this.longitude}`);
-                                    } else {
-                                        alert('Unable to get the location name.');
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error('Error with geocoding request:', error);
-                                    alert('Unable to retrieve location name.');
-                                });
+                            const accessToken = 'pk.eyJ1IjoicGlyYXRpY2FtZSIsImEiOiJjbTZyb25ubzYwMTYwMmxxMWFwcmgyd203In0.JGlK5yEI3UaL7NmNP0kh7w';
+                            const mapboxUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.longitude},${this.latitude}.json?access_token=${accessToken}`;
+
+                            // fetch(mapboxUrl)
+                            //     .then(response => response.json())
+                            //     .then(data => {
+                            //         if (data.features && data.features.length > 0) {
+                            //             this.address = data.features[0].place_name; // Correctly extract address
+                            //             console.log(`Address: ${this.address}\nLatitude: ${this.latitude}\nLongitude: ${this.longitude}`);
+                            //         } else {
+                            //             alert('Unable to get the location name.');
+                            //         }
+                            //     })
+                            //     .catch(error => {
+                            //         console.error('Error with geocoding request:', error);
+                            //         alert('Unable to retrieve location name.');
+                            //     });
+                            // const fetchLocation = (retries = 3) => {
+                                fetch(mapboxUrl)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if (data.features && data.features.length > 0) {
+                                            this.address = data.features[0].place_name;
+                                            console.log(`Address: ${this.address}\nLatitude: ${this.latitude}\nLongitude: ${this.longitude}`);
+                                        } else if (retries > 0) {
+                                            console.warn(`Retrying... (${3 - retries + 1})`);
+                                            setTimeout(() => fetchLocation(retries - 1), 500); // Wait 2s before retrying
+                                        } else {
+                                            console.error("Failed to get location after multiple attempts.");
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error("Error with geocoding request:", error);
+                                        if (retries > 0) {
+                                            console.warn(`Retrying... (${3 - retries + 1})`);
+                                            setTimeout(() => fetchLocation(retries - 1), 500); // Wait 2s before retrying
+                                        } else {
+                                            console.error("Unable to retrieve location after multiple attempts.");
+                                        }
+                                    });
+                            // };
+                            //
+                            // // Call the function
+                            // fetchLocation();
+
                         },
                         error => {
                             console.error('Error getting location:', error);
@@ -379,22 +456,9 @@
                             });
                             this.time = currentDateTime.toLocaleTimeString(); // Format: HH:MM:SS AM/PM
 
-                            const apiKey = "{{ env('GOOGLE_MAP_API') }}";
-                            const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${apiKey}`;
-                            {{--fetch(geocodeUrl)--}}
-                            {{--    .then(response => response.json())--}}
-                            {{--    .then(data => {--}}
-                            {{--        if (data.status === 'OK') {--}}
-                            {{--            this.address = data.results[0].formatted_address;--}}
-                            {{--            // alert(`Address: ${this.address}\nLatitude: ${this.latitude}\nLongitude: ${this.longitude}`);--}}
-                            {{--        } else {--}}
-                            {{--            alert('Unable to get the location name.');--}}
-                            {{--        }--}}
-                            {{--    })--}}
-                            {{--    .catch(error => {--}}
-                            {{--        console.error('Error with geocoding request:', error);--}}
-                            {{--        alert('Unable to retrieve location name.');--}}
-                            {{--    });--}}
+                            {{--const apiKey = "{{ env('GOOGLE_MAP_API') }}";--}}
+                            {{--const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.latitude},${this.longitude}&key=${apiKey}`;--}}
+
                             const accessToken = 'pk.eyJ1IjoicGlyYXRpY2FtZSIsImEiOiJjbTZyb25ubzYwMTYwMmxxMWFwcmgyd203In0.JGlK5yEI3UaL7NmNP0kh7w';
                             const mapboxUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.longitude},${this.latitude}.json?access_token=${accessToken}`;
 
@@ -414,12 +478,12 @@
                                         const feature = data.features[0];
                                         this.fullAddress = feature.place_name;
 
-                                        let street = feature.text; // Primary name is usually the street
-                                        let purok = '';
-                                        let barangay = '';
-                                        let city = '';
-                                        let province = '';
-                                        let country = '';
+                                        let street = feature.text || 'N/A'; // Primary name is usually the street
+                                        let purok = 'N/A';
+                                        let barangay = 'N/A';
+                                        let city = 'N/A';
+                                        let province = 'N/A';
+                                        let country = 'N/A';
 
                                         // Iterate through context array to find relevant components
                                         feature.context.forEach(item => {
@@ -436,6 +500,27 @@
                                             purok = fallbackPurok ? fallbackPurok.text : 'N/A';
                                         }
 
+// If still no purok, use Mapbox Reverse Geocoding
+//                                         if (!purok) {
+//                                             const mapboxToken = accessToken;
+//                                             const query = `${street}, ${barangay}, ${city}, ${province}, ${country}`;
+//                                             const mapboxUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxToken}&types=neighborhood`;
+//
+//                                             fetch(mapboxUrl)
+//                                                 .then(response => response.json())
+//                                                 .then(data => {
+//                                                     if (data.features.length > 0) {
+//                                                         purok = data.features[0].text;
+//                                                     } else {
+//                                                         purok = "N/A"; // Fallback if no match is found
+//                                                     }
+//                                                 })
+//                                                 .catch(error => {
+//                                                     console.error("Error fetching from Mapbox:", error);
+//                                                     purok = "N/A";
+//                                                 });
+//                                         }
+
                                         // Adjust if barangay and city are swapped
                                         if (barangay.toLowerCase() === city.toLowerCase()) {
                                             barangay = 'La Filipina'; // Hardcode if pattern consistently wrong
@@ -449,16 +534,15 @@
                                         this.city = city || 'N/A';
                                         this.province = province || 'N/A';
                                         this.country = country || 'N/A';
-
-                                        alert(`Full Address: ${this.fullAddress}
-                                            Street: ${this.street}
-                                            Purok: ${purok}
-                                            Barangay: ${barangay}
-                                            City: ${city}
-                                            Province: ${province}
-                                            Country: ${country}`);
-                                        } else {
-                                        alert('Unable to get the location name.');
+                                        // alert(`Full Address: ${this.fullAddress}
+                                        //     Street: ${this.street}
+                                        //     Purok: ${purok}
+                                        //     Barangay: ${barangay}
+                                        //     City: ${city}
+                                        //     Province: ${province}
+                                        //     Country: ${country}`);
+                                        // } else {
+                                        // alert('Unable to get the location name.');
                                     }
                                 })
                                 .catch(error => {
@@ -525,29 +609,44 @@
             },
 
 
-            // Flash Effect
             toggleFlash() {
-                const videoContainer = document.querySelector("#video-container");
-                if (!videoContainer) return;
+                if (!this.videoStream) {
+                    console.error("No video stream available.");
+                    return;
+                }
 
-                const flashOverlay = document.createElement("div");
-                flashOverlay.style.position = "absolute";
-                flashOverlay.style.top = "0";
-                flashOverlay.style.left = "0";
-                flashOverlay.style.width = "100%";
-                flashOverlay.style.height = "100%";
-                flashOverlay.style.backgroundColor = "white";
-                flashOverlay.style.opacity = "1";
-                flashOverlay.style.transition = "opacity 0.5s ease-in-out";
-                flashOverlay.style.pointerEvents = "none";
+                const tracks = this.videoStream.getVideoTracks();
+                if (!tracks.length) {
+                    console.error("No video tracks found.");
+                    return;
+                }
 
-                videoContainer.appendChild(flashOverlay);
+                const track = tracks[0];
+                const capabilities = track.getCapabilities();
 
-                setTimeout(() => {
-                    flashOverlay.style.opacity = "0";
-                    setTimeout(() => flashOverlay.remove(), 500);
-                }, 100);
-            },
+                if (!capabilities.torch) {
+                    console.error("Torch mode is not supported on this device.");
+                    alert("Flashlight is not supported on your camera.");
+                    return;
+                }
+
+                // Toggle the torch state
+                this.flashOn = !this.flashOn; // Keep track of flash state
+
+                track.applyConstraints({
+                    advanced: [{ torch: this.flashOn }]
+                }).catch(err => {
+                    console.error("Error toggling flash:", err);
+                    alert("Failed to toggle flashlight.");
+                });
+            }
         };
     }
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        @if(session('step') == 2)
+        window.Alpine.store('step', 2);
+        @endif
+    });
 </script>

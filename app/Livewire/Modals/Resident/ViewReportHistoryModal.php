@@ -22,7 +22,7 @@ class ViewReportHistoryModal extends Component
             Log::error('Report not found', ['reportId' => $reportId]);
             return;
         }
-        $this->image = asset('storage/' . $this->report->image);
+        $this->image = asset('storage/' . $this->report->image_annotated);
 
         $this->dispatch('view-report-history-modal-shown');
     }
@@ -33,4 +33,3 @@ class ViewReportHistoryModal extends Component
         return view('livewire.modals.resident.view-report-history-modal');
     }
 }
-    
