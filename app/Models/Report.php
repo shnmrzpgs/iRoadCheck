@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Report extends Model
 {
@@ -14,7 +15,7 @@ class Report extends Model
         'location',
         'date',
         'time',
-        'severity',
+        'label',
         'image',
         'image_annotated',
         'status'
@@ -25,9 +26,9 @@ class Report extends Model
         'updated_at' => 'datetime',
         'date' => 'date',
     ];
-    
-    public function severity()
+
+    public function severity(): BelongsTo
     {
-        return $this->belongsTo(Severity::class);
+        return $this->belongsTo(Severity::class, 'label');
     }
 }
