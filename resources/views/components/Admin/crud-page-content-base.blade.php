@@ -2,7 +2,6 @@
 
     {{-- Header --}}
     <div class="px-4 text-center md:text-start" >
-
         <div class="flex flex-col">
             <!--Page description-->
             <div class="sm:flex-auto">
@@ -11,7 +10,6 @@
                 </p>
             </div>
         </div>
-
 
         {{-- Sub Header --}}
         <div class="flex flex-col justify-center items-center md:px-4 md:flex-row md:justified-start md:items-start">
@@ -25,8 +23,6 @@
             <div>
                 {{ $action_buttons_container }}
             </div>
-
-
         </div>
 
     </div>
@@ -44,12 +40,10 @@
             {{ $pagination_container }}
         </div>
 
-
         {{-- Modal Container --}}
         <div>
             {{ $modal_container }}
         </div>
-
     </div>
 
 </div>

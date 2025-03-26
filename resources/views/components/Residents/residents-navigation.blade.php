@@ -110,7 +110,7 @@
                         <!-- Text -->
                         <p class="ml-2
                             {{ request()->routeIs('report-road-issue') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">
-                            Report Road Issue
+                            Capture Road Issue
                         </p>
                     </a>
 
@@ -286,7 +286,7 @@
             </div>
 
             <!-- Main Content Area -->
-            <main class="flex-1 flex flex-col overflow-y-auto mt-10 pt-2 pb-10 h-[75vh] lg:mx-1 mb-4 ml-4 lg:-ml-12 pr-5 {{ ' '.$main_class }}">
+            <main class="flex-1 flex flex-col overflow-y-auto mt-5 md:mt-3 pt-2 pb-10 h-[75vh] md:h-[80vh] lg:h-auto lg:mx-1 mb-4 ml-4 lg:-ml-12 pr-5 {{ ' '.$main_class }}">
                 {{ $slot }}
             </main>
         </div>

@@ -377,6 +377,19 @@ input[type="radio"] {
     50% { transform: translate(-3px, 3px); }
 }
 
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.bounce-marker {
+    animation: bounce 0.5s ease forwards;
+}
+
 /* Apply Animation to Dots */
 .floating-dot1 { animation: float1 2s infinite ease-in-out; }
 .floating-dot2 { animation: float2 3s infinite ease-in-out; }

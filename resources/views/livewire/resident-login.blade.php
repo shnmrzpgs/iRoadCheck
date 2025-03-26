@@ -110,7 +110,7 @@
                 </button>
 
                 <!-- Sign Up Button -->
-                <button @click="window.location.href = '{{ route('signup') }}'" type="button"
+                <button @click="window.location.href = '{{ route('signup') }}'" type="submit"
                     class="w-3/4 group relative inline-flex h-[calc(48px+4px)] items-center justify-center rounded-full bg-none border-none text-[#F8A15E] hover:text-white py-1 pl-6 pr-6 font-medium transition active:scale-95">
                     <span class="z-10 pr-2">Sign Up</span>
                     <div class="absolute right-1 inline-flex h-10 w-10 items-center justify-end rounded-full bg-[#F8A15E] transition-[width] group-hover:w-[calc(100%-8px)]">
@@ -124,4 +124,11 @@
             </form>
         </div>
     </div>
+
+    <!-- Loading indicator -->
+    <div wire:loading.class.remove="opacity-0 pointer-events-none" x-cloak x-transition loading="lazy"
+         class="z-50 absolute inset-0 w-full min-h-full bg-black/50 flex justify-center items-center transition-all pointer-events-none opacity-0">
+        <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
+    </div>
+
 </div>
