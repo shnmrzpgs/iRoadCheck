@@ -58,6 +58,7 @@ class Dashboard extends Component
             'Pothole' => '#7E91FF',
             'Cracks' => '#4AA76F',
             'Raveling' => '#E26161',
+            'Spalling' => '#D570D6',
         ];
 
         foreach ($defectTypes as $defect) {

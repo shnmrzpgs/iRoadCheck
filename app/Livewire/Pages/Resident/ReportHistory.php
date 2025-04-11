@@ -20,8 +20,8 @@ class ReportHistory extends Component
     use WithPagination;
 
     public $start_date, $end_date, $date_range_filter;
-    public $sort_by = 'id';
-    public $sort_direction = 'asc';
+    public $sort_by = 'created_at';
+    public $sort_direction = 'desc';
     public int $rowsPerPage = 10;
 
     public $selectedDefect = '';
@@ -51,7 +51,7 @@ class ReportHistory extends Component
             $this->sort_direction = $this->sort_direction === 'asc' ? 'desc' : 'asc';
         } else {
             $this->sort_by = $column;
-            $this->sort_direction = 'asc';
+            $this->sort_direction = $column  === 'created_at' ? 'desc' : 'asc';
         }
     }
 
@@ -64,7 +64,8 @@ class ReportHistory extends Component
         $this->date_range_filter = '';
         $this->start_date = now()->subMonth()->format('Y-m-d');
         $this->end_date = now()->format('Y-m-d');
-        $this->sort_by = 'id';
+        $this->sort_by = 'created_at';
+        $this->sort_direction = 'desc';
         $this->resetPage();
     }
 

@@ -297,7 +297,7 @@ class ReportController extends Controller
 
         // Wait for the JSON file to be generated
         $issue_name = "Unknown";
-        $timeout = 10; // Max wait time in seconds
+        $timeout = 5; // Max wait time in seconds
         $startTime = time();
 
         while (!file_exists($jsonPath) && (time() - $startTime) < $timeout) {
@@ -308,7 +308,7 @@ class ReportController extends Controller
         if (file_exists($jsonPath)) {
             $jsonData = json_decode(file_get_contents($jsonPath), true);
 
-            if (empty($jsonData['prediction'])) {
+            if (!empty($jsonData['prediction'])) {
                 $predictions = collect($jsonData['prediction'])
                     ->sortByDesc(fn($p) => $p['best_probability'] * ($p['rect']['width'] * $p['rect']['height']))
                     ->pluck('name')
@@ -434,7 +434,7 @@ class ReportController extends Controller
 
     public function captureRoadDefect()
     {
-        return view('iroadcheck.prototype.Staff.report-road-issue');
+        return view('iroadcheck.prototype.Staff.update-road-issue');
     }
 
 
