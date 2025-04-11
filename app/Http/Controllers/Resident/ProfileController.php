@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         return view('resident.pages.profile-edit');
     }
