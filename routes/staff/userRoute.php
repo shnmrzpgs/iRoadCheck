@@ -14,13 +14,13 @@ Route::get('/Staff/manage-tagging', [ReportController::class, 'updateStatus'])->
 
 Route::group(['middleware' => 'AuthStaff'], function () {
 
-    Route::get('/staff/dashboard', App\Http\Controllers\staff\DashboardController::class)
+    Route::get('/staff/dashboard', [App\Http\Controllers\staff\DashboardController::class])
         ->name('staff.dashboard');
 
     Route::get('/staff/manage-tagging', [App\Http\Controllers\ReportController::class, 'manageTagging'])
         ->name('staff.manage-tagging');
 
-    Route::get('/staff/road-defect-reports', App\Http\Controllers\staff\RoadDefectReportsController::class)
+    Route::get('/staff/road-defect-reports', [App\Http\Controllers\staff\RoadDefectReportsController::class])
         ->name('staff.road-defect-reports');
 
     Route::get('/staff/capture-road-defect', [App\Http\Controllers\ReportController::class, 'captureRoadDefect'])
@@ -29,16 +29,16 @@ Route::group(['middleware' => 'AuthStaff'], function () {
         ->name('staff.temporary-update');
 //    Route::get('staff/manage-map', ReportsMap::class)->name('manage.tagging');
 
-    Route::get('/staff/suggestion-reports', App\Http\Controllers\staff\SuggestionReportsController::class)
+    Route::get('/staff/suggestion-reports', [App\Http\Controllers\staff\SuggestionReportsController::class])
         ->name('staff.suggestion-reports');
 
-    Route::get('/staff/report-history', App\Http\Controllers\staff\ReportHistoryController::class)
+    Route::get('/staff/report-history', [App\Http\Controllers\staff\ReportHistoryController::class])
         ->name('staff.report-history');
 
-    Route::get('/staff/notifications', App\Http\Controllers\staff\NotificationsController::class)
+    Route::get('/staff/notifications', [App\Http\Controllers\staff\NotificationsController::class])
         ->name('staff.notifications');
 
-    Route::get('/staff/profile-edit', App\Http\Controllers\staff\ProfileController::class)
+    Route::get('/staff/profile-edit', [App\Http\Controllers\staff\ProfileController::class])
         ->name('staff.profile-edit');
 
     Route::post('/logoutStaff', [AuthController::class, 'LogoutStaff'])->name('logoutStaff');
