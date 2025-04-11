@@ -35,7 +35,7 @@ Route::group(['middleware' => ['AuthResident']], function () {
     Route::view('/residents/review-report', ['iroadcheck.prototype.Residents.review-report'])->name('review-report');
     Route::get('/send-sms', [SMSController::class, 'sendSMS']);
 
-    Route::get('/resident/dashboard', [App\Http\Controllers\resident\DashboardController::class, 'index'])
+    Route::get('/resident/dashboard', [DashboardController::class, 'index'])
     ->name('resident.dashboard');
 
     Route::get('/resident/report-history', [App\Http\Controllers\resident\ReportHistoryController::class])
