@@ -368,6 +368,7 @@ class ReportController extends Controller
             'date' => Carbon::createFromFormat('F d, Y', $request->date)->format('Y-m-d'),
             'time' => Carbon::parse($request->time)->format('H:i:s'),
             'severity' => 1,
+            'label' => 1,
             'image' => $fullImagePath,
             'image_annotated' => $annotatedPath,
             'status' => "Unfixed"
