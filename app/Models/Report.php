@@ -20,6 +20,7 @@ class Report extends Model
         'date',
         'time',
         'severity',
+        'label',
         'image',
         'image_annotated',
         'status',
