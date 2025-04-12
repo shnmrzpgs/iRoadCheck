@@ -102,7 +102,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             ActivityLogSeeder::class,
-            ReportSeeder::class,
+//            ReportSeeder::class,
             RolePermissionSeeder::class,
             AdminLogSeeder::class,
             StaffLogSeeder::class,
