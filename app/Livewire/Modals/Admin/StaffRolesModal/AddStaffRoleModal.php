@@ -147,8 +147,26 @@ class AddStaffRoleModal extends Component
     {
         $this->validate();
 
+        // Check if a role with the same name and permissions already exists
+        $existingRole = StaffRole::where('name', $this->name)->first();
+
+        if ($existingRole) {
+            $existingPermissions = $existingRole->permissions->pluck('id')->sort()->values()->toArray();
+            $newPermissions = collect($this->selectedPermissions)->sort()->values()->toArray();
+
+            if (
+                $existingRole->status === ($this->status ? StaffRoleStatus::ENABLED : StaffRoleStatus::DISABLED) &&
+                $existingPermissions === $newPermissions
+            ) {
+                $this->dispatch('modal-close');
+                session()->flash('feedback', 'No new changes detected. The role already exists.');
+                session()->flash('feedback_type', 'info');
+                return;
+            }
+        }
+
         try {
-            // Use instantiation instead of create()
+            // Create and save the new staff role
             $staffRole = new StaffRole();
             $staffRole->name = $this->name;
             $staffRole->status = $this->status ? StaffRoleStatus::ENABLED : StaffRoleStatus::DISABLED;
@@ -157,20 +175,20 @@ class AddStaffRoleModal extends Component
             // Sync permissions
             $staffRole->permissions()->sync($this->selectedPermissions);
 
-            // Log the creation action for auditing purposes
+            // Log creation
             AdminLog::create([
-                'admin_id' => auth()->id(), // Get the authenticated admin ID
+                'admin_id' => auth()->id(),
                 'action' => "Created a new staff role: {$this->name}",
                 'dateTime' => now(),
-                'user_id' => auth()->id(), // Assuming the log keeps the same user ID
+                'user_id' => auth()->id(),
             ]);
 
             $this->clear();
 
-            // Dispatch success message to session
-            session()->flash('message', 'staff Role added successfully!');
+            $this->dispatch('modal-close');
+            session()->flash('feedback', 'Staff Role added successfully!');
+            session()->flash('feedback_type', 'success');
         } catch (\Exception $e) {
-            // Log the error action for auditing purposes
             AdminLog::create([
                 'admin_id' => auth()->id(),
                 'action' => "Failed to create a new staff role: {$this->name}. Error: {$e->getMessage()}",
@@ -178,11 +196,12 @@ class AddStaffRoleModal extends Component
                 'user_id' => auth()->id(),
             ]);
 
-            // Dispatch error message to session
-            session()->flash('error', 'There was an issue adding the staff Role.');
+            session()->flash('feedback', 'There was an issue adding the Staff Role.');
+            session()->flash('feedback_type', 'error');
         }
-    }
 
+        $this->dispatch('staff-role-added');
+    }
 
 
     public function render(): Factory|View|Application|\Illuminate\View\View

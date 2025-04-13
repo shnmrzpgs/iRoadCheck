@@ -195,6 +195,23 @@ class EditStaffRoleModal extends Component
     {
         $this->validate();
 
+        // Check for changes
+        $originalName = $this->staffRole->name;
+        $originalStatus = $this->staffRole->status;
+        $originalPermissions = $this->staffRole->permissions->pluck('id')->sort()->values()->toArray();
+        $newPermissions = collect($this->selectedPermissions)->sort()->values()->toArray();
+
+        $hasChanges = $originalName !== $this->name
+            || $originalStatus !== ($this->status ? StaffRoleStatus::ENABLED : StaffRoleStatus::DISABLED)
+            || $originalPermissions !== $newPermissions;
+
+        if (!$hasChanges) {
+            $this->dispatch('modal-close'); // Close the modal
+            session()->flash('feedback', 'No changes detected.');
+            session()->flash('feedback_type', 'info');
+            return;
+        }
+
         try {
             // Update staff role properties
             $this->staffRole->name = $this->name;
@@ -204,18 +221,19 @@ class EditStaffRoleModal extends Component
             // Sync permissions
             $this->staffRole->permissions()->sync($this->selectedPermissions);
 
-            // Log the update action for auditing purposes
+            // Log the update
             AdminLog::create([
-                'admin_id' => auth()->id(), // Get the authenticated admin ID
+                'admin_id' => auth()->id(),
                 'action' => "Updated staff role: {$this->staffRole->name}",
                 'dateTime' => now(),
                 'user_id' => auth()->id(),
             ]);
 
-            // Dispatch success message
-            session()->flash('message', 'staff Role updated successfully!');
+            $this->dispatch('modal-close'); // Close the modal before feedback
+            session()->flash('feedback', 'Staff Role updated successfully!');
+            session()->flash('feedback_type', 'success');
+
         } catch (\Exception $e) {
-            // Log the error action for auditing purposes
             AdminLog::create([
                 'admin_id' => auth()->id(),
                 'action' => "Failed to update staff role: {$this->staffRole->name}. Error: {$e->getMessage()}",
@@ -223,10 +241,13 @@ class EditStaffRoleModal extends Component
                 'user_id' => auth()->id(),
             ]);
 
-            // Handle errors
-            session()->flash('error', 'There was an issue updating the staff Role.');
+            session()->flash('feedback', 'There was an issue updating the Staff Role.');
+            session()->flash('feedback_type', 'error');
         }
+
+        $this->dispatch('staff-role-updated'); // Refresh parent component if needed
     }
+
 
     /**
      * Render the Livewire component.
