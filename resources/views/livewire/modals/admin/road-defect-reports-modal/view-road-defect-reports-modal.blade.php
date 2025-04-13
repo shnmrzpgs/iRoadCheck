@@ -1,4 +1,4 @@
-<x-Admin.road-defect-reports-modal-content-base modal_name="view-road-defect-reports-modal">
+<x-admin.road-defect-reports-modal-content-base modal_name="view-road-defect-reports-modal">
 
     <x-slot:trigger>
         <div class="hidden">
@@ -59,7 +59,7 @@
                         </div>
 
                         <!-- Export Button -->
-                        <x-Admin.view-report-modal-export-button>
+                        <x-admin.view-report-modal-export-button>
                             <x-slot:dropdown_buttons>
                                 <button
                                     loading="lazy"
@@ -89,7 +89,7 @@
                                     <x-loading-indicator class="lazyload text-green-600 w-4 h-4 ml-2" x-cloak x-show="loading"/>
                                 </button>
                             </x-slot:dropdown_buttons>
-                        </x-Admin.view-report-modal-export-button>
+                        </x-admin.view-report-modal-export-button>
                     </div>
 
                     <div class="flex flex-wrap gap-4 justify-center rounded-2">
@@ -98,7 +98,7 @@
                         <div class="w-full lg:w-[48%] shadow p-5 rounded-md">
                             <h2 class="font-semibold text-sm text-center mb-3">REPORTED <br/> Road Defect Information</h2>
 
-                            <x-Admin.admin-view-road-defect-report-image-modal>
+                            <x-admin.admin-view-road-defect-report-image-modal>
                                 <x-slot:image_title>
                                     Reported Captured Road Photo
                                 </x-slot:image_title>
@@ -114,7 +114,7 @@
                                         `"
                                     />
                                 </x-slot:image>
-                            </x-Admin.admin-view-road-defect-report-image-modal>
+                            </x-admin.admin-view-road-defect-report-image-modal>
 
                             <!-- First Road Defect Reporter Full Name -->
                             <div class="mb-2 text-xs lg:text-sm flex w-full">
@@ -187,7 +187,7 @@
                                     UPDATED <br/> Road Defect Information
                                 </h2>
 
-                                <x-Admin.admin-view-road-defect-report-image-modal>
+                                <x-admin.admin-view-road-defect-report-image-modal>
                                     <x-slot:image_title>
                                         Updated Captured Road Photo
                                     </x-slot:image_title>
@@ -203,7 +203,7 @@
                                         `"
                                         />
                                     </x-slot:image>
-                                </x-Admin.admin-view-road-defect-report-image-modal>
+                                </x-admin.admin-view-road-defect-report-image-modal>
 
                                 <!-- Staff Information -->
                                 <div class="mb-2 text-xs lg:text-sm flex w-full">
@@ -250,5 +250,5 @@
     <x-slot:footer>
     </x-slot:footer>
 
-</x-Admin.road-defect-reports-modal-content-base>
+</x-admin.road-defect-reports-modal-content-base>
 

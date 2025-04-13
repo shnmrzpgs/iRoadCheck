@@ -1,4 +1,4 @@
-<x-Admin.admin-navigation page_title="Dashboard" action="{{ route('admin.dashboard') }}" placeholder="Search..." name="search">
+<x-admin.admin-navigation page_title="Dashboard" action="{{ route('admin.dashboard') }}" placeholder="Search..." name="search">
 
     <!-- Main Content -->
     <main class="flex -mt-2 overflow-y-scroll h-[85vh] pb-5">
@@ -27,8 +27,8 @@
                                 <path d="M368 208A160 160 0 1 0 48 208a160 160 0 1 0 320 0zM337.1 371.1C301.7 399.2 256.8 416 208 416C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208c0 48.8-16.8 93.7-44.9 129.1l124 124 17 17L478.1 512l-17-17-124-124z" />
                             </svg>
                             <input
-                                class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] 
-                            shadow-[0px_1px_5px_rgba(0,0,0,0.2)] focus:bg-white bg-white rounded-[4px] 
+                                class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]
+                            shadow-[0px_1px_5px_rgba(0,0,0,0.2)] focus:bg-white bg-white rounded-[4px]
                             block w-full md:w-[250px] lg:w-[300px] py-2 pl-8 text-gray-900 placeholder:text-gray-400 text-xs"
                                 wire:model.live="search"
                                 placeholder="{{ $placeholder ?? 'Search...' }}"
@@ -40,8 +40,8 @@
                             <!-- All Reports Filter -->
                             <div class="relative rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md flex justify-center items-center"
                                 :class="{
-                                    'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] ': filters.sort === '' && filters.status === ''  && filters.userType === '',  
-                                    'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort !== '' || filters.status !== '' || filters.userType !== ''  
+                                    'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] ': filters.sort === '' && filters.status === ''  && filters.userType === '',
+                                    'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort !== '' || filters.status !== '' || filters.userType !== ''
                                 }"
                                 @click="$wire.resetFilter();">
                                 <span class="text-[12px] block appearance-none w-full text-center px-2 py-2 rounded">
@@ -52,8 +52,8 @@
                             <!-- Barangay Filter -->
                             <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
                                 :class="{
-                                        'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.selectedBarangay !== '',  
-                                        'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.selectedBarangay === ''  
+                                        'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.selectedBarangay !== '',
+                                        'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.selectedBarangay === ''
                                     }">
                                 <select wire:model.live="selectedBarangay"
                                     @change="activeFilter = 'selectedBarangay'"
@@ -485,4 +485,4 @@
     </script>
 
 
-</x-Admin.admin-navigation>
+</x-admin.admin-navigation>

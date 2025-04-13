@@ -1,4 +1,4 @@
-<x-Admin.admin-navigation page_title="Staff Role" action="{{ route('admin.staff-roles-table') }}" placeholder="Search..." name="search">
+<x-admin.admin-navigation page_title="Staff Role" action="{{ route('admin.staff-roles-table') }}" placeholder="Search..." name="search">
 
     <div class="flex justify-center items-center sm:justify-start sm:items-start">
         <x-admin.crud-page-content-base>
@@ -181,6 +181,6 @@
         </x-admin.crud-page-content-base>
     </div>
 
-</x-Admin.admin-navigation>
+</x-admin.admin-navigation>
 
 

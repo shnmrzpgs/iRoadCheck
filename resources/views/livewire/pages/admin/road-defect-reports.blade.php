@@ -341,9 +341,9 @@
             </div>
         </x-slot:wire_loading_container>
 
-    </x-Admin.road-defect-reports-page-content-base>
+    </x-admin.road-defect-reports-page-content-base>
 
-</x-Admin.admin-navigation>
+</x-admin.admin-navigation>
 
 
 

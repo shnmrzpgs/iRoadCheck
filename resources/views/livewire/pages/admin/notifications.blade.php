@@ -1,6 +1,6 @@
-<x-Admin.admin-navigation page_title="Notifications" action="{{ route('admin.notifications') }}" placeholder="Search..." id="search" name="search" wire:model.live="search">
+<x-admin.admin-navigation page_title="Notifications" action="{{ route('admin.notifications') }}" placeholder="Search..." id="search" name="search" wire:model.live="search">
 
-    <x-Admin.notification-page-content-base>
+    <x-admin.notification-page-content-base>
 
         <x-slot:page_description>
             <p class="mt-0 lg:text-sm text-xs text-[#656565] pl-3">
@@ -135,7 +135,7 @@
             </div>
         </x-slot:notification_lists>
 
-    </x-Admin.notification-page-content-base>
+    </x-admin.notification-page-content-base>
 
     @if (session('success') || session('info'))
             <div
@@ -226,4 +226,4 @@
          class="z-50 absolute inset-0 w-full min-h-full bg-black/50 flex justify-center items-center transition-all pointer-events-none opacity-0">
         <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
     </div>
-</x-Admin.admin-navigation>
+</x-admin.admin-navigation>

@@ -6,7 +6,9 @@ namespace App\Livewire;
 use App\Models\Notification;
 use App\Models\Report;
 use App\Models\Staff;
+use App\Models\Suggestion;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Models\TemporaryReport;
@@ -61,7 +63,42 @@ class ReviewReport extends Component
         // Find the user's temporary report
         $temporaryReport = TemporaryReport::where('reporter_id', $userId)->first();
 
+
+
         if ($temporaryReport) {
+            // Check if report already exists
+            $existingReport = Report::where([
+                ['lat', '=', $temporaryReport->latitude],
+                ['lng', '=', $temporaryReport->longitude],
+                ['street', '=', $temporaryReport->street],
+                ['barangay', '=', $temporaryReport->barangay],
+                ['defect', '=', $temporaryReport->defect]
+            ])->first();
+
+            if ($existingReport) {
+                // Save to suggestions table instead
+                Suggestion::create([
+                    'report_id' => $existingReport->id,
+                    'reporter_id' => Auth::id(),
+                    'is_match' => false, // Default to false until user confirms
+                    'response_deadline' => Carbon::now()->addDays(2), // Set deadline 5 days later
+                    'defect' => $temporaryReport->defect,
+                    'lat' => $temporaryReport->latitude,
+                    'lng' => $temporaryReport->longitude,
+                    'location' => $temporaryReport->address,
+                    'street' => $temporaryReport->street,
+                    'purok' => $temporaryReport->purok,
+                    'barangay' => $temporaryReport->barangay,
+                    'date' => Carbon::createFromFormat('F d, Y', $temporaryReport->date)->format('Y-m-d'),
+                    'time' => Carbon::parse($temporaryReport->time)->format('H:i:s'),
+                    'severity' => 1,
+                    'image' => $temporaryReport->image,
+                    'image_annotated' => $temporaryReport->image_annotated,
+                    'status' => "Unfixed"
+                ]);
+            }
+
+
             // Create a new record in the reports table
             $report = Report::create([
                 'reporter_id' => $temporaryReport->reporter_id,

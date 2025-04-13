@@ -46,7 +46,7 @@
     <div class="flex">
 
         <!-- Web screens Sidebar -->
-        <x-Admin.admin-web-sidebar>
+        <x-admin.admin-web-sidebar>
             <x-slot:navbar_links>
                 <!-- Dashboard -->
                 <a href="{{ route('admin.dashboard') }}" loading="lazy" class="group flex items-center block py-2.5 px-5 rounded font-medium
@@ -167,15 +167,15 @@
                         class="ml-2">Logout</p>
                 </a>
             </x-slot:navbar_links>
-        </x-Admin.admin-web-sidebar>
+        </x-admin.admin-web-sidebar>
 
         <!-- Mobile screens Sidebar -->
-        <x-Admin.admin-mobile-sidebar/>
+        <x-admin.admin-mobile-sidebar/>
 
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col">
 
-            <x-Admin.admin-header>
+            <x-admin.admin-header>
                 <x-slot:page_title_and_search_bar>
                     <h1 class="lg:text-[22px] text-md md:text-lg mt-0 font-semibold text-[#4AA76F] md:mt-3 md:mr-3 lg:mr-1">{{$page_title}}</h1>
 
@@ -223,7 +223,7 @@
                         </span>
                     </a>
                 </x-slot:admin_profile_name>
-            </x-Admin.admin-header>
+            </x-admin.admin-header>
 
             <!-- Content Area -->
             <main

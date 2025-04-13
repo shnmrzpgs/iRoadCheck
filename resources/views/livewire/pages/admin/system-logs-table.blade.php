@@ -1,4 +1,4 @@
-<x-Admin.admin-navigation page_title="System Logs" action="{{ route('admin.system-logs-table') }}" placeholder="Search..." name="logs_search">
+<x-admin.admin-navigation page_title="System Logs" action="{{ route('admin.system-logs-table') }}" placeholder="Search..." name="logs_search">
 
     <div class="flex justify-center items-center sm:justify-start sm:items-start">
         <x-admin.crud-page-content-base>
@@ -143,4 +143,4 @@
         </x-admin.crud-page-content-base>
     </div>
 
-</x-Admin.admin-navigation>
+</x-admin.admin-navigation>
