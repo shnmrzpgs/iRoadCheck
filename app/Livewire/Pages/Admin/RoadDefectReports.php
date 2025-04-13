@@ -48,20 +48,11 @@ class  RoadDefectReports extends Component
     public array $severities = [];
     public array $locations = [];
 
-    public bool $isSearching = false;
-    protected $listeners = ['refreshNavigation' => '$refresh'];
-
     /**
      * Initialize data for filters and dropdown options
      */
     public function mount(): void
     {
-        if (request()->routeIs('admin.road-defect-reports')) {
-            session()->put('hideSearchBar', true);
-        } else {
-            session()->forget('hideSearchBar');
-        }
-
         $this->defectTypes = Report::distinct()->pluck('defect')->toArray();
         $this->statuses = Report::distinct()->pluck('status')->toArray();
         $this->barangays = Report::distinct()->pluck('barangay')->toArray();
@@ -90,14 +81,12 @@ class  RoadDefectReports extends Component
             'selectedDefect',
             'locationFilter',
             'start_date',
-            'end_date'
+            'end_date',
+            'locationFilter'
         ])) {
-            $this->isSearching = true; // Track search state
-            session()->put('hideSearchBar', true); // Ensure session is set
             $this->resetPage();
         }
     }
-
 
     /**
      * Toggle sorting order
@@ -191,9 +180,9 @@ class  RoadDefectReports extends Component
 
         // Sorting logic
         if ($this->sort_by === 'severity.label') {
-            $reportQuery->leftJoin('severities', 'reports.severity_id', '=', 'severities.id')
-                ->select('reports.*', 'severities.label')
-                ->orderBy('severities.label', $this->sort_direction);
+            $reportQuery->leftJoin('severities', 'reports.id', '=', 'severities.id')
+                ->select('reports.*', 'severities.label as severity_label')  // Alias for clarity
+                ->orderBy('severity_label', $this->sort_direction);
         } else {
             $reportQuery->orderBy($this->sort_by, $this->sort_direction);
         }
@@ -211,27 +200,11 @@ class  RoadDefectReports extends Component
         return Excel::download(new RoadDefectReportsExport($filteredRoadDefectReports), 'road_defect_reports.xlsx');
     }
 
-    public function dehydrate(): void
-    {
-        if ($this->isSearching) {
-            session()->put('hideSearchBar', true);
-        } else {
-            session()->forget('hideSearchBar');
-        }
-
-        $this->dispatch('refreshNavigation'); // Ensure UI updates
-    }
-
-
     /**
      * Render Component
      */
     public function render(): Factory|View|Application|\Illuminate\View\View
     {
-        if (!$this->isSearching) {
-            session()->forget('hideSearchBar');
-        }
-
         $roadDefectReports = $this->getFilteredQuery()->paginate($this->rowsPerPage);
 
         return view('livewire.pages.admin.road-defect-reports', [

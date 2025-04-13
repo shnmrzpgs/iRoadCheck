@@ -119,7 +119,7 @@
             <div style="line-height: 1; font-size: 14px;">
                 <p>Report ID: <strong>{{ $report->id ?? 'N/A' }}</strong></p>
                 <p>Type of Defect: <strong>{{ $report->defect ?? 'N/A' }}</strong></p>
-                <p>Report Count: <strong>1</strong></p>
+                <p>Report Count: <strong>{{ $report->report_count ?? 'N/A' }}</strong></p>
             </div>
         </div>
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Report extends Model
 {
@@ -37,13 +38,19 @@ class Report extends Model
     {
         return $this->belongsTo(Severity::class, 'label');
     }
-    public function suggestions()
+    public function suggestions(): HasMany
     {
         return $this->hasMany(Suggestion::class, 'report_id');
     }
-    public function report()
+    public function report(): BelongsTo
     {
         return $this->belongsTo(Report::class, 'report_id');
     }
+
+    public function updatedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
 
 }
