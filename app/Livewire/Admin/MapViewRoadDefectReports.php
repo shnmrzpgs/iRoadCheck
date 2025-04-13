@@ -3,17 +3,19 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Report;
+use App\Models\Severity;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Livewire\Component;
 use Illuminate\Support\Facades\File;
+use Livewire\Component;
+use Carbon\Carbon;
 
 class MapViewRoadDefectReports extends Component
 {
     public array $reports = [];
     public array $geoJsonData = [];
-    public array $locations = [];
+    public array $barangays = [];
     public array $statuses = [];
     public array $defectTypes = [];
     public array $severities = [];
@@ -25,19 +27,40 @@ class MapViewRoadDefectReports extends Component
      */
     public function mount(): void
     {
-        // Load all reports with necessary fields
-        $this->reports = Report::select([
-            'id', 'reporter_id', 'defect', 'lat', 'lng', 'location',
-            'date', 'time', 'label', 'image', 'image_annotated', 'status'
-        ])->get()->toArray();
+        // ✅ Load reports with related severity
+        $this->reports = Report::with('severity')
+            ->select([
+                'id', 'reporter_id', 'defect', 'lat', 'lng', 'location', 'barangay',
+                'date', 'time', 'label', 'image', 'image_annotated', 'status'
+            ])
+            ->get()
+            ->map(function ($report) {
+                // Format readable date
+                $report->formatted_date = $report->date
+                    ? Carbon::parse($report->date)->format('F j, Y')
+                    : null;
 
-        // Load unique filtering options
-        $this->locations = Report::pluck('location')->unique()->filter()->values()->toArray();
+                // Days ago
+                $report->days_ago = $report->date
+                    ? (int) Carbon::parse($report->date)->diffInDays(now()) . ' days ago'
+                    : null;
+
+                // Severity label
+                $report->severity_label = $report->severity->name ?? 'Unknown';
+
+                return $report;
+            })
+            ->toArray();
+
+        // ✅ Load unique filtering options
+        $this->barangays = Report::pluck('barangay')->unique()->filter()->values()->toArray();
         $this->statuses = Report::pluck('status')->unique()->filter()->values()->toArray();
         $this->defectTypes = Report::pluck('defect')->unique()->filter()->values()->toArray();
-        $this->severities = Report::pluck('label')->unique()->filter()->values()->toArray();
 
-        // Load GeoJSON data if the file exists
+        // Get readable severity labels
+        $this->severities = Severity::pluck('label')->unique()->filter()->values()->toArray();
+
+        // ✅ Load GeoJSON data
         $path = public_path('geoJSON/tagumCityRoad.json');
         if (File::exists($path)) {
             $data = File::get($path);
@@ -47,8 +70,6 @@ class MapViewRoadDefectReports extends Component
 
     /**
      * Update the reports data dynamically when a filter is applied.
-     *
-     * @param array $data
      */
     public function updateMapData(array $data): void
     {
@@ -58,15 +79,13 @@ class MapViewRoadDefectReports extends Component
 
     /**
      * Render the Livewire component view.
-     *
-     * @return Factory|Application|View|\Illuminate\View\View
      */
     public function render(): Factory|Application|View|\Illuminate\View\View
     {
         return view('livewire.admin.map-view-road-defect-reports', [
             'reports' => $this->reports,
             'geoJsonData' => $this->geoJsonData,
-            'locations' => $this->locations,
+            'barangays' => $this->barangays,
             'statuses' => $this->statuses,
             'defectTypes' => $this->defectTypes,
             'severities' => $this->severities,

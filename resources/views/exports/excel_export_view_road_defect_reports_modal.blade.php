@@ -67,7 +67,7 @@
         <th style="border-left: 1px solid #252525; background-color: #FFFFFF; color: #000000; width: 20px;"></th>
         <th style="border: none; background-color: #FFFFFF; color: #000000; width: 150px;"></th>
         <th style="border: none; background-color: #FFFFFF; color: #000000; width: 150px; font-family: 'Arial', sans-serif; font-size: 11px; text-align: left; font-weight:bold ">Report Count:</th>
-        <th style="border: none; background-color: #FFFFFF; color: #000000; width: 190px; font-family: 'Arial', sans-serif; font-size: 11px; text-align: left; font-weight: bold;">100</th>
+        <th style="border: none; background-color: #FFFFFF; color: #000000; width: 190px; font-family: 'Arial', sans-serif; font-size: 11px; text-align: left; font-weight: bold;"> {{ $report->report_count ?? 'N/A' }}</th>
         <th style="border: none; background-color: #FFFFFF; color: #000000; width: 120px; font-family: 'Arial', sans-serif; font-size: 11px; text-align: left; font-weight:bold ">Location:</th>
         <th style="border-right: 1px solid #252525; background-color: #FFFFFF; color: #000000; width: 410px; font-family: 'Arial', sans-serif; font-size: 11px; text-align: left; font-weight:bold ">{{ $report->location ?? 'N/A' }}</th>
     </tr>
