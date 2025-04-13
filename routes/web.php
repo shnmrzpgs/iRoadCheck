@@ -22,7 +22,7 @@ Route::get('/search', function () {
 })->name('search');
 
 Route::get('/data-privacy-statement', function () {
-    return view(['iroadcheck.prototype.data-privacy-statement']);
+    return view('iroadcheck.prototype.data-privacy-statement');
 })->name('data-privacy-statement');
 
 Route::get('/landing-page', function () {
