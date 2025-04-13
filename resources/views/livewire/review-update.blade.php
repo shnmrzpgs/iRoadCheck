@@ -13,7 +13,7 @@
     x-cloak
     style="display: none;"
 >
-    <div class="bg-white w-full max-w-3xl p-4 rounded-lg shadow-lg relative overflow-y-auto max-h-[90vh]">
+    <div class="bg-white w-9/10 max-w-3xl p-4 rounded-lg shadow-lg relative overflow-y-auto max-h-[90vh]">
         <!-- Close Button -->
         <button @click="isOpen = false" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 text-lg">
             &times;
@@ -29,14 +29,15 @@
             <button @click="showAlert = false" class="ml-2 text-white font-bold">&times;</button>
         </div>
 
-        <!-- Modal Title -->
-        <h1 class="text-lg font-bold text-center text-black sticky top-[-20px] bg-white p-4 shadow-md z-10">
-            Nearby Reports Found!
-        </h1>
+
 
 
         <!-- Check if there are nearby reports -->
         @if ($nearbyReports && count($nearbyReports) > 0)
+            <!-- Modal Title -->
+            <h1 class="text-lg font-bold text-center text-black sticky top-[-20px] bg-white p-4 shadow-md z-10">
+                Nearby Reports Found!
+            </h1>
             <div class="flex flex-wrap justify-center gap-4">
                 @foreach ($nearbyReports as $report)
                     <div
@@ -56,53 +57,65 @@
                     </div>
                 @endforeach
             </div>
-        @else
-            <p class="text-gray-500 text-center text-sm">No nearby reports found.</p>
-        @endif
+            <!-- Action Buttons with Status Dropdown -->
+            <div class="mt-4 flex flex-col items-center gap-3 sticky bottom-[-21px] bg-white p-4 shadow-md">
+                <!-- Status Dropdown -->
+                <div class="flex items-center space-x-2">
+                    <label for="status" class="text-sm font-semibold text-gray-700">Status:</label>
+                    <select
+                        x-model="selectedStatus"
+                        id="status"
+                        class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-green-500 focus:outline-none"
+                    >
+                        <option value="" disabled hidden selected>Select Status</option>
+                        <option value="Fixed">Fixed</option>
+                        <option value="Ongoing">Ongoing</option>
+                    </select>
+                </div>
 
+                <!-- Buttons -->
+                <div class="flex gap-2">
+                    <!-- Update Button -->
+                    <button
+                        wire:click="updateDefects(selectedStatus)"
+                        class="px-4 py-2 bg-green-600 text-white rounded-md text-sm hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center"
+                        :disabled="!canSubmit()"
+                    >
+                        <span wire:loading.remove class="flex items-center">Update Defects</span>
 
-        <!-- Action Buttons with Status Dropdown -->
-        <div class="mt-4 flex flex-col items-center gap-3 sticky bottom-[-21px] bg-white p-4 shadow-md">
-            <!-- Status Dropdown -->
-            <div class="flex items-center space-x-2">
-                <label for="status" class="text-sm font-semibold text-gray-700">Status:</label>
-                <select
-                    x-model="selectedStatus"
-                    id="status"
-                    class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-green-500 focus:outline-none"
-                >
-                    <option value="" disabled selected>Select Status</option>
-                    <option value="Fixed">Fixed</option>
-                    <option value="Ongoing">Ongoing</option>
-                </select>
-            </div>
-
-            <!-- Buttons -->
-            <div class="flex gap-2">
-                <!-- Update Button -->
-                <button
-                    wire:click="updateDefects(selectedStatus)"
-                    class="px-4 py-2 bg-green-600 text-white rounded-md text-sm hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center"
-                    :disabled="!canSubmit()"
-                >
-                    <span wire:loading.remove class="flex items-center">Update Defects</span>
-
-                    <span wire:loading class="flex items-center">
+                        <span wire:loading class="flex items-center">
 {{--            <svg class="animate-spin h-2 w-4 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">--}}
-{{--                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>--}}
-{{--                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3.5-3.5L12 0v4a8 8 0 018 8h-4l3.5 3.5L20 12h-4a8 8 0 01-8 8v-4l-3.5 3.5L12 20v-4a8 8 0 01-8-8h4z"></path>--}}
-{{--            </svg>--}}
+                            {{--                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>--}}
+                            {{--                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4l3.5-3.5L12 0v4a8 8 0 018 8h-4l3.5 3.5L20 12h-4a8 8 0 01-8 8v-4l-3.5 3.5L12 20v-4a8 8 0 01-8-8h4z"></path>--}}
+                            {{--            </svg>--}}
             Processing...
         </span>
-                </button>
+                    </button>
 
-                <!-- Close Button -->
-                <button wire:click="closeModal" class="px-4 py-2 bg-red-600 text-white rounded-md text-sm hover:bg-red-700">
+                    <!-- Close Button -->
+                    <button wire:click="closeModal" class="px-4 py-2 bg-red-600 text-white rounded-md text-sm hover:bg-red-700">
+                        No
+                    </button>
+                </div>
+
+            </div>
+
+        @else
+            <div class="text-center">
+                <h1 class="text-lg font-bold text-center mb-4 text-black sticky top-[-20px] bg-white p-4 shadow-md z-10">
+                    No nearby reports!
+                </h1>
+                <button @click="retryCapture()" wire:click="closeModal" class="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700">
+                    Retry
+                </button>
+                <button wire:click="closeModal" class="px-4  py-2 bg-red-600 text-white rounded-md text-sm hover:bg-red-700">
                     No
                 </button>
             </div>
 
-        </div>
+        @endif
+
+
 
     </div>
 

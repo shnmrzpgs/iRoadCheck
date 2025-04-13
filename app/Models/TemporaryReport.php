@@ -21,7 +21,8 @@ class TemporaryReport extends Model
         'severity',
         'image',
         'image_annotated',
-        'status'
+        'status',
+        'label'
     ];
 
     protected $casts = [

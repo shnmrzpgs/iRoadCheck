@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class RoadDefectReportsController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         return view('staff.pages.road-defect-reports');
     }

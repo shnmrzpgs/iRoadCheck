@@ -202,7 +202,7 @@
 
                             <!-- Confirm Button -->
                             <button id="submitBtn" type="submit"
-                                    class="w-full hover:scale-105 bottom-5 bg-[#4AA76F] hover:drop-shadow-md text-white px-8 p-3 font-semibold mt-6 mb-3 rounded-full hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
+                                    class="w-3/4 fixed hover:scale-105 bottom-5 bg-[#4AA76F] hover:drop-shadow-md text-white p-3 font-semibold mt-6 mb-3 rounded-full hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
                                 Confirm
                             </button>
                             </form>

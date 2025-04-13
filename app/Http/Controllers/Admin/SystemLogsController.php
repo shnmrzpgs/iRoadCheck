@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class SystemLogsController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         return view('admin.pages.system-logs');
     }

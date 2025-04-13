@@ -5,7 +5,7 @@
     x-cloak
     style="display: none;"
 >
-    <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-lg relative">
+    <div class="bg-white w-9/10 max-w-md p-6 rounded-lg shadow-lg relative">
         <!-- Close Button -->
         <button @click="isOpen = false" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800">
             &times;

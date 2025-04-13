@@ -40,7 +40,7 @@ use Livewire\Component;
                     $lat = $this->report->lat;
                     $lng = $this->report->lng;
 
-                    // Fetch nearby defects within 20 meters
+                    // Fetch nearby defects within 2 meters
                     $this->nearbyReports = Report::selectRaw("
     *,
     (6371 * ACOS(
@@ -50,8 +50,8 @@ use Livewire\Component;
     )) * 1000 AS distance
 ")
                         ->setBindings([$lat, $lng, $lat])
-                        ->having("distance", "<=", 20)
-                        ->where("status", "Unfixed")// 20 meters
+                        ->having("distance", "<=", 2)
+                        ->where("status", "Unfixed")// 2 meters
                         ->orderBy("distance")
                         ->get();
 
@@ -94,7 +94,8 @@ use Livewire\Component;
             Report::whereIn('id', $this->selectedReports)
                 ->update([
                     'updated_image' => $updateImagePath,
-                    'status' => $selectedStatus
+                    'status' => $selectedStatus,
+                    'updater_id' => $userId,
                 ]);
 
             DB::commit();

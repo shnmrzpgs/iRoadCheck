@@ -1,4 +1,4 @@
-<x-app-layout title="iRoadCheck | Dashboard">
+<x-app-layout title="iRoadCheck | dashboard">
 
     <livewire:pages.resident.dashboard/>
 

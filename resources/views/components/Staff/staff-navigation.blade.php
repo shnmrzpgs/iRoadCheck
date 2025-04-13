@@ -49,7 +49,7 @@
         <x-Staff.staff-web-sidebar>
             <x-slot:navbar_links>
                 <!-- Dashboard -->
-                <a href="{{ route('staff.dashboard') }}" loading="lazy" class="group flex items-center block py-2.5 px-5 rounded font-medium
+                <a href="{{ route('staff.dashboard') }}" wire:navigate loading="lazy" class="group flex items-center block py-2.5 px-5 rounded font-medium
                     {{ request()->routeIs('staff.dashboard') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="lazyload w-5 h-5 fill-current
                         {{ request()->routeIs('staff.dashboard') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200' }}">
@@ -61,7 +61,7 @@
                     </p>
                 </a>
                 <!-- Manage Tagging -->
-                <a href="{{ route('staff.manage-tagging') }}" loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
+                <a href="{{ route('staff.manage-tagging') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
                     {{ request()->routeIs('staff.manage-tagging') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
                          class="lazyload w-5 h-5 fill-current
@@ -74,7 +74,7 @@
                     </p>
                 </a>
                 <!-- Road Defect Reports -->
-                <a href="{{ route('staff.road-defect-reports') }}" loading="lazy" class="group flex items-center block py-2.5 px-5 rounded font-medium
+                <a href="{{ route('staff.road-defect-reports') }}" wire:navigate loading="lazy" class="group flex items-center block py-2.5 px-5 rounded font-medium
                     {{ request()->routeIs('staff.road-defect-reports') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 527 455"
                          class="lazyload w-5 h-5 fill-current
@@ -89,7 +89,7 @@
                     </p>
                 </a>
                 <!-- Capture Road Defect -->
-                <a href="{{ route('staff.capture-road-defect') }}" loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
+                <a href="{{ route('staff.capture-road-defect') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
                     {{ request()->routeIs('staff.capture-road-defect') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                          class="lazyload w-5 h-5 fill-current
@@ -103,7 +103,7 @@
                     </p>
                 </a>
                 <!-- Suggestion Reports -->
-                <a href="{{ route('staff.suggestion-reports') }}" loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
+                <a href="{{ route('staff.suggestion-reports') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
                     {{ request()->routeIs('staff.suggestion-reports') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                          class="lazyload w-5 h-5 fill-current mt-1.5
@@ -116,7 +116,7 @@
                     </p>
                 </a>
                 <!-- Report History -->
-                <a href="{{ route('staff.report-history') }}" loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
+                <a href="{{ route('staff.report-history') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
                     {{ request()->routeIs('staff.report-history') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                          class="lazyload w-5 h-5 fill-current mt-1.5
@@ -130,7 +130,7 @@
                 </a>
 
                 <!-- Logout Button -->
-                <a href="javascript:void(0);"
+                <a href="javascript:void(0);"  wire:navigate
                    @click="logoutStaff"
                    class="group flex items-center block py-2.5 px-5 rounded hover:text-[#4AA76F] hover:shadow-md font-medium text-[#4D4F50]">
 
@@ -185,7 +185,7 @@
 
                 <x-slot:staff_profile_name>
                     <!-- Profile Icon with Click and Bounce Microinteraction -->
-                    <a x-ref="content"
+                    <a x-ref="content"  wire:navigate
                        href="{{ route('staff.profile-edit') }}"
                        @click="handleClick()"
                        :class="{ 'scale-105 animate-bounce-once': isClicked }"

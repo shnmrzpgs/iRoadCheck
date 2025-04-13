@@ -21,11 +21,13 @@ class Report extends Model
         'date',
         'time',
         'severity',
+        'label',
         'image',
         'image_annotated',
         'status',
         'report_count',
-        'updated_image'
+        'updated_image',
+        'updater_id'
     ];
 
     protected $casts = [

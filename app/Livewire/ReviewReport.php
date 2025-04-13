@@ -78,6 +78,7 @@ class ReviewReport extends Component
                 'image' => $temporaryReport->image,
                 'image_annotated' => $temporaryReport->image_annotated,
                 'status' => $temporaryReport->status,
+                'label' => $temporaryReport->label,
             ]);
             $reporter = Auth::user();
 

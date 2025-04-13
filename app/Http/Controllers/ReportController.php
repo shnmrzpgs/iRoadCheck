@@ -281,9 +281,24 @@ class ReportController extends Controller
 //    }
     public function TempSubmitReport(Request $request)
     {
+        $request->validate([
+            'latitude'  => 'required',
+            'longitude' => 'required',
+            'address'   => 'required',
+            'purok'     => 'required',
+            'street'    => 'required',
+            'barangay'  => 'required',
+            'date'      => 'required|date',
+            'time'      => 'required',
+            'photo'     => 'required|string',
+        ]);
         // Decode base64 photo
         $photoData = str_replace('data:image/png;base64,', '', $request->photo);
         $image = base64_decode($photoData);
+
+        if ($image === false || @getimagesizefromstring($image) === false) {
+            return redirect()->back()->with('no_defect_modal_open', true);
+        }
 
         // Generate filenames
         $timestamp = time();
@@ -297,7 +312,7 @@ class ReportController extends Controller
 
         // Wait for the JSON file to be generated
         $issue_name = "Unknown";
-        $timeout = 10; // Max wait time in seconds
+        $timeout = 5; // Max wait time in seconds
         $startTime = time();
 
         while (!file_exists($jsonPath) && (time() - $startTime) < $timeout) {
@@ -308,7 +323,7 @@ class ReportController extends Controller
         if (file_exists($jsonPath)) {
             $jsonData = json_decode(file_get_contents($jsonPath), true);
 
-            if (empty($jsonData['prediction'])) {
+            if (!empty($jsonData['prediction'])) {
                 $predictions = collect($jsonData['prediction'])
                     ->sortByDesc(fn($p) => $p['best_probability'] * ($p['rect']['width'] * $p['rect']['height']))
                     ->pluck('name')
@@ -368,6 +383,7 @@ class ReportController extends Controller
             'date' => Carbon::createFromFormat('F d, Y', $request->date)->format('Y-m-d'),
             'time' => Carbon::parse($request->time)->format('H:i:s'),
             'severity' => 1,
+            'label' => 1,
             'image' => $fullImagePath,
             'image_annotated' => $annotatedPath,
             'status' => "Unfixed"
