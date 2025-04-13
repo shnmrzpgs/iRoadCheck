@@ -246,9 +246,9 @@
                             </button>
                         </th>
                         <th scope="col" class="sticky top-0 z-10 bg-white py-3 px-4 text-xs font-semibold text-[#757575]">
-                            <button class="flex items-end">
+                            <button class="flex items-end" wire:click="toggleSorting('report_count')">
                                 Report Count
-                                <div>
+                                <div x-cloak x-show="$wire.sort_by === 'report_count'">
                                     <x-arrow-up x-cloak x-show="$wire.sort_direction === 'asc'" />
                                     <x-arrow-down x-cloak x-show="$wire.sort_direction === 'desc'" />
                                 </div>
@@ -314,7 +314,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="px-4 py-2 text-center text-gray-500">No road defect reports found.</td>
+                            <td colspan="10" class="px-4 py-2 text-center text-gray-500">No road defect reports found.</td>
                         </tr>
                     @endforelse
                     </tbody>

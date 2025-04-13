@@ -434,7 +434,7 @@ class ReportController extends Controller
 
     public function captureRoadDefect()
     {
-        return view('iroadcheck.prototype.Staff.report-road-issue');
+        return view('iroadcheck.prototype.Staff.update-road-issue');
     }
 
 
