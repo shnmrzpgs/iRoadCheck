@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class StaffRolesController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         return view('admin.pages.staff-roles');
     }

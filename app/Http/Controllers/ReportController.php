@@ -281,9 +281,24 @@ class ReportController extends Controller
 //    }
     public function TempSubmitReport(Request $request)
     {
+        $request->validate([
+            'latitude'  => 'required',
+            'longitude' => 'required',
+            'address'   => 'required',
+            'purok'     => 'required',
+            'street'    => 'required',
+            'barangay'  => 'required',
+            'date'      => 'required|date',
+            'time'      => 'required',
+            'photo'     => 'required|string',
+        ]);
         // Decode base64 photo
         $photoData = str_replace('data:image/png;base64,', '', $request->photo);
         $image = base64_decode($photoData);
+
+        if ($image === false || @getimagesizefromstring($image) === false) {
+            return redirect()->back()->with('no_defect_modal_open', true);
+        }
 
         // Generate filenames
         $timestamp = time();

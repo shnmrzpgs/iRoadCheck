@@ -18,7 +18,7 @@ require __DIR__ . '/staff/userRoute.php';
 
 // Search Bar route
 Route::get('/search', function () {
-    return view(['components.search-bar']);
+    return view('components.search-bar');
 })->name('search');
 
 Route::get('/data-privacy-statement', function () {
@@ -26,5 +26,5 @@ Route::get('/data-privacy-statement', function () {
 })->name('data-privacy-statement');
 
 Route::get('/landing-page', function () {
-    return view(['iroadcheck.prototype.landing-page']);
+    return view('iroadcheck.prototype.landing-page');
 })->name('landing-page');

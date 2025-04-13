@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class SuggestionReportsController extends Controller
 {
-    public function __invoke()
+    public function index()
     {
         return view('staff.pages.suggestion-reports');
     }

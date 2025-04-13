@@ -9,7 +9,7 @@ Route::get('/', function () {
 
 
 Route::get('/login', function () {
-    return view(['iroadcheck.prototype.Admin.login']);
+    return view('iroadcheck.prototype.Admin.login');
 });
 
 

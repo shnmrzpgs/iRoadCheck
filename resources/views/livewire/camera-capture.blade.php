@@ -125,7 +125,7 @@
 
                             <!-- Body -->
                             <div
-                                class="h-[30vh] w-full flex flex-col justify-center items-center overflow-y-auto space-y-4 mx-auto text-start"
+                                class="h-[35vh] w-full flex flex-col justify-center items-center overflow-y-auto space-y-4 mx-auto text-start"
                             >
 {{--                                <!-- Type of Defect -->--}}
 {{--                                <div class="text-sm flex justify-start items-start w-3/4">--}}
