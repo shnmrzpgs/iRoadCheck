@@ -9,7 +9,7 @@
 
         <title>{{ $title }}</title>
 {{--        @laravelPWA--}}
-        <script src="{{ asset('resources/js/app.js') }}"></script>
+{{--        <script src="{{ asset('resources/js/app.js') }}"></script>--}}
 {{--        <script src="{{ asset('js/map.js') }}"></script>--}}
 {{--        <script src="{{ asset('geoJSON/tagumCityRoad.json') }}"></script>--}}
 
@@ -28,6 +28,10 @@
 
         <!-- Leaflet Library -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+{{--        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />--}}
+{{--        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />--}}
+{{--        <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>--}}
+
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
