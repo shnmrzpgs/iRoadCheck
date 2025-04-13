@@ -1,4 +1,4 @@
-<x-Admin.admin-navigation page_title="Manage Staffs" action="{{ route('admin.manage-users-table') }}" placeholder="Search..." id="search" name="search" wire:model.live="search">
+<x-admin.admin-navigation page_title="Manage Staffs" action="{{ route('admin.manage-users-table') }}" placeholder="Search..." id="search" name="search" wire:model.live="search">
 
     <div class="flex justify-center items-center sm:justify-start sm:items-start ">
         <x-admin.crud-page-content-base>
@@ -63,7 +63,7 @@
                         <livewire:modals.admin.users-modal.add-user-account-modal
                             @user_added="$refresh" />
                     </div>
-                    
+
                     <button type="button" wire:click="exportStaffs"
                         class="mt-5 flex gap-x-[8px] w-auto text-xs px-[14px] py-[8px] font-normal tracking-wider text-[#FFFFFF] bg-gradient-to-b from-[#84D689] to-green-500 rounded-full hover:drop-shadow hover:bg-[#4AA76F] hover:scale-105 hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier (0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="15" height="15" class="mt-0.5 mr-0">
@@ -220,4 +220,4 @@
         </x-admin.crud-page-content-base>
     </div>
 
-</x-Admin.admin-navigation>
+</x-admin.admin-navigation>

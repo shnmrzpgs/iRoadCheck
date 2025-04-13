@@ -1,4 +1,4 @@
-<x-Admin.map-view-reports-page-content-base>
+<x-admin.map-view-reports-page-content-base>
 
     <x-slot:page_description>
         This map view page allows admin to view the comprehensive reports of the road defects within Tagum City.
@@ -238,7 +238,7 @@
                     <div class="flex flex-wrap gap-4 justify-center rounded-2">
                         <div class="w-full shadow p-5 rounded-md">
                             <h2 class="font-semibold text-sm text-center mb-3">REPORTED <br/> Road Defect Information</h2>
-                            <x-Admin.admin-view-road-defect-report-image-modal>
+                            <x-admin.admin-view-road-defect-report-image-modal>
                                 <x-slot:image_title>
                                     Reported Captured Road Photo
                                 </x-slot:image_title>
@@ -249,7 +249,7 @@
                                         class="w-full h-auto rounded-[10px] object-contain cursor-pointer"
                                         :style="`transform: scale(${scale}) translate(${offsetX}px, ${offsetY}px); transform-origin: center; transition: transform 0.1s ease-out;`"/>
                                 </x-slot:image>
-                            </x-Admin.admin-view-road-defect-report-image-modal>
+                            </x-admin.admin-view-road-defect-report-image-modal>
                             <div class="mb-2 text-xs lg:text-sm flex w-full">
                                 <div class="w-2/4 text-gray-600">First Reporter Full Name:</div>
                                 <div class="w-2/4" x-text="selectedReport.id"></div>
@@ -303,7 +303,7 @@
                         </div>
                         <div class="w-full shadow p-5 rounded-md">
                             <h2 class="font-semibold text-green-500 text-sm text-center mb-3">UPDATED <br/> Road Defect Information</h2>
-                            <x-Admin.admin-view-road-defect-report-image-modal>
+                            <x-admin.admin-view-road-defect-report-image-modal>
                                 <x-slot:image_title>
                                     Reported Captured Road Photo
                                 </x-slot:image_title>
@@ -314,7 +314,7 @@
                                         class="w-full h-auto rounded-[10px] object-contain cursor-pointer"
                                         :style="`transform: scale(${scale}) translate(${offsetX}px, ${offsetY}px); transform-origin: center; transition: transform 0.1s ease-out;`"/>
                                 </x-slot:image>
-                            </x-Admin.admin-view-road-defect-report-image-modal>
+                            </x-admin.admin-view-road-defect-report-image-modal>
                             <div class="mb-2 text-xs lg:text-sm flex w-full">
                                 <div class="w-2/4 text-gray-600">Updated By Staff: (Role)</div>
                                 <div class="w-2/4" x-text="selectedReport.id"></div>
@@ -373,7 +373,7 @@
         </template>
     </x-slot:individual_report_information>
 
-</x-Admin.map-view-reports-page-content-base>
+</x-admin.map-view-reports-page-content-base>
 
 <script>
     var geoJsonData = @json($geoJsonData);

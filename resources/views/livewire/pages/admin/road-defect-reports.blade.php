@@ -1,6 +1,6 @@
-<x-Admin.admin-navigation page_title="Road Defect Reports">
+<x-admin.admin-navigation page_title="Road Defect Reports">
 
-    <x-Admin.road-defect-reports-page-content-base>
+    <x-admin.road-defect-reports-page-content-base>
 
         {{--Map View--}}
         <x-slot:map_container>
@@ -340,9 +340,9 @@
             </div>
         </x-slot:wire_loading_container>
 
-    </x-Admin.road-defect-reports-page-content-base>
+    </x-admin.road-defect-reports-page-content-base>
 
-</x-Admin.admin-navigation>
+</x-admin.admin-navigation>
 
 
 

@@ -1,4 +1,4 @@
-<x-Admin.admin-navigation page_title="Profile Settings">
+<x-admin.admin-navigation page_title="Profile Settings">
 
     <x-admin.profile-page-content-base>
 
@@ -360,5 +360,5 @@
         <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
     </div>
 
-</x-Admin.admin-navigation>
+</x-admin.admin-navigation>
 
