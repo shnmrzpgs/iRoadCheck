@@ -1,4 +1,4 @@
-<x-Residents.residents-navigation page_title="Profile Settings">
+<x-residents.residents-navigation page_title="Profile Settings">
 
     <x-residents.profile-page-content-base>
 
@@ -350,4 +350,4 @@
         <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading />
     </div>
 
-</x-Residents.residents-navigation>
+</x-residents.residents-navigation>

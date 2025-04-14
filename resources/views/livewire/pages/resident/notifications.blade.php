@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-residents.residents-navigation>
 
-        <x-Residents.notification-page-content-base>
+        <x-residents.notification-page-content-base>
 
             <x-slot:mark_all_as_read_button_container>
                 <button type="button" wire:click="markAllAsRead" class="text-[12px] rounded">
@@ -54,7 +54,7 @@
                 @endforeach
             </x-slot:notification_earlier>
 
-        </x-Residents.notification-page-content-base>
+        </x-residents.notification-page-content-base>
 
     </x-residents.residents-navigation>
 

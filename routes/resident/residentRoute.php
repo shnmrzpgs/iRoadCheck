@@ -37,7 +37,7 @@ Route::group(['middleware' => ['AuthResident']], function () {
 
     Route::get('/resident/dashboard', [App\Http\Controllers\resident\DashboardController::class, 'index'])
     ->name('resident.dashboard');
-
+Route::view('/residents/suggestion-reports', 'iroadcheck.prototype.residents.suggestion-reports')->name('suggestion-reports');
     Route::get('/resident/report-history', [App\Http\Controllers\resident\ReportHistoryController::class, 'index'])
     ->name('resident.report-history');
 

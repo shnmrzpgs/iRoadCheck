@@ -1,4 +1,4 @@
-<x-Residents.residents-navigation page_title="Report History" action="{{ route('resident.report-history') }}" placeholder="Search..." name="search" wire:model.live="search">
+<x-residents.residents-navigation page_title="Report History" action="{{ route('resident.report-history') }}" placeholder="Search..." name="search" wire:model.live="search">
 
     <div class="flex justify-center items-center sm:justify-start sm:items-start">
 
@@ -151,4 +151,4 @@
         </x-residents.crud-page-content-base>
     </div>
 
-</x-Residents.residents-navigation>
+</x-residents.residents-navigation>

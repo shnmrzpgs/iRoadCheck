@@ -272,20 +272,25 @@
                             </div>
 
                             <!-- Time Reported -->
-                            <div class="mb-4 text-xs lg:text-sm flex w-full">
-                                <div class="w-2/4 text-gray-600">Time Reported:</div>
-                                <div class="w-2/4">
-                                    <template x-if="selectedReport.time">
-                                        <span x-text="new Date(selectedReport.time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })"></span>
-                                    </template>
-                                    <template x-if="!selectedReport.time && selectedReport.created_at">
-                                        <span x-text="new Date(selectedReport.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })"></span>
-                                    </template>
-                                    <template x-if="!selectedReport.time && !selectedReport.created_at">
-                                        <span>N/A</span>
-                                    </template>
-                                </div>
-                            </div>
+<div class="mb-4 text-xs lg:text-sm flex w-full">
+    <div class="w-2/4 text-gray-600">Time Reported:</div>
+    <div class="w-2/4">
+        <span x-text="
+            selectedReport.time 
+                ? (() => {
+                    let [h, m, s] = selectedReport.time.split(':');
+                    h = parseInt(h);
+                    const period = h >= 12 ? 'PM' : 'AM';
+                    h = h % 12 || 12;
+                    return `${h.toString().padStart(2, '0')}:${m}:${s} ${period}`;
+                })()
+                : selectedReport.created_at 
+                    ? new Date(selectedReport.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }) 
+                    : 'N/A'
+        "></span>
+    </div>
+</div>
+
 
                             <!-- Coordinates -->
                             <template x-if="selectedReport.lng && selectedReport.lat">
