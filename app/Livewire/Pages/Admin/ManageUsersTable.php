@@ -161,7 +161,7 @@ class ManageUsersTable extends Component
             ];
 
             $staffs = $this->getFilteredQuery()->get();
-            
+
             return Excel::download(
                 new StaffsDataExport($staffs, $filters),
                 'staffs_report_' . now()->format('Y-m-d_His') . '.xlsx'
