@@ -62,7 +62,7 @@
                 <!-- General Header -->
                 <div class="w-full bg-transparent h-10 py-6 px-3 border-b-2 border-gray-500 flex justify-between items-center">
                     <p class="text-gray-500 font-semibold text-sm">Recent Reports</p>
-                    <a href="{{ route('report-history') }}" class="text-[#4362FF] text-sm flex items-center">
+                    <a href="{{ route('resident.report-history') }}" class="text-[#4362FF] text-sm flex items-center">
                         See More
                         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
