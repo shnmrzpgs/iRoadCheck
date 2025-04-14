@@ -40,10 +40,11 @@ class StaffLogsExport implements FromView, WithEvents, WithDrawings
                 $sheet->getStyle('A1:D1')->getAlignment()->setHorizontal('center');
 
                 // Set column widths for better readability
-                $sheet->getColumnDimension('A')->setWidth(15);
-                $sheet->getColumnDimension('B')->setWidth(20);
-                $sheet->getColumnDimension('C')->setWidth(30);
+                $sheet->getColumnDimension('A')->setWidth(10);
+                $sheet->getColumnDimension('B')->setWidth(18);
+                $sheet->getColumnDimension('C')->setWidth(20);
                 $sheet->getColumnDimension('D')->setWidth(25);
+                $sheet->getColumnDimension('E')->setWidth(35);
             }
         ];
     }
@@ -57,10 +58,10 @@ class StaffLogsExport implements FromView, WithEvents, WithDrawings
         $drawing = new Drawing();
         $drawing->setName('Logo');
         $drawing->setDescription('System Logo');
-        $drawing->setPath(public_path('storage/images/IRoadCheck_Logo.png')); // Adjust the path to your logo image
-        $drawing->setHeight(80); // Set the height of the logo
-        $drawing->setCoordinates('A1');
-        $drawing->setOffsetX(25);
+        $drawing->setPath(public_path('storage/images/tagum_city_logo.png')); // Adjust the path to your logo image
+        $drawing->setHeight(110); // Set the height of the logo
+        $drawing->setCoordinates('B1');
+        $drawing->setOffsetX(5);
         $drawing->setOffsetY(100);
 
         return [$drawing];
