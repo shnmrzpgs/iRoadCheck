@@ -3,9 +3,16 @@
     $minStartDate = $adminLogs->min('created_at');
     $maxEndDate = $adminLogs->max('created_at');
 
-    $formattedDateRange = $minStartDate && $maxEndDate
-        ? \Carbon\Carbon::parse($minStartDate)->format('F j, Y') . ' to ' . \Carbon\Carbon::parse($maxEndDate)->format('F j, Y')
-        : 'No logs available';
+    if ($minStartDate && $maxEndDate) {
+        $minDate = \Carbon\Carbon::parse($minStartDate)->format('F j, Y');
+        $maxDate = \Carbon\Carbon::parse($maxEndDate)->format('F j, Y');
+
+        $formattedDateRange = $minDate === $maxDate
+            ? $minDate
+            : $minDate . ' to ' . $maxDate;
+    } else {
+        $formattedDateRange = 'No logs available';
+    }
 @endphp
 
 <table>
@@ -53,7 +60,7 @@
     <tr>
         <!-- Center the content -->
         <th style="border-right: 1px solid #101010; background-color: #FFFFFF; color: #252525; font-size: 16px; font-family: 'Arial', sans-serif; text-align: center; font-weight: bold;" colspan="5">
-            LIST OF ROAD DEFECT REPORTS IN TAGUM CITY
+            LIST OF ADMIN LOGS IN IROADCHECK
         </th>
     </tr>
     <tr>
@@ -74,7 +81,7 @@
     @foreach($adminLogs as $log)
         <tr>
             <td style="border: 1px solid #101010; text-align: center;">{{ $loop->iteration }}</td>
-            <td style="border: 1px solid #101010; text-align: left;"  colspan="2">{{ $log->admin->name }}</td>
+            <td style="border: 1px solid #101010; text-align: left;" colspan="2">{{ $log->admin->name }}</td>
             <td style="border: 1px solid #101010; text-align: left;">{{ $log->action }}</td>
             <td style="border: 1px solid #101010; text-align: left;">
                 {{ \Carbon\Carbon::parse($log->created_at)->format('F d, Y \a\t h:i A') }}

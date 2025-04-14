@@ -46,7 +46,7 @@ class AdminLogsExport implements FromView, WithEvents, WithDrawings
                 $sheet->getColumnDimension('B')->setWidth(18);
                 $sheet->getColumnDimension('C')->setWidth(20);
                 $sheet->getColumnDimension('D')->setWidth(25);
-                $sheet->getColumnDimension('D')->setWidth(25);
+                $sheet->getColumnDimension('E')->setWidth(35);
             }
         ];
     }
@@ -68,7 +68,6 @@ class AdminLogsExport implements FromView, WithEvents, WithDrawings
 
         return [$drawing];
     }
-
 
     /**
      * Generate the view for the export.
