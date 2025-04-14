@@ -10,7 +10,7 @@
             <path d="M368 208A160 160 0 1 0 48 208a160 160 0 1 0 320 0zM337.1 371.1C301.7 399.2 256.8 416 208 416C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208c0 48.8-16.8 93.7-44.9 129.1l124 124 17 17L478.1 512l-17-17-124-124z" />
         </svg>
         <input
-            class="ml-2 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] shadow-[0px_1px_5px_rgba(0,0,0,0.2)] focus:bg-white bg-white rounded-[4px] block w-full md:w-[200px] lg:w-[310px] py-2 pl-8 text-gray-900 placeholder:text-gray-400 text-xs"
+            class="ml-2 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] shadow-[0px_1px_5px_rgba(0,0,0,0.2)] focus:bg-white bg-white rounded-[4px] block w-full py-2 pl-8 text-gray-900 placeholder:text-gray-400 text-xs"
             x-on:input="
                 filterMarkers($event.target.value);
                 showFilters = $event.target.value.trim() !== '';
@@ -20,16 +20,41 @@
     </x-slot:search_container>
 
     <x-slot:dropdown_filters_container>
+
+        <!-- All Reports Button -->
+        <div
+            @click="
+                activeFilter = 'all';
+                searchQuery = '';
+                dateFilterStart = '';
+                dateFilterEnd = '';
+                selectedBarangay = '';
+                selectedStatus = '';
+                selectedDefect = '';
+                selectedSeverity = '';
+                if ($refs.startDate?._flatpickr) $refs.startDate._flatpickr.clear();
+                if ($refs.endDate?._flatpickr) $refs.endDate._flatpickr.clear();
+                filterMarkers('');
+            "
+            class="relative rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md"
+            :class="{
+                'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'all',
+                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'all'
+            }"
+        >
+            <span class="text-[12px] block w-full text-center px-2 py-2">All Reports</span>
+        </div>
+
         <!-- Defect Type -->
         <div class="relative flex rounded-[4px] border hover:shadow-md custom-select"
-             :class="{
-             'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'selectedDefect',
-             'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'selectedDefect'
-         }">
+                 :class="{
+                 'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'selectedDefect',
+                 'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'selectedDefect'
+             }">
             <select
                 x-on:input="
                 filterMarkers($event.target.value);"
-{{--                wire:model.live="selectedDefect" @change="activeFilter = 'selectedDefect'"--}}
+                @change="activeFilter = 'selectedDefect'"
                     class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">
                 <option value="" class="text-gray-400 text-[12px]">Road Defect</option>
                 @foreach($defectTypes as $defect)
@@ -47,7 +72,7 @@
             <select
                 x-on:input="
                 filterMarkers($event.target.value);"
-{{--                wire:model.live="barangayFilter" @change="activeFilter = 'barangayFilter'"--}}
+                @change="activeFilter = 'barangayFilter'"
                     class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">
                 <option value="" class="text-gray-400 text-[12px]">Barangay</option>
                 @foreach($barangays as $barangay)
@@ -65,7 +90,7 @@
             <select
                 x-on:input="
                 filterMarkers($event.target.value);"
-{{--                wire:model.live="statusFilter" @change="activeFilter = 'statusFilter'"--}}
+                @change="activeFilter = 'statusFilter'"
                     class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">
                 <option value="" class="text-gray-400 text-[12px]">Status</option>
                 @foreach($statuses as $status)
@@ -83,7 +108,7 @@
             <select
                 x-on:input="
                 filterMarkers($event.target.value);"
-{{--                wire:model.live="severityFilter" @change="activeFilter = 'severityFilter'"--}}
+                @change="activeFilter = 'severityFilter'"
                     class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">
                 <option value="" class="text-gray-400 text-[12px]">Severity</option>
                 @foreach($severities as $label)
@@ -93,42 +118,7 @@
         </div>
 
         <!-- Date Range -->
-{{--        <div--}}
-{{--            x-data="{--}}
-{{--            startDate: $wire.start_date,--}}
-{{--            endDate: $wire.end_date,--}}
-{{--            init() {--}}
-{{--                flatpickr(this.$refs.picker, {--}}
-{{--                    mode: 'range',--}}
-{{--                    dateFormat: 'Y-m-d',--}}
-{{--                    defaultDate: [this.startDate, this.endDate],--}}
-{{--                    onChange: (selectedDates, dateStr) => {--}}
-{{--                        const [fromDate, toDate] = dateStr.split(' to ');--}}
-{{--                        $wire.set('start_date', fromDate || '');--}}
-{{--                        $wire.set('end_date', toDate || '');--}}
-{{--                        this.$refs.picker.value = selectedDates.map(d =>--}}
-{{--                            d.toLocaleDateString('en-US', {--}}
-{{--                                year: 'numeric', month: 'long', day: '2-digit'--}}
-{{--                            })--}}
-{{--                        ).join(' to ');--}}
-{{--                    }--}}
-{{--                });--}}
-{{--            }--}}
-{{--        }"--}}
-{{--             x-on:input="--}}
-{{--                filterMarkers($event.target.value);"--}}
-{{--             class="relative flex rounded-[4px] border hover:shadow-md custom-date-input"--}}
-{{--             :class="{--}}
-{{--            'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'dateRange',--}}
-{{--            'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'dateRange'--}}
-{{--        }">--}}
-{{--            <input type="text" placeholder="Select Date Range"--}}
-{{--                   class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none"--}}
-{{--                   x-ref="picker" @focus="activeFilter = 'dateRange'" />--}}
-{{--        </div>--}}
         <div x-data="{
-            dateFilterStart: '',
-            dateFilterEnd: '',
             initDatePickers() {
                 const self = this;
 
@@ -158,13 +148,13 @@
                     'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'dateRange'
                 }">
 
-            <span class="text-[12px] bg-transparent border-none py-2">From:</span>
+            <span class="text-[12px] bg-transparent border-none pl-2 py-2">From:</span>
             <input
                 type="text"
                 x-ref="start"
                 placeholder="Start Date"
                 class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-2 py-1 pr-2 rounded focus:outline-none"/>
-            <span class="text-[12px] bg-transparent border-none py-2">to:</span>
+            <span class="text-[12px] bg-transparent border-none py-2">To:</span>
             <input
                 type="text"
                 x-ref="end"
@@ -175,6 +165,18 @@
     </x-slot:dropdown_filters_container>
 
     <x-slot:comprehensive_or_group_report_information>
+
+        <!-- When No Report Is Selected -->
+        <template x-if="(!selectedReport || !selectedReport.id) && !showingGroupReports">
+        <div class="mb-4 w-full text-[12px] text-gray-500 text-center">
+                <div class="flex flex-col items-center justify-center h-full">
+                    <img src="{{ asset('storage/icons/marker-on-the-map-icon.png') }}" alt="markerIcon" loading="lazy"
+                         class="xs:-my-2 md:mb-1 md:mt-4 w-28 sm:w-36 md:w-48 lg:w-56 max-w-[150px] mt-4 mb-0 drop-shadow-lg" />
+                    <p class="text-sm font-medium">Click a marker on the map to view details of the road defect report.</p>
+                </div>
+            </div>
+        </template>
+
         <!-- Show this content when no report is selected AND not showing group reports -->
         <template x-if="!selectedReport || !selectedReport.id && showingGroupReports">
             <div id="group-marker-details"
@@ -226,7 +228,7 @@
                                 </div>
                                 <div class="text-xs lg:text-sm flex justify-start items-start w-full">
                                     <div class="w-2/4 font-medium text-gray-600">Severity:</div>
-                                    <div class="w-2/4" x-text="selectedReport.severity.label"></div>
+                                    <div class="w-2/4" x-text="selectedReport.severity_label"></div>
                                 </div>
                                 <div class="text-xs lg:text-sm flex justify-start items-start w-full">
                                     <div class="w-2/4 font-medium text-gray-600">Location:</div>
@@ -244,9 +246,9 @@
                                 </x-slot:image_title>
                                 <x-slot:image>
                                     <img
-                                        :src="selectedReport.image ? `/storage/${selectedReport.image}` : '/images/placeholder.png'"
+                                        :src="selectedReport.image_annotated ? `/storage/${selectedReport.image_annotated}` : '/images/placeholder.png'"
                                         alt="Defect Image"
-                                        class="w-full h-auto rounded-[10px] object-contain cursor-pointer"
+                                        class="w-[480px] h-[640px] rounded-[10px] object-contain cursor-pointer"
                                         :style="`transform: scale(${scale}) translate(${offsetX}px, ${offsetY}px); transform-origin: center; transition: transform 0.1s ease-out;`"/>
                                 </x-slot:image>
                             </x-admin.admin-view-road-defect-report-image-modal>
@@ -305,13 +307,13 @@
                             <h2 class="font-semibold text-green-500 text-sm text-center mb-3">UPDATED <br/> Road Defect Information</h2>
                             <x-admin.admin-view-road-defect-report-image-modal>
                                 <x-slot:image_title>
-                                    Reported Captured Road Photo
+                                    Updated Captured Road Photo
                                 </x-slot:image_title>
                                 <x-slot:image>
                                     <img
-                                        :src="selectedReport.image ? `/storage/${selectedReport.image}` : '/images/placeholder.png'"
+                                        :src="selectedReport.image_annotated ? `/storage/${selectedReport.image_annotated}` : '/images/placeholder.png'"
                                         alt="Updated Road Concern Image"
-                                        class="w-full h-auto rounded-[10px] object-contain cursor-pointer"
+                                        class="w-[480px] h-[640px] rounded-[10px] object-contain cursor-pointer"
                                         :style="`transform: scale(${scale}) translate(${offsetX}px, ${offsetY}px); transform-origin: center; transition: transform 0.1s ease-out;`"/>
                                 </x-slot:image>
                             </x-admin.admin-view-road-defect-report-image-modal>
@@ -377,17 +379,6 @@
 
 <script>
     var geoJsonData = @json($geoJsonData);
-    // Livewire.dispatch('applyFilters', {
-    //     barangay: this.selectedBarangay,
-    //     status: this.selectedStatus,
-    //     defect: this.selectedDefect,
-    //     severity: this.selectedSeverity
-    // });
-    // Livewire.on('updateMap', ({ filteredData }) => {
-    //     this.reports = filteredData;
-    //     this.filteredReports = filteredData; // If needed
-    //     this.updateMarkers(); // Your existing method
-    // });
 
     function mapComponent() {
         return {
@@ -407,6 +398,7 @@
             pulseLocationIcon: null,
             pulseInterval: null,
             filteredReports: [],
+            showingGroupReports: false,
 
             init() {
                 this.reports.forEach(report => report.severity = this.severityMap[report.id] || 'Unknown');
@@ -1208,7 +1200,7 @@
                     };
 
                     const groupedByDefect = groupBy(reports, "defect");
-                    const groupedByStatus = groupBy(reports, "status");
+                    // const groupedByStatus = groupBy(reports, "status");
                     const groupedByLocation = groupBy(reports, "location");
 
                     const summary = document.createElement("div");
@@ -1280,6 +1272,7 @@
                                     <p><span class="font-semibold">Location:</span> ${report.location ?? 'Unknown Location'}</p>
                                     <p><span class="font-semibold">Date Reported:</span> ${report.formatted_date ?? 'Unknown Date'}</p>
                                     <p><span class="font-semibold">Status:</span> ${report.status ?? 'Unknown Status'}</p>
+                                    <p><span class="font-semibold">Severity:</span> ${report.severity_label ?? report.severity ?? 'Unknown Severity'}</p>
                                     <p><span class="font-semibold">Days Ago:</span> ${report.days_ago ?? 'N/A'}</p>
                                 `;
 
@@ -1424,14 +1417,14 @@
                         const detailsId = `details-${groupIndex}`;
 
                         header.innerHTML = `
-                <div>
-                    <h3 class="font-bold">${defect}</h3>
-                    <p class="text-sm text-gray-500">Total Reports: <span class="font-semibold text-orange-500">${reports.length}</span></p>
-                </div>
-                <button id="${toggleId}" class="text-sm text-blue-500 hover:underline focus:outline-none">
-                    View Details
-                </button>
-            `;
+                            <div>
+                                <h3 class="font-bold">${defect}</h3>
+                                <p class="text-sm text-gray-500">Total Reports: <span class="font-semibold text-orange-500">${reports.length}</span></p>
+                            </div>
+                            <button id="${toggleId}" class="text-sm text-blue-500 hover:underline focus:outline-none">
+                                View Details
+                            </button>
+                        `;
 
                         container.appendChild(header);
 
@@ -1454,11 +1447,12 @@
                             detail.dataset.reportId = report.id;
 
                             detail.innerHTML = `
-                    <p><span class="font-semibold">Location:</span> ${report.location ?? 'Unknown Location'}</p>
-                    <p><span class="font-semibold">Date Reported:</span> ${report.formatted_date ?? 'Unknown Date'}</p>
-                    <p><span class="font-semibold">Status:</span> ${report.status ?? 'Unknown Status'}</p>
-                    <p><span class="font-semibold">Days Ago:</span> ${report.days_ago ?? 'N/A'}</p>
-                `;
+                                <p><span class="font-semibold">Location:</span> ${report.location ?? 'Unknown Location'}</p>
+                                <p><span class="font-semibold">Date Reported:</span> ${report.formatted_date ?? 'Unknown Date'}</p>
+                                <p><span class="font-semibold">Status:</span> ${report.status ?? 'Unknown Status'}</p>
+                                <p><span class="font-semibold">Severity:</span> ${report.severity_label ?? report.severity ?? 'Unknown Severity'}</p>
+                                <p><span class="font-semibold">Days Ago:</span> ${report.days_ago ?? 'N/A'}</p>
+                            `;
 
                             detail.addEventListener("click", () => {
                                 this.viewReport(report.id);
@@ -1514,67 +1508,158 @@
             },
 
             viewReport(id) {
-                this.selectedReport = this.reports.find(report => report.id === id);
-                this.showingGroupReports = true;
+                const newSelectedReport = this.reports.find(report => report.id === id);
+                if (!newSelectedReport) return;
 
-                if (!this.selectedReport) return;
-
-                const latLng = L.latLng(this.selectedReport.lat, this.selectedReport.lng);
+                const latLng = L.latLng(newSelectedReport.lat, newSelectedReport.lng);
                 const currentZoom = this.map.getZoom();
                 const currentCenter = this.map.getCenter();
-
                 const isSameLocation = currentCenter.distanceTo(latLng) < 10;
                 const isSameZoom = currentZoom === 16;
 
+                const openPopupAfterMove = () => {
+                    newSelectedReport.marker?.openPopup();
+                    this.map.off('moveend', openPopupAfterMove);
+
+                    // ✅ Only update markers after the move and popup open
+                    this.selectedMarkerReportId = id;
+                    this.updateMarkers();
+                };
+
+                // If moving the map is required
                 if (!isSameLocation || !isSameZoom) {
-                    const onMoveEnd = () => {
-                        this.selectedReport.marker.openPopup();
-                        this.map.off('moveend', onMoveEnd);
-                    };
-                    this.map.on('moveend', onMoveEnd);
+                    this.map.on('moveend', openPopupAfterMove);
                     this.map.setView(latLng, 16, { animate: true });
                 } else {
-                    this.selectedReport.marker.openPopup();
+                    newSelectedReport.marker?.openPopup();
+
+                    // ✅ Directly update markers here if no movement is needed
+                    this.selectedMarkerReportId = id;
+                    setTimeout(() => this.updateMarkers(), 100); // slight delay for smoothness
                 }
 
-                // ✅ Clear any previous pulse effect
+                // Clear previous pulse
                 if (this.pulseLocationIcon) {
                     this.map.removeLayer(this.pulseLocationIcon);
                     clearInterval(this.pulseInterval);
                     this.pulseLocationIcon = null;
+                    this.pulseInterval = null;
                 }
 
-                // ✅ Add new pulse effect
-                this.pulseLocationIcon = L.circle(latLng, {
-                    color: 'blue',
-                    fillColor: 'blue',
-                    fillOpacity: 0.15,
-                    radius: 40
-                }).addTo(this.map);
+                this.selectedReport = newSelectedReport;
+                this.showingGroupReports = true;
+                this.selectedMarkerReportId = id; // Set selected report ID for marker icon change
 
-                this.pulseLocationIcon.bringToBack();
+                // ✅ Re-run updateMarkers to update the selected marker's icon
+                this.updateMarkers();
 
-                let pulseSize = 40;
-                this.pulseInterval = setInterval(() => {
-                    if (!this.pulseLocationIcon) return;
-                    pulseSize = pulseSize === 40 ? 55 : 40;
-                    this.pulseLocationIcon.setRadius(pulseSize);
-                }, 1000);
+                // Function to create pulse
+                const createPulse = () => {
+                    if (!this.selectedReport) return;
 
-                // ✅ Hide pulse when zoomed to 14 or closer
-                const onZoomEnd = () => {
-                    const zoom = this.map.getZoom();
-                    if (zoom <= 14) {
-                        if (this.pulseLocationIcon) {
+                    const pulseLatLng = L.latLng(this.selectedReport.lat, this.selectedReport.lng);
+                    this.pulseLocationIcon = L.circle(pulseLatLng, {
+                        color: 'blue',
+                        fillColor: 'blue',
+                        fillOpacity: 0.15,
+                        radius: 40
+                    }).addTo(this.map);
+                    this.pulseLocationIcon.bringToBack();
+
+                    let pulseSize = 40;
+                    this.pulseInterval = setInterval(() => {
+                        if (!this.pulseLocationIcon) return;
+                        pulseSize = pulseSize === 40 ? 55 : 40;
+                        this.pulseLocationIcon.setRadius(pulseSize);
+                    }, 1000);
+                };
+
+                // Create pulse initially (if zoom > 14)
+                if (this.map.getZoom() > 14) {
+                    createPulse();
+                }
+
+                // Set up global zoomend listener once
+                if (!this._zoomPulseHandlerInitialized) {
+                    this.map.on('zoomend', () => {
+                        const zoom = this.map.getZoom();
+
+                        if (zoom <= 14 && this.pulseLocationIcon) {
                             this.map.removeLayer(this.pulseLocationIcon);
                             clearInterval(this.pulseInterval);
                             this.pulseLocationIcon = null;
+                            this.pulseInterval = null;
+                        } else if (zoom > 14 && !this.pulseLocationIcon && this.selectedReport) {
+                            createPulse();
                         }
-                        this.map.off('zoomend', onZoomEnd); // Optional: remove listener after it hides once
-                    }
-                };
-                this.map.on('zoomend', onZoomEnd);
+                    });
+
+                    this._zoomPulseHandlerInitialized = true; // Prevent duplicate listeners
+                }
             },
+
+            // viewReport(id) {
+            //     this.selectedReport = this.reports.find(report => report.id === id);
+            //     this.showingGroupReports = true;
+            //
+            //     if (!this.selectedReport) return;
+            //
+            //     const latLng = L.latLng(this.selectedReport.lat, this.selectedReport.lng);
+            //     const currentZoom = this.map.getZoom();
+            //     const currentCenter = this.map.getCenter();
+            //
+            //     const isSameLocation = currentCenter.distanceTo(latLng) < 10;
+            //     const isSameZoom = currentZoom === 16;
+            //
+            //     if (!isSameLocation || !isSameZoom) {
+            //         const onMoveEnd = () => {
+            //             this.selectedReport.marker.openPopup();
+            //             this.map.off('moveend', onMoveEnd);
+            //         };
+            //         this.map.on('moveend', onMoveEnd);
+            //         this.map.setView(latLng, 16, { animate: true });
+            //     } else {
+            //         this.selectedReport.marker.openPopup();
+            //     }
+            //
+            //     // ✅ Clear any previous pulse effect
+            //     if (this.pulseLocationIcon) {
+            //         this.map.removeLayer(this.pulseLocationIcon);
+            //         clearInterval(this.pulseInterval);
+            //         this.pulseLocationIcon = null;
+            //     }
+            //
+            //     // ✅ Add new pulse effect
+            //     this.pulseLocationIcon = L.circle(latLng, {
+            //         color: 'blue',
+            //         fillColor: 'blue',
+            //         fillOpacity: 0.15,
+            //         radius: 40
+            //     }).addTo(this.map);
+            //
+            //     this.pulseLocationIcon.bringToBack();
+            //
+            //     let pulseSize = 40;
+            //     this.pulseInterval = setInterval(() => {
+            //         if (!this.pulseLocationIcon) return;
+            //         pulseSize = pulseSize === 40 ? 55 : 40;
+            //         this.pulseLocationIcon.setRadius(pulseSize);
+            //     }, 1000);
+            //
+            //     // ✅ Hide pulse when zoomed to 14 or closer
+            //     const onZoomEnd = () => {
+            //         const zoom = this.map.getZoom();
+            //         if (zoom <= 14) {
+            //             if (this.pulseLocationIcon) {
+            //                 this.map.removeLayer(this.pulseLocationIcon);
+            //                 clearInterval(this.pulseInterval);
+            //                 this.pulseLocationIcon = null;
+            //             }
+            //             this.map.off('zoomend', onZoomEnd); // Optional: remove listener after it hides once
+            //         }
+            //     };
+            //     this.map.on('zoomend', onZoomEnd);
+            // },
 
             updateReportStatus() {
                 if (this.newStatus) {

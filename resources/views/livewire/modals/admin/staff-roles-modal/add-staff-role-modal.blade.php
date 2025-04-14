@@ -1,4 +1,4 @@
-<x-admin.crud-modal-content-base modal_name="add-staff-role-modal">
+<x-admin.staff-role-modal-content-base modal_name="add-staff-role-modal">
 
         <x-slot:trigger>
             <button class="flex gap-x-[8px] w-auto text-xs px-[14px] py-[8px] font-normal tracking-wider text-[#FFFFFF]  bg-gradient-to-b from-[#84D689] to-green-500 rounded-full hover:drop-shadow hover:bg-[#4AA76F] hover:scale-105 hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier (0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
@@ -142,5 +142,5 @@
                 </button>
             </div>
         </x-slot:footer>
-</x-admin.crud-modal-content-base>
+</x-admin.staff-role-modal-content-base>
 

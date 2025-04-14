@@ -1,4 +1,4 @@
-<x-Staff.staff-navigation page_title="Report History" action="{{ route('staff.report-history') }}" placeholder="Search..." name="search" wire:model.live="search">
+<x-Staff.staff-navigation page_title="Update History" action="{{ route('staff.report-history') }}" placeholder="Search..." name="search" wire:model.live="search">
 
     <div class="flex justify-center items-center sm:justify-start sm:items-start">
         <x-staff.crud-page-content-base>
@@ -79,17 +79,17 @@
                             @forelse ($reports as $report)
                             <tr class="{{ $loop->iteration % 2 === 0 ? 'bg-white' : 'bg-gray-50' }} hover:bg-gray-100">
                                 <td class="px-2 py-3 text-[11px] lg:text-xs">
-                                    {{ $sort_direction === 'asc' 
-                                        ? ($reports->firstItem() + $loop->index) 
-                                        : ($reports->total() - $reports->firstItem() - $loop->index + 1) 
+                                    {{ $sort_direction === 'asc'
+                                        ? ($reports->firstItem() + $loop->index)
+                                        : ($reports->total() - $reports->firstItem() - $loop->index + 1)
                                     }}
                                 </td>
                                 <td class="px-4 py-3 text-[11px] lg:text-xs">{{ $report->defect ?? 'N/A' }}</td>
                                 <td class="px-4 py-3 text-[11px] lg:text-xs">{{ $report->street }}, {{ $report->purok }}, {{ $report->barangay }}</td>
                                 <td class="px-4 py-3 text-[11px] lg:text-xs">{{ $report->date ? \Carbon\Carbon::parse($report->date)->format('F j, Y'): 'N/A' }}</td>
-                                <td class="px-4 py-3 text-[11px] lg:text-xs font-medium 
-                                    {{ $report->status === 'Repaired' ? 'text-green-600' : '' }} 
-                                    {{ $report->status === 'Ongoing' ? 'text-yellow-500' : '' }} 
+                                <td class="px-4 py-3 text-[11px] lg:text-xs font-medium
+                                    {{ $report->status === 'Repaired' ? 'text-green-600' : '' }}
+                                    {{ $report->status === 'Ongoing' ? 'text-yellow-500' : '' }}
                                     {{ $report->status === 'Unfixed' ? 'text-red-600' : '' }}">
                                     {{ ucfirst($report->status ?? 'N/A') }}
                                 </td>

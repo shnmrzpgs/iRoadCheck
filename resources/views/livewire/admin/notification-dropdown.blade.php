@@ -9,7 +9,7 @@
             window.location.href = url;
         }
     }"
-     class="relative z-[9999]">
+     class="relative z-[50]">
 
     <!-- Notifications Icon -->
     <svg x-ref="content"
@@ -41,7 +41,7 @@
          x-transition:leave="transition ease-in duration-75"
          x-transition:leave-start="transform opacity-100 scale-100"
          x-transition:leave-end="transform opacity-0 scale-95"
-         class="lazyload absolute right-1 mt-2 w-[350px] rounded-md shadow-[0px_5px_40px_rgba(0,0,0,0.3)] bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-[9999]">
+         class="lazyload absolute right-1 mt-2 w-[350px] rounded-md shadow-[0px_5px_40px_rgba(0,0,0,0.3)] bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-[999999]">
 
         <div class="py-1 px-4">
             <h1 class="text-[14px] pt-4 pb-2 px-1 border-b-[#4AA76F] border-b-[2px] text-[#4AA76F] font-semibold">

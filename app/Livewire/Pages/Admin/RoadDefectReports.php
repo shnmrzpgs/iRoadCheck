@@ -205,6 +205,7 @@ class  RoadDefectReports extends Component
      */
     public function render(): Factory|View|Application|\Illuminate\View\View
     {
+        session(['hideSearchbar' => true]);
         $roadDefectReports = $this->getFilteredQuery()->paginate($this->rowsPerPage);
 
         return view('livewire.pages.admin.road-defect-reports', [

@@ -8,6 +8,7 @@ import 'lazysizes';
 import 'simple-notify/dist/simple-notify.css';
 import '../css/app.css';
 import "leaflet/dist/leaflet.css";
+// import "leaflet.markercluster";
 
 window.Notify = Notify;
 
