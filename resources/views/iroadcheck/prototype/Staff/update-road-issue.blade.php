@@ -1,5 +1,5 @@
-<x-app-layout title="iRoadCheck | Capture Road Defect">
-    <x-Staff.staff-navigation page_title="Capture Road Defect">
+<x-app-layout title="iRoadCheck | Update Road Defect">
+    <x-Staff.staff-navigation page_title="Update Road Defect">
         <div class="flex flex-col items-center justify-center w-full mb-10 lg:hidden" x-data="{  step: 1, selected: '', cameraOpen: false, photoCaptured: false, photo: null, locationCaptured: false}">
             <div class="w-full md:w-[85%] flex flex-col justify-center items-center">
 

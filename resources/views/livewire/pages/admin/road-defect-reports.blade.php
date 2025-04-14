@@ -1,4 +1,4 @@
-<x-Admin.admin-navigation page_title="Road Defect Reports" :hideSearchbar="$hideSearchbar" >
+<x-Admin.admin-navigation page_title="Road Defect Reports" >
 
     <x-Admin.road-defect-reports-page-content-base>
 

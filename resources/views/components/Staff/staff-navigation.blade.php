@@ -60,19 +60,19 @@
                         Dashboard
                     </p>
                 </a>
-                <!-- Manage Tagging -->
-                <a href="{{ route('staff.manage-tagging') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
-                    {{ request()->routeIs('staff.manage-tagging') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
-                         class="lazyload w-5 h-5 fill-current
-                        {{ request()->routeIs('staff.manage-tagging') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200' }}">
-                        <path d="M302.8 312C334.9 271.9 408 174.6 408 120C408 53.7 354.3 0 288 0S168 53.7 168 120c0 54.6 73.1 151.9 105.2 192c7.7 9.6 22 9.6 29.6 0zM416 503l144.9-58c9.1-3.6 15.1-12.5 15.1-22.3L576 152c0-17-17.1-28.6-32.9-22.3l-116 46.4c-.5 1.2-1 2.5-1.5 3.7c-2.9 6.8-6.1 13.7-9.6 20.6L416 503zM15.1 187.3C6 191 0 199.8 0 209.6L0 480.4c0 17 17.1 28.6 32.9 22.3L160 451.8l0-251.4c-3.5-6.9-6.7-13.8-9.6-20.6c-5.6-13.2-10.4-27.4-12.8-41.5l-122.6 49zM384 255c-20.5 31.3-42.3 59.6-56.2 77c-20.5 25.6-59.1 25.6-79.6 0c-13.9-17.4-35.7-45.7-56.2-77l0 194.4 192 54.9L384 255z"/>
-                    </svg>
-                    <p x-show="expanded" class="ml-2
-                        {{ request()->routeIs('staff.manage-tagging') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">
-                        Manage Tagging
-                    </p>
-                </a>
+{{--                <!-- Manage Tagging -->--}}
+{{--                <a href="{{ route('staff.manage-tagging') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium--}}
+{{--                    {{ request()->routeIs('staff.manage-tagging') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">--}}
+{{--                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"--}}
+{{--                         class="lazyload w-5 h-5 fill-current--}}
+{{--                        {{ request()->routeIs('staff.manage-tagging') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200' }}">--}}
+{{--                        <path d="M302.8 312C334.9 271.9 408 174.6 408 120C408 53.7 354.3 0 288 0S168 53.7 168 120c0 54.6 73.1 151.9 105.2 192c7.7 9.6 22 9.6 29.6 0zM416 503l144.9-58c9.1-3.6 15.1-12.5 15.1-22.3L576 152c0-17-17.1-28.6-32.9-22.3l-116 46.4c-.5 1.2-1 2.5-1.5 3.7c-2.9 6.8-6.1 13.7-9.6 20.6L416 503zM15.1 187.3C6 191 0 199.8 0 209.6L0 480.4c0 17 17.1 28.6 32.9 22.3L160 451.8l0-251.4c-3.5-6.9-6.7-13.8-9.6-20.6c-5.6-13.2-10.4-27.4-12.8-41.5l-122.6 49zM384 255c-20.5 31.3-42.3 59.6-56.2 77c-20.5 25.6-59.1 25.6-79.6 0c-13.9-17.4-35.7-45.7-56.2-77l0 194.4 192 54.9L384 255z"/>--}}
+{{--                    </svg>--}}
+{{--                    <p x-show="expanded" class="ml-2--}}
+{{--                        {{ request()->routeIs('staff.manage-tagging') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">--}}
+{{--                        Manage Tagging--}}
+{{--                    </p>--}}
+{{--                </a>--}}
                 <!-- Road Defect Reports -->
                 <a href="{{ route('staff.road-defect-reports') }}" wire:navigate loading="lazy" class="group flex items-center block py-2.5 px-5 rounded font-medium
                     {{ request()->routeIs('staff.road-defect-reports') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
@@ -88,7 +88,7 @@
                         Road Defect Reports
                     </p>
                 </a>
-                <!-- Capture Road Defect -->
+                <!-- Update Road Defect -->
                 <a href="{{ route('staff.capture-road-defect') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
                     {{ request()->routeIs('staff.capture-road-defect') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -99,23 +99,23 @@
                     </svg>
                     <p x-show="expanded" class="ml-2
                         {{ request()->routeIs('staff.capture-road-defect') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">
-                        Capture Road Defect
+                        Update Road Defect
                     </p>
                 </a>
-                <!-- Suggestion Reports -->
-                <a href="{{ route('staff.suggestion-reports') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
-                    {{ request()->routeIs('staff.suggestion-reports') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                         class="lazyload w-5 h-5 fill-current mt-1.5
-                        {{ request()->routeIs('staff.suggestion-reports') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200' }}">
-                        <path  fill="currentColor" d="M16 6.5C16 10.0906 12.4187 13 8 13C7.01562 13 6.07187 12.8562 5.2 12.5906L0.5 14L1.77813 10.5875C0.665625 9.47187 0 8.05 0 6.5C0 2.90937 3.58125 0 8 0C12.4187 0 16 2.90937 16 6.5ZM11.5312 5.03125L12.0625 4.5L11 3.44063L10.4688 3.97188L7 7.44063L5.53125 5.97188L5 5.44063L3.94062 6.5L4.47188 7.03125L6.47188 9.03125L7.00313 9.5625L7.53438 9.03125L11.5312 5.03125Z"/>
-                    </svg>
-                    <p x-show="expanded" class="ml-2
-                        {{ request()->routeIs('staff.suggestion-reports') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">
-                        Suggestion Reports
-                    </p>
-                </a>
-                <!-- Report History -->
+{{--                <!-- Suggestion Reports -->--}}
+{{--                <a href="{{ route('staff.suggestion-reports') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium--}}
+{{--                    {{ request()->routeIs('staff.suggestion-reports') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">--}}
+{{--                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"--}}
+{{--                         class="lazyload w-5 h-5 fill-current mt-1.5--}}
+{{--                        {{ request()->routeIs('staff.suggestion-reports') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200' }}">--}}
+{{--                        <path  fill="currentColor" d="M16 6.5C16 10.0906 12.4187 13 8 13C7.01562 13 6.07187 12.8562 5.2 12.5906L0.5 14L1.77813 10.5875C0.665625 9.47187 0 8.05 0 6.5C0 2.90937 3.58125 0 8 0C12.4187 0 16 2.90937 16 6.5ZM11.5312 5.03125L12.0625 4.5L11 3.44063L10.4688 3.97188L7 7.44063L5.53125 5.97188L5 5.44063L3.94062 6.5L4.47188 7.03125L6.47188 9.03125L7.00313 9.5625L7.53438 9.03125L11.5312 5.03125Z"/>--}}
+{{--                    </svg>--}}
+{{--                    <p x-show="expanded" class="ml-2--}}
+{{--                        {{ request()->routeIs('staff.suggestion-reports') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">--}}
+{{--                        Suggestion Reports--}}
+{{--                    </p>--}}
+{{--                </a>--}}
+                <!-- Update History -->
                 <a href="{{ route('staff.report-history') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
                     {{ request()->routeIs('staff.report-history') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -125,7 +125,7 @@
                     </svg>
                     <p x-show="expanded" class="ml-2
                         {{ request()->routeIs('staff.report-history') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">
-                        Report History
+                        Update History
                     </p>
                 </a>
 
@@ -158,7 +158,7 @@
                 <x-slot:page_title_and_search_bar>
                     <h1 class="lg:text-[22px] text-md md:text-lg mt-0 font-semibold text-[#4AA76F] md:mt-3 md:mr-3 lg:mr-1">{{$page_title}}</h1>
 
-                    @if (!request()->routeIs('staff.profile-edit') && !request()->routeIs('staff.manage-tagging') && !request()->routeIs('staff.capture-road-defect') && !request()->routeIs('staff.suggestion-reports') && !session('hideSearchBar'))
+                    @if (!request()->routeIs('staff.profile-edit') && !request()->routeIs('staff.dashboard') && !request()->routeIs('staff.road-defect-reports') && !request()->routeIs('staff.capture-road-defect') && !session('hideSearchBar'))
                     <!-- Search Bar -->
                         <div class="flex mt-2 lg:mt-3 w-48 lg:w-80 items-center px-0 lg:px-5">
                             <div class="relative flex flex-1 h-8 rounded-full">

@@ -2,64 +2,75 @@
 
 namespace App\Livewire\Pages\Admin;
 
+use App\Exports\AdminLogsExport;
 use App\Exports\RoadDefectReportsExport;
 use App\Models\Report;
-use App\Models\Severity;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
-use Livewire\WithPagination;
 use Livewire\WithoutUrlPagination;
+use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 
-class RoadDefectReports extends Component
+class  RoadDefectReports extends Component
 {
     use WithoutUrlPagination, WithPagination;
 
-    public bool $hideSearchbar = true;
+    // Search term
     public string $table_search = '';
+
+    // Rows per page
     public int $rowsPerPage = 10;
+
+    // Sorting
     public string $sort_by = 'id';
     public string $sort_direction = 'asc';
 
+    // Selected Filters
     public string $statusFilter = '';
     public string $severityFilter = '';
     public string $barangayFilter = '';
     public string $selectedDefect = '';
-    public string $locationFilter = '';
+
+    // Date Range Filter
     public ?string $start_date = null;
     public ?string $end_date = null;
 
+    // Location Filter
+    public string $locationFilter = '';
+
+    // Arrays for dropdown options
     public array $defectTypes = [];
     public array $statuses = [];
     public array $barangays = [];
     public array $severities = [];
     public array $locations = [];
 
+    /**
+     * Initialize data for filters and dropdown options
+     */
     public function mount(): void
     {
-        $reportData = Cache::remember('report_dropdown_data', 3600, function () {
-            return Report::select('defect', 'status', 'barangay', 'street', 'purok')->get();
-        });
-
-        session(['hideSearchbar' => true]);
-        $this->defectTypes = $reportData->pluck('defect')->unique()->values()->toArray();
-        $this->statuses = $reportData->pluck('status')->unique()->values()->toArray();
-        $this->barangays = $reportData->pluck('barangay')->unique()->values()->toArray();
-        $this->locations = $reportData->pluck('street')->merge($reportData->pluck('purok'))->unique()->values()->toArray();
-
-        $this->severities = Cache::remember('severities_list', 3600, function () {
-            return Severity::pluck('label', 'id')->toArray();
-        });
+        $this->defectTypes = Report::distinct()->pluck('defect')->toArray();
+        $this->statuses = Report::distinct()->pluck('status')->toArray();
+        $this->barangays = Report::distinct()->pluck('barangay')->toArray();
+        $this->severities = \App\Models\Severity::pluck('label', 'id')->toArray();
+        $this->locations = Report::distinct()->pluck('street')->merge(Report::distinct()->pluck('purok'))->unique()->toArray();
     }
 
+    /**
+     * Dispatch modal event for viewing a report
+     */
     public function viewRoadDefectReports($reportId): void
     {
         $this->dispatch('show-view-road-defect-reports-modal', reportId: $reportId);
     }
 
+    /**
+     * Reset pagination when filters or search change
+     */
     public function updating($property): void
     {
         if (in_array($property, [
@@ -70,12 +81,16 @@ class RoadDefectReports extends Component
             'selectedDefect',
             'locationFilter',
             'start_date',
-            'end_date'
+            'end_date',
+            'locationFilter'
         ])) {
             $this->resetPage();
         }
     }
 
+    /**
+     * Toggle sorting order
+     */
     public function toggleSorting(string $field): void
     {
         if ($this->sort_by === $field) {
@@ -88,6 +103,9 @@ class RoadDefectReports extends Component
         $this->resetPage();
     }
 
+    /**
+     * Reset search and filter values
+     */
     public function resetFilterAndSearch(): void
     {
         $this->table_search = '';
@@ -103,13 +121,18 @@ class RoadDefectReports extends Component
         $this->resetPage();
     }
 
+
+    /**
+     * Query for Retrieving Road Defect Reports
+     */
     public function getFilteredQuery()
     {
-        $query = Report::query()->with('severity');
+        $reportQuery = Report::query()->with('severity:id,label');
 
+        // Search conditions
         if ($this->table_search) {
-            $query->where(function ($q) {
-                $q->where('id', 'like', "%{$this->table_search}%")
+            $reportQuery->where(function ($query) {
+                $query->where('id', 'like', "%{$this->table_search}%")
                     ->orWhere('defect', 'like', "%{$this->table_search}%")
                     ->orWhere('location', 'like', "%{$this->table_search}%")
                     ->orWhere('street', 'like', "%{$this->table_search}%")
@@ -123,61 +146,70 @@ class RoadDefectReports extends Component
             });
         }
 
+        // Filter conditions
         if ($this->statusFilter) {
-            $query->where('status', $this->statusFilter);
+            $reportQuery->where('status', $this->statusFilter);
         }
 
         if ($this->severityFilter) {
-            $query->whereHas('severity', fn($q) =>
-            $q->where('label', $this->severityFilter)
+            $reportQuery->whereHas('severity', fn($query) =>
+            $query->where('label', $this->severityFilter)
             );
         }
 
         if ($this->barangayFilter) {
-            $query->where('barangay', $this->barangayFilter);
+            $reportQuery->where('barangay', $this->barangayFilter);
         }
 
         if ($this->selectedDefect) {
-            $query->where('defect', $this->selectedDefect);
+            $reportQuery->where('defect', $this->selectedDefect);
         }
 
         if ($this->locationFilter) {
-            $query->whereRaw("CONCAT(street, ' ', purok) LIKE ?", ["%{$this->locationFilter}%"]);
+            $reportQuery->whereRaw("CONCAT(street, ' ', purok) LIKE ?", ["%{$this->locationFilter}%"]);
         }
 
+        // Date range filter logic
         if ($this->start_date && $this->end_date) {
-            $query->whereBetween('date', [$this->start_date, $this->end_date]);
+            $reportQuery->whereBetween('date', [$this->start_date, $this->end_date]);
         } elseif ($this->start_date) {
-            $query->whereDate('date', '>=', $this->start_date);
+            $reportQuery->whereDate('date', '>=', $this->start_date);
         } elseif ($this->end_date) {
-            $query->whereDate('date', '<=', $this->end_date);
+            $reportQuery->whereDate('date', '<=', $this->end_date);
         }
 
+        // Sorting logic
         if ($this->sort_by === 'severity.label') {
-            $query->join('severities', 'reports.severity_id', '=', 'severities.id')
-                ->select('reports.*', 'severities.label as severity_label')
-                ->orderBy('severities.label', $this->sort_direction);
+            $reportQuery->leftJoin('severities', 'reports.id', '=', 'severities.id')
+                ->select('reports.*', 'severities.label as severity_label')  // Alias for clarity
+                ->orderBy('severity_label', $this->sort_direction);
         } else {
-            $query->orderBy($this->sort_by, $this->sort_direction);
+            $reportQuery->orderBy($this->sort_by, $this->sort_direction);
         }
 
-        return $query;
+        return $reportQuery;
     }
 
+    /**
+     * Export Road Defect Reports
+     */
     public function exportRoadDefectReports(): \Symfony\Component\HttpFoundation\BinaryFileResponse
     {
-        return Excel::download(
-            new RoadDefectReportsExport($this->getFilteredQuery()),
-            'road_defect_reports.xlsx'
-        );
+        $filteredRoadDefectReports = $this->getFilteredQuery()->get();
+
+        return Excel::download(new RoadDefectReportsExport($filteredRoadDefectReports), 'road_defect_reports.xlsx');
     }
 
+    /**
+     * Render Component
+     */
     public function render(): Factory|View|Application|\Illuminate\View\View
     {
         session(['hideSearchbar' => true]);
+        $roadDefectReports = $this->getFilteredQuery()->paginate($this->rowsPerPage);
 
         return view('livewire.pages.admin.road-defect-reports', [
-            'roadDefectReports' => $this->getFilteredQuery()->paginate($this->rowsPerPage),
+            'roadDefectReports' => $roadDefectReports,
         ]);
     }
 }
