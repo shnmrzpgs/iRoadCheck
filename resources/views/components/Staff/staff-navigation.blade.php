@@ -130,7 +130,7 @@
                 </a>
 
                 <!-- Logout Button -->
-                <a href="javascript:void(0);"  wire:navigate
+                <a href="javascript:void(0);"
                    @click="logoutStaff"
                    class="group flex items-center block py-2.5 px-5 rounded hover:text-[#4AA76F] hover:shadow-md font-medium text-[#4D4F50]">
 
