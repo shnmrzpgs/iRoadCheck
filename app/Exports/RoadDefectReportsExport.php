@@ -46,7 +46,7 @@ class RoadDefectReportsExport implements FromView, WithEvents, WithDrawings
                 $sheet->getColumnDimension('A')->setWidth(15);
                 $sheet->getColumnDimension('B')->setWidth(20);
                 $sheet->getColumnDimension('C')->setWidth(30);
-                $sheet->getColumnDimension('D')->setWidth(25);
+                $sheet->getColumnDimension('D')->setWidth(30);
             }
         ];
     }
