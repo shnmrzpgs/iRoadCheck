@@ -16,7 +16,7 @@ Route::view('/prototype/admin/verify-account-send-code', 'iroadcheck.prototype.A
 Route::view('/prototype/admin/verify-account-verify-otp', 'iroadcheck.prototype.Admin.verify-account-verify-otp')->name('admin.verify-account-verify-otp');
 
 //admin
-Route::view('/component/admin/dashboard', 'iroadcheck.prototype.Admin.dashboard')->name('admin.dashboard');
+//Route::view('/component/admin/dashboard', 'iroadcheck.prototype.Admin.dashboard')->name('admin.dashboard');
 Route::view('/component/admin/manage-users', 'iroadcheck.prototype.Admin.manage-users')->name('admin.manage-users');
 Route::view('/component/admin/user-role', 'iroadcheck.prototype.Admin.user-role')->name('admin.user-role');
 Route::view('/component/admin/activity-logs', 'iroadcheck.prototype.Admin.activity-logs')->name('admin.activity-logs');
