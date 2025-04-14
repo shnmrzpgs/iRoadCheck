@@ -20,7 +20,7 @@ require __DIR__ . '/staff/userRoute.php';
 Route::get('/search', function () {
     return view('components.search-bar');
 })->name('search');
-
+Route::view('/offline', 'offline');
 Route::get('/data-privacy-statement', function () {
     return view('iroadcheck.prototype.data-privacy-statement');
 })->name('data-privacy-statement');

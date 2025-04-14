@@ -22,7 +22,7 @@
                         <div class="flex items-center justify-center flex-col mt-2 mb-2 bg-none w-full mx-auto h-[55vh] relative" x-data="captureHandler()">
 
                             <div class="z-0 relative w-full bg-white border-2 border-gray-300 shadow-md rounded-lg overflow-hidden">
-                                <x-Residents.svg-report-road-issue/>
+                                <x-residents.svg-report-road-issue/>
                             </div>
                             <livewire:flash-message />
                             <livewire:review-update/>
