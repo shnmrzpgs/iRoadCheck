@@ -14,7 +14,7 @@ Route::group(['middleware' => 'AuthAdmin'], function () {
         ->name('admin.manage-users-table');
 
     Route::get('/admin/road-defect-reports/{report_id}', [App\Http\Controllers\admin\RoadDefectReportsController::class, 'show'])
-        ->name('admin.road-defect-reports');
+        ->name('admin.road-defect-report');
 
     Route::get('/admin/road-defect-reports', [App\Http\Controllers\admin\RoadDefectReportsController::class, 'index'])
         ->name('admin.road-defect-reports');
