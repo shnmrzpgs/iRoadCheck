@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Events\AfterSheet;
+use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use App\Models\Staff;
 use App\Models\StaffRole;
@@ -44,79 +45,59 @@ class StaffsDataExport implements FromView, WithEvents, WithDrawings
         if (!empty($this->filters['search'])) {
             $subtitle[] = "Search: {$this->filters['search']}";
         }
-        
+
         return $subtitle;
     }
 
+    /**
+     * Register events to style the export.
+     */
     public function registerEvents(): array
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 $sheet = $event->sheet->getDelegate();
 
-                // Set the print area
-                $sheet->getPageSetup()->setPrintArea('A1:E' . ($this->staffs->count() + 10));
-
-                // Apply styles to the header
-                $sheet->getStyle('A1:E7')->getAlignment()->setHorizontal('center');
-                
-                // Style for the title
-                $sheet->getStyle('A9')->applyFromArray([
+                // Apply "Old English Text MT" font style to the title
+                $sheet->getStyle('A1:D1')->applyFromArray([
                     'font' => [
                         'bold' => true,
-                        'size' => 14,
+                        'size' => 20,
                     ],
                 ]);
 
-                // Style for the table headers
-                $headerRow = 13; // Adjust based on your template
-                $sheet->getStyle("A{$headerRow}:E{$headerRow}")->applyFromArray([
-                    'font' => ['bold' => true],
-                   
-                ]);
+                // Center align the title text
+                $sheet->getStyle('A1:D1')->getAlignment()->setHorizontal('center');
 
-                // Set column widths
-                $sheet->getColumnDimension('A')->setWidth(8);  // No.
-                $sheet->getColumnDimension('B')->setWidth(30); // Name
-                $sheet->getColumnDimension('C')->setWidth(20); // Username
-                $sheet->getColumnDimension('D')->setWidth(25); // Role
-                $sheet->getColumnDimension('E')->setWidth(15); // Status
-
-                // Auto-height for all rows
-                $sheet->getDefaultRowDimension()->setRowHeight(-1);
-            },
+                // Set column widths for better readability
+                $sheet->getColumnDimension('A')->setWidth(10);
+                $sheet->getColumnDimension('B')->setWidth(18);
+                $sheet->getColumnDimension('C')->setWidth(15);
+                $sheet->getColumnDimension('D')->setWidth(25);
+                $sheet->getColumnDimension('E')->setWidth(35);
+                $sheet->getColumnDimension('F')->setWidth(35);
+            }
         ];
     }
 
+    /**
+     * Add a logo image to the sheet.
+     * @throws Exception
+     */
     public function drawings(): array
     {
-        $drawings = [];
+        $drawing = new Drawing();
+        $drawing->setName('Logo');
+        $drawing->setDescription('System Logo');
+        $drawing->setPath(public_path('storage/images/tagum_city_logo.png')); // Adjust the path to your logo image
+        $drawing->setHeight(110); // Set the height of the logo
+        $drawing->setCoordinates('B1');
+        $drawing->setOffsetX(5);
+        $drawing->setOffsetY(100);
 
-        // Left Logo
-        $leftDrawing = new Drawing();
-        $leftDrawing->setName('Left Logo');
-        $leftDrawing->setDescription('Left Logo');
-        $leftDrawing->setPath(public_path('storage/images/tagum_city_logo.png')); // Update path if necessary
-        $leftDrawing->setHeight(100); // Adjust height as needed
-        $leftDrawing->setCoordinates('B2'); // Starting cell
-        $leftDrawing->setOffsetX(5); // Fine-tune horizontal positioning
-        $leftDrawing->setOffsetY(5); // Fine-tune vertical positioning
-
-        // Right Logo
-        $rightDrawing = new Drawing();
-        $rightDrawing->setName('Right Logo');
-        $rightDrawing->setDescription('Right Logo');
-        $rightDrawing->setPath(public_path('storage/images/IRoadCheck_Logo.png')); // Update path if necessary
-        $rightDrawing->setHeight(100); // Adjust height as needed
-        $rightDrawing->setCoordinates('D2'); // Starting cell for the right logo
-        $rightDrawing->setOffsetX(5); // Fine-tune horizontal positioning
-        $rightDrawing->setOffsetY(5); // Fine-tune vertical positioning
-
-        $drawings[] = $leftDrawing;
-        $drawings[] = $rightDrawing;
-
-        return $drawings;
+        return [$drawing];
     }
+
 
     public function view(): View
     {
