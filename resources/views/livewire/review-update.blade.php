@@ -35,10 +35,10 @@
         <!-- Check if there are nearby reports -->
         @if ($nearbyReports && count($nearbyReports) > 0)
             <!-- Modal Title -->
-            <h1 class="text-lg font-bold text-center text-black sticky top-[-20px] bg-white p-4 shadow-md z-10">
-                Nearby Reports Found!
-            </h1>
-            <p class="text-sm text-center text-gray-700 mb-2" x-text="'Images selected: ' + $wire.selectedReports.length"></p>
+            <div class="sticky top-[-20px] bg-white p-4 shadow-md z-10 text-center">
+                <h1 class="text-lg font-bold text-black">Nearby Reports Found!</h1>
+                <p class="text-sm text-gray-700 mt-1" x-text="'Images selected: ' + $wire.selectedReports.length"></p>
+            </div>
 
             <div class="grid grid-cols-2 gap-4 justify-center">
                 @foreach ($nearbyReports as $report)
