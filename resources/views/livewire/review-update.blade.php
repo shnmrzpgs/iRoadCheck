@@ -116,7 +116,11 @@
         @endif
 
 
-
+        <!-- Loading indicator -->
+        <div wire:loading.class.remove="opacity-0 pointer-events-none" x-cloak x-transition loading="lazy"
+             class="z-50 absolute inset-0 w-full min-h-full bg-black/50 flex justify-center items-center transition-all pointer-events-none opacity-0">
+            <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
+        </div>
     </div>
 
 </div>
