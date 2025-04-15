@@ -38,7 +38,23 @@
     <div class="flex justify-center items-center h-screen">
         <!-- White Container (Card) -->
         <div class="mx-5 bg-white shadow-lg rounded-2xl px-10 py-8 w-full max-w-xs sm:max-w-sm text-center relative z-10">
-            <img src="{{ asset('/storage/images/IRoadCheck_Logo.png') }}" alt="iRoadCheck" class="mx-auto mb-1 w-1/5 sm:w-1/6 lg:w-1/8">
+            <img
+                src="{{ asset('/storage/images/IRoadCheck_Logo.png') }}"
+                alt="iRoadCheck"
+                class="mx-auto mb-1 w-1/5 sm:w-1/6 lg:w-1/8 cursor-pointer"
+                id="doubleTapLogo">
+            <script>
+                let lastTap = 0;
+                document.getElementById('doubleTapLogo').addEventListener('click', function () {
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTap;
+                    if (tapLength < 500 && tapLength > 0) {
+                        // Redirect if double-tapped within 500ms
+                        window.location.href = "/staff/login";
+                    }
+                    lastTap = currentTime;
+                });
+            </script>
             <div class="text-[#4D4F50] mb-4 font-semibold text-[18px]">iRoadCheck</div>
             <h2 class="text-2xl font-bold mb-4 text-[#5A915E]">Log In</h2>
 
