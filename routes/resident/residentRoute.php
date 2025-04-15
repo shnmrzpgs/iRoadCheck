@@ -19,7 +19,7 @@ Route::get('/resident/forgot-password', [forgotpassword::class, 'index'])->name(
 
 Route::get('/resident/login', [AuthController::class, 'loginpage'])->name('residents-login');
 Route::post('resident/register', [ResidentAuth::class, 'signup'])->name('resident-register');
-Route::view('/prototype/residents/signup', ['iroadcheck.prototype.residents.signup'])->name('signup');
+Route::view('/resident/signup', ['iroadcheck.prototype.residents.signup'])->name('signup');
 
 Route::post('/logoutResident', [AuthController::class, 'LogoutResident'])->name('logoutResident');
 
