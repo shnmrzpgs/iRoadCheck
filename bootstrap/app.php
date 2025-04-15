@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'VerifyResident' => \App\Http\Middleware\VerifyResident::class,
             'CheckPWA' => \App\Http\Middleware\CheckPWA::class,
             'PwaRedirect' => \App\Http\Middleware\PwaRedirect::class,
+            'ResidentForgot' => \App\Http\Middleware\ResidentForgot::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

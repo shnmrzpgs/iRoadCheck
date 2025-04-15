@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\Resident\DashboardController;
+use App\Http\Controllers\resident\forgotpassword;
 use App\Http\Controllers\Resident\ResidentAuth;
 use App\Http\Controllers\Resident\ReportHistoryController as ReportHistory;
 
@@ -14,18 +15,25 @@ use Illuminate\Support\Facades\Route;
 Route::get('/resident/install', function () {
     return view('livewire.resident-install');
 })->middleware('PwaRedirect');
+Route::get('/resident/forgot-password', [forgotpassword::class, 'index'])->name('forgotPassword');
 
-Route::view('/resident/login', ['iroadcheck.prototype.residents.login'])->name('residents-login');
+Route::get('/resident/login', [AuthController::class, 'loginpage'])->name('residents-login');
 Route::post('resident/register', [ResidentAuth::class, 'signup'])->name('resident-register');
 Route::view('/prototype/residents/signup', ['iroadcheck.prototype.residents.signup'])->name('signup');
 
 Route::post('/logoutResident', [AuthController::class, 'LogoutResident'])->name('logoutResident');
 
 Route::group(['middleware' => 'VerifyResident'], function () {
-    Route::view('resident/verify-code', ['iroadcheck.prototype.residents.verify-user-enterCode'])->name('verify-code');
-    Route::post('resident/code-verify', [ResidentAuth::class, 'verifyCode'])->name('verifyCode');
+    Route::view('/resident/verify-code', ['iroadcheck.prototype.residents.verify-user-enterCode'])->name('verify-code');
+    Route::post('/resident/code-verify', [ResidentAuth::class, 'verifyCode'])->name('verifyCode');
 
 });
+
+Route::group(['middleware' => 'ResidentForgot'], function () {
+    Route::get('/resident/enter-code', [\App\Http\Controllers\entercode::class, 'index'])->name('EnterCode');
+    Route::get('/resident/change-password', [\App\Http\Controllers\CreatenewPass::class, 'index'])->name('createNewPass');
+});
+
 Route::group(['middleware' => ['AuthResident']], function () {
 
 //    Route::post('resident/submit-report', [ReportController::class, 'storeReport'])->name('submit-report');

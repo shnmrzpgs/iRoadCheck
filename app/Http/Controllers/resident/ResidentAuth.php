@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resident;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendSMSJob;
 use App\Models\Resident;
 use App\Models\User;
 use App\Services\PhilSMSService;
@@ -12,12 +13,12 @@ use Illuminate\Support\Facades\DB;
 
 class ResidentAuth extends Controller
 {
-    protected $smsService;
-
-    public function __construct(PhilSMSService $smsService)
-    {
-        $this->smsService = $smsService;
-    }
+//    protected $smsService;
+//
+//    public function __construct(PhilSMSService $smsService)
+//    {
+//        $this->smsService = $smsService;
+//    }
     public function signup(Request $request)
     {
     $validated  = $request->validate([
@@ -59,9 +60,21 @@ class ResidentAuth extends Controller
             Auth::login($user);
 
             $recipient = $formattedPhone;
-            $message = 'Hello! Thanks for signing up for an account. Your verification code is: ' . $verificationCode;
+            // Set of greeting messages
+            $greetings = [
+                'Hello! Thanks for signing up for an account. Your verification code is: ',
+                'Hi there! We received your request. Your verification code is: ',
+                'Greetings! Your verification code is: ',
+                'Welcome! Please use the following verification code: ',
+                'Hey! Your account setup is almost complete. Use this verification code: ',
+            ];
 
-            $response = $this->smsService->sendSMS($recipient, $message);
+            // Randomly select a greeting message
+            $randomGreeting = $greetings[array_rand($greetings)];
+
+            // Final message
+            $message = $randomGreeting . $verificationCode;
+            SendSMSJob::dispatch($formattedPhone, $message);
             return redirect()->route('verify-code');
         }
     }
