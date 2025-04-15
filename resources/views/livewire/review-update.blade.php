@@ -72,7 +72,7 @@
                         class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-green-500 focus:outline-none"
                     >
                         <option value="" disabled hidden selected>Select Status</option>
-                        <option value="Fixed">Fixed</option>
+                        <option value="Repaired">Repaired</option>
                         <option value="Ongoing">Ongoing</option>
                     </select>
                 </div>
