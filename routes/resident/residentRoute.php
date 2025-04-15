@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\Resident\DashboardController;
+use App\Http\Controllers\resident\DashboardController;
 use App\Http\Controllers\resident\forgotpassword;
-use App\Http\Controllers\Resident\ResidentAuth;
-use App\Http\Controllers\Resident\ReportHistoryController as ReportHistory;
+use App\Http\Controllers\resident\ResidentAuth;
+use App\Http\Controllers\resident\ReportHistoryController as ReportHistory;
 
 use App\Http\Controllers\SMSController;
 use App\Livewire\ResidentLogin;
