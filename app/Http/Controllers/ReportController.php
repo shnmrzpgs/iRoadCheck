@@ -308,7 +308,7 @@ class ReportController extends Controller
 
         // Save image
         $imagePath = Storage::disk('public')->put("reports/{$imageName}", $image);
-        $fullImagePath = "reports/{$imageName}";
+        $fullImagePath = "output/reports/{$imageName}";
 
         // Wait for the JSON file to be generated
         $issue_name = "Unknown";
