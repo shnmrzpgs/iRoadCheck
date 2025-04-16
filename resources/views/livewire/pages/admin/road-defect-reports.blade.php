@@ -303,7 +303,7 @@
                             </td>
 
 
-                            <td class="px-4 py-3 text-xs">{{ $report->updated_by }}</td>
+                            <td class="px-4 py-3 text-xs">{{ $report->updater_id }}</td>
                             <td class="px-2 py-3 text-[11px] lg:text-xs">
                                 <button class="flex items-center text-[#3251FF] hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95 hover:bg-blue-100 hover:shadow py-1 px-3 rounded-md"
                                         wire:click="viewRoadDefectReports({{ $report->id }})"
