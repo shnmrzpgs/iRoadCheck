@@ -304,7 +304,7 @@
 
 
                             <td class="px-4 py-3 text-xs">
-                                {{ $report->updatedBy->first_name . ' ' . $report->updatedBy->last_name }}
+                                {{ $report->updater?->first_name . ' ' . $report->updater?->last_name ?? 'N/A' }}
                             </td>
 
                             <td class="px-2 py-3 text-[11px] lg:text-xs">
