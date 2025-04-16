@@ -298,11 +298,10 @@
                             <td class="px-4 py-3 text-xs">{{ $report->date ? \Carbon\Carbon::parse($report->date)->format('F j, Y') : 'N/A' }}</td>
                             <td class="px-4 py-3 text-xs font-semibold" style="color: {{ $color }};">{{ $report->status }}</td>
                             <td class="px-4 py-3 text-xs">{{ $report->report_count }}</td>
-                            <td class="px-4 py-3 text-xs font-medium italic">{{ $report->label ?? 'N/AA' }}</td>
-                            <td>
-                                Label ID: {{ $report->label }} <br>
-                                Severity: {{ optional($report->severity)->label ?? 'none' }}
+                            <td class="px-4 py-3 text-xs font-medium italic">
+                                {{ \App\Models\Severity::find($report->label)?->label ?? 'N/A' }}
                             </td>
+
 
                             <td class="px-4 py-3 text-xs">{{ $report->updated_by }}</td>
                             <td class="px-2 py-3 text-[11px] lg:text-xs">
