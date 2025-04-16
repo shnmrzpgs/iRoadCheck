@@ -180,7 +180,7 @@
                 </div>
                 <p style="text-align: center; font-style: italic; font-size: 12px;">Updated Captured Road Photo</p>
                 <div class="text">
-                    <strong>Updated By Staff:</strong> Marian Joy G. Corpuz (Role)<br/>
+                    <strong>Updated By Staff:</strong> {{ $report->updater?->first_name . ' ' . $report->updater?->last_name ?? 'N/A' }}<br/>
                     <strong>Date Reported:</strong> {{ $report->date }}<br/>
                     <strong>Time Reported:</strong> {{ $report->time ?? 'N/A' }}<br/>
                     <strong>Latitude:</strong> {{ $report->lat ?? 'N/A' }}<br/>
