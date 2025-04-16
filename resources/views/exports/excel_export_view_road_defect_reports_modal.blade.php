@@ -61,7 +61,7 @@
         <th style="border: none; background-color: #FFFFFF; color: #000000; width: 150px; font-family: 'Arial', sans-serif; font-size: 11px; text-align: left; font-weight:bold ">Type of Defect:</th>
         <th style=" border: none; background-color: #FFFFFF; color: #000000; width: 190px; font-family: 'Arial', sans-serif; font-size: 11px; text-align: left; font-weight: bold;"> {{ $report->defect ?? 'N/A' }}</th>
         <th style="border: none; background-color: #FFFFFF; color: #000000; width: 120px; font-family: 'Arial', sans-serif; font-size: 11px; text-align: left; font-weight:bold ">Severity:</th>
-        <th style="border-right: 1px solid #252525; background-color: #FFFFFF; color: #000000; width: 410px; font-family: 'Arial', sans-serif; font-size: 11px; text-align: left; font-weight:bold ">{{ $report->severity->label ?? 'N/A' }}</th>
+        <th style="border-right: 1px solid #252525; background-color: #FFFFFF; color: #000000; width: 410px; font-family: 'Arial', sans-serif; font-size: 11px; text-align: left; font-weight:bold ">{{ \App\Models\Severity::find($report->label)?->label ?? 'N/A' }}</th>
     </tr>
     <tr>
         <th style="border-left: 1px solid #252525; background-color: #FFFFFF; color: #000000; width: 20px;"></th>
