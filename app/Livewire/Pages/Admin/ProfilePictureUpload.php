@@ -36,7 +36,7 @@ class ProfilePictureUpload extends Component
         try {
             // Validate the uploaded image (image file and max 1MB size)
             $this->validate([
-                'profilePicture' => 'image|max:1024', // Max file size: 1MB
+                'profilePicture' => 'image|max:10024', // Max file size: 1MB
             ]);
 
             $user = Auth::user(); // Get the authenticated user

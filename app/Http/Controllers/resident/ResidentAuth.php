@@ -79,32 +79,8 @@ class ResidentAuth extends Controller
         }
     }
 
-    public function verifyCode(Request $request)
-    {
-        // Validate the input
-        $request->validate([
-            'code' => 'required|digits:6', // Ensure the code is exactly 6 digits
-        ]);
 
-        // Get the input code from the form
-        $verificationCode = $request->input('code');
-
-        // Check if the verification code is correct (this depends on your logic, e.g., stored in the database or session)
-        $user = Auth::user();
-        $resident = Resident::where('user_id', $user->id)->first();
-
-        if ($resident && $resident->code == $verificationCode) {
-            // Update the user's activation status or take any further action
-
-            $resident->is_activated = 1;
-            $resident->save();
-
-            // Optionally, you can log the user in or redirect them to the dashboard
-            return redirect()->route('resident.dashboard')->with('success', 'Account activated successfully!');
-        } else {
-            // Handle the case where the code is invalid
-//            session()->flash('error', 'The verification code is incorrect. Please try again.');
-           return back()->with(['error' => 'The code is incorrect. Please try again.']);
-        }
+    public function verifycodeView(){
+        return view('iroadcheck.prototype.residents.verify-user-enterCode');
     }
 }
