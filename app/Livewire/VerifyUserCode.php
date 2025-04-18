@@ -63,7 +63,9 @@ class VerifyUserCode extends Component
         if ($secondsPassed < 180) {
             $minutesLeft = ceil((180 - $secondsPassed) / 60);
             session()->flash('error', "Please wait {$minutesLeft} minute" . ($minutesLeft > 1 ? 's' : '') . " before resending the code.");
+            $this->code = null;
             return;
+
         }
 
         // Resend logic here
@@ -86,7 +88,7 @@ class VerifyUserCode extends Component
         SendSMSJob::dispatch($residentPhone, $message);
         $resident->save();
 
-
+        $this->code = null;
         session()->flash('success', 'Verification code resent successfully.');
     }
 }
