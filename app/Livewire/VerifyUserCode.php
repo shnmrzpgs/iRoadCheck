@@ -44,6 +44,7 @@ class VerifyUserCode extends Component
         } else {
             // Handle the case where the code is invalid
 //            session()->flash('error', 'The verification code is incorrect. Please try again.');
+            $this->code = null;
             return back()->with(['error' => 'The code is incorrect. Please try again.']);
         }
     }
