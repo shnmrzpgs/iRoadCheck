@@ -45,7 +45,7 @@
 
     <div class="flex">
 
-        <!-- Web screens Sidebar -->
+        <!-- Web screens Sidebars -->
         <x-admin.admin-web-sidebar>
             <x-slot:navbar_links>
                 <!-- Dashboard -->
