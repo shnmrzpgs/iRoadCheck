@@ -42,11 +42,11 @@
             <div class="grid grid-cols-2 gap-4 justify-center">
                 @foreach ($nearbyReports as $report)
                     <div
-                        class="border rounded-md p-2 flex flex-col items-center cursor-pointer transition-transform transform hover:scale-100"
+                        class="border rounded-md  p-2 flex flex-col items-center cursor-pointer transition-transform transform hover:scale-100 w-40 h-65"
                         :class="$wire.selectedReports.includes({{ $report->id }}) ? 'border-green-600 bg-green-100' : 'border-gray-300'"
                         @click="$wire.selectedReports.includes({{ $report->id }})
-                ? $wire.selectedReports = $wire.selectedReports.filter(id => id !== {{ $report->id }})
-                : $wire.selectedReports.push({{ $report->id }})"
+                    ? $wire.selectedReports = $wire.selectedReports.filter(id => id !== {{ $report->id }})
+                    : $wire.selectedReports.push({{ $report->id }})"
                     >
                         <img src="{{ asset('storage/' . $report->image_annotated) }}"
                              alt="Report Image"
@@ -58,8 +58,6 @@
                     </div>
                 @endforeach
             </div>
-
-
             <!-- Action Buttons with Status Dropdown -->
             <div class="mt-4 flex flex-col items-center gap-3 sticky bottom-[-21px] bg-white p-4 shadow-md">
                 <!-- Status Dropdown -->
@@ -117,7 +115,6 @@
                     </button>
                 </div>
             </div>
-
         @endif
 
 
