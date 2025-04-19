@@ -15,3 +15,10 @@ Route::get(
 Route::post(
     RoutePath::for('admin-sign-in', '/admin/auth/sign-in'),
     [AuthController::class, 'AdminSignIn'])->name('admin-sign-in');
+
+// Apply it in your route
+Route::post('/iroadcheck.prototype.Admin.login', [AuthController::class, 'login'])
+    ->middleware('throttle:admin-login')
+    ->name('iroadcheck.prototype.Admin.login');
+
+

@@ -5,7 +5,7 @@
 
     <div x-data="{ step: 1 }" x-cloak class="relative h-screen font-poppins flex items-center justify-center">
 
-        <form action="{{route('resident-register')}}" method="POST" class="flex flex-col items-center w-full px-5"
+        <form action="{{route('resident-register')}}" method="POST" autocomplete="off" class="flex flex-col items-center w-full px-5"
               x-data="{
                 showPassword: false,
                 showConfirmPassword: false,
@@ -62,19 +62,19 @@
                 <div class="space-y-4 my-6">
                     <!--First Name-->
                     <div class="relative">
-                        <input type="text" name="first_name" id="first_name" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
+                        <input type="text" name="first_name" id="first_name" autocomplete="off" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
                         <label for="first_name" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">First Name</label>
                     </div>
 
                     <!--Middle Name-->
                     <div class="relative">
-                        <input type="text" name="middle_name" id="middle_name" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
+                        <input type="text" name="middle_name" id="middle_name" autocomplete="off" class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
                         <label for="middle_name" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Middle Name</label>
                     </div>
 
                     <!--Last Name-->
                     <div class="relative">
-                        <input type="text" name="last_name" id="last_name" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
+                        <input type="text" name="last_name" id="last_name" autocomplete="off" required class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none  focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F]  peer" placeholder=" " />
                         <label for="last_name" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Last Name</label>
                     </div>
 
@@ -142,7 +142,7 @@
                 <!-- Account Information -->
                 <div class="space-y-4 my-6">
 
-                    <!--Email Address-->
+                    <!--Phone Number-->
                     <div class="relative">
                         <input
                             name="phone"
@@ -151,6 +151,7 @@
                             required
                             pattern="0[0-9]{10}"
                             maxlength="11"
+                            autocomplete="off"
                             oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);"
                             class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] peer"
                             placeholder=" "

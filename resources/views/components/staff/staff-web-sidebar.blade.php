@@ -2,7 +2,7 @@
 <aside
     wire:ignore
     :class="expanded ? 'w-60' : 'w-24'"
-    class="bg-[#FBFBFB] hidden h-[95vh] lg:block rounded-xl drop-shadow-md transition-all duration-300 ease-in-out mx-4 mt-5">
+    class="bg-[#FBFBFB] hidden h-[95vh] md:block rounded-xl drop-shadow-md transition-all duration-300 ease-in-out mx-4 mt-5">
 
     <!-- Arrow Icon -->
     <svg @click="toggleSidebar"

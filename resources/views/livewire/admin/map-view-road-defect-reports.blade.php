@@ -1,7 +1,7 @@
 <x-admin.map-view-reports-page-content-base>
 
     <x-slot:page_description>
-        This map view page allows admin to view the comprehensive reports of the road defects within Tagum City.
+        This map view page allows staff to view the reports of the road defects within Tagum City.
     </x-slot:page_description>
 
     <x-slot:search_container>
@@ -10,7 +10,7 @@
             <path d="M368 208A160 160 0 1 0 48 208a160 160 0 1 0 320 0zM337.1 371.1C301.7 399.2 256.8 416 208 416C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208c0 48.8-16.8 93.7-44.9 129.1l124 124 17 17L478.1 512l-17-17-124-124z" />
         </svg>
         <input
-            class="ml-2 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] shadow-[0px_1px_5px_rgba(0,0,0,0.2)] focus:bg-white bg-white rounded-[4px] block w-full py-2 pl-8 text-gray-900 placeholder:text-gray-400 text-xs"
+            class="ml-2 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] shadow-[0px_1px_5px_rgba(0,0,0,0.2)] focus:bg-white bg-white rounded-[4px] block w-full py-1 pl-8 text-gray-900 placeholder:text-gray-400 text-xs"
             x-on:input="
                 filterMarkers($event.target.value);
                 showFilters = $event.target.value.trim() !== '';
@@ -45,24 +45,6 @@
             <span class="text-[12px] block w-full text-center px-2 py-2">All Reports</span>
         </div>
 
-        <!-- Defect Type -->
-        <div class="relative flex rounded-[4px] border hover:shadow-md custom-select"
-                 :class="{
-                 'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'selectedDefect',
-                 'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'selectedDefect'
-             }">
-            <select
-                x-on:input="
-                filterMarkers($event.target.value);"
-                @change="activeFilter = 'selectedDefect'"
-                    class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">
-                <option value="" class="text-gray-400 text-[12px]">Road Defect</option>
-                @foreach($defectTypes as $defect)
-                    <option value="{{ $defect }}">{{ $defect }}</option>
-                @endforeach
-            </select>
-        </div>
-
         <!-- Barangay -->
         <div class="relative flex rounded-[4px] border hover:shadow-md custom-select"
              :class="{
@@ -77,6 +59,24 @@
                 <option value="" class="text-gray-400 text-[12px]">Barangay</option>
                 @foreach($barangays as $barangay)
                     <option value="{{ $barangay }}">{{ $barangay }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <!-- Defect Type -->
+        <div class="relative flex rounded-[4px] border hover:shadow-md custom-select"
+             :class="{
+                 'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'selectedDefect',
+                 'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'selectedDefect'
+             }">
+            <select
+                x-on:input="
+                filterMarkers($event.target.value);"
+                @change="activeFilter = 'selectedDefect'"
+                class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">
+                <option value="" class="text-gray-400 text-[12px]">Road Defect</option>
+                @foreach($defectTypes as $defect)
+                    <option value="{{ $defect }}">{{ $defect }}</option>
                 @endforeach
             </select>
         </div>
@@ -152,13 +152,13 @@
             <input
                 type="text"
                 x-ref="start"
-                placeholder="Start Date"
+                placeholder="Start Date Reported"
                 class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-2 py-1 pr-2 rounded focus:outline-none"/>
             <span class="text-[12px] bg-transparent border-none py-2">To:</span>
             <input
                 type="text"
                 x-ref="end"
-                placeholder="End Date"
+                placeholder="End Date Reported"
                 class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-2 py-1 pr-8 rounded focus:outline-none"/>
         </div>
 
@@ -185,8 +185,7 @@
                  x-transition:leave-end="opacity-0 scale-90"
                  class="bg-white transition-all transform origin-top">
 
-            <ul id="group-report-list" class="space-y-2 text-sm text-gray-700">
-                </ul>
+            <ul id="group-report-list" class="space-y-2 text-sm text-gray-700"> </ul>
             </div>
         </template>
     </x-slot:comprehensive_or_group_report_information>
@@ -272,24 +271,24 @@
                             </div>
 
                             <!-- Time Reported -->
-<div class="mb-4 text-xs lg:text-sm flex w-full">
-    <div class="w-2/4 text-gray-600">Time Reported:</div>
-    <div class="w-2/4">
-        <span x-text="
-            selectedReport.time 
-                ? (() => {
-                    let [h, m, s] = selectedReport.time.split(':');
-                    h = parseInt(h);
-                    const period = h >= 12 ? 'PM' : 'AM';
-                    h = h % 12 || 12;
-                    return `${h.toString().padStart(2, '0')}:${m}:${s} ${period}`;
-                })()
-                : selectedReport.created_at 
-                    ? new Date(selectedReport.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }) 
-                    : 'N/A'
-        "></span>
-    </div>
-</div>
+                            <div class="mb-4 text-xs lg:text-sm flex w-full">
+                                <div class="w-2/4 text-gray-600">Time Reported:</div>
+                                <div class="w-2/4">
+                                    <span x-text="
+                                        selectedReport.time
+                                            ? (() => {
+                                                let [h, m, s] = selectedReport.time.split(':');
+                                                h = parseInt(h);
+                                                const period = h >= 12 ? 'PM' : 'AM';
+                                                h = h % 12 || 12;
+                                                return `${h.toString().padStart(2, '0')}:${m}:${s} ${period}`;
+                                            })()
+                                            : selectedReport.created_at
+                                                ? new Date(selectedReport.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })
+                                                : 'N/A'
+                                    "></span>
+                                </div>
+                            </div>
 
 
                             <!-- Coordinates -->
@@ -421,7 +420,7 @@
                     center: [7.448, 125.809],
                     zoom: 12,
                     minZoom: 12,
-                    maxZoom: 18,
+                    maxZoom: 22,
                     maxBounds: bounds,
                     maxBoundsViscosity: 1.0,
                     zoomControl: false
@@ -1489,7 +1488,7 @@
                 const legend = L.control({ position: 'topleft' });
 
                 legend.onAdd = () => {
-                    const div = L.DomUtil.create('div', 'legend absolute top-0 left-4 z-50 w-32');
+                    const div = L.DomUtil.create('div', 'hidden lg:block legend absolute top-0 left-4 z-50 w-32');
                     div.innerHTML = `
                         <div class="bg-[#3F4243] bg-opacity-90 text-white px-3 py-1 mt-2 rounded shadow-lg text-[12px]">
                             <h3 class="font-semibold mb-2 text-center border-b border-b-white p-1">Legend</h3>
@@ -1603,69 +1602,6 @@
                 }
             },
 
-            // viewReport(id) {
-            //     this.selectedReport = this.reports.find(report => report.id === id);
-            //     this.showingGroupReports = true;
-            //
-            //     if (!this.selectedReport) return;
-            //
-            //     const latLng = L.latLng(this.selectedReport.lat, this.selectedReport.lng);
-            //     const currentZoom = this.map.getZoom();
-            //     const currentCenter = this.map.getCenter();
-            //
-            //     const isSameLocation = currentCenter.distanceTo(latLng) < 10;
-            //     const isSameZoom = currentZoom === 16;
-            //
-            //     if (!isSameLocation || !isSameZoom) {
-            //         const onMoveEnd = () => {
-            //             this.selectedReport.marker.openPopup();
-            //             this.map.off('moveend', onMoveEnd);
-            //         };
-            //         this.map.on('moveend', onMoveEnd);
-            //         this.map.setView(latLng, 16, { animate: true });
-            //     } else {
-            //         this.selectedReport.marker.openPopup();
-            //     }
-            //
-            //     // ✅ Clear any previous pulse effect
-            //     if (this.pulseLocationIcon) {
-            //         this.map.removeLayer(this.pulseLocationIcon);
-            //         clearInterval(this.pulseInterval);
-            //         this.pulseLocationIcon = null;
-            //     }
-            //
-            //     // ✅ Add new pulse effect
-            //     this.pulseLocationIcon = L.circle(latLng, {
-            //         color: 'blue',
-            //         fillColor: 'blue',
-            //         fillOpacity: 0.15,
-            //         radius: 40
-            //     }).addTo(this.map);
-            //
-            //     this.pulseLocationIcon.bringToBack();
-            //
-            //     let pulseSize = 40;
-            //     this.pulseInterval = setInterval(() => {
-            //         if (!this.pulseLocationIcon) return;
-            //         pulseSize = pulseSize === 40 ? 55 : 40;
-            //         this.pulseLocationIcon.setRadius(pulseSize);
-            //     }, 1000);
-            //
-            //     // ✅ Hide pulse when zoomed to 14 or closer
-            //     const onZoomEnd = () => {
-            //         const zoom = this.map.getZoom();
-            //         if (zoom <= 14) {
-            //             if (this.pulseLocationIcon) {
-            //                 this.map.removeLayer(this.pulseLocationIcon);
-            //                 clearInterval(this.pulseInterval);
-            //                 this.pulseLocationIcon = null;
-            //             }
-            //             this.map.off('zoomend', onZoomEnd); // Optional: remove listener after it hides once
-            //         }
-            //     };
-            //     this.map.on('zoomend', onZoomEnd);
-            // },
-
             updateReportStatus() {
                 if (this.newStatus) {
                     // Update the status of the selected report
@@ -1725,53 +1661,6 @@
             },
         };
     }
-
-    // document.addEventListener("DOMContentLoaded", function () {
-    //     // Assuming `this.reports` is already available in your script
-    //     const reports = window.reports || []; // Fallback if reports are not available
-    //
-    //     // Extract unique values from reports
-    //     const locations = [...new Set(reports.map(report => report.location).filter(Boolean))];
-    //     const statuses = [...new Set(reports.map(report => report.status).filter(Boolean))];
-    //     const defectTypes = [...new Set(reports.map(report => report.defect).filter(Boolean))];
-    //     const severities = [...new Set(reports.map(report => report.severity).filter(Boolean))];
-    //
-    //     // Function to populate dropdowns
-    //     function populateDropdown(selectId, items) {
-    //         const select = document.getElementById(selectId);
-    //         select.innerHTML = `<option value="">Select ${selectId.replace("Filter", "")}</option>`; // Default option
-    //         items.forEach(item => {
-    //             const option = document.createElement("option");
-    //             option.value = item;
-    //             option.textContent = item;
-    //             select.appendChild(option);
-    //         });
-    //     }
-    //
-    //     // Populate dropdowns with unique values
-    //     populateDropdown("locationFilter", locations);
-    //     populateDropdown("statusFilter", statuses);
-    //     populateDropdown("defectFilter", defectTypes);
-    //     populateDropdown("severityFilter", severities);
-    //
-    //     // Attach event listeners to filters
-    //     document.getElementById("locationFilter").addEventListener("change", function () {
-    //         window.filterMarkers("", "location", this.value);
-    //     });
-    //
-    //     document.getElementById("statusFilter").addEventListener("change", function () {
-    //         window.filterMarkers("", "status", this.value);
-    //     });
-    //
-    //     document.getElementById("defectFilter").addEventListener("change", function () {
-    //         window.filterMarkers("", "defect", this.value);
-    //     });
-    //
-    //     document.getElementById("severityFilter").addEventListener("change", function () {
-    //         window.filterMarkers("", "severity", this.value);
-    //     });
-    // });
-
-
 </script>
+
 

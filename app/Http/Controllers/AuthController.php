@@ -12,27 +12,27 @@ use App\Models\Staff;
 
 class AuthController extends Controller
 {
-    public function AdminSignIn(Request $request)
-    {
-        // Validate the incoming request data
-        $request->validate([
-            'username' => 'required|string', // Admin login by username
-            'password' => 'required|min:8',   // Ensure password is provided
-        ]);
-
-        // Attempt to log the admin in using username and password
-        if (Auth::attempt(['username' => $request->username, 'password' => $request->password, 'user_type' => 1])) {
-            // Authentication passed, redirect to admin dashboard
-            return redirect()->route('admin.dashboard'); // Adjust the route as needed
-        }
-
-        // If authentication fails, throw a validation exception
-        throw ValidationException::withMessages([
-            'username' => 'The provided credentials do not match our records.',
-            'password' => 'The provided password is incorrect.',
-        ]);
-
-    }
+//    public function AdminSignIn(Request $request)
+//    {
+//        // Validate the incoming request data
+//        $request->validate([
+//            'username' => 'required|string', // Admin login by username
+//            'password' => 'required|min:8',   // Ensure password is provided
+//        ]);
+//
+//        // Attempt to log the admin in using username and password
+//        if (Auth::attempt(['username' => $request->username, 'password' => $request->password, 'user_type' => 1])) {
+//            // Authentication passed, redirect to admin dashboard
+//            return redirect()->route('admin.dashboard'); // Adjust the route as needed
+//        }
+//
+//        // If authentication fails, throw a validation exception
+//        throw ValidationException::withMessages([
+//            'username' => 'The provided credentials do not match our records.',
+//            'password' => 'The provided password is incorrect.',
+//        ]);
+//
+//    }
 
 //    public function StaffSignIn(Request $request)
 //    {
@@ -55,6 +55,56 @@ class AuthController extends Controller
 //            'password' => 'The provided password is incorrect.',
 //        ]);
 //    }
+
+
+    public function AdminSignIn(Request $request)
+    {
+        // Step 1: Validate inputs
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        $username = Str::lower($request->input('username'));
+        $ip = $request->ip();
+        $key = "admin_login|{$username}|{$ip}";
+
+        // Step 2: Check if the user is rate limited
+        if (RateLimiter::tooManyAttempts($key, 2)) {
+            $seconds = RateLimiter::availableIn($key);
+            return back()->withErrors([
+                'timeout' => $seconds,
+            ])->withInput();
+        }
+
+        // Step 3: Join with users to find the staff record, including staff status
+        $admin = DB::table('admins')
+            ->join('users', 'admins.user_id', '=', 'users.id')
+            ->where('users.username', $username)
+            ->where('users.user_type', 1)
+            ->select('users.id as user_id', 'users.password')
+            ->first();
+
+        if (!$admin) {
+            return back()->withErrors([
+                'username' => 'Username not found or not a staff account.',
+            ])->withInput();
+        }
+
+        // Step 4: Check password manually
+        if (!\Hash::check($request->password, $admin->password)) {
+            RateLimiter::hit($key, 45);
+            return back()->withErrors([
+                'password' => 'Incorrect password.',
+            ])->withInput();
+        }
+
+        Auth::loginUsingId($admin->user_id);
+
+        RateLimiter::clear($key);
+        return redirect()->route('admin.dashboard');
+    }
+
 
     public function showLoginForm()
     {
@@ -98,19 +148,12 @@ class AuthController extends Controller
             ->join('users', 'staffs.user_id', '=', 'users.id')
             ->where('users.username', $username)
             ->where('users.user_type', 3)
-            ->select('users.id as user_id', 'users.password', 'staffs.status')
+            ->select('users.id as user_id', 'users.password', 'staffs.status', 'users.must_change_password')
             ->first();
 
         if (!$staff) {
             return back()->withErrors([
                 'username' => 'Username not found or not a staff account.',
-            ])->withInput();
-        }
-
-        // 🔒 Step 3.5: Check if staff is inactive
-        if ($staff->status === 'inactive') {
-            return back()->withErrors([
-                'username' => 'This staff account is inactive. Please contact the administrator.',
             ])->withInput();
         }
 
@@ -125,7 +168,7 @@ class AuthController extends Controller
         // Step 5: Log the user in by ID
         Auth::loginUsingId($staff->user_id);
 
-        // Step 6: Redirect to password change if first-time login
+        // Step 6: Check if password needs to be changed after login
         $user = Auth::user(); // get logged in user
         if ($user->must_change_password) {
             return redirect()->route('staff.password.change');
@@ -134,6 +177,7 @@ class AuthController extends Controller
         RateLimiter::clear($key);
         return redirect()->route('staff.dashboard');
     }
+
 
     public function showChangePasswordForm()
     {

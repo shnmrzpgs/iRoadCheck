@@ -17,7 +17,7 @@
             this.form.password = password;
         },
     }">
-    <x-admin.crud-modal-content-base modal_name="add-user-account-modal">
+    <x-Admin.staff-modal-content-base modal_name="add-user-account-modal">
 
         <x-slot:trigger>
             <button type="button"
@@ -163,8 +163,9 @@
                             </div>
                         </div>
 
-                        <!-- Sex -->
+                        <!-- Sex and Birthdate-->
                         <div class="flex space-x-4 grid grid-cols-2">
+                            <!-- Sex -->
                             <div>
                                 <label class="block font-medium text-gray-700">Sex</label>
                                 <select wire:model.defer="form.sex"
@@ -179,31 +180,49 @@
                                 <span id="sexError" class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div x-data="{ date: '' }" class="relative">
-                                <label class="block font-medium text-gray-700">Birthdate</label>
-                                <div x-data="{
-                                        init() {
-                                            flatpickr($refs.input, {
-                                                dateFormat: 'F j, Y',
-                                                defaultDate: @js($this->form->date_of_birth) ?? null,
-                                                 maxDate: new Date(),
-                                                 minDate: new Date(new Date().setFullYear(new Date().getFullYear() - 100)),
-                                                onChange: (_, dateStr) => @this.set('form.date_of_birth', dateStr), // Send F j, Y to Livewire
-                                            });
+
+                            <!-- Birthdate -->
+                            <div class="relative">
+                                <div x-data="{ date_of_birth: @entangle('form.date_of_birth'), fp: null }" x-init="
+                                    // Initialize Flatpickr only after the component is ready
+                                    $nextTick(() => {
+                                        fp = flatpickr($refs.input, {
+                                            dateFormat: 'F j, Y',
+                                            defaultDate: @js($this->form->date_of_birth),
+                                            maxDate: new Date(),
+                                            minDate: new Date(new Date().setFullYear(new Date().getFullYear() - 100)),
+                                            allowInput: true,
+                                            onChange: (_, dateStr) => date_of_birth = dateStr // Update Alpine.js value on date change
+                                        });
+                                    });
+
+                                    // Real-time input handler to update the calendar immediately while typing
+                                    $refs.input.addEventListener('input', function () {
+                                        // Check if the input is a valid date format and if so, update the calendar
+                                        if (fp.isValidDate(this.value)) {
+                                            fp.setDate(this.value, true); // Update the calendar immediately but don't trigger Livewire onChange
                                         }
-                                    }"
-                                    x-init="init"
-                                    class="relative">
-                                    <input id="date_of_birth" type="text" x-ref="input" wire:model.defer="form.date_of_birth" placeholder="Select a date"
-                                        readonly
-                                        class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-sm shadow-sm pr-10">
-                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 10h10m2-7H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2z" />
-                                        </svg>
+                                        date_of_birth = this.value; // Sync Alpine.js model to Livewire
+                                    });
+                                ">
+                                    <label for="date_of_birth" class="block font-medium text-gray-700 mb-1">Date of Birth</label>
+                                    <div class="relative">
+                                        <input
+                                            id="date_of_birth"
+                                            type="text"
+                                            x-ref="input"
+                                            x-model="date_of_birth"
+                                            placeholder="e.g. April 18, 2000"
+                                            autocomplete="off"
+                                            class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-full rounded-md shadow-sm px-3 py-2"
+                                        />
+                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 10h10m2-7H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2z" />
+                                            </svg>
+                                        </div>
                                     </div>
                                 </div>
-
                                 @error('form.date_of_birth')
                                 <span id="dobError" class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span>
                                 @enderror
@@ -216,29 +235,33 @@
                     <!-- Access Control Tab -->
                     <div>
                         @if($activeTab === 'access-info')
-                        <div>
-                            <select wire:model.live="form.user_role"
-                                class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] text-gray-700 block w-full rounded-sm shadow-sm">
-                                <option value="" selected>Select User Role</option>
-                                @foreach($roles as $role)
-                                <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @error('form.user_role')
-                        <span id="dobError" class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span>
-                        @enderror
+                            <div>
+                                <select wire:model.live="form.user_role"
+                                    class="border-gray-300 focus:ring-[#4AA76F] focus:border-[#4AA76F] text-gray-700 block w-full rounded-sm shadow-sm">
+                                    <option value="" selected>Select User Role</option>
+                                    @foreach($roles as $role)
+                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('form.user_role')
+                            <span id="dobError" class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span>
+                            @enderror
 
-                        <div>
-                            <label class="block font-medium text-gray-700 mt-4">Permissions</label>
-                            <ul class="list-disc pl-6 mt-2">
-                                @forelse($selectedPermissions as $permission)
-                                <li>{{ ucwords(str_replace('_', ' ', $permission)) }}</li>
-                                @empty
-                                <li>No permissions assigned for this role.</li>
-                                @endforelse
-                            </ul>
-                        </div>
+                            <label class="block font-medium text-gray-700 mb-2 border-b border-gray-300 mt-4">
+                                Permissions
+                            </label>
+                            @if(!empty($selectedPermissions))
+                                <div class="min-h-[25vh] max-h-[25vh] overflow-y-auto grid grid-cols-1 sm:grid-cols-2 gap-1 mt-2 py-1.5 px-5 text-[13px]">
+                                    @foreach($selectedPermissions as $permission)
+                                        <ul class="list-disc flex items-center">
+                                            <li>{{ ucwords(str_replace('_', ' ', $permission)) }}</li>
+                                        </ul>
+                                    @endforeach
+                                </div>
+                            @else
+                                <li>No permissions assigned to this role.</li>
+                            @endif
                         @endif
                     </div>
 
@@ -352,59 +375,51 @@
             @endif
         </x-slot:body>
 
-
         <x-slot:footer>
+            <div class="flex justify-between items-center w-full mt-6">
+                <!-- Left Side Buttons -->
+                <div class="flex justify-between items-center w-full">
+                    <!-- Back Button -->
+                    <button
+                        type="button"
+                        wire:click="previousTab"
+                        class="flex items-center px-4 py-2 bg-gray-100 text-sm rounded hover:bg-gray-200 transition active:scale-95"
+                        x-show="tabs.findIndex(tab => tab.key === activeTab) > 0">
+                        <!-- Back Arrow Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        <span class="ml-2">Back</span>
+                    </button>
 
-            <div>
-
-                <div>
-                    <!-- Buttons -->
-                    <div class="flex justify-between mt-6">
-                        <!-- Left Side Buttons -->
-                        <div class="flex space-x-4">
-                            <!-- Back Button -->
-                            <button
-                                type="button"
-                                wire:click="previousTab"
-                                class="flex items-center px-4 py-2 bg-gray-100 text-sm rounded hover:bg-gray-200 transition active:scale-95"
-                                x-show="tabs.findIndex(tab => tab.key === activeTab) > 0">
-                                <!-- Back Arrow Icon -->
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                                </svg>
-                                <span class="ml-2">Back</span>
-                            </button>
-
-                            <!-- Add user Button -->
-                            <button
-                                type="button"
-                                wire:click.prevent="validateAndSubmit"
-                                wire:loading.attr="disabled"
-                                x-on:user_account_added.window="open = false"
-                                class="px-4 py-2 bg-gradient-to-b from-[#84D689] to-green-500 text-white text-sm rounded hover:bg-[#4AA76F] shadow-lg shadow-neutral-500/20 transition active:scale-95 hover:scale-105"
-                                x-show="tabs.findIndex(tab => tab.key === activeTab) === tabs.length - 1">
-                                Add Staff
-                                <x-loading-indicator wire:loading class="h-6 w-6" />&nbsp;
-                            </button>
-                        </div>
-
-                        <!-- Next Button -->
-                        <button
-                            type="button"
-                            wire:click="nextTab"
-                            class="flex items-center px-4 py-2 bg-[#3AA76F] text-white text-sm rounded hover:bg-[#4AA76F] transition active:scale-95"
-                            x-show="tabs.findIndex(tab => tab.key === activeTab) < tabs.length - 1">
-                            <span class="mr-2">Next</span>
-
-                            <x-loading-indicator wire:loading class="h-6 w-6" x-show="false" />
-
-                            <!-- Next Arrow Icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" x-show="!loading">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                            </svg>
-                        </button>
-                    </div>
+                    <!-- Add user Button -->
+                    <button
+                        type="button"
+                        wire:click.prevent="validateAndSubmit"
+                        wire:loading.attr="disabled"
+                        x-on:user_account_added.window="open = false"
+                        class="px-4 py-2 bg-gradient-to-b from-[#84D689] to-green-500 text-white text-sm rounded hover:bg-[#4AA76F] shadow-lg shadow-neutral-500/20 transition active:scale-95 hover:scale-105"
+                        x-show="tabs.findIndex(tab => tab.key === activeTab) === tabs.length - 1">
+                        Add Staff
+                        <x-loading-indicator wire:loading class="h-6 w-6" />&nbsp;
+                    </button>
                 </div>
+
+                <!-- Next Button -->
+                <button
+                    type="button"
+                    wire:click="nextTab"
+                    class="flex items-center px-4 py-2 bg-[#3AA76F] text-white text-sm rounded hover:bg-[#4AA76F] transition active:scale-95"
+                    x-show="tabs.findIndex(tab => tab.key === activeTab) < tabs.length - 1">
+                    <span class="mr-2">Next</span>
+
+                    <x-loading-indicator wire:loading class="h-6 w-6" x-show="false" />
+
+                    <!-- Next Arrow Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" x-show="!loading">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
             </div>
 
             <script>
@@ -415,108 +430,5 @@
                 }
             </script>
         </x-slot:footer>
-
-    </x-admin.crud-modal-content-base>
-
-    <!--Feedback Messages-->
-    @if (session()->has('feedback'))
-    <div
-        x-data="{ openModal: true }"
-        x-init="
-            setTimeout(() => {
-                openModal = false;
-                setTimeout(() => location.reload(), 300); // Reload the page after the notification disappears
-            }, 3000); // Auto-hide after 3 seconds
-
-            @if (session('feedback_type') === 'success')
-                lottie.loadAnimation({
-                    container: $refs.lottieAnimation,
-                    renderer: 'svg',
-                    loop: true,
-                    autoplay: true,
-                    path: '{{ asset('animations/Animation - 1732372548058.json') }}'
-                });
-            @elseif (session('feedback_type') === 'info')
-                lottie.loadAnimation({
-                    container: $refs.lottieAnimation,
-                    renderer: 'svg',
-                    loop: true,
-                    autoplay: true,
-                    path: '{{ asset('animations/Animation - 1737008068327.json') }}'
-                });
-            @elseif (session('feedback_type') === 'error')
-                lottie.loadAnimation({
-                    container: $refs.lottieAnimation,
-                    renderer: 'svg',
-                    loop: true,
-                    autoplay: true,
-                    path: '{{ asset('animations/Animation - 1732451860692.json') }}'
-                });
-            @endif"
-        x-cloak>
-        <!-- Notifications -->
-        <div
-            x-show="openModal"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 -translate-y-2"
-            x-transition:enter-end="opacity-100 translate-y-0"
-            x-transition:leave="transition ease-in duration-300"
-            x-transition:leave-start="opacity-100 translate-y-0"
-            x-transition:leave-end="opacity-0 -translate-y-2"
-            class="fixed top-5 left-1/2 transform -translate-x-1/2 z-50 bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-md border-l-4"
-            :class="{
-                'border-green-500': '{{ session('feedback_type') }}' === 'success',
-                'border-blue-500': '{{ session('feedback_type') }}' === 'info',
-                'border-red-500': '{{ session('feedback_type') }}' === 'error',
-            }">
-            <!-- Content -->
-            <div class="p-4 flex items-center space-x-4">
-                <!-- Lottie Animation -->
-                <div class="flex-shrink-0">
-                    <div x-ref="lottieAnimation" class="w-12 h-12"></div>
-                </div>
-
-                <!-- Message -->
-                <div>
-                    <p class="font-bold text-lg"
-                        :class="{
-                            'text-green-600': '{{ session('feedback_type') }}' === 'success',
-                            'text-blue-600': '{{ session('feedback_type') }}' === 'info',
-                            'text-red-600': '{{ session('feedback_type') }}' === 'error',
-                       }">
-                        {{ strtoupper(session('feedback_type')) }}
-                    </p>
-                    <p class="text-sm text-gray-700">
-                        {!! session('feedback') !!}
-                    </p>
-                </div>
-            </div>
-
-            <!-- Progress Bar -->
-            <div class="mx-5 mb-3 relative h-1 bg-gray-200">
-                <div
-                    class="absolute top-0 left-0 h-full"
-                    :class="{
-                        'bg-green-500': '{{ session('feedback_type') }}' === 'success',
-                        'bg-blue-500': '{{ session('feedback_type') }}' === 'info',
-                        'bg-red-500': '{{ session('feedback_type') }}' === 'error',
-                    }"
-                    style="animation: progress 4s linear;"></div>
-            </div>
-        </div>
-    </div>
-    @endif
-
-    <!-- Progress Bar Animation -->
-    <style>
-        @keyframes progress {
-            from {
-                width: 100%;
-            }
-
-            to {
-                width: 0;
-            }
-        }
-    </style>
+    </x-Admin.staff-modal-content-base>
 </div>
