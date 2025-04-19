@@ -60,19 +60,22 @@
                         Dashboard
                     </p>
                 </a>
-{{--                <!-- Manage Tagging -->--}}
-{{--                <a href="{{ route('staff.manage-tagging') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium--}}
-{{--                    {{ request()->routeIs('staff.manage-tagging') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">--}}
-{{--                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"--}}
-{{--                         class="lazyload w-5 h-5 fill-current--}}
-{{--                        {{ request()->routeIs('staff.manage-tagging') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200' }}">--}}
-{{--                        <path d="M302.8 312C334.9 271.9 408 174.6 408 120C408 53.7 354.3 0 288 0S168 53.7 168 120c0 54.6 73.1 151.9 105.2 192c7.7 9.6 22 9.6 29.6 0zM416 503l144.9-58c9.1-3.6 15.1-12.5 15.1-22.3L576 152c0-17-17.1-28.6-32.9-22.3l-116 46.4c-.5 1.2-1 2.5-1.5 3.7c-2.9 6.8-6.1 13.7-9.6 20.6L416 503zM15.1 187.3C6 191 0 199.8 0 209.6L0 480.4c0 17 17.1 28.6 32.9 22.3L160 451.8l0-251.4c-3.5-6.9-6.7-13.8-9.6-20.6c-5.6-13.2-10.4-27.4-12.8-41.5l-122.6 49zM384 255c-20.5 31.3-42.3 59.6-56.2 77c-20.5 25.6-59.1 25.6-79.6 0c-13.9-17.4-35.7-45.7-56.2-77l0 194.4 192 54.9L384 255z"/>--}}
-{{--                    </svg>--}}
-{{--                    <p x-show="expanded" class="ml-2--}}
-{{--                        {{ request()->routeIs('staff.manage-tagging') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">--}}
-{{--                        Manage Tagging--}}
-{{--                    </p>--}}
-{{--                </a>--}}
+
+                <!-- Update Road Defect -->
+                <a href="{{ route('staff.capture-road-defect') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
+                    {{ request()->routeIs('staff.capture-road-defect') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                         class="lazyload w-5 h-5 fill-current
+                        {{ request()->routeIs('staff.capture-road-defect') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200' }}">
+                        <path fill="currentColor"  fill-rule="nonzero" d="M9 7.6875C9.31065 7.6875 9.5625 7.93935 9.5625 8.25V9.1875H10.5C10.8107 9.1875 11.0625 9.43935 11.0625 9.75C11.0625 10.0607 10.8107 10.3125 10.5 10.3125H9.5625V11.25C9.5625 11.5607 9.31065 11.8125 9 11.8125C8.68935 11.8125 8.4375 11.5607 8.4375 11.25V10.3125H7.5C7.18934 10.3125 6.9375 10.0607 6.9375 9.75C6.9375 9.43935 7.18934 9.1875 7.5 9.1875H8.4375V8.25C8.4375 7.93935 8.68935 7.6875 9 7.6875Z"/>
+                        <path fill="currentColor" fill-rule="nonzero" d="M7.33333 15.75H10.6666C13.0075 15.75 14.1778 15.75 15.0186 15.1985C15.3825 14.9597 15.695 14.6528 15.9382 14.2955C16.5 13.4701 16.5 12.3209 16.5 10.0227C16.5 7.72455 16.5 6.57541 15.9382 5.74995C15.695 5.39261 15.3825 5.08578 15.0186 4.84701C14.4783 4.4926 13.802 4.36592 12.7665 4.32064C12.2723 4.32064 11.8469 3.95301 11.75 3.47727C11.6046 2.76367 10.9664 2.25 10.2253 2.25H7.77472C7.03354 2.25 6.39536 2.76367 6.25 3.47727C6.15309 3.95301 5.72764 4.32064 5.2335 4.32064C4.198 4.36592 3.52166 4.4926 2.98143 4.84701C2.61746 5.08578 2.30496 5.39261 2.06177 5.74995C1.5 6.57541 1.5 7.72455 1.5 10.0227C1.5 12.3209 1.5 13.4701 2.06177 14.2955C2.30496 14.6528 2.61746 14.9597 2.98143 15.1985C3.82218 15.75 4.99256 15.75 7.33333 15.75ZM12 9.75C12 11.4068 10.6568 12.75 9 12.75C7.34314 12.75 6 11.4068 6 9.75C6 8.09318 7.34314 6.75 9 6.75C10.6568 6.75 12 8.09318 12 9.75ZM13.5 6.9375C13.1893 6.9375 12.9375 7.18934 12.9375 7.5C12.9375 7.81065 13.1893 8.0625 13.5 8.0625H14.25C14.5606 8.0625 14.8125 7.81065 14.8125 7.5C14.8125 7.18934 14.5606 6.9375 14.25 6.9375H13.5Z" />
+                    </svg>
+                    <p x-show="expanded" class="ml-2
+                        {{ request()->routeIs('staff.capture-road-defect') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">
+                        Update Road Defect
+                    </p>
+                </a>
+
                 <!-- Road Defect Reports -->
                 <a href="{{ route('staff.road-defect-reports') }}" wire:navigate loading="lazy" class="group flex items-center block py-2.5 px-5 rounded font-medium
                     {{ request()->routeIs('staff.road-defect-reports') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
@@ -88,33 +91,7 @@
                         Road Defect Reports
                     </p>
                 </a>
-                <!-- Update Road Defect -->
-                <a href="{{ route('staff.capture-road-defect') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
-                    {{ request()->routeIs('staff.capture-road-defect') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                         class="lazyload w-5 h-5 fill-current
-                        {{ request()->routeIs('staff.capture-road-defect') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200' }}">
-                        <path fill="currentColor"  fill-rule="nonzero" d="M9 7.6875C9.31065 7.6875 9.5625 7.93935 9.5625 8.25V9.1875H10.5C10.8107 9.1875 11.0625 9.43935 11.0625 9.75C11.0625 10.0607 10.8107 10.3125 10.5 10.3125H9.5625V11.25C9.5625 11.5607 9.31065 11.8125 9 11.8125C8.68935 11.8125 8.4375 11.5607 8.4375 11.25V10.3125H7.5C7.18934 10.3125 6.9375 10.0607 6.9375 9.75C6.9375 9.43935 7.18934 9.1875 7.5 9.1875H8.4375V8.25C8.4375 7.93935 8.68935 7.6875 9 7.6875Z"/>
-                        <path fill="currentColor" fill-rule="nonzero" d="M7.33333 15.75H10.6666C13.0075 15.75 14.1778 15.75 15.0186 15.1985C15.3825 14.9597 15.695 14.6528 15.9382 14.2955C16.5 13.4701 16.5 12.3209 16.5 10.0227C16.5 7.72455 16.5 6.57541 15.9382 5.74995C15.695 5.39261 15.3825 5.08578 15.0186 4.84701C14.4783 4.4926 13.802 4.36592 12.7665 4.32064C12.2723 4.32064 11.8469 3.95301 11.75 3.47727C11.6046 2.76367 10.9664 2.25 10.2253 2.25H7.77472C7.03354 2.25 6.39536 2.76367 6.25 3.47727C6.15309 3.95301 5.72764 4.32064 5.2335 4.32064C4.198 4.36592 3.52166 4.4926 2.98143 4.84701C2.61746 5.08578 2.30496 5.39261 2.06177 5.74995C1.5 6.57541 1.5 7.72455 1.5 10.0227C1.5 12.3209 1.5 13.4701 2.06177 14.2955C2.30496 14.6528 2.61746 14.9597 2.98143 15.1985C3.82218 15.75 4.99256 15.75 7.33333 15.75ZM12 9.75C12 11.4068 10.6568 12.75 9 12.75C7.34314 12.75 6 11.4068 6 9.75C6 8.09318 7.34314 6.75 9 6.75C10.6568 6.75 12 8.09318 12 9.75ZM13.5 6.9375C13.1893 6.9375 12.9375 7.18934 12.9375 7.5C12.9375 7.81065 13.1893 8.0625 13.5 8.0625H14.25C14.5606 8.0625 14.8125 7.81065 14.8125 7.5C14.8125 7.18934 14.5606 6.9375 14.25 6.9375H13.5Z" />
-                    </svg>
-                    <p x-show="expanded" class="ml-2
-                        {{ request()->routeIs('staff.capture-road-defect') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">
-                        Update Road Defect
-                    </p>
-                </a>
-{{--                <!-- Suggestion Reports -->--}}
-{{--                <a href="{{ route('staff.suggestion-reports') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium--}}
-{{--                    {{ request()->routeIs('staff.suggestion-reports') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">--}}
-{{--                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"--}}
-{{--                         class="lazyload w-5 h-5 fill-current mt-1.5--}}
-{{--                        {{ request()->routeIs('staff.suggestion-reports') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:scale-105 duration-200' }}">--}}
-{{--                        <path  fill="currentColor" d="M16 6.5C16 10.0906 12.4187 13 8 13C7.01562 13 6.07187 12.8562 5.2 12.5906L0.5 14L1.77813 10.5875C0.665625 9.47187 0 8.05 0 6.5C0 2.90937 3.58125 0 8 0C12.4187 0 16 2.90937 16 6.5ZM11.5312 5.03125L12.0625 4.5L11 3.44063L10.4688 3.97188L7 7.44063L5.53125 5.97188L5 5.44063L3.94062 6.5L4.47188 7.03125L6.47188 9.03125L7.00313 9.5625L7.53438 9.03125L11.5312 5.03125Z"/>--}}
-{{--                    </svg>--}}
-{{--                    <p x-show="expanded" class="ml-2--}}
-{{--                        {{ request()->routeIs('staff.suggestion-reports') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">--}}
-{{--                        Suggestion Reports--}}
-{{--                    </p>--}}
-{{--                </a>--}}
+
                 <!-- Update History -->
                 <a href="{{ route('staff.report-history') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
                     {{ request()->routeIs('staff.report-history') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">
@@ -155,12 +132,24 @@
         <div class="flex-1 flex flex-col">
 
             <x-Staff.staff-header>
+
+                <x-slot:logo>
+                    <!-- iRoadCheck Logo -->
+                    <a href="{{ route('staff.dashboard') }}" wire:navigate title="Go to Dashboard">
+                        <div class="flex justify-start items-center">
+                            <img src="{{ asset('storage/images/IRoadCheck_Logo.png') }}" alt="graphicsLogo"
+                                 class="w-8 max-w-10 mr-1" />
+                            <div class="mt-0 text-[#4D4F50] font-bold text-[15px]">iRoadCheck</div>
+                        </div>
+                    </a>
+                </x-slot:logo>
+
                 <x-slot:page_title_and_search_bar>
-                    <h1 class="lg:text-[22px] text-md md:text-lg mt-0 font-semibold text-[#4AA76F] md:mt-3 md:mr-3 lg:mr-1">{{$page_title}}</h1>
+                    <h1 class="hidden md:block lg:text-[22px] text-md md:text-lg mt-0 font-semibold text-[#4AA76F] md:mt-3 md:mr-3 lg:mr-1 ml-auto ">{{$page_title}}</h1>
 
                     @if (!request()->routeIs('staff.profile-edit') && !request()->routeIs('staff.dashboard') && !request()->routeIs('staff.road-defect-reports') && !request()->routeIs('staff.capture-road-defect') && !session('hideSearchBar'))
                     <!-- Search Bar -->
-                        <div class="flex mt-2 lg:mt-3 w-48 lg:w-80 items-center px-0 lg:px-5">
+                        <div class="hidden md:block flex mt-2 lg:mt-3 w-48 lg:w-80 items-center px-0 lg:px-5">
                             <div class="relative flex flex-1 h-8 rounded-full">
                                 <label for="search-field" class="sr-only">Search</label>
                                 <svg   class="pointer-events-none absolute inset-y-0 left-1 h-full w-4 text-gray-400 ml-2 z-0"
@@ -258,7 +247,7 @@
 
             <!-- Content Area -->
             <main
-                class="mt-32 md:mt-24 lg:mt-0 flex-1 rounded-md mb-4 mx-1 lg:mx-0 lg:mr-5 bg-none {{ ' '.$main_class }}">
+                class="mt-24 md:pt-2 md:mt-0 flex-1 rounded-md mb-4 mx-0 p-0 bg-none w-full pr-3 {{ ' '.$main_class }}">
                 <!-- Main content here -->
                 {{ $slot }}
             </main>
