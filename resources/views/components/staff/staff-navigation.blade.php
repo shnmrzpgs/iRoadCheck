@@ -60,6 +60,7 @@
                         Dashboard
                     </p>
                 </a>
+                <!-- Test -->
 
                 <!-- Update Road Defect -->
                 <a href="{{ route('staff.capture-road-defect') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium

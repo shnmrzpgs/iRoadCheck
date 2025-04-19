@@ -3,7 +3,7 @@
     wire:ignore
     :class="expanded ? 'w-60' : 'w-24'"
     class="bg-[#FBFBFB] hidden h-[95vh] md:block rounded-xl drop-shadow-md transition-all duration-300 ease-in-out mx-4 mt-5">
-
+    <!-- Test -->
     <!-- Arrow Icon -->
     <svg @click="toggleSidebar"
          xmlns="http://www.w3.org/2000/svg"
