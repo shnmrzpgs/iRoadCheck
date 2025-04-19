@@ -129,24 +129,12 @@
         <div class="flex-1 flex flex-col">
 
             <x-Staff.staff-header>
-
-                <x-slot:logo>
-                    <!-- iRoadCheck Logo -->
-                    <a href="{{ route('staff.dashboard') }}" wire:navigate title="Go to Dashboard">
-                        <div class="flex justify-start items-center">
-                            <img src="{{ asset('storage/images/IRoadCheck_Logo.png') }}" alt="graphicsLogo"
-                                 class="w-8 max-w-10 mr-1" />
-                            <div class="mt-0 text-[#4D4F50] font-bold text-[15px]">iRoadCheck</div>
-                        </div>
-                    </a>
-                </x-slot:logo>
-
                 <x-slot:page_title_and_search_bar>
-                    <h1 class="hidden md:block lg:text-[22px] text-md md:text-lg mt-0 font-semibold text-[#4AA76F] md:mt-3 md:mr-3 lg:mr-1 ml-auto ">{{$page_title}}</h1>
+                    <h1 class="lg:text-[22px] text-md md:text-lg mt-0 font-semibold text-[#4AA76F] md:mt-3 md:mr-3 lg:mr-1">{{$page_title}}</h1>
 
                     @if (!request()->routeIs('staff.profile-edit') && !request()->routeIs('staff.dashboard') && !request()->routeIs('staff.road-defect-reports') && !request()->routeIs('staff.capture-road-defect') && !session('hideSearchBar'))
                     <!-- Search Bar -->
-                        <div class="hidden md:block flex mt-2 lg:mt-3 w-48 lg:w-80 items-center px-0 lg:px-5">
+                        <div class="flex mt-2 lg:mt-3 w-48 lg:w-80 items-center px-0 lg:px-5">
                             <div class="relative flex flex-1 h-8 rounded-full">
                                 <label for="search-field" class="sr-only">Search</label>
                                 <svg   class="pointer-events-none absolute inset-y-0 left-1 h-full w-4 text-gray-400 ml-2 z-0"
@@ -192,7 +180,7 @@
 
             <!-- Content Area -->
             <main
-                class="mt-24 md:pt-2 md:mt-0 flex-1 rounded-md mb-4 mx-0 p-0 bg-none w-full pr-3 {{ ' '.$main_class }}">
+                class="mt-32 md:mt-24 lg:mt-0 flex-1 rounded-md mb-4 mx-1 lg:mx-0 lg:mr-5 bg-none {{ ' '.$main_class }}">
                 <!-- Main content here -->
                 {{ $slot }}
             </main>
