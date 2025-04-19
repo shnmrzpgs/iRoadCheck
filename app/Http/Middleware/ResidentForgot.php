@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
-class VerifyResident
+class ResidentForgot
 {
     /**
      * Handle an incoming request.
@@ -28,13 +28,13 @@ class VerifyResident
                     ->where('user_id', $user->id)
                     ->first();
 
-                if ($resident && $resident->is_activated == 1) {
-                    return redirect()->route('resident.dashboard');
+                if (!$resident ) {
+                    return redirect()->route('residents-login');
                 }
 
             }
 
-        } else {
+        } else{
             return redirect()->route('residents-login');
         }
         return $next($request);

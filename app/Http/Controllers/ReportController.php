@@ -292,6 +292,10 @@ class ReportController extends Controller
             'time'      => 'required',
             'photo'     => 'required|string',
         ]);
+        // Check if geocoded address contains 'Tagum'
+        if (!str_contains(strtolower($request->address), 'tagum')) {
+            return redirect()->back()->with('not_from_tagum', true);
+        }
         // Decode base64 photo
         $photoData = str_replace('data:image/png;base64,', '', $request->photo);
         $image = base64_decode($photoData);
@@ -308,7 +312,7 @@ class ReportController extends Controller
 
         // Save image
         $imagePath = Storage::disk('public')->put("reports/{$imageName}", $image);
-        $fullImagePath = "reports/{$imageName}";
+        $fullImagePath = "output/reports/{$imageName}";
 
         // Wait for the JSON file to be generated
         $issue_name = "Unknown";
@@ -325,16 +329,24 @@ class ReportController extends Controller
 
             if (!empty($jsonData['prediction'])) {
                 $predictions = collect($jsonData['prediction'])
-                    ->sortByDesc(fn($p) => $p['best_probability'] * ($p['rect']['width'] * $p['rect']['height']))
-                    ->pluck('name')
-                    ->unique()
-                    ->values();
+                    ->sortByDesc(fn($p) => $p['rect']['width'] * $p['rect']['height']);
 
-                $issue_name = $predictions->isNotEmpty() ? $predictions->implode(', ') : 'Unknown';
+                $names = $predictions->pluck('name')->values();
+                $uniqueNames = $names->unique();
+
+                if ($uniqueNames->isNotEmpty()) {
+                    $mainDefect = ucfirst($uniqueNames->first());
+                    $issue_name = $uniqueNames->count() > 1
+                        ? "$mainDefect & more…"
+                        : $mainDefect;
+                } else {
+                    $issue_name = 'Unknown';
+                }
             } else {
                 return redirect()->back()->with('no_defect_modal_open', true);
             }
         }
+
 
         // 🔍 Check if `street` and `barangay` exist, otherwise extract from `address`
         $street = $request->street;

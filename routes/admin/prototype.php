@@ -35,9 +35,8 @@ Route::view('/component/Staff/report-history', 'iroadcheck.prototype.Staff.repor
 
 //Residents
 //Route::view('/prototype/residents/login', 'iroadcheck.prototype.Residents.login')->name('residents-login');
-Route::view('/prototype/residents/forgotPassword', 'iroadcheck.prototype.Residents.forgotPassword')->name('forgotPassword');
-Route::view('/prototype/residents/EnterCode', 'iroadcheck.prototype.Residents.EnterCode')->name('EnterCode');
-Route::view('/prototype/residents/createNewPass', 'iroadcheck.prototype.Residents.createNewPass')->name('createNewPass');
+
+
 //Route::view('/prototype/residents/signup', 'iroadcheck.prototype.Residents.signup')->name('signup');
 Route::view('/prototype/residents/verify-user', 'iroadcheck.prototype.Residents.verify-user')->name('verify-user');
 

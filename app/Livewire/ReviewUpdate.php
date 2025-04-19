@@ -43,15 +43,14 @@ use Livewire\Component;
                     // Fetch nearby defects within 2 meters
                     $this->nearbyReports = Report::selectRaw("
     *,
-    (6371 * ACOS(
-        COS(RADIANS(?)) * COS(RADIANS(lat)) *
-        COS(RADIANS(lng) - RADIANS(?)) +
-        SIN(RADIANS(?)) * SIN(RADIANS(lat))
-    )) * 1000 AS distance
+    ST_Distance_Sphere(
+        point(lng, lat),
+        point(?, ?)
+    ) AS distance
 ")
-                        ->setBindings([$lat, $lng, $lat])
-                        ->having("distance", "<=", 2)
-                        ->where("status", "Unfixed")// 2 meters
+                        ->setBindings([$lng, $lat])
+                        ->having("distance", "<=", 5) // in meters
+                        ->where("status", "Unfixed")
                         ->orderBy("distance")
                         ->get();
 

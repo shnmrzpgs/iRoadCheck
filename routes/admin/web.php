@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\admin\ProfileController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\RoutePath;

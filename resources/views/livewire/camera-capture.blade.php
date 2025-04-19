@@ -24,9 +24,10 @@
                         <div class="z-0 relative w-full bg-white border-2 border-gray-300 shadow-md rounded-lg overflow-hidden">
                             <x-residents.svg-report-road-issue/>
                         </div>
-
+                        <livewire:suggestion-modal/>
                         <livewire:review-report/>
                         <livewire:no-defect-modal/>
+                        <livewire:not-from-tagum/>
                         <livewire:first-login-modal/>
 
                         <!-- "How to Capture Road Issue" link to reopen modal -->
@@ -202,7 +203,7 @@
 
                             <!-- Confirm Button -->
                             <button id="submitBtn" type="submit"
-                                    class="w-3/4 fixed hover:scale-105 bottom-5 bg-[#4AA76F] hover:drop-shadow-md text-white p-3 font-semibold mt-6 mb-3 rounded-full hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
+                                    class="w-full fixed hover:scale-105 bottom-5 bg-[#4AA76F] hover:drop-shadow-md text-white p-3 font-semibold mt-6 mb-3 rounded-full hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
                                 Confirm
                             </button>
                             </form>

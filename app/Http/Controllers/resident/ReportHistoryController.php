@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Resident;
+namespace App\Http\Controllers\resident;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;

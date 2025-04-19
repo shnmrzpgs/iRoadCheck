@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Resident;
+namespace App\Http\Controllers\resident;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendSMSJob;
 use App\Models\Resident;
 use App\Models\User;
 use App\Services\PhilSMSService;
@@ -12,12 +13,12 @@ use Illuminate\Support\Facades\DB;
 
 class ResidentAuth extends Controller
 {
-    protected $smsService;
-
-    public function __construct(PhilSMSService $smsService)
-    {
-        $this->smsService = $smsService;
-    }
+//    protected $smsService;
+//
+//    public function __construct(PhilSMSService $smsService)
+//    {
+//        $this->smsService = $smsService;
+//    }
     public function signup(Request $request)
     {
     $validated  = $request->validate([
@@ -59,39 +60,27 @@ class ResidentAuth extends Controller
             Auth::login($user);
 
             $recipient = $formattedPhone;
-            $message = 'Hello! Thanks for signing up for an account. Your verification code is: ' . $verificationCode;
+            // Set of greeting messages
+            $greetings = [
+                'Hello! Thanks for signing up for an account. Your verification code is: ',
+                'Hi there! We received your request. Your verification code is: ',
+                'Greetings! Your verification code is: ',
+                'Welcome! Please use the following verification code: ',
+                'Hey! Your account setup is almost complete. Use this verification code: ',
+            ];
 
-            $response = $this->smsService->sendSMS($recipient, $message);
+            // Randomly select a greeting message
+            $randomGreeting = $greetings[array_rand($greetings)];
+
+            // Final message
+            $message = $randomGreeting . $verificationCode;
+            SendSMSJob::dispatch($formattedPhone, $message);
             return redirect()->route('verify-code');
         }
     }
 
-    public function verifyCode(Request $request)
-    {
-        // Validate the input
-        $request->validate([
-            'code' => 'required|digits:6', // Ensure the code is exactly 6 digits
-        ]);
 
-        // Get the input code from the form
-        $verificationCode = $request->input('code');
-
-        // Check if the verification code is correct (this depends on your logic, e.g., stored in the database or session)
-        $user = Auth::user();
-        $resident = Resident::where('user_id', $user->id)->first();
-
-        if ($resident && $resident->code == $verificationCode) {
-            // Update the user's activation status or take any further action
-
-            $resident->is_activated = 1;
-            $resident->save();
-
-            // Optionally, you can log the user in or redirect them to the dashboard
-            return redirect()->route('resident.dashboard')->with('success', 'Account activated successfully!');
-        } else {
-            // Handle the case where the code is invalid
-//            session()->flash('error', 'The verification code is incorrect. Please try again.');
-           return back()->with(['error' => 'The code is incorrect. Please try again.']);
-        }
+    public function verifycodeView(){
+        return view('iroadcheck.prototype.residents.verify-user-enterCode');
     }
 }
