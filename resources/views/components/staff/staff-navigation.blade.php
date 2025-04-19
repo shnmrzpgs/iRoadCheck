@@ -60,7 +60,6 @@
                         Dashboard
                     </p>
                 </a>
-                <!-- Test -->
 
                 <!-- Update Road Defect -->
                 <a href="{{ route('staff.capture-road-defect') }}" wire:navigate loading="lazy" class="lazyload group flex items-center block py-2.5 px-5 rounded font-medium
@@ -149,7 +148,7 @@
                     <h1 class="hidden md:block lg:text-[22px] text-md md:text-lg mt-0 font-semibold text-[#4AA76F] md:mt-3 md:mr-3 lg:mr-1 ml-auto ">{{$page_title}}</h1>
 
                     @if (!request()->routeIs('staff.profile-edit') && !request()->routeIs('staff.dashboard') && !request()->routeIs('staff.road-defect-reports') && !request()->routeIs('staff.capture-road-defect') && !session('hideSearchBar'))
-                        <!-- Search Bar -->
+                    <!-- Search Bar -->
                         <div class="hidden md:block flex mt-2 lg:mt-3 w-48 lg:w-80 items-center px-0 lg:px-5">
                             <div class="relative flex flex-1 h-8 rounded-full">
                                 <label for="search-field" class="sr-only">Search</label>
@@ -192,7 +191,59 @@
                         </span>
                     </a>
                 </x-slot:staff_profile_name>
+
+
+                <x-slot:mobile_notification_and_profile_header>
+                    <!-- Notifications and Profile Icon -->
+                    <div class="block md:hidden flex items-center space-x-3">
+
+                        <livewire:staff.notification-dropdown/>
+
+                        <div x-data="{ openDropdown: false }" class="relative">
+                            <!-- Profile Icon -->
+                            <a @click="openDropdown = !openDropdown; activeLink = ''"
+                               class="cursor-pointer " >
+                                <div :class="{
+                                'border-2 border-customGreen rounded-full': openDropdown
+                             }">
+                                    <img src="{{ Auth::user()->profile_picture_url }}" alt="Profile Image"
+                                         class="w-8 h-8 rounded-full hover:bg-customGreen
+                                {{ request()->routeIs('profile-info') ? 'border-2 border-customGreen bg-customGreen' : 'border border-gray-400' }}">
+                                </div>
+                            </a>
+
+                            <!-- Dropdown Menu -->
+                            <div x-show="openDropdown"
+                                 x-transition
+                                 class="absolute right-0 mt-2 w-48 bg-white shadow-[0px_5px_40px_rgba(0,0,0,0.2)] rounded-lg z-50">
+
+                                <ul class="space-y-2">
+                                    <!-- Profile Info Link -->
+                                    <li>
+                                        <a href="{{ route('staff.profile-edit') }}" wire:navigate
+                                           class="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-t-lg border-b border-gray-300 text-sm">
+                                            Profile Settings
+                                        </a>
+                                    </li>
+                                    <!-- Logout Option -->
+                                    <li>
+                                        <a href="javascript:void(0);"
+                                           @click="logoutResident">
+                                            <div method="POST" class="block rounded-b-lg px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">
+                                                @csrf
+                                                <button type="submit" class="w-full text-left">Logout</button>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </x-slot:mobile_notification_and_profile_header>
             </x-Staff.staff-header>
+
+
+
 
             <!-- Content Area -->
             <main

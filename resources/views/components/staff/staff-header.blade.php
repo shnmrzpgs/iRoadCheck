@@ -1,5 +1,4 @@
 <!-- Header-->
-<!-- Test -->
 <header
     class="bg-white md:bg-transparent fixed md:relative flex py-2 lg:py-5 shadow-lg md:shadow-none md:pr-5 w-full">
 
@@ -17,7 +16,7 @@
     </div>
 
     <!-- Notifications and Profile Icons -->
-    <div class="flex">
+    <div class="hidden md:block flex">
 
         <div x-data="{
                     tooltipVisible: false,
@@ -115,4 +114,6 @@
 
         </div>
     </div>
+
+    {{ $mobile_notification_and_profile_header }}
 </header>
