@@ -16,7 +16,7 @@
     </div>
 
     <!-- Notifications and Profile Icons -->
-    <div class="flex">
+    <div class="hidden md:block flex">
 
         <div x-data="{
                     tooltipVisible: false,
@@ -114,4 +114,6 @@
 
         </div>
     </div>
+
+    {{ $mobile_notification_and_profile_header }}
 </header>
