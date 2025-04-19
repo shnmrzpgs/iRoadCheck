@@ -1,4 +1,4 @@
-<x-admin.staff-modal-content-base modal_name="edit-staff-role-modal">
+<x-admin.staff-role-modal-content-base modal_name="edit-staff-role-modal">
 
     <x-slot:trigger>
         <div class="hidden"
@@ -109,7 +109,11 @@
             Save Changes
             <x-loading-indicator wire:loading class="h-6 w-6"/>&nbsp;
         </button>
+
+
     </x-slot:footer>
 
-</x-admin.staff-modal-content-base>
+
+
+</x-admin.staff-role-modal-content-base>
 

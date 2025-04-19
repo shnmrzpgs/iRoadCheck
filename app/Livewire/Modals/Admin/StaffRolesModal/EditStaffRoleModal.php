@@ -98,6 +98,29 @@ class EditStaffRoleModal extends Component
     /**
      * Validation rules for form inputs.
      */
+//    public function rules(): array
+//    {
+//        return [
+//            'name' => ['required', 'string', 'max:255', 'unique:staff_roles,name,' . ($this->staffRole->id ?? 'NULL')],
+//            'status' => ['required', 'boolean'],
+//            'selectedPermissions' => ['array', 'min:1'],
+//            'selectedPermissions.*' => ['exists:staff_permissions,id'],
+//        ];
+//    }
+//
+//    /**
+//     * Custom validation messages.
+//     */
+//    public function messages(): array
+//    {
+//        return [
+//            'name.required' => 'The staff role name is required.',
+//            'name.unique' => 'This staff role name already exists.',
+//            'selectedPermissions.required' => 'At least one staff permission must be selected.',
+//            'selectedPermissions.*.exists' => 'One or more permissions are invalid.',
+//        ];
+//    }
+
     public function rules(): array
     {
         return [
@@ -224,7 +247,6 @@ class EditStaffRoleModal extends Component
 
         $this->dispatch('staff-role-updated'); // Refresh parent component if needed
     }
-
 
 
     /**

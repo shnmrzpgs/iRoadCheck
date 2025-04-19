@@ -31,9 +31,6 @@
             <button @click="showAlert = false" class="ml-2 text-white font-bold">&times;</button>
         </div>
 
-
-
-
         <!-- Check if there are nearby reports -->
         @if ($nearbyReports && count($nearbyReports) > 0)
             <!-- Modal Title -->
@@ -120,6 +117,7 @@
                     </button>
                 </div>
             </div>
+
         @endif
 
 
@@ -128,6 +126,8 @@
              class="z-50 absolute inset-0 w-full min-h-full bg-black/50 flex justify-center items-center transition-all pointer-events-none opacity-0">
             <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
         </div>
+
+
     </div>
 
 </div>
