@@ -45,7 +45,7 @@
                 <div class="mt-4 mb-2 z-50">
                     <livewire:modals.admin.staff-roles-modal.add-staff-role-modal
                         :staffRoles="$staffRoles"
-                        @staff_role_added="$refresh"
+                        @staff_added="$refresh"
                     />
                 </div>
             </x-slot:action_buttons_container>

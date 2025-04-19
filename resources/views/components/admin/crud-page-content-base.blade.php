@@ -1,4 +1,4 @@
-<div class="-mt-2 text-[#202020] bg-[#FBFBFB] rounded-[6px] pt-5 h-auto shadow-[0px_1px_5px_rgba(0,0,0,0.2)] w-[46vh] md:w-full">
+<div class="text-[#202020] bg-[#FBFBFB] rounded-[6px] pt-5 h-auto shadow-[0px_1px_5px_rgba(0,0,0,0.2)] w-[46vh] md:w-full">
 
     {{-- Header --}}
     <div class="px-4 text-center md:text-start" >
@@ -15,7 +15,7 @@
         <div class="flex flex-col justify-center items-center md:px-4 md:flex-row md:justified-start md:items-start">
 
             {{-- Dropdown Filters container --}}
-            <div class="pl-6 md:pl-0 flex justify-center items-center md:justified-start md:items-start lg:gap-2 gap-1 md:mb-1 mt-2 mr-auto">
+            <div class="pl-6 md:pl-0 flex justify-center items-center md:justified-start md:items-start lg:gap-2 gap-1 md:mb-2 mt-6 mr-auto">
                 {{ $dropdown_filters_container }}
             </div>
 
@@ -28,7 +28,7 @@
     </div>
 
     {{-- Body --}}
-    <div class="mt-2 px-6 mb-1">
+    <div class="mt-2 px-6 mb-2">
 
         {{-- Table Container --}}
         <div>
