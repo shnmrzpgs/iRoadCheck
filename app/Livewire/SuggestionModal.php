@@ -27,13 +27,19 @@ class SuggestionModal extends Component
             ->where('is_opened', 2)->first();
         // Open modal if session exists
         if ($temporaryReport) {
-            $this->nearbyReports = $this->existingReports = Report::where([
-                ['lat', '=', $temporaryReport->latitude],
-                ['lng', '=', $temporaryReport->longitude],
-                ['street', '=', $temporaryReport->street],
-                ['barangay', '=', $temporaryReport->barangay],
-                ['location', '=', $temporaryReport->location]
-            ])->get();
+            $this->nearbyReports = $this->existingReports = Report::where('street', $temporaryReport->street)
+                ->where('barangay', $temporaryReport->barangay)
+                ->where('location', $temporaryReport->location)
+                ->whereRaw(
+                    "ST_Distance_Sphere(
+            point(lng, lat),
+            point(?, ?)
+        ) <= 5", [
+                        $temporaryReport->lng,
+                        $temporaryReport->lat
+                    ]
+                )
+                ->get();
         }
 
 
