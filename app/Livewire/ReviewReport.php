@@ -67,13 +67,20 @@ class ReviewReport extends Component
 
         if ($temporaryReport) {
             // Check if report already exists
-            $existingReport = Report::where([
-                ['lat', '=', $temporaryReport->latitude],
-                ['lng', '=', $temporaryReport->longitude],
-                ['street', '=', $temporaryReport->street],
-                ['barangay', '=', $temporaryReport->barangay],
-                ['location', '=', $temporaryReport->location]
-            ])->first();
+            $existingReport = Report::select('*')
+                ->where('street', $temporaryReport->street)
+                ->where('barangay', $temporaryReport->barangay)
+                ->where('location', $temporaryReport->location)
+                ->whereRaw(
+                    "ST_Distance_Sphere(
+            point(lng, lat),
+            point(?, ?)
+        ) <= 5", [
+                        $temporaryReport->lng,
+                        $temporaryReport->lat
+                    ]
+                )
+                ->get();
 
             if (!$existingReport) {
 //                // Save to suggestions table instead
