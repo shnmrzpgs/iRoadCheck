@@ -137,7 +137,7 @@ class AddUserAccountForm extends Form
         }
     }
 
-    public function generatePassword()
+    public function generatePassword(): void
     {
         $password = Str::random(8); // Generate an 8-character password
         $this->password = $password; // Update local field

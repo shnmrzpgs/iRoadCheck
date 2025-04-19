@@ -34,12 +34,10 @@
         <!-- Check if there are nearby reports -->
         @if ($nearbyReports && count($nearbyReports) > 0)
             <!-- Modal Title -->
-            <div class="sticky top-[-20px] bg-white p-4 shadow-md z-10 text-center">
-                <h1 class="text-lg font-bold text-black">Nearby Reports Found!</h1>
-                <p class="text-sm text-gray-700 mt-1" x-text="'Images selected: ' + $wire.selectedReports.length"></p>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4 justify-center">
+            <h1 class="text-lg font-bold text-center text-black sticky top-[-20px] shadow-md bg-white p-4 z-10">
+                Nearby Reports Found!
+            </h1>
+            <div class="flex flex-wrap justify-center gap-4">
                 @foreach ($nearbyReports as $report)
                     <div
                         class="border rounded-md  p-2 flex flex-col items-center cursor-pointer transition-transform transform hover:scale-100 w-40 h-65"
@@ -69,7 +67,7 @@
                         class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-green-500 focus:outline-none"
                     >
                         <option value="" disabled hidden selected>Select Status</option>
-                        <option value="Repaired">Repaired</option>
+                        <option value="Fixed">Fixed</option>
                         <option value="Ongoing">Ongoing</option>
                     </select>
                 </div>
@@ -116,14 +114,6 @@
                 </div>
             </div>
         @endif
-
-
-        <!-- Loading indicator -->
-        <div wire:loading.class.remove="opacity-0 pointer-events-none" x-cloak x-transition loading="lazy"
-             class="z-50 absolute inset-0 w-full min-h-full bg-black/50 flex justify-center items-center transition-all pointer-events-none opacity-0">
-            <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
-        </div>
-
 
     </div>
 

@@ -5,9 +5,9 @@
         <!-- Image Background -->
         <div loading="eager" class="relative overflow-hidden rounded-[10px] shadow w-full h-[110px] x-cloak">
             <img src="{{ asset('storage/images/profile-backgroundImage2.png') }}"
-                alt="profile name background" x-cloak
-                class="absolute top-0 left-0 w-full h-full object-cover"
-                loading="eager">
+                 alt="profile name background" x-cloak
+                 class="absolute top-0 left-0 w-full h-full object-cover"
+                 loading="eager">
         </div>
 
         <!--Profile Name -->
@@ -23,7 +23,7 @@
 
     <!--Profile Information -->
     <div class="pl-5 mt-16 w-full"
-        x-data="{
+         x-data="{
                     activeTab: 'basic-info',
                     hoveredTab: null,
                     showCurrentPassword: false,
@@ -83,8 +83,8 @@
                         Below is your basic information as the administrator of iRoadCheck.
                     </div>
                     <div x-transition:enter="transition ease-out duration-300"
-                        x-transition:enter-start="opacity-0 transform scale-80"
-                        x-transition:enter-end="opacity-100 transform scale-100">
+                         x-transition:enter-start="opacity-0 transform scale-80"
+                         x-transition:enter-end="opacity-100 transform scale-100">
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 px-4 mt-8 mb-2">
                             <div class="flex flex-col w-full p-2">
                                 {{ $first_name }}
@@ -122,10 +122,10 @@
                         Below is your account information as the administrator of iRoadCheck.
                     </div>
                     <div x-transition:enter="transition ease-out duration-300"
-                        x-transition:enter-start="opacity-0 transform scale-80"
-                        x-transition:enter-end="opacity-100 transform scale-100">
+                         x-transition:enter-start="opacity-0 transform scale-80"
+                         x-transition:enter-end="opacity-100 transform scale-100">
                         <div class="grid grid-cols-1 md:grid-cols-2 my-6 space-x-0 md:space-x-6 px-4">
-                            <div class="w-full p-2">
+                            <div class="w-full p-2" >
                                 <div class="flex items-start space-x-2 mb-2">
                                     {{ $phone }}
                                 </div>
