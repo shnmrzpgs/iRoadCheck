@@ -125,7 +125,7 @@
                         x-transition:enter-start="opacity-0 transform scale-80"
                         x-transition:enter-end="opacity-100 transform scale-100">
                         <div class="grid grid-cols-1 md:grid-cols-2 my-6 space-x-0 md:space-x-6 px-4">
-                            <div class="w-full p-2" >
+                            <div class="w-full p-2">
                                 <div class="flex items-start space-x-2 mb-2">
                                     {{ $phone }}
                                 </div>

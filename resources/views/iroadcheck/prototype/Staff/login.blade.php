@@ -51,19 +51,15 @@
                     <div class="text-red-700 bg-red-100 text-sm font-medium text-center rounded py-2 px-4 w-full mb-4">
                         Too many login attempts. Please try again in
                         <span x-text="secondsRemaining"></span> seconds.
-                        <div class="text-[11px] italic text-red mt-1">
-                            Forgot your password? Contact the administrator.
-                        </div>
                     </div>
                 </template>
 
                 <!-- Username -->
                 <div class="relative mb-3 w-full" x-data="{ hasError: {{ $errors->has('username') ? 'true' : 'false' }} }">
                     <input
-                        class="rounded border text-sm text-gray-600 w-full py-2 pl-8 pr-10 bg-[#FFFFF9] focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] {{ $errors->has('username') ? 'border-red-500 ring-red-300' : 'border-gray-300' }}"
-                        type="text" name="username" id="username" placeholder="Username"
+                        class="rounded border text-sm text-gray-600 w-full py-2 pl-10 pr-10 bg-[#FFFFF9] focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] {{ $errors->has('username') ? 'border-red-500 ring-red-300' : 'border-gray-300' }}"
+                        type="text" name="username" id="username" placeholder="Enter your username"
                         value="{{ old('username') }}" required
-                        autocomplete="off"
                         @input="hasError = false"
                     >
                     <img src="{{ asset('storage/icons/user.svg') }}" class="absolute left-2.5 top-3 h-4 w-4" alt="user">
@@ -81,7 +77,7 @@
                         :type="showPassword ? 'text' : 'password'"
                         name="password" id="password" placeholder="Password" required
                         @input="hasError = false"
-                        class="rounded border text-sm text-gray-600 w-full py-2 pl-8 pr-10 bg-[#FFFFF9] focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] {{ $errors->has('password') ? 'border-red-500 ring-red-300' : 'border-gray-300' }}"
+                        class="rounded border text-sm text-gray-600 w-full py-2 pl-10 pr-10 bg-[#FFFFF9] focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] {{ $errors->has('password') ? 'border-red-500 ring-red-300' : 'border-gray-300' }}"
                     >
                     <img src="{{ asset('storage/icons/lock.svg') }}" class="absolute left-2.5 top-3 h-4 w-4" alt="lock">
 
