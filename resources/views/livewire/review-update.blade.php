@@ -13,10 +13,12 @@
     x-cloak
     style="display: none;"
 >
-    <div class="bg-white w-9/10 max-w-3xl p-4 rounded-lg shadow-lg relative overflow-y-auto max-h-[90vh]">
+    <div @click.away="isOpen = false" class="bg-[#F5F5F5] w-9/10 max-w-3xl p-4 rounded-lg shadow-lg relative overflow-y-auto max-h-[90vh]">
         <!-- Close Button -->
-        <button @click="isOpen = false" class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 text-lg">
-            &times;
+        <button @click="isOpen = false" class="absolute z-[99999] top-2 right-2 rounded-full text-gray-700 hover:text-red-500 focus:outline-none hover:bg-gray-200 hover:rounded-full p-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
         </button>
 
         <!-- ✅ Alert Message -->
@@ -29,13 +31,10 @@
             <button @click="showAlert = false" class="ml-2 text-white font-bold">&times;</button>
         </div>
 
-
-
-
         <!-- Check if there are nearby reports -->
         @if ($nearbyReports && count($nearbyReports) > 0)
             <!-- Modal Title -->
-            <h1 class="text-lg font-bold text-center text-black sticky top-[-20px] bg-white p-4 shadow-md z-10">
+            <h1 class="text-lg font-bold text-center text-black sticky top-[-20px] shadow-md bg-white p-4 z-10">
                 Nearby Reports Found!
             </h1>
             <div class="flex flex-wrap justify-center gap-4">
@@ -99,23 +98,22 @@
                 </div>
 
             </div>
-
         @else
             <div class="text-center">
-                <h1 class="text-lg font-bold text-center mb-4 text-black sticky top-[-20px] bg-white p-4 shadow-md z-10">
-                    No nearby reports!
+                <!-- add image here using asset -->
+                <img src="{{ asset('storage/icons/no-nearby-reports-icon.png') }}" alt="No nearby reports" loading="lazy" class="mx-auto pt-4 mb-2 w-28 h-auto">
+
+                <h1 class="text-[20px] font-bold text-center mb-4 text-black sticky top-[-20px] bg-none p-4 z-10">
+                    No nearby reports found!
                 </h1>
-                <button @click="retryCapture()" wire:click="closeModal" class="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700">
-                    Retry
-                </button>
-                <button wire:click="closeModal" class="px-4  py-2 bg-red-600 text-white rounded-md text-sm hover:bg-red-700">
-                    No
-                </button>
+
+                <div class="flex justify-center items-center w-full">
+                    <button @click="retryCapture()" wire:click="closeModal" class="px-10 py-2 bg-orange-400 bg-opacity-90 hover:bg-orange-400 text-sm text-white rounded-lg shadow-md">
+                        Retry
+                    </button>
+                </div>
             </div>
-
         @endif
-
-
 
     </div>
 
