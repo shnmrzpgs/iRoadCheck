@@ -1,20 +1,18 @@
-<div class="w-full flex-1 -mt-5 lg:mt-0 overflow-y-scroll h-[70vh] md:h-[85vh] lg:h-full lg:overflow-hidden pb-8 rounded-lg drop-shadow">
+<div class="text-[#202020] bg-[#F9F9F9] p-8 h-full rounded-lg drop-shadow">
 
-    <div class="mx-auto bg-[#FBFBFB] w-9/10 lg:w-full px-4 py-2  mb-2 block md:hidden text-center text-[22px] text-md md:text-lg font-semibold text-[#4AA76F] md:mr-3">
-        Notifications
-    </div>
+    <div class="w-full relative mx-auto bg-none rounded-[6px]">
 
-    <div class="w-9/10 lg:w-full relative mx-auto text-[#202020] bg-[#F9F9F9] p-4 flex flex-col justify-center items-center md:justify-start md:items-start rounded-lg drop-shadow">
-
-        <div class="flex mb-2">
-            <!--Page description-->
-            <div class="sm:flex-auto">
-                {{ $page_description }}
+        <div class="flex mb-4">
+            <div class="flex flex-col mr-auto">
+                <!--Page description-->
+                <div class="sm:flex-auto">
+                    {{ $page_description }}
+                </div>
             </div>
         </div>
 
         <!--Notifications Tabs-->
-        <div class="lazyload bg-none rounded-[6px] w-full flex flex-col justify-center items-center md:justify-start md:items-start">
+        <div class="lazyload bg-none rounded-[6px]">
             <div loading="lazy"
                  x-data="{
                     activeTab: 'all', // Default active tab
@@ -40,7 +38,7 @@
                 }
             }"
                  x-init="initializeTabs()"
-                 class="flex justify-start md:w-full relative">
+                 class="flex justify-start relative">
 
                 <!-- Active Tab Indicator -->
                 <div loading="lazy"
@@ -52,11 +50,10 @@
 
             </div>
         </div>
-
-        <!-- Notifications Lists -->
-        <div class="w-full mx-auto rounded-[4px] bg-none border border-gray-200 h-[480px] overflow-auto">
-            {{-- Active: bg-gray-100 font-semibold, not active: bg:none --}}
-            {{ $notification_lists }}
-        </div>
+    </div>
+    <!-- Notifications Lists -->
+    <div class="w-full rounded-[4px] bg-none border border-gray-200 h-[480px] overflow-auto">
+        {{-- Active: bg-gray-100 font-semibold, not active: bg:none --}}
+        {{ $notification_lists }}
     </div>
 </div>
