@@ -71,10 +71,12 @@
                     >
                         <span wire:loading.remove class="flex items-center">Confirm</span>
                     </button>
-
+                    <button wire:click="newReport" class="px-4 py-2 bg-red-600 text-white rounded-md text-sm hover:bg-red-700">
+                        No similar
+                    </button>
                     <!-- Close Button -->
                     <button wire:click="closeModal" class="px-4 py-2 bg-red-600 text-white rounded-md text-sm hover:bg-red-700">
-                        No
+                        Cancel
                     </button>
                 </div>
             </div>
