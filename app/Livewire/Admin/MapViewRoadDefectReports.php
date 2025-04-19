@@ -10,7 +10,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\File;
 use Livewire\Component;
 use Carbon\Carbon;
-use Illuminate\Support\HtmlString;
 
 class MapViewRoadDefectReports extends Component
 {

@@ -3,12 +3,17 @@
     <x-Staff.notification-page-content-base>
 
         <x-slot:page_description>
-            <p class="mt-0 text-center md:text-start lg:text-[12.5px] text-xs text-[#656565] pl-3">
+            <p class="mt-0 lg:text-sm text-xs text-[#656565] pl-3">
                 A list of all notifications for the users in iRoadCheck System.
             </p>
         </x-slot:page_description>
 
         <x-slot:notification_tabs>
+            <!-- Active Tab Indicator -->
+            <div loading="lazy"
+                 class="absolute bottom-0 left-0 h-[2px] bg-[#6AA76F] transition-all duration-300"
+                 :style="{ width: activeTabWidth + 'px', transform: `translateX(${activeTabPosition}px)` }">
+            </div>
 
             <!-- Tabs -->
             <div x-ref="allTab"
