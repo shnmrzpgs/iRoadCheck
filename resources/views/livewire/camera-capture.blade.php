@@ -24,7 +24,7 @@
                         <div class="z-0 relative w-full bg-white border-2 border-gray-300 shadow-md rounded-lg overflow-hidden">
                             <x-residents.svg-report-road-issue/>
                         </div>
-
+                        <livewire:suggestion-modal/>
                         <livewire:review-report/>
                         <livewire:no-defect-modal/>
                         <livewire:not-from-tagum/>
