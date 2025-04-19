@@ -57,7 +57,7 @@
                     </svg>
                     <p x-show="expanded" class="ml-2
                         {{ request()->routeIs('staff.dashboard') ? 'text-white' : 'text-[#4D4F50] group-hover:text-[#4AA76F] group-hover:font-semibold' }}">
-                        Dashboard
+                        Dashboards
                     </p>
                 </a>
 
