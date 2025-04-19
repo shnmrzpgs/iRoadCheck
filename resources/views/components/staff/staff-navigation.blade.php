@@ -137,7 +137,7 @@
                     <!-- iRoadCheck Logo -->
                     <a href="{{ route('staff.dashboard') }}" wire:navigate title="Go to Dashboard">
                         <div class="flex justify-start items-center">
-                            <img src="{{ asset('storage/images/IRoadCheck_Logo.png') }}" alt="graphicsLogo"
+                            6<img src="{{ asset('storage/images/IRoadCheck_Logo.png') }}" alt="graphicsLogo"
                                  class="w-8 max-w-10 mr-1" />
                             <div class="mt-0 text-[#4D4F50] font-bold text-[15px]">iRoadCheck</div>
                         </div>
