@@ -134,11 +134,9 @@
                         {{ $individual_report_information }}
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-
 </div>
-
-
 
