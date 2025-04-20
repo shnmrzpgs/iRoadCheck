@@ -24,6 +24,7 @@ return new class extends Migration
             $table->date('date');
             $table->time('time')->nullable();
             $table->foreignId('label')->references('id')->on('severities');
+            $table->foreignId('severity')->references('id')->on('severities');
             $table->string('status');
             $table->string('image');
             $table->string('image_annotated')->nullable();
@@ -31,6 +32,7 @@ return new class extends Migration
             $table->decimal('lng', 11, 8);
             $table->integer('report_count')->default(1);
             $table->string('updated_image')->nullable();
+            $table->date('updated_on')->nullable();
             $table->unsignedBigInteger('updater_id')->nullable(); // Allow null values
             $table->foreign('updater_id')->references('id')->on('users')->onDelete('set null'); // Handle deletion properly
 

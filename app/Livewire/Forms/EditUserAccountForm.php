@@ -1,15 +1,15 @@
 <?php
 
- namespace App\Livewire\Forms;
+namespace App\Livewire\Forms;
 
- use Livewire\Form;
+use Livewire\Form;
 // use Illuminate\Support\Facades\DB;
 // use App\Models\UserProfilePhoto;
 // use Illuminate\Validation\Rules\Password;
 // use Exception;
 // use Illuminate\Support\Facades\Storage;
 
- class EditUserAccountForm extends Form
+class EditUserAccountForm extends Form
 {
     // public string $first_name = '';
 
@@ -139,4 +139,4 @@
     // {
     //     return view('livewire.forms.edit-user-account-form');
     // }
- }
+}

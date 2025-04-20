@@ -27,7 +27,8 @@ class Report extends Model
         'status',
         'report_count',
         'updated_image',
-        'updater_id'
+        'updater_id',
+        'updated_on'
     ];
 
     protected $casts = [

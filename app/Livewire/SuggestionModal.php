@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 
 class SuggestionModal extends Component
 {
@@ -50,66 +52,121 @@ class SuggestionModal extends Component
         }
     }
     public function SuggestionSubmit()
-    {
+{
+    $userId = Auth::id();
 
-        $userId = Auth::id();
-        $temporaryReport = TemporaryReport::where('reporter_id', $userId)->first();
+    try {
+        DB::beginTransaction();
 
         try {
-            DB::beginTransaction();
+            $temporaryReport = TemporaryReport::where('reporter_id', $userId)->first();
+            if (!$temporaryReport) {
+                throw new \Exception('Temporary report not found.');
+            }
+        } catch (\Exception $e) {
+            throw new \Exception('Error fetching temporary report: ' . $e->getMessage());
+        }
 
+        try {
             $reportSelected = Report::whereIn('id', $this->selectedReports)->first();
-            // Update selected reports with image and status
+            if (!$reportSelected) {
+                throw new \Exception('Selected report not found.');
+            }
+        } catch (\Exception $e) {
+            throw new \Exception('Error fetching selected report: ' . $e->getMessage());
+        }
+
+        try {
             $suggest = Suggestion::create([
                 'report_id' => $reportSelected->id,
-                'reporter_id' => Auth::id(),
-                'is_match' => true, // Default to false until user confirms
-                'response_deadline' => Carbon::now()->addDays(5), // Set deadline 5 days later
+                'reporter_id' => $userId,
+                'is_match' => true,
+                'response_deadline' => now()->addDays(5),
                 'defect' => $reportSelected->defect,
                 'lat' => $reportSelected->lat,
                 'lng' => $reportSelected->lng,
-                'location' => $reportSelected->address,
+                'location' => $reportSelected->location,
                 'street' => $reportSelected->street,
                 'purok' => $reportSelected->purok,
                 'barangay' => $reportSelected->barangay,
                 'date' => now()->format('Y-m-d'),
                 'time' => now()->format('H:i:s'),
-                'severity' => 1,
-                'image' => $temporaryReport,
-                'image_annotated' => $temporaryReport,
+                'severity' => $reportSelected->severity,
+                'label' => $reportSelected->label,
+                'image' => $temporaryReport->image ?? null,
+                'image_annotated' => $temporaryReport->image_annotated ?? null,
                 'status' => "Unfixed"
             ]);
+        } catch (\Exception $e) {
+            throw new \Exception('Failed to create suggestion: ' . $e->getMessage());
+        }
 
-            DB::commit();
-            $this->isOpen = false;
+        $this->isOpen = false;
+
+        try {
             $reportSelected->report_count++;
+            // Update label based on the new report_count
+            if ($reportSelected->report_count >= 50) {
+                $reportSelected->label = 4;
+            } elseif ($reportSelected->report_count >= 35) {
+                $reportSelected->label = 3;
+            } elseif ($reportSelected->report_count >= 20) {
+                $reportSelected->label = 2;
+            } elseif ($reportSelected->report_count >= 5) {
+                $reportSelected->label = 1;
+            }
             $reporter = Auth::user();
+            $reportSelected->save();
+        } catch (\Exception $e) {
+            throw new \Exception('Error updating report count: ' . $e->getMessage());
+        }
 
-            // ✅ Fetch Admins and Staff
+        try {
+            $reporter = Auth::user();
+            if (!$reporter) {
+                throw new \Exception('Authenticated user not found.');
+            }
+        } catch (\Exception $e) {
+            throw new \Exception('Error retrieving reporter: ' . $e->getMessage());
+        }
+
+        try {
             $admins = User::where('user_type', 1)->get();
             $staff = Staff::with('user')->get();
 
             if ($admins->isEmpty() && $staff->isEmpty()) {
                 throw new \Exception('No admins or staff found.');
             }
+        } catch (\Exception $e) {
+            throw new \Exception('Error fetching admins/staff: ' . $e->getMessage());
+        }
 
-            // ✅ Admin & Staff Notification
-            $notificationData = [
-                'report_id' => $suggest->id,
-                'title' => 'Report Created',
-                'message' => "A new report has been submitted by {$reporter->name} at {$temporaryReport->location}.",
-                'is_read' => false,
-            ];
+        try {
+            $firstName = Crypt::decryptString($reporter->first_name);
+            $lastName = Crypt::decryptString($reporter->last_name);
+        } catch (\Exception $e) {
+            $firstName = '[Unknown]';
+            $lastName = '';
+        }
 
-            // ✅ Notify Admins
+        $notificationData = [
+            'report_id' => $suggest->id,
+            'title' => 'Report Created',
+            'message' => "A new report has been submitted by {$firstName} {$lastName} at {$temporaryReport->location}.",
+            'is_read' => false,
+        ];
+
+        try {
             $this->notifyUsers($admins, $notificationData, User::class);
 
-            // ✅ Notify Staff only if the reporter is NOT a staff member
             if ($reporter->user_type !== 3) {
                 $this->notifyUsers($staff, $notificationData, Staff::class);
             }
+        } catch (\Exception $e) {
+            Log::warning('Notification to admin/staff failed: ' . $e->getMessage());
+        }
 
-            // ✅ Reporter Notification - Corrected Message
+        try {
             Notification::create([
                 'report_id' => $suggest->id,
                 'title' => 'Report Submitted',
@@ -118,21 +175,33 @@ class SuggestionModal extends Component
                 'notifiable_type' => User::class,
                 'is_read' => false,
             ]);
-
-            // Optionally delete the temporary report after copying
-            $this->isOpen = false;
-            $reportSelected->save();
-            $temporaryReport->delete();
-            session()->flash('feedback', 'Report submitted successfully!');
-            session()->flash('feedback_type', 'success');
-            return $this->redirect('/residents/report-road-issue', navigate: true);
-
         } catch (\Exception $e) {
-            DB::rollBack();
-            session()->flash('error', 'Something went wrong while updating reports.');
-            return $this->redirect('/residents/report-road-issue', navigate: true);
+            Log::warning('Notification to reporter failed: ' . $e->getMessage());
         }
+
+        try {
+            $temporaryReport->delete();
+        } catch (\Exception $e) {
+            Log::warning('Failed to delete temporary report: ' . $e->getMessage());
+        }
+
+        DB::commit();
+
+        session()->forget('suggestion-exist');
+        session()->flash('feedback', 'Report submitted successfully!');
+        session()->flash('feedback_type', 'success');
+        return $this->redirect('/residents/report-road-issue', navigate: true);
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        Log::error('SuggestionSubmit Error: ' . $e->getMessage());
+
+        session()->flash('error', 'Something went wrong while submitting the report.');
+        return $this->redirect('/residents/report-road-issue', navigate: true);
     }
+}
+
+
     public function closeModal()
     {
         $this->isOpen = false;
@@ -201,6 +270,7 @@ class SuggestionModal extends Component
         // Optionally delete the temporary report after copying
         $temporaryReport->delete();
         $this->isOpen = false;
+	session()->forget('suggestion-exist');
         session()->flash('feedback', 'Report submitted successfully!');
         session()->flash('feedback_type', 'success');
     }

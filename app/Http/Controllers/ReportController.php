@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ReportController extends Controller
 {
@@ -281,17 +282,23 @@ class ReportController extends Controller
 //    }
     public function TempSubmitReport(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'latitude'  => 'required',
             'longitude' => 'required',
             'address'   => 'required',
-            'purok'     => 'required',
-            'street'    => 'required',
-            'barangay'  => 'required',
             'date'      => 'required|date',
             'time'      => 'required',
-            'photo'     => 'required|string',
+            'photo'     => 'required',
         ]);
+
+        if ($validator->fails()) {
+            // Flash error session so your animation triggers
+            session()->flash('feedback', 'Please wait for the details to load.');
+            session()->flash('feedback_type', 'error');
+
+            // Optionally redirect back with validation messages too
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         // Check if geocoded address contains 'Tagum'
         if (!str_contains(strtolower($request->address), 'tagum')) {
             return redirect()->back()->with('not_from_tagum', true);
@@ -394,8 +401,8 @@ class ReportController extends Controller
             'barangay' => $barangay,
             'date' => Carbon::createFromFormat('F d, Y', $request->date)->format('Y-m-d'),
             'time' => Carbon::parse($request->time)->format('H:i:s'),
-            'severity' => 1,
-            'label' => 1,
+            'severity' => 5,
+            'label' => 5,
             'image' => $fullImagePath,
             'image_annotated' => $annotatedPath,
             'status' => "Unfixed"

@@ -40,9 +40,9 @@ class ReportHistory extends Component
         $this->end_date = now()->format('Y-m-d');
 
         // Fetch distinct values from reports
-        $this->defectTypes = Report::where('reporter_id', Auth::id())->pluck('defect')->unique()->toArray();
-        $this->barangays = Report::where('reporter_id', Auth::id())->pluck('barangay')->unique()->toArray();
-        $this->statuses = Report::where('reporter_id', Auth::id())->pluck('status')->unique()->toArray();
+        $this->defectTypes = Report::where('updater_id', Auth::id())->pluck('defect')->unique()->toArray();
+        $this->barangays = Report::where('updater_id', Auth::id())->pluck('barangay')->unique()->toArray();
+        $this->statuses = Report::where('updater_id', Auth::id())->pluck('status')->unique()->toArray();
     }
 
     public function toggleSorting($column)
@@ -90,7 +90,7 @@ class ReportHistory extends Component
 
     protected function getFilteredQuery()
     {
-        $query = Report::where('reporter_id', Auth::id());
+        $query = Report::where('updater_id', Auth::id());
 
         if (!empty($this->search)) {
             $query->where(function ($q) {
@@ -119,6 +119,7 @@ class ReportHistory extends Component
 
     public function viewHistoryReports($reportId): void
     {
+        dd('view history reports');
         Log::info("viewHistoryReports triggered with ID: " . $reportId);
         $this->dispatch('show-view-report-history-modal', reportId: $reportId);
     }
