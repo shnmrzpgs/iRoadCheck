@@ -19,30 +19,32 @@ class AuthController extends Controller
     {
         // Validate the incoming request data
         $request->validate([
-            'username' => 'required|string', // Admin login by username
-            'password' => 'required|min:8',   // Ensure password is provided
+            'username' => 'required|string',
+            'password' => 'required|min:8',
         ]);
 
-        // Attempt to log the admin in using username and password
-        // Get the user by user_type = 1 (Admin)
-        $user = \App\Models\User::where('user_type', 1)->get();
+        // Find the admin user by user_type = 1 and match the decrypted username
+        $adminUser = \App\Models\User::where('user_type', 1)
+            ->get()
+            ->first(function ($admin) use ($request) {
+                return Crypt::decryptString($admin->username) === $request->username;
+            });
 
-        // Loop through users and check for a match
-        foreach ($user as $admin) {
-            // Decrypt username and check if it matches input
-            if (Crypt::decryptString($admin->username) === $request->username) {
-                // Attempt authentication
-                if (Auth::attempt(['email' => $admin->email, 'password' => $request->password])) {
-                    return redirect()->route('admin.dashboard'); // Adjust as needed
-                }
+        // If username is found but password is incorrect
+        if ($adminUser) {
+            if (Auth::attempt(['email' => $adminUser->email, 'password' => $request->password])) {
+                return redirect()->route('admin.dashboard'); // Adjust as needed
             }
+
+            // Password is incorrect
+            throw ValidationException::withMessages([
+                'password' => 'The provided password is incorrect.',
+            ]);
         }
 
-
-        // If authentication fails, throw a validation exception
+        // Username not found
         throw ValidationException::withMessages([
-            'username' => 'The provided credentials do not match our records.',
-            'password' => 'The provided password is incorrect.',
+            'username' => 'No admin account found with this username.',
         ]);
     }
 
