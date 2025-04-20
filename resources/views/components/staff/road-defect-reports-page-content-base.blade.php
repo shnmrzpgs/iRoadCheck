@@ -1,7 +1,7 @@
 <!-- Main Content -->
-<div class="-mt-20 md:-mt-10 lg:-mt-5 bg-none overflow-y-auto h-auto py-2">
+<div class="-mt-5 bg-none overflow-y-auto h-auto py-2">
 
-    <div class="text-[#202020] bg-[#FBFBFB] mt-10 pt-0 pb-2 rounded-lg drop-shadow"
+    <div class="text-[#202020] bg-[#FBFBFB] mt-1 pt-0 pb-2 rounded-lg drop-shadow"
          x-data="{
             tileCount: 4,
             view: localStorage.getItem('mapReportView') || 'grid',
@@ -22,34 +22,16 @@
 
         <div class="pl-2">
             <!-- View Toggle Buttons -->
-            <div class="absolute mb-5 flex items-end justify-start top-2 md:top-3 right-5 md:right-7 lg:right-14 z-10">
+            <div class="absolute mb-5 flex items-end justify-start top-3 right-7 z-10">
                 <button @click="setView('grid')"
                         x-data="{
-                            tooltipVisible: false,
-                            tooltipText: 'Map View',
-                            tooltipArrow: true,
-                            tooltipPosition: 'top',
-                            showTooltip() {
-                                if (window.innerWidth >= 768) { // Tailwind's 'md' breakpoint
-                                    this.tooltipVisible = true;
-                                }
-                            },
-                            hideTooltip() {
-                                this.tooltipVisible = false;
-                            },
-                            hoverable: window.innerWidth >= 768,
-                            init() {
-                                // Update hoverable state on window resize
-                                window.addEventListener('resize', () => {
-                                    this.hoverable = window.innerWidth >= 768;
-                                });
-                            }
-
-                        }"
-                        {{--                        x-on:mouseenter="tooltipVisible = true"--}}
-                        {{--                        x-on:mouseleave="tooltipVisible = false"--}}
-                        @mouseenter="if (hoverable) tooltipVisible = true"
-                        @mouseleave="if (hoverable) tooltipVisible = false"
+                                tooltipVisible: false,
+                                tooltipText: 'Map View',
+                                tooltipArrow: true,
+                                tooltipPosition: 'top'
+                            }"
+                        x-on:mouseenter="tooltipVisible = true"
+                        x-on:mouseleave="tooltipVisible = false"
                         :class="{ 'bg-[#4AA76F] text-white': view === 'grid', 'hover:bg-[#4AA76F] hover:text-white text-[#4AA76F]': view !== 'grid' }"
                         class="px-2 py-2 mr-2 text-white rounded flex items-center relative">
                     <!-- Tooltip -->
@@ -79,28 +61,10 @@
                             tooltipVisible: false,
                             tooltipText: 'Table View',
                             tooltipArrow: true,
-                            tooltipPosition: 'top',
-                            showTooltip() {
-                                if (window.innerWidth >= 768) { // Tailwind's 'md' breakpoint
-                                    this.tooltipVisible = true;
-                                }
-                            },
-                            hideTooltip() {
-                                this.tooltipVisible = false;
-                            },
-                            hoverable: window.innerWidth >= 768,
-                            init() {
-                                // Update hoverable state on window resize
-                                window.addEventListener('resize', () => {
-                                    this.hoverable = window.innerWidth >= 768;
-                                });
-                            }
-
+                            tooltipPosition: 'top'
                         }"
-                        {{-- x-on:mouseenter="tooltipVisible = true"--}}
-                        {{-- x-on:mouseleave="tooltipVisible = false"--}}
-                        @mouseenter="if (hoverable) tooltipVisible = true"
-                        @mouseleave="if (hoverable) tooltipVisible = false"
+                        x-on:mouseenter="tooltipVisible = true"
+                        x-on:mouseleave="tooltipVisible = false"
                         :class="{ 'bg-[#4AA76F] text-white': view === 'table', 'hover:bg-[#4AA76F] hover:text-white text-[#4AA76F]': view !== 'table' }"
                         class="px-2 py-2 text-white rounded flex items-center relative">
                     <!-- Tooltip -->
@@ -128,22 +92,14 @@
         </div>
 
         <!-- Grid View -->
-        <div x-show="view === 'grid'" class="scroll-hidden w-full relative pl-2 md:px-2">
-
-            <div class="mx-0 bg-none w-9/10 lg:w-full mb-4 px-2 py-4 lg:px-4 lg:py-2 rounded-lg drop-shadow block md:hidden text-start text-[22px] text-sm md:text-lg font-semibold text-[#4AA76F] md:mr-3 lg:mr-1">
-                Road Defect Reports
-            </div>
+        <div x-show="view === 'grid'" class="scroll-hidden w-full relative px-2">
 
             {{ $map_container }}
 
         </div>
 
         <!--Table View-->
-        <div x-show="view === 'table'" class="text-[#202020] rounded-[6px] -mt-2 pt-2 h-auto w-[46vh] md:w-full">
-
-            <div class="mx-0 bg-none w-9/10 lg:w-full px-2 py-4 lg:px-4 lg:py-2 rounded-lg drop-shadow mb-2 block md:hidden text-start text-[22px] text-sm md:text-lg font-semibold text-[#4AA76F] md:mr-3 lg:mr-1">
-                Road Defect Reports
-            </div>
+        <div x-show="view === 'table'" class="text-[#202020] rounded-[6px] mt-2 pt-2 h-auto w-[46vh] md:w-full">
 
             {{-- Header --}}
             <div class="px-2 text-center md:text-start"
@@ -152,7 +108,7 @@
                 <div class="flex">
                     {{ $search_container }}
 
-                    <div class="hidden lg:block mt-4 pl-4">
+                    <div class="mt-4 pl-4">
                         <!-- Toggle Filters Button -->
                         <button
                             @click="showFilters = !showFilters"
@@ -171,7 +127,7 @@
                     </div>
                 </div>
 
-                <div class="hidden lg:block flex">
+                <div class="flex">
                     <!-- Dropdown Filters container -->
                     <div x-show="showFilters"
                          class="mt-4 md:pl-2 flex justify-start items-start lg:gap-2 gap-1 mb-0 mr-auto">
@@ -212,3 +168,7 @@
     {{ $wire_loading_container }}
 
 </div>
+
+
+
+
