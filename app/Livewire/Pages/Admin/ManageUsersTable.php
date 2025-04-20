@@ -13,6 +13,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
@@ -148,6 +149,7 @@ class ManageUsersTable extends Component
             $query->orderBy('staffs.' . $this->sort_by, $this->sort_direction);
         }
 
+
         return $query;
     }
 
@@ -161,6 +163,15 @@ class ManageUsersTable extends Component
             ];
 
             $staffs = $this->getFilteredQuery()->get();
+
+            foreach ($staffs as $staff) {
+                if ($staff->user) {
+                    $staff->user->first_name = Crypt::decryptString($staff->user->first_name);
+                    $staff->user->middle_name = Crypt::decryptString($staff->user->middle_name);
+                    $staff->user->last_name = Crypt::decryptString($staff->user->last_name);
+                    $staff->user->username = Crypt::decryptString($staff->user->username);
+                }
+            }
 
             return Excel::download(
                 new StaffsDataExport($staffs, $filters),
@@ -188,7 +199,7 @@ class ManageUsersTable extends Component
             ->select('staffs.*')
             ->leftJoin('users', 'staffs.user_id', '=', 'users.id') // Ensure this matches your foreign key\
             ->leftJoin('staff_roles_permissions', 'staffs.staff_roles_permissions_id', '=', 'staff_roles_permissions.id')
-    ->leftJoin('staff_roles', 'staff_roles_permissions.staff_role_id', '=', 'staff_roles.id') // Join staff_roles
+            ->leftJoin('staff_roles', 'staff_roles_permissions.staff_role_id', '=', 'staff_roles.id') // Join staff_roles
             ->with(['user', 'staffRolesPermissions', 'staffRolesPermissions.staffRole'])
             ->when($this->search, function ($query) {
                 $query->where(function ($query) {
@@ -221,11 +232,17 @@ class ManageUsersTable extends Component
             $query->orderBy('staffs.' . $this->sort_by, $this->sort_direction);
         }
 
-        // Paginate the results
-        $staffs = $query->paginate($this->rowsPerPage);
 
         session()->forget('hideSearchBar');
         $staffs = $this->getFilteredQuery()->paginate($this->rowsPerPage);
+        foreach ($staffs as $staff) {
+            if ($staff->user) {
+                $staff->user->first_name = Crypt::decryptString($staff->user->first_name);
+                $staff->user->middle_name = Crypt::decryptString($staff->user->middle_name);
+                $staff->user->last_name = Crypt::decryptString($staff->user->last_name);
+                $staff->user->username = Crypt::decryptString($staff->user->username);
+            }
+        }
 
         // Return the view
         return view('livewire.pages.admin.manage-users-table', compact('staffs'));
