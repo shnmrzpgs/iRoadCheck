@@ -33,6 +33,8 @@ class AdminLog extends Model
         'dateTime' => 'timestamp',
     ];
 
+    protected $primaryKey = 'log_id';
+
 
     // Attributes
 
