@@ -1,28 +1,31 @@
-<div class="w-full h-full relative rounded-[6px] font-pop">
+<div class="w-full h-[85vh] relative rounded-[6px] font-pop overflow-y-scroll mb-20">
 
-    <div class="bg-none rounded-[4px]">
+    <div class="bg-none rounded-[4px] ml-2">
 
         <!-- Image Background -->
-        <div loading="eager" class="relative overflow-hidden rounded-[10px] shadow w-full h-[110px] x-cloak">
-            <img src="{{ asset('storage/images/profile-backgroundImage2.png') }}"
-                 alt="profile name background" x-cloak
-                 class="absolute top-0 left-0 w-full h-full object-cover"
-                 loading="eager">
+        <div loading="eager" class="relative overflow-hidden rounded-[10px] shadow w-full h-[198px] lg:h-[110px] x-cloak">
+            <img src="{{ asset('storage/images/profile-backgroundImage2.png') }}" alt="profile name background" x-cloak
+                class="absolute top-0 left-0 w-full h-full object-cover" loading="eager">
         </div>
 
         <!--Profile Name -->
-        <div class="absolute flex items-start p-2">
-            <div class="relative ml-10 -mt-24">
+        <div class="flex flex-col lg:flex-row justify-center lg:justify-start items-center lg:items-start p-2 w-full">
+            <div class="relative -mt-52 lg:-mt-24 flex flex-col items-center lg:items-start lg:ml-12">
                 {{ $profile_picture }}
+                <!-- Mobile view of preview names and user type -->
+                <div class="relative text-center lg:hidden mt-2">
+                    {{ $preview_names_and_user_type }}
+                </div>
             </div>
-            <div class="relative text-start text-[#4D4F50] ml-6 -mt-[90px]">
+            <!-- Desktop view of preview names and user type -->
+            <div class="relative text-start text-[#4D4F50] ml-6 -mt-[90px] hidden lg:block">
                 {{ $preview_names_and_user_type }}
             </div>
         </div>
     </div>
 
     <!--Profile Information -->
-    <div class="pl-5 mt-16 w-full"
+    <div class="pl-5 mt-6 w-full"
          x-data="{
                     activeTab: 'basic-info',
                     hoveredTab: null,
@@ -31,7 +34,7 @@
                     showConfirmPassword: false
                  }" >
         <div class="z-0 lg:grid lg:place-items-start">
-            <div class="flex w-full items-center justify-start text-[14px]">
+            <div class="flex w-full items-center justify-start text-[12px] lg:text-[14px]">
                 <!-- Basic Information Tab -->
                 <div class="relative inline-block mr-6">
                     <button
@@ -99,7 +102,7 @@
                 </div>
             </div>
 
-            <div class="text-[13px] z-10 mt-6 h-full max-h-[420px] w-full max-w-[1330px] rounded-md bg-[#FBFBFB] px-7 pb-7 drop-shadow-lg">
+            <div class="text-[13px] z-10 mt-6 h-full max-h-[420px] w-full max-w-[1330px] rounded-md bg-[#FBFBFB] px-1 lg:px-8 pb-20 lg:pb-7 md:pb-7 drop-shadow-lg">
 
                 <!-- Basic Information -->
                 <div x-show="activeTab === 'basic-info'">
@@ -109,7 +112,7 @@
                     <div  x-transition:enter="transition ease-out duration-300"
                           x-transition:enter-start="opacity-0 transform scale-80"
                           x-transition:enter-end="opacity-100 transform scale-100">
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 px-4 mt-8 mb-2">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 px-4 mt-8 mb-2">
                             <div class="flex gap-4 p-2 w-full">
                                 {{ $first_name }}
                             </div>
@@ -117,7 +120,7 @@
                                 {{ $middle_name }}
                             </div>
                         </div>
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 px-4 mb-2">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 px-4 mb-2">
                             <div class="flex gap-4 p-2 w-full">
                                 {{ $last_name }}
                             </div>
@@ -125,7 +128,7 @@
                                 {{ $sex }}
                             </div>
                         </div>
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 px-4 mb-10">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 px-4 mb-10">
                             <div class="flex gap-4 p-2 w-full">
                                 {{ $user_type }}
                             </div>
@@ -168,7 +171,7 @@
                     <div  x-transition:enter="transition ease-out duration-300"
                           x-transition:enter-start="opacity-0 transform scale-80"
                           x-transition:enter-end="opacity-100 transform scale-100">
-                        <div class="grid grid-cols-2 my-6 space-x-6 px-4 ">
+                        <div class="grid grid-cols-1 md:grid-cols-2 my-6 space-x-0 md:space-x-6 px-4">
                             <div class="w-full p-2">
                                 <div class="flex items-start space-x-2 mb-2">
                                     {{ $username }}
@@ -183,7 +186,7 @@
                                     {{ $confirm_password }}
                                 </div>
                             </div>
-                            <div class="w-full">
+                            <div class="w-full mt-6 md:mt-0">
                                 <!-- Password requirements -->
                                 <div class="w-full pb-6 px-6">
                                     <div class="text-gray-600 text-[14px] font-semibold mb-4">Password Requirements</div>
