@@ -83,12 +83,6 @@ class ResidentAuth extends Controller
     //     }
     // }
 
-    public function verifyCode(Request $request)
-    {
-        // Validate the input
-        $request->validate([
-            'code' => 'required|digits:6', // Ensure the code is exactly 6 digits
-        ]);
 
         // Get the input code from the form
         $verificationCode = $request->input('code');
@@ -109,4 +103,4 @@ class ResidentAuth extends Controller
     }
 
   
-}
+

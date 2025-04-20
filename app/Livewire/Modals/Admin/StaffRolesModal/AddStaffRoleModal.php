@@ -30,28 +30,9 @@ class AddStaffRoleModal extends Component
         $this->selectAllPermissions = count($this->selectedPermissions) === $this->staff_permissions->count();
     }
 
-//    public function rules(): array
-//    {
-//        return [
-//            'name' => ['required', 'string', 'max:255', 'unique:staff_roles,name'],
-//            'status' => ['required', 'boolean'],
-//            'selectedPermissions' => ['array', 'min:1'],
-//            'selectedPermissions.*' => ['exists:staff_permissions,id'],
-//        ];
-//    }
-//
-//    public function messages(): array
-//    {
-//        return [
-//            'name.required' => 'The staff role name is required.',
-//            'name.unique' => 'This staff role name already exists.',
-////            'status.required' => 'The role status is required.',
-//            'selectedPermissions.required' => 'At least one staff permission must be selected.',
-//            'selectedPermissions.*.exists' => 'One or more permissions are invalid.',
-//        ];
-//    }
-
-
+    /**
+     * Validation rules for form inputs.
+     */
     public function rules(): array
     {
         return [
@@ -188,6 +169,7 @@ class AddStaffRoleModal extends Component
             $this->dispatch('modal-close');
             session()->flash('feedback', 'Staff Role added successfully!');
             session()->flash('feedback_type', 'success');
+
         } catch (\Exception $e) {
             AdminLog::create([
                 'admin_id' => auth()->id(),

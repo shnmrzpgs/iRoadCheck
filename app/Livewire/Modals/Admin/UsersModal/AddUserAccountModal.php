@@ -4,6 +4,7 @@ namespace App\Livewire\Modals\Admin\UsersModal;
 
 use App\Enums\User\UserSex;
 use App\Enums\Staff\StaffStatus;
+use App\Models\AdminLog;
 use Livewire\WithFileUploads;
 use App\Models\User;
 use App\Models\Staff;
@@ -177,7 +178,7 @@ class AddUserAccountModal extends Component
         ];
     }
 
-    public function validateAndSubmit()
+    public function validateAndSubmit(): void
     {
         Log::info('validateAndSubmit triggered.');
 
@@ -209,17 +210,39 @@ class AddUserAccountModal extends Component
 
             if ($result) {
                 Log::info('Form saved successfully.');
-                // Dispatch success message to session
-                session()->flash('feedback', 'Staff Account added successfully!');
-                session()->flash('feedback_type', 'success');
+
+                $fullName = trim("{$this->form->first_name} {$this->form->middle_name} {$this->form->last_name}");
+
+                // Log successful creation
+                AdminLog::create([
+                    'admin_id' => auth()->id(),
+                    'action' => "Created a new staff account: {$fullName}",
+                    'dateTime' => now(),
+                    'user_id' => auth()->id(),
+                ]);
             }
+
+            $this->dispatch('modal-close');
+            session()->flash('feedback', 'Staff Account added successfully!');
+            session()->flash('feedback_type', 'success');
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Validation failed.', ['errors' => $e->errors()]);
+
+            // Log failure
+            AdminLog::create([
+                'admin_id' => auth()->id(),
+                'action' => 'Failed to create staff account. Validation error: ' . json_encode($e->errors()),
+                'dateTime' => now(),
+                'user_id' => auth()->id(),
+            ]);
+
             // Dispatch error message to session
             session()->flash('feedback', 'There was an issue adding the Staff Account.');
             session()->flash('feedback_type', 'error');
         }
     }
+
 
     private function checkForDuplicates(): bool
     {
@@ -262,6 +285,6 @@ class AddUserAccountModal extends Component
 
     public function render(): Factory|View|Application|\Illuminate\View\View
     {
-        return view('livewire.modals.admin.users-modal.add-user-account-modal', []);
+        return view('livewire.modals.admin.users-modal.add-user-account-modal');
     }
 }

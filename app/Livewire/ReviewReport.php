@@ -26,13 +26,13 @@ class ReviewReport extends Component
         if ($userId) {
             // Retrieve the first unopened report for the user
             $this->report = TemporaryReport::where('reporter_id', $userId)
-                ->where('is_opened', false) // Ensure it's actually false (or use 0)
+                ->where('is_opened', 0) // Ensure it's actually false (or use 0)
                 ->first();
 
             if ($this->report) {
                 // Mark as opened only if it's not already updated
                 if (!$this->report->is_opened) {
-                    $this->report->update(['is_opened' => true]); // Update column
+                    $this->report->update(['is_opened' => 1]); // Update column
                     $this->isOpen = true; // Open the modal
                 } else {
                     $this->isOpen = false; // Ensure modal doesn't show again
@@ -67,97 +67,111 @@ class ReviewReport extends Component
 
         if ($temporaryReport) {
             // Check if report already exists
-            $existingReport = Report::where([
-                ['lat', '=', $temporaryReport->latitude],
-                ['lng', '=', $temporaryReport->longitude],
-                ['street', '=', $temporaryReport->street],
-                ['barangay', '=', $temporaryReport->barangay],
-                ['defect', '=', $temporaryReport->defect]
-            ])->first();
+            $existingReport = Report::select('*')
+                ->where('street', $temporaryReport->street)
+                ->where('barangay', $temporaryReport->barangay)
+                ->where('location', $temporaryReport->location)
+                ->whereRaw(
+                    "ST_Distance_Sphere(
+            point(lng, lat),
+            point(?, ?)
+        ) <= 5", [
+                        $temporaryReport->lng,
+                        $temporaryReport->lat
+                    ]
+                )
+                ->get();
 
-            if ($existingReport) {
-                // Save to suggestions table instead
-                Suggestion::create([
-                    'report_id' => $existingReport->id,
-                    'reporter_id' => Auth::id(),
-                    'is_match' => false, // Default to false until user confirms
-                    'response_deadline' => Carbon::now()->addDays(2), // Set deadline 5 days later
+            if (!$existingReport) {
+//                // Save to suggestions table instead
+//                Suggestion::create([
+//                    'report_id' => $existingReport->id,
+//                    'reporter_id' => Auth::id(),
+//                    'is_match' => false, // Default to false until user confirms
+//                    'response_deadline' => Carbon::now()->addDays(2), // Set deadline 5 days later
+//                    'defect' => $temporaryReport->defect,
+//                    'lat' => $temporaryReport->latitude,
+//                    'lng' => $temporaryReport->longitude,
+//                    'location' => $temporaryReport->address,
+//                    'street' => $temporaryReport->street,
+//                    'purok' => $temporaryReport->purok,
+//                    'barangay' => $temporaryReport->barangay,
+//                    'date' => Carbon::createFromFormat('F d, Y', $temporaryReport->date)->format('Y-m-d'),
+//                    'time' => Carbon::parse($temporaryReport->time)->format('H:i:s'),
+//                    'severity' => 1,
+//                    'image' => $temporaryReport->image,
+//                    'image_annotated' => $temporaryReport->image_annotated,
+//                    'status' => "Unfixed"
+//                ]);
+
+                // Create a new record in the reports table
+                $report = Report::create([
+                    'reporter_id' => $temporaryReport->reporter_id,
                     'defect' => $temporaryReport->defect,
-                    'lat' => $temporaryReport->latitude,
-                    'lng' => $temporaryReport->longitude,
-                    'location' => $temporaryReport->address,
+                    'lat' => $temporaryReport->lat,
+                    'lng' => $temporaryReport->lng,
+                    'location' => $temporaryReport->location,
                     'street' => $temporaryReport->street,
                     'purok' => $temporaryReport->purok,
                     'barangay' => $temporaryReport->barangay,
-                    'date' => Carbon::createFromFormat('F d, Y', $temporaryReport->date)->format('Y-m-d'),
-                    'time' => Carbon::parse($temporaryReport->time)->format('H:i:s'),
-                    'severity' => 1,
+                    'date' => $temporaryReport->date,
+                    'time' => $temporaryReport->time,
+                    'severity' => $temporaryReport->severity,
                     'image' => $temporaryReport->image,
                     'image_annotated' => $temporaryReport->image_annotated,
-                    'status' => "Unfixed"
+                    'status' => $temporaryReport->status,
+                    'label' => $temporaryReport->label,
                 ]);
+                $reporter = Auth::user();
+
+                // ✅ Fetch Admins and Staff
+                $admins = User::where('user_type', 1)->get();
+                $staff = Staff::with('user')->get();
+
+                if ($admins->isEmpty() && $staff->isEmpty()) {
+                    throw new \Exception('No admins or staff found.');
+                }
+
+                // ✅ Admin & Staff Notification
+                $notificationData = [
+                    'report_id' => $report->id,
+                    'title' => 'Report Created',
+                    'message' => "A new report has been submitted by {$reporter->name} at {$temporaryReport->location}.",
+                    'is_read' => false,
+                ];
+
+                // ✅ Notify Admins
+                $this->notifyUsers($admins, $notificationData, User::class);
+
+                // ✅ Notify Staff only if the reporter is NOT a staff member
+                if ($reporter->user_type !== 3) {
+                    $this->notifyUsers($staff, $notificationData, Staff::class);
+                }
+
+                // ✅ Reporter Notification - Corrected Message
+                Notification::create([
+                    'report_id' => $report->id,
+                    'title' => 'Report Submitted',
+                    'message' => "You submitted a new road issue successfully at {$temporaryReport->location}.",
+                    'notifiable_id' => $reporter->id,
+                    'notifiable_type' => User::class,
+                    'is_read' => false,
+                ]);
+
+                // Optionally delete the temporary report after copying
+                $temporaryReport->delete();
+                $this->isOpen = false;
+                session()->flash('feedback', 'Report submitted successfully!');
+                session()->flash('feedback_type', 'success');
+            } else{
+                $this->isOpen = false;
+                $temporaryReport->is_opened = 2;
+                session()->flash('suggestion-exist', 'This suggestion already exists.');
             }
 
 
-            // Create a new record in the reports table
-            $report = Report::create([
-                'reporter_id' => $temporaryReport->reporter_id,
-                'defect' => $temporaryReport->defect,
-                'lat' => $temporaryReport->lat,
-                'lng' => $temporaryReport->lng,
-                'location' => $temporaryReport->location,
-                'street' => $temporaryReport->street,
-                'purok' => $temporaryReport->purok,
-                'barangay' => $temporaryReport->barangay,
-                'date' => $temporaryReport->date,
-                'time' => $temporaryReport->time,
-                'severity' => $temporaryReport->severity,
-                'image' => $temporaryReport->image,
-                'image_annotated' => $temporaryReport->image_annotated,
-                'status' => $temporaryReport->status,
-                'label' => $temporaryReport->label,
-            ]);
-            $reporter = Auth::user();
 
-            // ✅ Fetch Admins and Staff
-            $admins = User::where('user_type', 1)->get();
-            $staff = Staff::with('user')->get();
 
-            if ($admins->isEmpty() && $staff->isEmpty()) {
-                throw new \Exception('No admins or staff found.');
-            }
-
-            // ✅ Admin & Staff Notification
-            $notificationData = [
-                'report_id' => $report->id,
-                'title' => 'Report Created',
-                'message' => "A new report has been submitted by {$reporter->name} at {$temporaryReport->location}.",
-                'is_read' => false,
-            ];
-
-            // ✅ Notify Admins
-            $this->notifyUsers($admins, $notificationData, User::class);
-
-            // ✅ Notify Staff only if the reporter is NOT a staff member
-            if ($reporter->user_type !== 3) {
-                $this->notifyUsers($staff, $notificationData, Staff::class);
-            }
-
-            // ✅ Reporter Notification - Corrected Message
-            Notification::create([
-                'report_id' => $report->id,
-                'title' => 'Report Submitted',
-                'message' => "You submitted a new road issue successfully at {$temporaryReport->location}.",
-                'notifiable_id' => $reporter->id,
-                'notifiable_type' => User::class,
-                'is_read' => false,
-            ]);
-
-            // Optionally delete the temporary report after copying
-            $temporaryReport->delete();
-            $this->isOpen = false;
-        session()->flash('feedback', 'Report submitted successfully!');
-        session()->flash('feedback_type', 'success');
 //            return redirect()->back()->with('success', 'Report copied successfully');
 
         }

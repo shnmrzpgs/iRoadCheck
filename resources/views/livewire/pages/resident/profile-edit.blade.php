@@ -23,7 +23,7 @@
                 <label for="first_name" class="w-full lg:w-2/10 mb-2 lg:mt-3 block text-[13px] font-medium text-gray-900">
                     First Name
                 </label>
-                <input type="text" name="first_name" id="first_name" wire:model.defer="first_name"
+                <input type="text" name="first_name" id="first_name" autocomplete="off" wire:model.defer="first_name"
                     class="w-full lg:w-7/10 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow @error('first_name') border-red-500 @enderror"
                     placeholder="First Name">
             </div>
@@ -37,7 +37,7 @@
                 <label for="middle_name" class="w-full lg:w-2/10 mb-2 lg:mt-3 block text-[13px] font-medium text-gray-900">
                     Middle Name
                 </label>
-                <input type="text" name="middle_name" id="middle_name" wire:model.defer="middle_name"
+                <input type="text" name="middle_name" id="middle_name" autocomplete="off" wire:model.defer="middle_name"
                     class="w-full lg:w-7/10 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow @error('middle_name') border-red-500 @enderror"
                     placeholder="Middle Name">
             </div>
@@ -51,7 +51,7 @@
                 <label for="last_name" class="w-full lg:w-2/10 mb-2 lg:mt-3 block text-[13px] font-medium text-gray-900">
                     Last Name
                 </label>
-                <input type="text" name="last_name" id="last_name" wire:model.defer="last_name"
+                <input type="text" name="last_name" id="last_name" autocomplete="off" wire:model.defer="last_name"
                     class="w-full lg:w-7/10 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow @error('last_name') border-red-500 @enderror"
                     placeholder="Last Name">
             </div>
@@ -130,7 +130,7 @@
                     Phone Number
                 </label>
                 <div class="w-full md:w-3/4 max-w-md">
-                    <input type="text" name="phone" id="phone" wire:model.defer="phone"
+                    <input type="text" name="phone" id="phone" autocomplete="off" wire:model.defer="phone"
                         class="w-full border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow
                 @error('phone') border-red-500 @enderror"
                         placeholder="Enter Phone Number">

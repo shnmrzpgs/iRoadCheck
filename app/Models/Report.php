@@ -49,9 +49,14 @@ class Report extends Model
         return $this->belongsTo(Report::class, 'report_id');
     }
 
-    public function updatedBy(): BelongsTo
+    public function updater()
     {
-        return $this->belongsTo(User::class, 'updated_by');
+        return $this->belongsTo(User::class, 'updater_id');
+    }
+
+    public function label()
+    {
+        return $this->belongsTo(Severity::class, 'label'); // 'label' here is the foreign key in reports table
     }
 
 

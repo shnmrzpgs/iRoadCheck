@@ -34,6 +34,8 @@ class VerifyResident
 
             }
 
+        } else {
+            return redirect()->route('residents-login');
         }
         return $next($request);
     }

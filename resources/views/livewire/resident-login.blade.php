@@ -74,7 +74,7 @@
                     </ul>
                 </div>
                 @endif
-                <!-- Email Input -->
+                <!-- Phone Number Input -->
                 <div class="relative mb-2">
                     <input wire:model="phone"
                         class="w-full text-[14px] py-2 pl-10 pr-10 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#5A915E] focus:border-[#5A915E]"
@@ -83,6 +83,7 @@
                         id="phone"
                         pattern="0[0-9]{10}"
                         maxlength="11"
+                        autocomplete="off"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);"
                         placeholder="Phone"
                         required>
@@ -116,7 +117,6 @@
                 <div class="text-left mb-2">
                     <a href="{{ route('forgotPassword') }}" class="text-[#5A915E] text-[14px] italic underline hover:underline">Forgot Password?</a>
                 </div>
-
 
 
                 <!-- Login Button -->

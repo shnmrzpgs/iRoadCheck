@@ -43,11 +43,11 @@
                             <div class="bg-white shadow-sm rounded-md p-2 capitalize">
                                 <h4 class="font-medium text-gray-700 border-b pb-2 mb-2 border-[#4AA76F]"><strong>Basic Information</strong></h4>
                                 <ul>
-                                    <li class="mb-1">First Name:<i class="ml-4"> {{ $staff->user->first_name }}</i></li>
-                                    <li class="mb-1">Middle Name: <i class="ml-0"> {{ $staff->user->middle_name }}</i></li>
-                                    <li class="mb-1">Last Name: <i class="ml-4">{{ $staff->user->last_name }}</i></li>
-                                    <li class="mb-1">Sex: <i class="ml-14"> {{ $staff->user->sex }}</i></li>
-                                    <li class="mb-1">Birthday:<i class="ml-6"> {{ \Carbon\Carbon::parse($staff->user->date_of_birth)->format('F j, Y') }}</i></li>
+                                    <li class="mb-1">First Name: <i class="ml-4">{{ ucfirst($staff->user->first_name) }}</i></li>
+                                    <li class="mb-1">Middle Name: <i class="ml-0">{{ $staff->user->middle_name ? ucfirst($staff->user->middle_name) : 'N/A' }}</i></li>
+                                    <li class="mb-1">Last Name: <i class="ml-4">{{ ucfirst($staff->user->last_name) }}</i></li>
+                                    <li class="mb-1">Sex: <i class="ml-14">{{ ucfirst($staff->user->sex) }}</i></li>
+                                    <li class="mb-1">Birthday: <i class="ml-6">{{ \Carbon\Carbon::parse($staff->user->date_of_birth)->format('F j, Y') }}</i></li>
                                     <li class="mb-1">User Type: <i class="ml-4">Staff</i></li>
                                 </ul>
                             </div>
@@ -56,7 +56,7 @@
                             <div class="bg-white shadow-sm rounded-md p-2">
                                 <h4 class="font-medium text-gray-700 border-b mb-2 pb-2 border-[#4AA76F]"><strong>Access Control Information</strong></h4>
                                 <ul>
-                                    <li class="mb-1">Role: <i class="ml-4">{{ $staff->staffRolesPermissions->staffRole->name ?? 'No role assigned' }}</i></li>
+                                    <li class="mb-1">Role: <i class="ml-4">{{ ucfirst($staff->staffRolesPermissions->staffRole->name) ?? 'No role assigned' }}</i></li>
                                     <li class="mb-1">Permissions:</li>
                                     <ul class="pl-4 list-disc">
                                         @if(!empty($selectedPermissions))
@@ -75,7 +75,7 @@
                         <div class="bg-white shadow-sm rounded-md p-2 flex-nowrap text-xs">
                             <h4 class="font-medium text-gray-700 border-b pb-2 border-[#4AA76F]"><strong>Account Information</strong></h4>
                             <ul>
-                                <li class="text-[#4AA76F] mb-1 capitalize">Status:<i class="ml-8"> {{ $staff->status }}</i></li>
+                                <li class="text-[#4AA76F] mb-1 capitalize">Status:<span class="ml-8 font-medium"> {{ ucfirst($staff->status) }}</span></li>
                                 <li class="mb-1">Username:<i class="ml-6"> {{ $staff->user->username }}</i></li>
                                 <li class="mb-1">Password: <i class="ml-3">{{ $staff->user->generated_password }}</i></li>
                             </ul>

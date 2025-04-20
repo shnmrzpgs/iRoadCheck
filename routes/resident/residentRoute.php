@@ -28,7 +28,7 @@ Route::view('/resident/signup', ['iroadcheck.prototype.residents.signup'])->name
 // Route::view('/resident/login', ['iroadcheck.prototype.residents.login'])->name('resident-login');
 
 Route::group(['middleware' => 'VerifyResident'], function () {
-    Route::view('/resident/verify-code', ['iroadcheck.prototype.residents.verify-user-enterCode'])->name('verify-code');
+    Route::get('/resident/verify-code', [ ResidentAuth::class, 'verifycodeView'])->name('verify-code');
     Route::post('/resident/code-verify', [ResidentAuth::class, 'verifyCode'])->name('verifyCode');
 
 });

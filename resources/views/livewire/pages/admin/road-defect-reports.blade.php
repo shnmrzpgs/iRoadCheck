@@ -1,6 +1,6 @@
-<x-admin.admin-navigation page_title="Road Defect Reports" >
+<x-Admin.admin-navigation page_title="Road Defect Reports" >
 
-    <x-admin.road-defect-reports-page-content-base>
+    <x-Admin.road-defect-reports-page-content-base>
 
         {{--Map View--}}
         <x-slot:map_container>

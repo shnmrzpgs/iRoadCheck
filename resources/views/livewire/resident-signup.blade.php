@@ -123,7 +123,7 @@
                 <div class="space-y-2 my-6">
                     <!--First Name-->
                     <div class="relative">
-                        <input type="text" name="first_name" id="first_name" required wire:model="first_name"
+                        <input type="text" name="first_name" id="first_name" autocomplete="off" required wire:model="first_name"
                             class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] peer"
                             placeholder=" " :class="{ 'border-red-500': errors.first_name }"
                             @input="validateField('first_name'); capitalizeInput($el)" />
@@ -135,7 +135,7 @@
 
                     <!--Middle Name-->
                     <div class="relative">
-                        <input type="text" name="middle_name" id="middle_name" wire:model="middle_name"
+                        <input type="text" name="middle_name" id="middle_name" wire:model="middle_name"  autocomplete="off" 
                             class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] peer"
                             placeholder=" " @input="capitalizeInput($el)" />
                         <label for="middle_name"
@@ -145,7 +145,7 @@
 
                     <!--Last Name-->
                     <div class="relative">
-                        <input type="text" name="last_name" id="last_name" required wire:model="last_name"
+                        <input type="text" name="last_name" id="last_name" autocomplete="off" required wire:model="last_name"
                             class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] peer"
                             placeholder=" " :class="{ 'border-red-500': errors.last_name }"
                             @input="validateField('last_name'); capitalizeInput($el);" />
@@ -228,8 +228,9 @@
                 <div class="space-y-4 my-6">
 
                     <!--Phone Number-->
+                    <!--Phone Number-->
                     <div class="relative">
-                        <input name="phone" type="tel" id="phone" required pattern="0[0-9]{10}"
+                        <input name="phone" type="tel" id="phone" required pattern="0[0-9]{10}"  autocomplete="off" 
                             maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);"
                             wire:model.debounce.500ms="phone" @input="validateField('phone')"
                             class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] peer"
