@@ -46,8 +46,8 @@
                             }
 
                         }"
-{{--                        x-on:mouseenter="tooltipVisible = true"--}}
-{{--                        x-on:mouseleave="tooltipVisible = false"--}}
+                        {{--                        x-on:mouseenter="tooltipVisible = true"--}}
+                        {{--                        x-on:mouseleave="tooltipVisible = false"--}}
                         @mouseenter="if (hoverable) tooltipVisible = true"
                         @mouseleave="if (hoverable) tooltipVisible = false"
                         :class="{ 'bg-[#4AA76F] text-white': view === 'grid', 'hover:bg-[#4AA76F] hover:text-white text-[#4AA76F]': view !== 'grid' }"
@@ -152,7 +152,7 @@
                 <div class="flex">
                     {{ $search_container }}
 
-                    <div class="mt-4 pl-4">
+                    <div class="hidden lg:block mt-4 pl-4">
                         <!-- Toggle Filters Button -->
                         <button
                             @click="showFilters = !showFilters"
@@ -171,7 +171,7 @@
                     </div>
                 </div>
 
-                <div class="flex">
+                <div class="hidden lg:block flex">
                     <!-- Dropdown Filters container -->
                     <div x-show="showFilters"
                          class="mt-4 md:pl-2 flex justify-start items-start lg:gap-2 gap-1 mb-0 mr-auto">
@@ -212,7 +212,3 @@
     {{ $wire_loading_container }}
 
 </div>
-
-
-
-
