@@ -325,7 +325,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-        
+
                             @error('form.user_role')
                                         <span id="dobError"
                                         class="text-red-600 text-xs flex justify-center text-center">{{ $message }}</span>
@@ -445,10 +445,9 @@
 
                         </div>
                     </div>
-                </div>
 
+</x-slot:body>
             @endif
-        </x-slot:body>
 
 
         <x-slot:footer>
