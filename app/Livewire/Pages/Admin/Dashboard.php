@@ -12,6 +12,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Crypt;
 use Livewire\Component;
 
 class Dashboard extends Component
@@ -235,14 +236,22 @@ class Dashboard extends Component
                     'name' => $role->name,
                     'count' => $count,
                     'members' => $staffMembers->map(function ($staff) {
-                        return [
-                            'name' => trim(
-                                ($staff->user->first_name ?? '') . ' ' .
-                                    ($staff->user->middle_name ?? '') . ' ' .
-                                    ($staff->user->last_name ?? '')
-                            ),
-                            'avatar' => $staff->user->profilePhoto?->photo_path ?? null,
-                        ];
+                        try {
+                            return [
+                                'name' => trim(
+                                    (isset($staff->user->first_name) ? Crypt::decryptString($staff->user->first_name) : '') . ' ' .
+                                        (isset($staff->user->middle_name) ? Crypt::decryptString($staff->user->middle_name) : '') . ' ' .
+                                        (isset($staff->user->last_name) ? Crypt::decryptString($staff->user->last_name) : '')
+                                ),
+                                'avatar' => $staff->user->profilePhoto?->photo_path ?? null,
+                            ];
+                        } catch (\Exception $e) {
+                            Log::error('Failed to decrypt user data: ' . $e->getMessage());
+                            return [
+                                'name' => 'Unavailable',
+                                'avatar' => null
+                            ];
+                        }
                     })->values()->all(),
                 ];
             }
@@ -289,7 +298,7 @@ class Dashboard extends Component
 
     public function render(): Factory|Application|View|\Illuminate\View\View
     {
-        session()->forget('hideSearchBar');
+        session(['hideSearchBar' => true]);
 
         $barangays = Report::select('barangay')->distinct()->pluck('barangay');
         $years = Report::selectRaw('DISTINCT YEAR(date) as year')->pluck('year');
