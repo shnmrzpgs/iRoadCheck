@@ -286,12 +286,9 @@ class ReportController extends Controller
             'latitude'  => 'required',
             'longitude' => 'required',
             'address'   => 'required',
-            'purok'     => 'required',
-            'street'    => 'required',
-            'barangay'  => 'required',
             'date'      => 'required|date',
             'time'      => 'required',
-            'photo'     => 'required|string',
+            'photo'     => 'required',
         ]);
 
         if ($validator->fails()) {
