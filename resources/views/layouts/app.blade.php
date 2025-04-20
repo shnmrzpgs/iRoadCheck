@@ -92,7 +92,7 @@
         </script>
     </head>
 
-    <body class="z-0 font-pop mx-auto max-w-screen-2xl antialiased bg-[#F5F5F5] overflow-hidden" x-data="{ showModal: false, scale: 1 } ">
+    <body class="z-0 mx-auto max-w-screen-2xl antialiased bg-[#F5F5F5] overflow-hidden font-pop" x-data="{ showModal: false, scale: 1 } ">
     <!-- Page Content -->
         <main>
             {{ $slot }}

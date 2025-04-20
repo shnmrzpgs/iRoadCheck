@@ -22,12 +22,12 @@
                             <livewire:flash-message />
                             <livewire:review-update/>
                             <livewire:no-defect-modal/>
-{{--                            <livewire:first-login-modal/>--}}
+                            {{--                            <livewire:first-login-modal/>--}}
 
                             <!-- "How to Capture Road Issue" link to reopen modal -->
-{{--                            <button wire:click="$dispatch('openFirstLoginModal')" class="mt-3 text-blue-600 underline text-sm">--}}
-{{--                                How to Capture Road Issues Properly?--}}
-{{--                            </button>--}}
+                            {{--                            <button wire:click="$dispatch('openFirstLoginModal')" class="mt-3 text-blue-600 underline text-sm">--}}
+                            {{--                                How to Capture Road Issues Properly?--}}
+                            {{--                            </button>--}}
 
                             <!-- Report Road Issue Button -->
                             <div class="mt-3 w-[85%] text-center mx-auto max-w-md">
@@ -154,10 +154,10 @@
                                     @csrf
                                     <input type="hidden" name="latitude" x-bind:value="latitude">
                                     <input type="hidden" name="longitude" x-bind:value="longitude">
-{{--                                    <input type="hidden" name="address" x-bind:value="address">--}}
-{{--                                    <input type="hidden" name="purok" x-bind:value="purok">--}}
-{{--                                    <input type="hidden" name="street" x-bind:value="street">--}}
-{{--                                    <input type="hidden" name="barangay" x-bind:value="barangay">--}}
+                                    {{--                                    <input type="hidden" name="address" x-bind:value="address">--}}
+                                    {{--                                    <input type="hidden" name="purok" x-bind:value="purok">--}}
+                                    {{--                                    <input type="hidden" name="street" x-bind:value="street">--}}
+                                    {{--                                    <input type="hidden" name="barangay" x-bind:value="barangay">--}}
                                     <input type="hidden" name="date" x-bind:value="date">
                                     <input type="hidden" name="time" x-bind:value="time">
                                     <input type="hidden" name="photo" x-bind:value="photo">
@@ -180,7 +180,7 @@
                                     </button>
                                 </form>
                                 <script>
-                                        document.getElementById('reportForm').addEventListener('submit', function() {
+                                    document.getElementById('reportForm').addEventListener('submit', function() {
                                         document.getElementById('submitBtn').classList.add('hidden'); // Hide the button
                                         document.getElementById('loadingOverlay').classList.remove('hidden'); // Show full-screen loading
                                     });
@@ -202,17 +202,17 @@
 
                             <!-- Report Details -->
                             <div class="space-y-3 text-start w-10/12">
-{{--                                <!-- Type of Defect -->--}}
-{{--                                <div class="text-xs md:text-sm flex">--}}
-{{--                                    <div class="w-2/5 text-gray-600">Type of Defect:</div>--}}
-{{--                                    <div class="w-3/5 font-semibold text-[#4AA76F]">Pothole</div>--}}
-{{--                                </div>--}}
+                                {{--                                <!-- Type of Defect -->--}}
+                                {{--                                <div class="text-xs md:text-sm flex">--}}
+                                {{--                                    <div class="w-2/5 text-gray-600">Type of Defect:</div>--}}
+                                {{--                                    <div class="w-3/5 font-semibold text-[#4AA76F]">Pothole</div>--}}
+                                {{--                                </div>--}}
 
-{{--                                <!-- Report ID -->--}}
-{{--                                <div class="text-xs md:text-sm flex">--}}
-{{--                                    <div class="w-2/5 text-gray-600">Report ID:</div>--}}
-{{--                                    <div class="w-3/5 font-semibold text-[#4AA76F]">00001</div>--}}
-{{--                                </div>--}}
+                                {{--                                <!-- Report ID -->--}}
+                                {{--                                <div class="text-xs md:text-sm flex">--}}
+                                {{--                                    <div class="w-2/5 text-gray-600">Report ID:</div>--}}
+                                {{--                                    <div class="w-3/5 font-semibold text-[#4AA76F]">00001</div>--}}
+                                {{--                                </div>--}}
                                 <!-- Date and Time -->
                                 <div class="text-xs md:text-sm flex">
                                     <div class="w-2/5 text-gray-600">Date Reported:</div>

@@ -55,7 +55,7 @@
                 x-on:input="
                 filterMarkers($event.target.value);"
                 @change="activeFilter = 'barangayFilter'"
-                    class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">
+                class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">
                 <option value="" class="text-gray-400 text-[12px]">Barangay</option>
                 @foreach($barangays as $barangay)
                     <option value="{{ $barangay }}">{{ $barangay }}</option>
@@ -91,7 +91,7 @@
                 x-on:input="
                 filterMarkers($event.target.value);"
                 @change="activeFilter = 'statusFilter'"
-                    class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">
+                class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">
                 <option value="" class="text-gray-400 text-[12px]">Status</option>
                 @foreach($statuses as $status)
                     <option value="{{ $status }}">{{ $status }}</option>
@@ -109,7 +109,7 @@
                 x-on:input="
                 filterMarkers($event.target.value);"
                 @change="activeFilter = 'severityFilter'"
-                    class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">
+                class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">
                 <option value="" class="text-gray-400 text-[12px]">Severity</option>
                 @foreach($severities as $label)
                     <option value="{{ $label }}">{{ $label }}</option>
@@ -143,7 +143,7 @@
                 });
             }
         }" x-init="initDatePickers()" class="relative flex rounded-[4px] border hover:shadow-md custom-date-input"
-                     :class="{
+             :class="{
                     'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'dateRange',
                     'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'dateRange'
                 }">
@@ -168,7 +168,7 @@
 
         <!-- When No Report Is Selected -->
         <template x-if="(!selectedReport || !selectedReport.id) && !showingGroupReports">
-        <div class="mb-4 w-full text-[12px] text-gray-500 text-center">
+            <div class="mb-4 w-full text-[12px] text-gray-500 text-center">
                 <div class="flex flex-col items-center justify-center h-full">
                     <img src="{{ asset('storage/icons/marker-on-the-map-icon.png') }}" alt="markerIcon" loading="lazy"
                          class="xs:-my-2 md:mb-1 md:mt-4 w-28 sm:w-36 md:w-48 lg:w-56 max-w-[150px] mt-4 mb-0 drop-shadow-lg" />
@@ -185,7 +185,7 @@
                  x-transition:leave-end="opacity-0 scale-90"
                  class="bg-white transition-all transform origin-top">
 
-            <ul id="group-report-list" class="space-y-2 text-sm text-gray-700"> </ul>
+                <ul id="group-report-list" class="space-y-2 text-sm text-gray-700"> </ul>
             </div>
         </template>
     </x-slot:comprehensive_or_group_report_information>
