@@ -309,10 +309,12 @@ class EditUserAccountModal extends Component
 
             $fullName = $this->getFullName($this->staff->user); // Will return 'Juan Dela Cruz'
             $roleName = $this->getRoleName(); // Will return 'Encoder'
+            $firstName = Crypt::decryptString($this->staff->user->first_name);
+            $lastName = Crypt::decryptString($this->staff->user->last_name);
             // Admin log entry
             AdminLog::create([
                 'admin_id' => auth()->id(),
-                'action' = "Failed to update staff account: {$fullName} ({$roleName})",
+                'action' => "Failed to update staff account: {$firstName} {$lastName} ({$this->getRoleName()})",
                 'dateTime' => now(),
                 'user_id' => auth()->id(),
             ]);
@@ -328,9 +330,12 @@ class EditUserAccountModal extends Component
             $fullName = $this->getFullName($this->staff->user); // Will return 'Juan Dela Cruz'
             $roleName = $this->getRoleName(); // Will return 'Encoder'
             // Admin log entry
+            $firstName = Crypt::decryptString($this->staff->user->first_name);
+            $lastName = Crypt::decryptString($this->staff->user->last_name);
+            // Admin log entry
             AdminLog::create([
                 'admin_id' => auth()->id(),
-                'action' = "Failed to update staff account: {$fullName} ({$roleName})",
+                'action' => "Failed to update staff account: {$firstName} {$lastName} ({$this->getRoleName()})",
                 'dateTime' => now(),
                 'user_id' => auth()->id(),
             ]);
