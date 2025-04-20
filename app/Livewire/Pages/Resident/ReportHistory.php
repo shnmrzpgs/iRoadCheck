@@ -117,16 +117,17 @@ class ReportHistory extends Component
                 'street', 'purok', 'barangay', 'date', 'time', 'severity',
                 'image', 'image_annotated', 'status', 'label', 'created_at', 'updated_at'
             )
-                ->from('reports')
+                ->from('suggestions')
                 ->where('reporter_id', Auth::id())
                 ->unionAll(
-                    DB::table('suggestions')->select(
+                    DB::table('reports')->select(
                         'id', 'reporter_id', 'defect', 'lat', 'lng', 'location',
                         'street', 'purok', 'barangay', 'date', 'time', 'severity',
                         'image', 'image_annotated', 'status', 'label', 'created_at', 'updated_at'
                     )->where('reporter_id', Auth::id())
                 );
         }, 'combined_reports');
+
 
         if (!empty($this->search)) {
             $query->where(function ($q) {
