@@ -10,6 +10,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User; // Add this line to import the User model
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 use Livewire\Component;
 use App\Models\UserType;
 
@@ -35,13 +36,20 @@ class ProfileEdit extends Component
 
     public function mount(): void
     {
-
         $user = Auth::user();
-        $this->phone = $user->phone;
-        $this->first_name = $user->first_name;
-        $this->middle_name = $user->middle_name;
-        $this->last_name = $user->last_name;
-        $this->sex = $user->sex;
+        $this->resident = Resident::where('user_id', $user->id)->first();
+
+        $this->first_name = Crypt::decryptString($user->first_name);
+        $this->middle_name = $user->middle_name ? Crypt::decryptString($user->middle_name) : null;
+        $this->last_name = Crypt::decryptString($user->last_name);
+        $this->sex = Crypt::decryptString($user->sex);
+
+        // Initialize phone number from resident model
+        if ($this->resident) {
+            $this->phone = Crypt::decryptString($this->resident->phone);
+            // Reformat from +63 format to 0 format for display
+            $this->phone = preg_replace('/^\+63/', '0', $this->phone);
+        }
 
         // Format the date for display (F j, Y) if it exists
         $this->date_of_birth = $user->date_of_birth
@@ -50,8 +58,6 @@ class ProfileEdit extends Component
 
         $this->user_type = $user->user_type;
         $this->userTypeName = UserType::where('id', $this->user_type)->value('type');
-
-        $this->resident = Resident::where('user_id', $user->id)->first();
     }
 
     public function updatedDateOfBirth($value): void
@@ -64,13 +70,20 @@ class ProfileEdit extends Component
         }
     }
 
+    private function resetForm(): void
+    {
+        $this->password = null;
+        $this->password_confirmation = null;
+        $this->current_password = null;
+    }
+
     public function updateBasicInfo(): void
     {
         $user = Auth::user();
         if (!$user instanceof User) {
             throw new \Exception('Authenticated user is not an instance of User model.');
         }
-    
+
         // Validate input fields
         $validated = $this->validate([
             'first_name' => ['required', 'string', 'max:255'],
@@ -79,22 +92,56 @@ class ProfileEdit extends Component
             'sex' => ['required', 'string', 'in:male,female'],
             'date_of_birth' => ['nullable', 'date'],
         ]);
-    
-        // Update user fields
-        $user->update([
-            'first_name' => $validated['first_name'],
-            'middle_name' => $validated['middle_name'] ?? null,
-            'last_name' => $validated['last_name'],
-            'sex' => $validated['sex'],
-            'date_of_birth' => $validated['date_of_birth']
-                ? Carbon::parse($validated['date_of_birth'])->format('Y-m-d')
-                : null, // Store in Y-m-d format
-        ]);
-    
-        // Dispatch a success message
-        session()->flash('success', 'Basic information updated successfully.');
+
+        $hasChanges = false;
+        if (Crypt::decryptString($user->first_name) !== $validated['first_name']) $hasChanges = true;
+        if (Crypt::decryptString($user->last_name) !== $validated['last_name']) $hasChanges = true;
+
+        $currentMiddleName = !empty($user->middle_name) ? Crypt::decryptString($user->middle_name) : null;
+        if ($currentMiddleName !== $validated['middle_name']) $hasChanges = true;
+
+        if (Crypt::decryptString($user->sex) !== $validated['sex']) $hasChanges = true;
+
+        foreach ($validated as $key => $value) {
+            if ($key === 'date_of_birth') {
+                $existingDate = $user->date_of_birth ? $user->date_of_birth->format('Y-m-d') : null;
+                if ($existingDate !== $value) {
+                    $hasChanges = true;
+                }
+            } else {
+                if ($user->$key !== $value) {
+                    $hasChanges = true;
+                }
+            }
+        }
+
+        if ($hasChanges) {
+            try {
+                // Update user fields
+                $user->update([
+                    'first_name' => Crypt::encryptString($validated['first_name']),
+                    'middle_name' => $validated['middle_name'] ? Crypt::encryptString($validated['middle_name']) : null,
+                    'last_name' => Crypt::encryptString($validated['last_name']),
+                    'sex' => Crypt::encryptString($validated['sex']),
+                    'date_of_birth' => $validated['date_of_birth']
+                        ? Carbon::parse($validated['date_of_birth'])->format('Y-m-d')
+                        : null, // Store in Y-m-d format
+                ]);
+
+                // Dispatch a success message
+                session()->flash('success', 'Basic information updated successfully.');
+            } catch (\Exception $e) {
+                session(['hideSearchBar' => true]); // Hide search bar
+                session()->flash('feedback', 'Something went wrong. Please try again.');
+                session()->flash('feedback_type', 'error');
+            }
+        } else {
+            session(['hideSearchBar' => true]); // Hide search bar
+            session()->flash('feedback', 'No changes were made to your basic information.');
+            session()->flash('feedback_type', 'info');
+        }
     }
-    
+
 
 
     public function updateAccountInfo(): void
@@ -104,17 +151,17 @@ class ProfileEdit extends Component
             throw new \Exception('Authenticated user is not an instance of User model.');
         }
 
+        // Decrypt phone number for proper comparison
+        $decryptedPhone = Crypt::decryptString($user->phone);
+
         // Determine what needs to be updated
         $isPasswordChanged = !empty($this->password);
-        $isPhoneChanged = !empty($this->phone) && $user->phone !== $this->phone;
+        $isPhoneChanged = !empty($this->phone) && $decryptedPhone !== $this->phone;
         $isCurrentPasswordFilled = !empty($this->current_password);
 
         // If no changes are detected, reset the form and show a message
         if (!$isPasswordChanged && !$isPhoneChanged && $isCurrentPasswordFilled) {
-            $this->password = null;
-            $this->password_confirmation = null;
-            $this->current_password = null;
-
+            $this->resetForm();
             session(['hideSearchBar' => true]); // Hide search bar
             session()->flash('feedback', 'No changes were made to your account information.');
             session()->flash('feedback_type', 'info');
@@ -123,10 +170,8 @@ class ProfileEdit extends Component
 
         // If no actual changes to phone, or password
         if (!$isPasswordChanged && !$isPhoneChanged) {
-            $this->phone = $user->phone;
-            $this->password = null;
-            $this->password_confirmation = null;
-
+            $this->phone = $decryptedPhone;
+            $this->resetForm();
             session(['hideSearchBar' => true]); // Hide search bar
             session()->flash('feedback', 'No changes were made to your account information.');
             session()->flash('feedback_type', 'info');
@@ -135,7 +180,6 @@ class ProfileEdit extends Component
 
         // Prepare validation rules dynamically
         $rules = ['current_password' => ['required', 'string']]; // Current password is always required
-
 
         if ($isPhoneChanged) {
             $rules['phone'] = [
@@ -162,7 +206,6 @@ class ProfileEdit extends Component
             'phone.regex' => 'Phone number must be a valid Philippine phone number (e.g., 09123456789).',
             'phone.unique' => 'The phone number is already in use. Please use a different one.',
             'current_password.required' => 'The current password is required to update your account information.',
-            'current_password.string' => 'The current password must be a valid string.',
             'password.required' => 'Password is required.',
             'password.confirmed' => 'The password confirmation does not match.',
             'password.min' => 'Password must be at least 8 characters long.',
@@ -188,16 +231,15 @@ class ProfileEdit extends Component
             $user->password = Hash::make($this->password);
         }
         if ($isPhoneChanged) {
-            $user->phone = preg_replace('/^0/', '+63', $this->phone);
+            $user->phone = Crypt::encryptString(preg_replace('/^0/', '+63', $this->phone));
         }
 
         $user->save(); // Save changes to the database
         $user->refresh();
 
         // Reset the form fields
-        $this->phone = $user->phone;
-        $this->password = null;
-        $this->password_confirmation = null;
+        $this->phone = Crypt::decryptString($user->phone);
+        $this->resetForm();
 
         // Provide feedback to the user
         session(['hideSearchBar' => true]); // Hide search bar

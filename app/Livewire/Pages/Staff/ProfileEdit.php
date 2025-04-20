@@ -13,6 +13,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 use Livewire\Component;
 
 class ProfileEdit extends Component
@@ -41,11 +42,11 @@ class ProfileEdit extends Component
     {
 
         $user = Auth::user();
-        $this->username = $user->username;
-        $this->first_name = $user->first_name;
-        $this->middle_name = $user->middle_name;
-        $this->last_name = $user->last_name;
-        $this->sex = $user->sex;
+        $this->username = Crypt::decryptString($user->username);
+        $this->first_name = Crypt::decryptString($user->first_name);
+        $this->middle_name = !empty($user->middle_name) ? Crypt::decryptString($user->middle_name) : '';
+        $this->last_name = Crypt::decryptString($user->last_name);
+        $this->sex = Crypt::decryptString($user->sex);
 
         // Format the date for display (F j, Y) if it exists
         $this->date_of_birth = $user->date_of_birth
@@ -113,6 +114,14 @@ class ProfileEdit extends Component
 
         // Check for changes and update only if necessary
         $hasChanges = false;
+        if (Crypt::decryptString($user->first_name) !== $validated['first_name']) $hasChanges = true;
+        if (Crypt::decryptString($user->last_name) !== $validated['last_name']) $hasChanges = true;
+
+        $currentMiddleName = !empty($user->middle_name) ? Crypt::decryptString($user->middle_name) : null;
+        if ($currentMiddleName !== $validated['middle_name']) $hasChanges = true;
+
+        if (Crypt::decryptString($user->sex) !== $validated['sex']) $hasChanges = true;
+
         foreach ($validated as $key => $value) {
             if ($key === 'date_of_birth') {
                 $existingDate = $user->date_of_birth ? $user->date_of_birth->format('Y-m-d') : null;
@@ -130,11 +139,11 @@ class ProfileEdit extends Component
             try {
                 // Update user data
                 $user->update([
-                    'first_name' => $validated['first_name'],
-                    'middle_name' => $validated['middle_name'],
-                    'last_name' => $validated['last_name'],
-                    'sex' => $validated['sex'],
-                    'date_of_birth' => $validated['date_of_birth'], // Save in Y-m-d format
+                   'first_name' => Crypt::encryptString($validated['first_name']),
+                    'middle_name' => $validated['middle_name'] ? Crypt::encryptString($validated['middle_name']) : null,
+                    'last_name' => Crypt::encryptString($validated['last_name']),
+                    'sex' => Crypt::encryptString($validated['sex']),
+                    'date_of_birth' => $validated['date_of_birth']  ?  : null, // Save in Y-m-d format
                 ]);
 
                 // Reformat the date for consistent display
@@ -245,12 +254,32 @@ class ProfileEdit extends Component
             return;
         }
 
+        // Check for username uniqueness if changed
+        if ($isUsernameChanged) {
+            // Manual check for username uniqueness - complex with encryption
+            $existingUsernameCount = \App\Models\User::where('id', '!=', $user->id)
+                ->get()
+                ->filter(function ($otherUser) {
+                    // Decrypt and compare each username
+                    try {
+                        return Crypt::decryptString($otherUser->username) === $this->username;
+                    } catch (\Exception $e) {
+                        return false;
+                    }
+                })->count();
+
+            if ($existingUsernameCount > 0) {
+                $this->addError('username', 'The username is already taken, please choose a different one.');
+                return;
+            }
+        }
+
         // Update the user model with changes
         if ($isPasswordChanged) {
             $user->password = Hash::make($this->password);
         }
         if ($isUsernameChanged) {
-            $user->username = $this->username;
+            $user->username = Crypt::encryptString($this->username);
         }
 
         $user->save(); // Save changes to the database
@@ -264,7 +293,7 @@ class ProfileEdit extends Component
         ]);
 
         // Reset the form fields
-        $this->username = $user->username;
+        // $this->username = $user->username;
         $this->password = null;
         $this->password_confirmation = null;
 
