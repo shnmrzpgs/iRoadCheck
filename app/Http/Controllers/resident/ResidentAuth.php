@@ -51,7 +51,7 @@ class ResidentAuth extends Controller
     //             'password.regex' => 'Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.',
     //             'confirmPassword.same' => 'Passwords do not match.',
     //         ]);
-            
+
     //         $phone = $validated['phone'];
     //         // Replace the leading 0 with +63
     //         $formattedPhone = preg_replace('/^0/', '+63', $phone);
@@ -83,24 +83,28 @@ class ResidentAuth extends Controller
     //     }
     // }
 
-
-        // Get the input code from the form
-        $verificationCode = $request->input('code');
-
-        // Check if the verification code is correct
-        $user = Auth::user();
-        $resident = Resident::where('user_id', $user->id)->first();
-
-        if ($resident && $resident->code == $verificationCode) {
-            // Activate the account
-            $resident->is_activated = 1;
-            $resident->save();
-
-            return redirect()->route('resident.dashboard')->with('success', 'Account activated successfully!');
-        } else {
-            return back()->with(['error' => 'The code is incorrect. Please try again.']);
+//
+//        // Get the input code from the form
+//        $verificationCode = $request->input('code');
+//
+//        // Check if the verification code is correct
+//        $user = Auth::user();
+//        $resident = Resident::where('user_id', $user->id)->first();
+//
+//        if ($resident && $resident->code == $verificationCode) {
+//            // Activate the account
+//            $resident->is_activated = 1;
+//            $resident->save();
+//
+//            return redirect()->route('resident.dashboard')->with('success', 'Account activated successfully!');
+//        } else {
+//            return back()->with(['error' => 'The code is incorrect. Please try again.']);
+//        }
+        public function index()
+        {
+            return view('iroadcheck.prototype.residents.signup');
         }
     }
 
-  
+
 

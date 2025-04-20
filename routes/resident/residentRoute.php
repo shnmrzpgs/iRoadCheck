@@ -28,7 +28,7 @@ Route::view('/resident/signup', ['iroadcheck.prototype.residents.signup'])->name
 // Route::view('/resident/login', ['iroadcheck.prototype.residents.login'])->name('resident-login');
 
 Route::group(['middleware' => 'VerifyResident'], function () {
-    Route::get('/resident/verify-code', [ ResidentAuth::class, 'verifycodeView'])->name('verify-code');
+    Route::get('/resident/verify-code', [ ResidentAuth::class, 'index'])->name('verify-code');
     Route::post('/resident/code-verify', [ResidentAuth::class, 'verifyCode'])->name('verifyCode');
 
 });
@@ -46,7 +46,7 @@ Route::group(['middleware' => ['AuthResident']], function () {
     Route::view('/residents/report-road-issue', ['iroadcheck.prototype.residents.report-road-issue'])->name('report-road-issue');
     Route::view('/residents/review-report', ['iroadcheck.prototype.residents.review-report'])->name('review-report');
     Route::get('/send-sms', [SMSController::class, 'sendSMS']);
-    
+
 
     Route::get('/resident/dashboard', [App\Http\Controllers\resident\DashboardController::class, 'index'])
     ->name('resident.dashboard');
