@@ -91,7 +91,8 @@
 
                         <div class="text-center text-xs flex flex-col justify-center items-center mb-3">
                             <span class="font-semibold text-gray-700">Updated Road Photo</span>
-                            <img src="{{ $report->updated_image }}" alt="Updated Road" class="w-[80%] h-[220px] mt-2" />
+                            <img src="{{ asset('storage/' . $report->updated_image) }}" alt="Updated Road" class="w-[80%] h-[220px] mt-2" />
+
                         </div>
 
                         <div class="text-xs lg:text-sm flex justify-start items-start w-full">
