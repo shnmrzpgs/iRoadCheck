@@ -111,22 +111,14 @@ class ReportHistory extends Component
 
     protected function getFilteredQuery()
     {
-        $query = DB::table(function ($union) {
-            $union->select(
+        $query = DB::table('reports')
+            ->select(
                 'id', 'reporter_id', 'defect', 'lat', 'lng', 'location',
                 'street', 'purok', 'barangay', 'date', 'time', 'severity',
                 'image', 'image_annotated', 'status', 'label', 'created_at', 'updated_at'
             )
-                ->from('suggestions')
-                ->where('reporter_id', Auth::id())
-                ->unionAll(
-                    DB::table('reports')->select(
-                        'id', 'reporter_id', 'defect', 'lat', 'lng', 'location',
-                        'street', 'purok', 'barangay', 'date', 'time', 'severity',
-                        'image', 'image_annotated', 'status', 'label', 'created_at', 'updated_at'
-                    )->where('reporter_id', Auth::id())
-                );
-        }, 'combined_reports');
+            ->where('reporter_id', Auth::id());
+
 
 
         if (!empty($this->search)) {
