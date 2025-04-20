@@ -1,3 +1,4 @@
+@php use App\Models\User; @endphp
 <x-admin.map-view-reports-page-content-base>
 
     <x-slot:page_description>
@@ -247,7 +248,7 @@
                                     <img
                                         :src="selectedReport.image_annotated ? `/storage/${selectedReport.image_annotated}` : '/images/placeholder.png'"
                                         alt="Defect Image"
-                                        class="w-[480px] h-[640px] rounded-[10px] object-contain cursor-pointer"
+                                        class="w-[300px] h-[300px] rounded-[10px] object-contain cursor-pointer"
                                         :style="`transform: scale(${scale}) translate(${offsetX}px, ${offsetY}px); transform-origin: center; transition: transform 0.1s ease-out;`"/>
                                 </x-slot:image>
                             </x-admin.admin-view-road-defect-report-image-modal>
@@ -307,7 +308,18 @@
                             </template>
 
                         </div>
-                        <div class="w-full shadow p-5 rounded-md">
+<!-- If there's NO update yet -->
+                        <template x-if="!selectedReport.updated_on">
+                            <div class="flex flex-col items-center justify-center h-[70vh] min-h-[20vh] max-h-[70vh] border-2 border-dashed border-gray-400 bg-gray-100 rounded-md p-6 text-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
+                                </svg>
+                                <p class="text-sm text-gray-600">No updated information available yet.</p>
+                            </div>
+                        </template>
+ 			<template x-if="selectedReport.updated_on">
+			<div class="w-full shadow p-5 rounded-md">
                             <h2 class="font-semibold text-green-500 text-sm text-center mb-3">UPDATED <br/> Road Defect Information</h2>
                             <x-admin.admin-view-road-defect-report-image-modal>
                                 <x-slot:image_title>
@@ -317,13 +329,25 @@
                                     <img
                                         :src="selectedReport.image_annotated ? `/storage/${selectedReport.image_annotated}` : '/images/placeholder.png'"
                                         alt="Updated Road Concern Image"
-                                        class="w-[480px] h-[640px] rounded-[10px] object-contain cursor-pointer"
+                                        class="w-[300px] h-[300px] rounded-[10px] object-contain cursor-pointer"
                                         :style="`transform: scale(${scale}) translate(${offsetX}px, ${offsetY}px); transform-origin: center; transition: transform 0.1s ease-out;`"/>
                                 </x-slot:image>
                             </x-admin.admin-view-road-defect-report-image-modal>
                             <div class="mb-2 text-xs lg:text-sm flex w-full">
                                 <div class="w-2/4 text-gray-600">Updated By Staff: (Role)</div>
-                                <div class="w-2/4" x-text="selectedReport.id"></div>
+                               @php
+
+    $updater = isset($selectedReport['updater_id']) ? User::find($selectedReport['updater_id']) : null;
+@endphp
+
+<div class="w-2/4 font-semibold">
+    @if($updater)
+        {{ Crypt::decryptString($updater->first_name) }} {{ Crypt::decryptString($updater->last_name) }}
+    @else
+        N/A
+    @endif
+</div>
+
                             </div>
                             <div class="text-xs lg:text-sm flex w-full">
                                 <div class="w-2/4 text-gray-600">Date Reported:</div>
@@ -372,6 +396,8 @@
                             </template>
 
                         </div>
+</template>
+                        
                     </div>
                 </div>
             </div>
