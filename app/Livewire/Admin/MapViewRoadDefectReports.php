@@ -28,8 +28,11 @@ class MapViewRoadDefectReports extends Component
      */
     public function mount(): void
     {
-        // ✅ Load reports with related severity
         $this->reports = Report::with('severity')
+            ->where('label', '!=', 5)
+            ->whereHas('severity', function ($query) {
+                $query->where('label', '!=', 5);
+            })
             ->select([
                 'id', 'reporter_id', 'defect', 'lat', 'lng', 'location', 'barangay',
                 'date', 'time', 'label', 'image', 'image_annotated', 'status'
@@ -52,6 +55,7 @@ class MapViewRoadDefectReports extends Component
                 return $report;
             })
             ->toArray();
+
 
         // ✅ Load unique filtering options
         $this->barangays = Report::pluck('barangay')->unique()->filter()->values()->toArray();
