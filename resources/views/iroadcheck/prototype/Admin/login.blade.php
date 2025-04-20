@@ -3,7 +3,7 @@
         <img src="{{ asset('storage/images/bg-tagumRoad-image.jpg') }}" class="opacity-50 object-cover w-full h-full" alt="">
     </div>
 
-    <div class="flex justify-center items-center h-screen" x-data="{ loading: false }">
+    <div class="font-pop flex justify-center items-center h-screen" x-data="{ loading: false }">
         <div class="w-[400px] py-5 bg-[#FFFFF9] drop-shadow-lg rounded-[15px] z-10 px-10 mx-10"
              x-data="{
                 timeout: {{ $errors->first('timeout') ?? 'null' }},
@@ -31,7 +31,7 @@
 
                 <img src="{{ asset('storage/images/IRoadCheck_Logo.png') }}" alt="graphicsLogo"
                      class="xs:-my-2 md:mb-1 md:mt-4 w-28 sm:w-36 md:w-48 lg:w-56 max-w-[40px]"/>
-                <div class="text-[#4D4F50] font-semibold text-[18px]">iRoadCheck</div>
+                <div class="text-[#4D4F50] font-semibold text-[18px] font-pop">iRoadCheck</div>
                 <h2 class="text-[#4D4F50] text-[25px] font-bold mt-8 mb-2">Log in</h2>
                 <h4 class="text-[#4D4F50] text-sm font-medium mb-4 italic">as Administrator</h4>
 

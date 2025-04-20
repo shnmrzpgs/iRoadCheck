@@ -48,6 +48,7 @@
                         @staff_role_added="$refresh"
                     />
                 </div>
+                <!-- Test -->
             </x-slot:action_buttons_container>
 
             <x-slot:table_container>

@@ -1,17 +1,22 @@
 <!-- Header-->
 <header
-    class="bg-white lg:bg-transparent fixed lg:relative flex py-5 shadow-lg lg:shadow-none lg:pr-5 w-full">
+    class="bg-white md:bg-transparent fixed md:relative flex py-2 lg:py-5 shadow-lg md:shadow-none md:pr-5 w-full">
 
-    <!-- Page Title and Search Bar-->
+    <!-- Logo, Page Title and Search Bar-->
     <div x-cloak
-         class="pl-10 mx-auto md:pl-0 md:ml-20 md:flex md:items-start md:justified-start lg:ml-0 md:flex-row flex flex-col items-center justify-center">
+         class="ml-2 mr-auto md:ml-5 ld:mx-auto md:pl-0 md:flex md:items-start md:justified-start lg:ml-0 md:flex-row flex flex-col items-center justify-center">
+
+        <!-- Logo -->
+        <div class="block md:hidden w-full flex justify-start items-center mr-auto">
+            {{$logo}}
+        </div>
 
         {{$page_title_and_search_bar}}
 
     </div>
 
     <!-- Notifications and Profile Icons -->
-    <div class="flex">
+    <div class="hidden md:block flex">
 
         <div x-data="{
                     tooltipVisible: false,
@@ -109,4 +114,6 @@
 
         </div>
     </div>
+
+    {{ $mobile_notification_and_profile_header }}
 </header>
