@@ -106,13 +106,13 @@ class SuggestionModal extends Component
         try {
             $reportSelected->report_count++;
             // Update label based on the new report_count
-            if ($reportSelected->report_count >= 50) {
+            if ($reportSelected->report_count >= 10) {
                 $reportSelected->label = 4;
-            } elseif ($reportSelected->report_count >= 35) {
-                $reportSelected->label = 3;
-            } elseif ($reportSelected->report_count >= 20) {
-                $reportSelected->label = 2;
             } elseif ($reportSelected->report_count >= 5) {
+                $reportSelected->label = 3;
+            } elseif ($reportSelected->report_count >= 3) {
+                $reportSelected->label = 2;
+            } elseif ($reportSelected->report_count >= 1) {
                 $reportSelected->label = 1;
             }
             $reporter = Auth::user();
