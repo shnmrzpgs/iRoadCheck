@@ -27,8 +27,9 @@
             Edit Staff Information
         </x-slot:header>
 
-        <x-slot:body>
+
             @if ($staff)
+            <x-slot:body>
                 <div>
                     <div class="relative  w-full">
                         <!--image bg-->
@@ -446,7 +447,7 @@
                         </div>
                     </div>
 
-</x-slot:body>
+            </x-slot:body>
             @endif
 
 
