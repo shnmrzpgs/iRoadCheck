@@ -10,7 +10,6 @@
             confirmPassword: false
         },
         validateField(field) {
-            // Clear error when field is valid
             if (field === 'first_name') {
                 this.errors.first_name = !document.getElementById('first_name').value.trim();
             } else if (field === 'last_name') {
@@ -20,14 +19,11 @@
             } else if (field === 'phone') {
                 const phoneInput = document.getElementById('phone');
                 this.errors.phone = !phoneInput.value.match(/^0[0-9]{10}$/);
-    
+
                 if (!this.errors.phone) {
                     $wire.set('phone', phoneInput.value);
                     $wire.checkPhoneExists();
                 }
-            }"
-        >
-            @csrf
             } else if (field === 'password') {
                 this.validatePassword();
                 this.errors.password = this.requirements.some(req => !req.isValid);
@@ -36,26 +32,23 @@
             }
         },
         validateStep1() {
-            // Validate all step 1 fields
             this.validateField('first_name');
             this.validateField('last_name');
             this.validateField('sex');
-    
+
             if (!this.errors.first_name && !this.errors.last_name && !this.errors.sex) {
                 this.step = 2;
             }
         },
         validateStep2() {
-            // Validate all step 2 fields
             this.validateField('phone');
             this.validateField('password');
             this.validateField('confirmPassword');
-    
-            // Check if any validation errors exist including Livewire's phoneError
+
             const isValid = !(this.errors.phone || this.errors.password || this.errors.confirmPassword || @js($phoneError));
-    
+
             console.log('Form validation result:', isValid);
-    
+
             return isValid;
         },
         showPassword: false,
@@ -75,8 +68,7 @@
             this.requirements[2].isValid = /[0-9]/.test(this.password);
             this.requirements[3].isValid = /[!@#$%^&*]/.test(this.password);
             this.requirements[4].isValid = this.password.length >= 8;
-    
-            // If confirming password, validate that too
+
             if (this.confirmPassword) {
                 this.validateField('confirmPassword');
             }
@@ -93,8 +85,10 @@
             });
             el.value = words.join(' ');
         }
-    
-    }" x-cloak class="relative h-screen font-poppins flex items-center justify-center">
+    }"
+         x-cloak
+         class="relative h-screen font-poppins flex items-center justify-center">
+
 
         <form wire:submit.prevent="submitForm" class="flex flex-col items-center w-full px-5" id="signupForm">
             @csrf
@@ -128,7 +122,7 @@
 
                     <!--Middle Name-->
                     <div class="relative">
-                        <input type="text" name="middle_name" id="middle_name" wire:model="middle_name"  autocomplete="off" 
+                        <input type="text" name="middle_name" id="middle_name" wire:model="middle_name"  autocomplete="off"
                             class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] peer"
                             placeholder=" " @input="capitalizeInput($el)" />
                         <label for="middle_name"
@@ -223,7 +217,7 @@
                     <!--Phone Number-->
                     <!--Phone Number-->
                     <div class="relative">
-                        <input name="phone" type="tel" id="phone" required pattern="0[0-9]{10}"  autocomplete="off" 
+                        <input name="phone" type="tel" id="phone" required pattern="0[0-9]{10}"  autocomplete="off"
                             maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);"
                             wire:model.debounce.500ms="phone" @input="validateField('phone')"
                             class="block px-2.5 pb-2 pt-2.5 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] peer"
