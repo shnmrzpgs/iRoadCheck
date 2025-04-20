@@ -40,29 +40,24 @@ class ReportHistory extends Component
         $this->start_date = now()->subMonth()->format('Y-m-d');
         $this->end_date = now()->format('Y-m-d');
         $userId = Auth::id();
-        // Defect Types
-        $this->defectTypes = collect(
-            DB::table('reports')->select('defect')->where('reporter_id', $userId)
-                ->union(
-                    DB::table('suggestions')->select('defect')->where('reporter_id', $userId)
-                )->get()
-        )->pluck('defect')->unique()->toArray();
+        $this->defectTypes = DB::table('reports')
+            ->where('reporter_id', $userId)
+            ->pluck('defect')
+            ->unique()
+            ->toArray();
 
-// Barangays
-        $this->barangays = collect(
-            DB::table('reports')->select('barangay')->where('reporter_id', $userId)
-                ->union(
-                    DB::table('suggestions')->select('barangay')->where('reporter_id', $userId)
-                )->get()
-        )->pluck('barangay')->unique()->toArray();
+        $this->barangays = DB::table('reports')
+            ->where('reporter_id', $userId)
+            ->pluck('barangay')
+            ->unique()
+            ->toArray();
 
-// Statuses
-        $this->statuses = collect(
-            DB::table('reports')->select('status')->where('reporter_id', $userId)
-                ->union(
-                    DB::table('suggestions')->select('status')->where('reporter_id', $userId)
-                )->get()
-        )->pluck('status')->unique()->toArray();
+        $this->statuses = DB::table('reports')
+            ->where('reporter_id', $userId)
+            ->pluck('status')
+            ->unique()
+            ->toArray();
+
     }
 
     public function toggleSorting($column)
