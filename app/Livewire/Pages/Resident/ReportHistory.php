@@ -6,6 +6,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use App\Models\Report;
 use Livewire\WithPagination;
@@ -38,11 +39,30 @@ class ReportHistory extends Component
     {
         $this->start_date = now()->subMonth()->format('Y-m-d');
         $this->end_date = now()->format('Y-m-d');
+        $userId = Auth::id();
+        // Defect Types
+        $this->defectTypes = collect(
+            DB::table('reports')->select('defect')->where('reporter_id', $userId)
+                ->union(
+                    DB::table('suggestions')->select('defect')->where('reporter_id', $userId)
+                )->get()
+        )->pluck('defect')->unique()->toArray();
 
-        // Fetch distinct values from reports
-        $this->defectTypes = Report::where('reporter_id', Auth::id())->pluck('defect')->unique()->toArray();
-        $this->barangays = Report::where('reporter_id', Auth::id())->pluck('barangay')->unique()->toArray();
-        $this->statuses = Report::where('reporter_id', Auth::id())->pluck('status')->unique()->toArray();
+// Barangays
+        $this->barangays = collect(
+            DB::table('reports')->select('barangay')->where('reporter_id', $userId)
+                ->union(
+                    DB::table('suggestions')->select('barangay')->where('reporter_id', $userId)
+                )->get()
+        )->pluck('barangay')->unique()->toArray();
+
+// Statuses
+        $this->statuses = collect(
+            DB::table('reports')->select('status')->where('reporter_id', $userId)
+                ->union(
+                    DB::table('suggestions')->select('status')->where('reporter_id', $userId)
+                )->get()
+        )->pluck('status')->unique()->toArray();
     }
 
     public function toggleSorting($column)
@@ -91,7 +111,22 @@ class ReportHistory extends Component
 
     protected function getFilteredQuery()
     {
-        $query = Report::where('reporter_id', Auth::id());
+        $query = DB::table(function ($union) {
+            $union->select(
+                'id', 'reporter_id', 'defect', 'lat', 'lng', 'location',
+                'street', 'purok', 'barangay', 'date', 'time', 'severity',
+                'image', 'image_annotated', 'status', 'label', 'created_at', 'updated_at'
+            )
+                ->from('reports')
+                ->where('reporter_id', Auth::id())
+                ->unionAll(
+                    DB::table('suggestions')->select(
+                        'id', 'reporter_id', 'defect', 'lat', 'lng', 'location',
+                        'street', 'purok', 'barangay', 'date', 'time', 'severity',
+                        'image', 'image_annotated', 'status', 'label', 'created_at', 'updated_at'
+                    )->where('reporter_id', Auth::id())
+                );
+        }, 'combined_reports');
 
         if (!empty($this->search)) {
             $query->where(function ($q) {
