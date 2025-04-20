@@ -26,8 +26,8 @@
                             <img src="{{ $currentPhoto ?? asset('storage/icons/profile-graphics.png') }}" alt="Profile Image" class="h-20 w-20 rounded-full bg-gradient-to-r from-blue-500 to-green-500 p-[1px] object-cover" />
                         </div>
                         <!-- Name and Email -->
-                        <div class="z-50 -mt-10 capitalize">
-                            <div class="text-lg font-semibold text-[#4D4F50] ">
+                        <div class="z-50 -mt-10">
+                            <div class="text-lg font-semibold text-[#4D4F50] capitalize">
                                 <span>{{ $staff->user->first_name }} {{ $staff->user->last_name }}</span>
                             </div>
                             <div class="text-gray-600 block text-xs font-normal italic">
@@ -40,7 +40,7 @@
                     <div class="pb-14 max-h-[270px] overflow-y-auto space-y-4 relative">
                         <div class="grid grid-cols-2 gap-2 text-xs">
                             <!-- Basic Information -->
-                            <div class="bg-white shadow-sm rounded-md p-2">
+                            <div class="bg-white shadow-sm rounded-md p-2 capitalize">
                                 <h4 class="font-medium text-gray-700 border-b pb-2 mb-2 border-[#4AA76F]"><strong>Basic Information</strong></h4>
                                 <ul>
                                     <li class="mb-1">First Name:<i class="ml-4"> {{ $staff->user->first_name }}</i></li>
@@ -75,7 +75,7 @@
                         <div class="bg-white shadow-sm rounded-md p-2 flex-nowrap text-xs">
                             <h4 class="font-medium text-gray-700 border-b pb-2 border-[#4AA76F]"><strong>Account Information</strong></h4>
                             <ul>
-                                <li class="text-[#4AA76F] mb-1">Status:<i class="ml-8"> {{ $staff->status }}</i></li>
+                                <li class="text-[#4AA76F] mb-1 capitalize">Status:<i class="ml-8"> {{ $staff->status }}</i></li>
                                 <li class="mb-1">Username:<i class="ml-6"> {{ $staff->user->username }}</i></li>
                                 <li class="mb-1">Password: <i class="ml-3">{{ $staff->user->generated_password }}</i></li>
                             </ul>
