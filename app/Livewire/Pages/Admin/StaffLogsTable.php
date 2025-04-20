@@ -15,6 +15,7 @@ use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Crypt;
 
 class StaffLogsTable extends Component
 {
@@ -73,33 +74,23 @@ class StaffLogsTable extends Component
                 $query->where('action', 'like', $search)
                     ->orWhere('dateTime', 'like', $search)
                     ->orWhereHas('staff', function ($staff_query) use ($search) {
-                        $staff_query->where('staff_id', 'like', $search) // Ensure 'staff_id' is the correct column
-                        ->orWhere('first_name', 'like', $search)
-                            ->orWhere('last_name', 'like', $search);
+                        $staff_query->whereRaw("LOWER(CONVERT(AES_DECRYPT(users.first_name, 'your_secret_key') USING utf8mb4)) LIKE LOWER(?)", [$search])
+                            ->orWhereRaw("LOWER(CONVERT(AES_DECRYPT(users.last_name, 'your_secret_key') USING utf8mb4)) LIKE LOWER(?)", [$search]);
                     });
             });
         }
 
         // Apply Sorting
         if ($this->sort_by) {
-            if ($this->sort_by === 'staff.first_name') {
-                // Sorting by staff first name
+            if ($this->sort_by === 'staff.first_name' || $this->sort_by === 'staff.last_name') {
                 $staff_logs_query
-                    ->leftJoin('staffs', 'staff_logs.staff_id', '=', 'staffs.id')  // Use LEFT JOIN to ensure all staff logs are included
-                    ->leftJoin('users', 'staffs.user_id', '=', 'users.id')  // Use LEFT JOIN for user info
-                    ->orderBy('users.first_name', $this->sort_direction);  // Sorting by staff's first name
-            } elseif ($this->sort_by === 'staff.last_name') {
-                // Sorting by staff last name
-                $staff_logs_query
-                    ->leftJoin('staffs', 'staff_logs.staff_id', '=', 'staffs.id')  // Use LEFT JOIN to ensure all staff logs are included
-                    ->leftJoin('users', 'staffs.user_id', '=', 'users.id')  // Use LEFT JOIN for user info
-                    ->orderBy('users.last_name', $this->sort_direction);  // Sorting by staff's last name
+                    ->leftJoin('staffs', 'staff_logs.staff_id', '=', 'staffs.id')
+                    ->leftJoin('users', 'staffs.user_id', '=', 'users.id')
+                    ->orderByRaw("LOWER(CONVERT(AES_DECRYPT(users.{$this->sort_by}, 'your_secret_key') USING utf8mb4)) {$this->sort_direction}");
             } elseif ($this->sort_by === 'dateTime') {
-                // Sorting by dateTime column in staff_logs table
-                $staff_logs_query->orderBy('staff_logs.dateTime', $this->sort_direction);  // Sorting by staff logs dateTime
+                $staff_logs_query->orderBy('staff_logs.dateTime', $this->sort_direction);
             } else {
-                // Sorting by direct fields in staff_logs
-                $staff_logs_query->orderBy($this->sort_by, $this->sort_direction);  // Sorting by other columns in the staff_logs table
+                $staff_logs_query->orderBy($this->sort_by, $this->sort_direction);
             }
         }
 
@@ -148,9 +139,17 @@ class StaffLogsTable extends Component
         $this->resetPage();
     }
 
-    /**
-     * Render the Livewire component.
-     */
+    public function getDecryptedStaffLogs()
+    {
+        return $this->getFilteredQuery()->get()->map(function ($log) {
+            if ($log->staff && $log->staff->user) {
+                $log->staff->user->first_name = Crypt::decryptString($log->staff->user->first_name);
+                $log->staff->user->last_name = Crypt::decryptString($log->staff->user->last_name);
+            }
+            return $log;
+        });
+    }
+   
     public function render(): Factory|Application|View|\Illuminate\View\View
     {
 
@@ -160,6 +159,7 @@ class StaffLogsTable extends Component
         session()->forget('hideSearchBar');
         return view('livewire.pages.admin.staff-logs-table', [
             'staffLogs' => $staffLogs,
+            'staff_logs' => $this->getDecryptedStaffLogs(),
         ]);
     }
 }
