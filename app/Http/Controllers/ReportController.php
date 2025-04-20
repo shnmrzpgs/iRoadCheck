@@ -281,7 +281,7 @@ class ReportController extends Controller
 //    }
     public function TempSubmitReport(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'latitude'  => 'required',
             'longitude' => 'required',
             'address'   => 'required',
@@ -292,6 +292,15 @@ class ReportController extends Controller
             'time'      => 'required',
             'photo'     => 'required|string',
         ]);
+
+        if ($validator->fails()) {
+            // Flash error session so your animation triggers
+            session()->flash('feedback', 'Please fill in all required fields correctly.');
+            session()->flash('feedback_type', 'error');
+
+            // Optionally redirect back with validation messages too
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         // Check if geocoded address contains 'Tagum'
         if (!str_contains(strtolower($request->address), 'tagum')) {
             return redirect()->back()->with('not_from_tagum', true);
