@@ -25,6 +25,9 @@
                     $wire.set('phone', phoneInput.value);
                     $wire.checkPhoneExists();
                 }
+            }"
+        >
+            @csrf
             } else if (field === 'password') {
                 this.validatePassword();
                 this.errors.password = this.requirements.some(req => !req.isValid);
@@ -104,17 +107,7 @@
 
                 <h2 class="text-[20px] font-bold text-[#5A915E]">Sign Up</h2>
                 <h2 class="text-sm mb-4 font-sm text-[#F8A15E]">Personal Information</h2>
-                @if (session()->has('error'))
-                    <div class="bg-red-50 border border-red-300 text-red-800 py-1.5 px-3 rounded-lg shadow-sm my-2 text-xs">
-                        <div class="flex items-center space-x-1">
-                            <svg class="w-4 h-4 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" />
-                            </svg>
-                            <span class="font-semibold text-sm">Oops!</span>
-                        </div>
-                        <p class="text-xs mt-1">{{ session('error') }}</p>
-                    </div>
-                @endif
+
                 <div class="flex w-1/2 justify-center mx-auto">
                     <hr class="border-t-4 border-[#F8A15E] border-text-[24px] rounded-md w-1/3 mr-2">
                     <hr class="border-t-4 border-text-[24px] rounded-md w-1/3 ml-2">

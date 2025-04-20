@@ -22,7 +22,7 @@
                     <!-- Search Bar -->
                     <div class="relative flex flex-1 md:flex-none w-full md:w-auto">
                         <svg class="pointer-events-none absolute inset-y-0 left-1 h-full w-4 text-gray-400 ml-2 z-0"
-                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#4AA76F">
+                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#4AA76F">
                             <path d="M368 208A160 160 0 1 0 48 208a160 160 0 1 0 320 0zM337.1 371.1C301.7 399.2 256.8 416 208 416C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208c0 48.8-16.8 93.7-44.9 129.1l124 124 17 17L478.1 512l-17-17-124-124z" />
                         </svg>
                         <input
@@ -38,11 +38,11 @@
                     <div class="flex flex-wrap md:flex-nowrap gap-2">
                         <!-- All Reports Filter -->
                         <div class="relative rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md flex justify-center items-center"
-                            :class="{
+                             :class="{
                                 'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] ': filters.sort === '' && filters.status === ''  && filters.userType === '',
                                 'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.sort !== '' || filters.status !== '' || filters.userType !== ''
                             }"
-                            @click="$wire.resetFilters();">
+                             @click="$wire.resetFilters();">
                             <span class="text-[12px] block appearance-none w-full text-center px-2 py-2 rounded">
                                 All Reports
                             </span>
@@ -50,23 +50,23 @@
 
                         <!-- Barangay Filter -->
                         <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
-                            :class="{
+                             :class="{
                                 'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.selectedBarangay !== '',
                                 'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters.selectedBarangay === ''
                             }">
                             <select wire:model.live="selectedBarangay"
-                                @change="activeFilter = 'selectedBarangay'"
-                                class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
+                                    @change="activeFilter = 'selectedBarangay'"
+                                    class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
                                 <option value="" default class="text-gray-400 text-[12px]">Barangay</option>
                                 @foreach($barangays as $barangay)
-                                <option value="{{ $barangay }}">{{ $barangay }}</option>
+                                    <option value="{{ $barangay }}">{{ $barangay }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <!-- Date Range Filter -->
                         <div class="relative flex rounded-[4px] border hover:shadow-md  custom-select "
-                            :class="{
+                             :class="{
                                 'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F] active': filters.selectedYear !== '',  /* Active state */
                                 'text-gray-600 border-gray-300 hover:border-[#4AA76F]': filters !== selectedYear === ''  /* Default and hover state */
                              }">
@@ -74,7 +74,7 @@
                                 wire:model.live="selectedYear"
                                 class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
                                 @foreach($years as $year)
-                                <option value="{{ $year }}">{{ $year }}</option>
+                                    <option value="{{ $year }}">{{ $year }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -106,16 +106,18 @@
                     <div class="flex flex-col gap-3 mb-5">
 
                         <!-- Today's Reports Card -->
+
                         <a href="{{ route('staff.road-defect-reports') }}"
                             class="relative bg-white rounded-lg shadow-md py-0 px-2 overflow-hidden min-w-auto w-[300px] max-w-[340px] h-[115px]
+                            
                             hover:drop-shadow-lg transition-all duration-500 ease-out drop-shadow
                             transform-gpu group">
 
                             <!-- Background graphic -->
                             <div class="absolute inset-x-0 bottom-0 opacity-90 transform group-hover:scale-125 transition-transform group-hover:translate-x-1 duration-700 ease-in-out">
                                 <img src="{{ asset('storage/images/bg-cardGraphics-blue.png') }}"
-                                    class="w-full h-auto rounded-b-lg object-cover"
-                                    alt="Card background graphic">
+                                     class="w-full h-auto rounded-b-lg object-cover"
+                                     alt="Card background graphic">
                             </div>
 
                             <div class="flex flex-col text-[#7E91FF] mt-6 pl-2 pr-3 pt-4 relative z-10">
@@ -133,14 +135,15 @@
                         <!-- Active Accounts Card -->
                         <a href="{{ route('staff.road-defect-reports') }}"
                             class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden w-auto h-[115px]
+
                         hover:drop-shadow-lg transition-all duration-500 ease-out drop-shadow
                         transform-gpu group ">
 
                             <!-- Background graphic -->
                             <div class="absolute inset-x-0 bottom-0 opacity-90 transform group-hover:scale-125 transition-transform group-hover:translate-x-1 duration-700 ease-in-out">
                                 <img src="{{ asset('storage/images/bg-cardGraphics-green.png') }}"
-                                    class="w-full h-auto rounded-b-lg object-cover"
-                                    alt="Card background graphic">
+                                     class="w-full h-auto rounded-b-lg object-cover"
+                                     alt="Card background graphic">
                             </div>
 
                             <div class="flex flex-col text-[#4AA76F] mt-6 px-5 pt-4 relative z-10">
@@ -158,16 +161,18 @@
                         </a>
 
                         <!-- Inactive Accounts Card -->
+                        
                         <a href="{{ route('staff.road-defect-reports') }}"
                             class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden w-auto h-[115px]
+
                         hover:drop-shadow-lg transition-all duration-500 ease-out drop-shadow
                         transform-gpu group ">
 
                             <!-- Background graphic -->
                             <div class="absolute inset-x-0 bottom-0 opacity-90 transform group-hover:scale-125 transition-transform group-hover:translate-x-1 duration-700 ease-in-out">
                                 <img src="{{ asset('storage/images/bg-cardGraphics-red.png') }}"
-                                    class="w-full h-auto rounded-b-lg object-cover"
-                                    alt="Card background graphic">
+                                     class="w-full h-auto rounded-b-lg object-cover"
+                                     alt="Card background graphic">
                             </div>
 
                             <div class="flex flex-col text-[#E26161] mt-6 px-5 pt-4 relative z-10">

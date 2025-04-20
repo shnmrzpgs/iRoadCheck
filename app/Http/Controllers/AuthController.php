@@ -280,7 +280,4 @@ class AuthController extends Controller
         Auth::logout(); // Log the user out
         return redirect()->route('residents-login')->with('success', 'You have been logged out successfully.');
     }
-    public function loginpage(){
-        return view('iroadcheck.prototype.residents.login');
-    }
 }

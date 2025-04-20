@@ -68,9 +68,9 @@
                     >
                     <img src="{{ asset('storage/icons/user.svg') }}" class="absolute left-2.5 top-3 h-4 w-4" alt="user">
                     @error('username')
-                        @if ($message !== 'This staff account is inactive. Please contact the administrator.')
-                            <p x-show="hasError" class="text-red-600 text-xs mt-1 italic" x-cloak>{{ $message }}</p>
-                        @endif
+                    @if ($message !== 'This staff account is inactive. Please contact the administrator.')
+                        <p x-show="hasError" class="text-red-600 text-xs mt-1 italic" x-cloak>{{ $message }}</p>
+                    @endif
                     @enderror
 
                 </div>

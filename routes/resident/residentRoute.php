@@ -49,16 +49,15 @@ Route::group(['middleware' => ['AuthResident']], function () {
 
 
     Route::get('/resident/dashboard', [App\Http\Controllers\resident\DashboardController::class, 'index'])
-    ->name('resident.dashboard');
-Route::view('/residents/suggestion-reports', 'iroadcheck.prototype.residents.suggestion-reports')->name('suggestion-reports');
+        ->name('resident.dashboard');
+    Route::view('/residents/suggestion-reports', 'iroadcheck.prototype.residents.suggestion-reports')->name('suggestion-reports');
 //    Route::view('residents/report-history', 'iroadcheck.prototype.residents.report-history')->name('report-history');
     Route::get('/resident/report-history', [App\Http\Controllers\resident\ReportHistoryController::class, 'index'])
-    ->name('resident.report-history');
+        ->name('resident.report-history');
 
     Route::get('/resident/profile-edit', [App\Http\Controllers\resident\ProfileController::class, 'index'])
-    ->name('resident.profile-edit');
+        ->name('resident.profile-edit');
 
     Route::get('/resident/notifications', [App\Http\Controllers\resident\NotificationController::class, 'index'])
         ->name('resident.notifications');
 });
-
