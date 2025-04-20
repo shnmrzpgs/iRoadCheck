@@ -93,14 +93,11 @@
                         <div class="text-center text-xs flex flex-col justify-center items-center mb-3">
                             <span class="font-semibold text-gray-700">Updated Road Photo</span>
                             <img src="{{ asset('storage/' . $report->updated_image) }}" alt="Updated Road" class="w-[80%] h-[220px] mt-2" />
-
                         </div>
 
                         <div class="text-xs lg:text-sm flex justify-start items-start w-full">
-                            <div class="w-2/4 md:w-1/4 lg:w-2/5 text-gray-600">Updated By (User ID):</div>
+                            <div class="w-2/4 md:w-1/4 lg:w-2/5 text-gray-600">Updated by :</div>
                             @php
-
-
                                 $updater = $report->updater_id ? User::find($report->updater_id) : null;
                             @endphp
 
@@ -111,9 +108,21 @@
                                     N/A
                                 @endif
                             </div>
+                        </div>
 
+                        <!-- Updated On -->
+                        <div class="text-xs lg:text-sm flex justify-start items-start w-full mt-2">
+                            <div class="w-2/4 md:w-1/4 lg:w-2/5 text-gray-600">Updated On:</div>
+                            <div class="w-2/4 md:w-3/4 lg:w-3/5 font-semibold">
+                                @if($report->updated_on)
+                                    {{ \Carbon\Carbon::parse($report->updated_on)->format('F j, Y') }}
+                                @else
+                                    N/A
+                                @endif
+                            </div>
                         </div>
                     @endif
+
                 </div>
             @endif
         </x-slot:body>

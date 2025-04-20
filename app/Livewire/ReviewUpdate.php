@@ -95,6 +95,7 @@ use Livewire\Component;
                     'updated_image' => $updateImagePath,
                     'status' => $selectedStatus,
                     'updater_id' => $userId,
+                    'updated_on' => today(),
                 ]);
             SuggestionModal::where('report_id', $this->selectedReports)
                 ->update([
