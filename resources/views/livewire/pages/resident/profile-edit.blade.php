@@ -8,9 +8,11 @@
 
         <x-slot:preview_names_and_user_type>
             <h2 class="text-[22px] font-semibold text-white drop-shadow capitalize">
-                {{ ucwords(strtolower("$first_name " . strtoupper(substr($middle_name, 0, 1)) . ". $last_name")) }}
+                {{-- Displaying the user's name with the first letter of the middle name in uppercase --}}
+                {{ ucwords(strtolower("$first_name " . strtoupper(substr($middle_name, 0, 1)) . "$last_name")) }}
             </h2>
             <p class="text-[14px] text-white">
+                {{-- Displaying the user type name in uppercase --}}
                 {{ ucfirst($userTypeName) }}
             </p>
         </x-slot:preview_names_and_user_type>
@@ -121,7 +123,6 @@
             </button>
         </x-slot:save_button_container>
 
-        {{--Account Settings Information--}}
         {{--Account Settings Information--}}
         <x-slot:phone>
             <div class="flex flex-col md:flex-row md:items-center w-full">
