@@ -1,7 +1,7 @@
 <x-Staff.staff-navigation page_title="Update History" action="{{ route('staff.report-history') }}" placeholder="Search..."
     name="search" wire:model.live="search">
 
-    <div class="flex justify-center items-center sm:justify-start sm:items-start">
+    <div class="flex justify-center items-center mx-auto     sm:justify-start sm:items-start">
         <x-staff.crud-page-content-base>
 
             <x-slot:page_description>
@@ -27,7 +27,7 @@
 
             <x-slot:table_container wire:key="reports-table-{{ now() }}">
                 <div
-                    class="inline-block w-[48vh] md:w-full lg:w-full h-[50vh] md:h-[52vh] lg:h-[55vh] xl:h-[62vh] xl:max-h-[100vh] overflow-y-auto align-middle drop-shadow rounded-b-md">
+                    class="inline-block w-[46vh] md:w-full lg:w-full h-[50vh] md:h-[52vh] lg:h-[55vh] xl:h-[62vh] xl:max-h-[100vh] overflow-y-auto align-middle drop-shadow rounded-b-md">
                     <table class="w-[100px] md:w-full text-left divide-y divide-gray-300">
                         <thead class="bg-gray-50">
                             <tr>
