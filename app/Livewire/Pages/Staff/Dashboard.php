@@ -187,7 +187,7 @@ class Dashboard extends Component
 
     public function render(): Factory|Application|View|\Illuminate\View\View
     {
-        session()->forget('hideSearchBar');
+        session(['hideSearchBar' => true]);
 
         $barangays = Report::select('barangay')->distinct()->pluck('barangay');
         $years = Report::selectRaw('DISTINCT YEAR(date) as year')->pluck('year');
