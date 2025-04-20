@@ -110,131 +110,48 @@ class ManageUsersTable extends Component
         $this->resetPage();
     }
 
-    protected function getFilteredQuery()
-    {
-        $query = Staff::query()
-            ->select('staffs.*')
-            ->leftJoin('users', 'staffs.user_id', '=', 'users.id')
-            ->leftJoin('staff_roles_permissions', 'staffs.staff_roles_permissions_id', '=', 'staff_roles_permissions.id')
-            ->leftJoin('staff_roles', 'staff_roles_permissions.staff_role_id', '=', 'staff_roles.id')
-            ->with(['user', 'staffRolesPermissions', 'staffRolesPermissions.staffRole'])
-            ->when($this->search, function ($query) {
-                $query->where(function ($query) {
-                    $query->where('users.first_name', 'like', "%{$this->search}%")
-                        ->orWhere('users.middle_name', 'like', "%{$this->search}%")
-                        ->orWhere('users.last_name', 'like', "%{$this->search}%")
-                        ->orWhere('users.username', 'like', "%{$this->search}%");
-                })
-                    ->orWhereHas('staffRolesPermissions.staffRole', function ($query) {
-                        $query->where('name', 'like', '%' . $this->search . '%');
-                    });
-            })
-            ->when($this->user_status_filter, function ($query) {
-                $query->where('staffs.status', $this->user_status_filter);
-            })
-            ->when($this->staff_roles_filter, function ($query) {
-                $query->whereHas('staffRolesPermissions', function ($query) {
-                    $query->where('staff_role_id', $this->staff_roles_filter);
-                });
+    public function getFilteredQuery()
+{
+    $query = Staff::query()
+        ->select('staffs.*')
+        ->leftJoin('users', 'staffs.user_id', '=', 'users.id')
+        ->leftJoin('staff_roles_permissions', 'staffs.staff_roles_permissions_id', '=', 'staff_roles_permissions.id')
+        ->leftJoin('staff_roles', 'staff_roles_permissions.staff_role_id', '=', 'staff_roles.id')
+        ->with(['user', 'staffRolesPermissions', 'staffRolesPermissions.staffRole'])
+        ->when($this->user_status_filter, function ($query) {
+            $query->where('staffs.status', $this->user_status_filter);
+        })
+        ->when($this->staff_roles_filter, function ($query) {
+            $query->whereHas('staffRolesPermissions', function ($query) {
+                $query->where('staff_role_id', $this->staff_roles_filter);
             });
+        });
 
-        // Apply sorting
-        if ($this->sort_by === 'username') {
-            $query->orderBy('users.username', $this->sort_direction);
-        } elseif (in_array($this->sort_by, ['first_name', 'last_name', 'middle_name'])) {
-            $query->orderBy('users.' . $this->sort_by, $this->sort_direction);
-        } elseif ($this->sort_by === 'staff_role') {
-            $query->orderBy('staff_roles.name', $this->sort_direction);
-        } else {
-            $query->orderBy('staffs.' . $this->sort_by, $this->sort_direction);
-        }
-
-
-        return $query;
+    // Apply sorting but handle user fields separately
+    if (in_array($this->sort_by, ['first_name', 'last_name', 'middle_name', 'username'])) {
+        // We'll handle this after decryption
+    } elseif ($this->sort_by === 'staff_role') {
+        $query->orderBy('staff_roles.name', $this->sort_direction);
+    } else {
+        $query->orderBy('staffs.' . $this->sort_by, $this->sort_direction);
     }
 
-    public function exportStaffs()
-    {
-        try {
-            $filters = [
-                'status' => $this->user_status_filter,
-                'staff_role_id' => $this->staff_roles_filter,
-                'search' => $this->search,
-            ];
+    return $query;
+}
 
-            $staffs = $this->getFilteredQuery()->get();
+public function exportStaffs()
+{
+    try {
+        $filters = [
+            'status' => $this->user_status_filter,
+            'staff_role_id' => $this->staff_roles_filter,
+            'search' => $this->search,
+        ];
 
-            foreach ($staffs as $staff) {
-                if ($staff->user) {
-                    $staff->user->first_name = Crypt::decryptString($staff->user->first_name);
-                    $staff->user->middle_name = Crypt::decryptString($staff->user->middle_name);
-                    $staff->user->last_name = Crypt::decryptString($staff->user->last_name);
-                    $staff->user->username = Crypt::decryptString($staff->user->username);
-                }
-            }
-
-            return Excel::download(
-                new StaffsDataExport($staffs, $filters),
-                'staffs_report_' . now()->format('Y-m-d_His') . '.xlsx'
-            );
-        } catch (\Exception $e) {
-            Log::error('Staff export failed: ' . $e->getMessage());
-            $this->dispatch('notification', [
-                'type' => 'error',
-                'title' => 'Export Failed',
-                'message' => 'Failed to export staff data. Please try again.'
-            ]);
-        }
-    }
-
-    public function render(): Factory|View|Application
-    {
-        $allowedSortFields = ['id', 'first_name', 'last_name', 'status', 'username',  'staff_role'];
-        if (!in_array($this->sort_by, $allowedSortFields)) {
-            $this->sort_by = 'id'; // Default to a valid column
-        }
-
-        // Start the query
-        $query = Staff::query()
-            ->select('staffs.*')
-            ->leftJoin('users', 'staffs.user_id', '=', 'users.id') // Ensure this matches your foreign key\
-            ->leftJoin('staff_roles_permissions', 'staffs.staff_roles_permissions_id', '=', 'staff_roles_permissions.id')
-            ->leftJoin('staff_roles', 'staff_roles_permissions.staff_role_id', '=', 'staff_roles.id') // Join staff_roles
-            ->with(['user', 'staffRolesPermissions', 'staffRolesPermissions.staffRole'])
-            ->when($this->search, function ($query) {
-                $query->where(function ($query) {
-                    $query->where('users.first_name', 'like', "%{$this->search}%")
-                        ->orWhere('users.middle_name', 'like', "%{$this->search}%")
-                        ->orWhere('users.last_name', 'like', "%{$this->search}%")
-                        ->orWhere('users.username', 'like',  "%{$this->search}%");
-                })
-                    ->orWhereHas('staffRolesPermissions.staffRole', function ($query) {
-                        $query->where('name', 'like', '%' . $this->search . '%');
-                    });
-            })
-            ->when($this->user_status_filter, function ($query) {
-                $query->where('staffs.status', $this->user_status_filter);
-            })
-            ->when($this->staff_roles_filter, function ($query) {
-                $query->whereHas('staffRolesPermissions', function ($query) {
-                    $query->where('staff_role_id', $this->staff_roles_filter);
-                });
-            });
-
-        // Sorting logic
-        if ($this->sort_by === 'username') {
-            $query->orderBy('users.username', $this->sort_direction);
-        } elseif (in_array($this->sort_by, ['first_name', 'last_name', 'middle_name'])) {
-            $query->orderBy('users.' . $this->sort_by, $this->sort_direction);
-        } elseif ($this->sort_by === 'staff_role') {
-            $query->orderBy('staff_roles.name', $this->sort_direction); // Sort by staff role name
-        } else {
-            $query->orderBy('staffs.' . $this->sort_by, $this->sort_direction);
-        }
-
-
-        session()->forget('hideSearchBar');
-        $staffs = $this->getFilteredQuery()->paginate($this->rowsPerPage);
+        // Get the base query without search filtering
+        $staffs = $this->getFilteredQuery()->get();
+        
+        // Decrypt user data
         foreach ($staffs as $staff) {
             if ($staff->user) {
                 $staff->user->first_name = Crypt::decryptString($staff->user->first_name);
@@ -243,8 +160,108 @@ class ManageUsersTable extends Component
                 $staff->user->username = Crypt::decryptString($staff->user->username);
             }
         }
+        
+        // Filter by search term if needed
+        if ($this->search) {
+            $search = strtolower($this->search);
+            $staffs = $staffs->filter(function ($staff) use ($search) {
+                return 
+                    str_contains(strtolower($staff->user->first_name ?? ''), $search) ||
+                    str_contains(strtolower($staff->user->middle_name ?? ''), $search) ||
+                    str_contains(strtolower($staff->user->last_name ?? ''), $search) ||
+                    str_contains(strtolower($staff->user->username ?? ''), $search) ||
+                    ($staff->staffRolesPermissions && 
+                     $staff->staffRolesPermissions->staffRole && 
+                     str_contains(strtolower($staff->staffRolesPermissions->staffRole->name ?? ''), $search));
+            });
+        }
 
-        // Return the view
-        return view('livewire.pages.admin.manage-users-table', compact('staffs'));
+        return Excel::download(
+            new StaffsDataExport($staffs, $filters),
+            'staffs_report_' . now()->format('Y-m-d_His') . '.xlsx'
+        );
+    } catch (\Exception $e) {
+        Log::error('Staff export failed: ' . $e->getMessage());
+        $this->dispatch('notification', [
+            'type' => 'error',
+            'title' => 'Export Failed',
+            'message' => 'Failed to export staff data. Please try again.'
+        ]);
     }
+}
+
+    public function render(): Factory|View|Application
+{
+    $allowedSortFields = ['id', 'first_name', 'last_name', 'status', 'username', 'staff_role'];
+    if (!in_array($this->sort_by, $allowedSortFields)) {
+        $this->sort_by = 'id'; // Default to a valid column
+    }
+
+    // Get the base query (without search filtering)
+    $query = $this->getFilteredQuery();
+    
+    // Execute the query to get the initial results
+    $staffs = $query->get();
+    
+    // Decrypt user data
+    foreach ($staffs as $staff) {
+        if ($staff->user) {
+            $staff->user->first_name = Crypt::decryptString($staff->user->first_name);
+            $staff->user->middle_name = Crypt::decryptString($staff->user->middle_name);
+            $staff->user->last_name = Crypt::decryptString($staff->user->last_name);
+            $staff->user->username = Crypt::decryptString($staff->user->username);
+        }
+    }
+    
+    // Now filter the decrypted data by search term if needed
+    if ($this->search) {
+        $search = strtolower($this->search);
+        $staffs = $staffs->filter(function ($staff) use ($search) {
+            // Check if any of the decrypted fields contain the search term
+            return 
+                str_contains(strtolower($staff->user->first_name ?? ''), $search) ||
+                str_contains(strtolower($staff->user->middle_name ?? ''), $search) ||
+                str_contains(strtolower($staff->user->last_name ?? ''), $search) ||
+                str_contains(strtolower($staff->user->username ?? ''), $search) ||
+                ($staff->staffRolesPermissions && 
+                 $staff->staffRolesPermissions->staffRole && 
+                 str_contains(strtolower($staff->staffRolesPermissions->staffRole->name ?? ''), $search));
+        });
+    }
+    
+    // Sort the collection if sorting by a user field
+    if (in_array($this->sort_by, ['first_name', 'last_name', 'middle_name', 'username'])) {
+        $staffs = $staffs->sortBy([
+            [$this->sort_by, $this->sort_direction === 'asc' ? 'asc' : 'desc']
+        ]);
+    }
+    
+    // Paginate the filtered collection
+    $staffs = $this->paginateCollection($staffs, $this->rowsPerPage);
+
+    session()->forget('hideSearchBar');
+    
+    // Return the view
+    return view('livewire.pages.admin.manage-users-table', compact('staffs'));
+}
+
+protected function paginateCollection($items, $perPage)
+{
+    // Get current page from query string or default to 1
+    $page = request()->input('page', 1);
+    
+    // Slice the collection to get the items to display in current page
+    $items = $items->slice(($page - 1) * $perPage, $perPage)->values();
+    
+    // Create our paginator and pass it to the view
+    $paginated = new \Illuminate\Pagination\LengthAwarePaginator(
+        $items, 
+        $items->count(), // Total items
+        $perPage,
+        $page,
+        ['path' => request()->url(), 'query' => request()->query()]
+    );
+    
+    return $paginated;
+}
 }
