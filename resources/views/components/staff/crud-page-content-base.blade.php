@@ -1,4 +1,4 @@
-<div class="text-[#202020] lg:bg-[#FBFBFB] md:bg-[#FBFBFB] rounded-[6px] pt-5 h-auto lg:shadow-[0px_1px_5px_rgba(0,0,0,0.2)] md:shadow-[0px_1px_5px_rgba(0,0,0,0.2)]  w-[46vh] md:w-full overflow-y-scroll">
+<div class="text-[#202020] lg:bg-[#FBFBFB] md:bg-[#FBFBFB] rounded-[6px] pt-5 h-auto lg:shadow-[0px_1px_5px_rgba(0,0,0,0.2)] md:shadow-[0px_1px_5px_rgba(0,0,0,0.2)]  w-[48vh] md:w-full overflow-y-scroll">
 
     {{-- Header --}}
     <div class="px-4 text-center md:text-start" >
@@ -22,7 +22,7 @@
             </div>
 
             {{-- Action Buttons container --}}
-            <div>
+            <div class="pr-2 md:pr-0 flex justify-end items-center -mr-4">
                 {{ $action_buttons_container }}
             </div>
 
@@ -32,7 +32,7 @@
     </div>
 
     {{-- Body --}}
-    <div class="mt-2 px-6 mb-2">
+    <div class="mt-2 px-2 ml-1 lg:px-6 md:px-6 mb-2">
 
         {{-- Table Container --}}
         <div>
