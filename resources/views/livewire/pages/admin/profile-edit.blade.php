@@ -20,7 +20,7 @@
             <label for="first_name" class="w-2/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
                 First Name
             </label>
-            <input type="text" name="first_name" id="first_name" autocomplete="off" wire:model.defer="first_name"
+            <input type="text" name="first_name" id="first_name" wire:model.defer="first_name"
                    class="w-7/10 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow @error('first_name') border-red-500 @enderror"
                    placeholder="First Name">
             @error('first_name')
@@ -32,7 +32,7 @@
             <label for="middle_name" class="w-2/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
                 Middle Name
             </label>
-            <input type="text" name="middle_name" id="middle_name" autocomplete="off" wire:model.defer="middle_name"
+            <input type="text" name="middle_name" id="middle_name" wire:model.defer="middle_name"
                    class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-7/10 rounded-md bg-none text-[14px] font-normal text-gray-900 shadow @error('middle_name') border-red-500 @enderror"
                    placeholder="Middle Name">
             @error('middle_name')
@@ -44,7 +44,7 @@
             <label for="last_name" class="w-2/10 mb-2 mt-3 block text-[13px] font-medium text-gray-900">
                 Last Name
             </label>
-            <input type="text" name="last_name" id="last_name" autocomplete="off" wire:model.defer="last_name"
+            <input type="text" name="last_name" id="last_name" wire:model.defer="last_name"
                    class="border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block w-7/10 rounded-md bg-none text-[14px] font-normal text-gray-900 shadow @error('last_name') border-red-500 @enderror"
                    placeholder="Last Name">
             @error('last_name')
@@ -119,13 +119,12 @@
             </label>
             <div class="flex flex-col w-full">
                 <div class="relative">
-                    <input type="text" name="username" id="username" autocomplete="off" wire:model.defer="username"
-                           class="w-full mb-2 flex-1 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow
+                <input type="text" name="username" id="username" wire:model.defer="username"
+                       class="w-full mb-2 flex-1 border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow
                         @error('username') border-red-500 @enderror"
-                           placeholder="Enter Username">
+                       placeholder="Enter Username">
                 </div>
                 <div>
-                    <!-- Test -->
                     @error('username')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
