@@ -1,28 +1,32 @@
-<div class="w-full h-full relative rounded-[6px] font-pop lg:ml-12 lg:w-[95%]">
+<div class="w-full h-[95vh] lg:h-[85vh] relative rounded-[6px] font-pop lg:ml-12 lg:w-[95%]">
 
-    <div class="bg-none rounded-[4px]">
 
-        <!-- Image Background -->
-        <div loading="eager" class="relative overflow-hidden rounded-[10px] shadow w-full h-[110px] x-cloak">
-            <img src="{{ asset('storage/images/profile-backgroundImage2.png') }}"
-                alt="profile name background" x-cloak
-                class="absolute top-0 left-0 w-full h-full object-cover"
-                loading="eager">
-        </div>
+        <div class="bg-none rounded-[4px]">
 
-        <!--Profile Name -->
-        <div class="absolute flex items-center md:items-start justify-center md:justify-start p-2">
-            <div class="relative ml-32 md:ml-10 -mt-24">
-                {{ $profile_picture }}
+            <!-- Image Background -->
+            <div loading="eager" class="relative overflow-hidden rounded-[10px] shadow w-full h-[198px] lg:h-[110px] x-cloak">
+                <img src="{{ asset('storage/images/profile-backgroundImage2.png') }}" alt="profile name background" x-cloak
+                    class="absolute top-0 left-0 w-full h-full object-cover" loading="eager">
             </div>
-            <div class="relative text-start text-[#4D4F50] md:ml-6 md:-mt-[90px] hidden md:block">
-                {{ $preview_names_and_user_type }}
+    
+            <!--Profile Name -->
+            <div class="flex flex-col lg:flex-row justify-center lg:justify-start items-center lg:items-start p-2 w-full">
+                <div class="relative -mt-52 lg:-mt-24 flex flex-col items-center lg:items-start lg:ml-12">
+                    {{ $profile_picture }}
+                    <!-- Mobile view of preview names and user type -->
+                    <div class="relative text-center lg:hidden mt-2">
+                        {{ $preview_names_and_user_type }}
+                    </div>
+                </div>
+                <!-- Desktop view of preview names and user type -->
+                <div class="relative text-start text-[#4D4F50] ml-6 -mt-[90px] hidden lg:block">
+                    {{ $preview_names_and_user_type }}
+                </div>
             </div>
         </div>
-    </div>
 
     <!--Profile Information -->
-    <div class="pl-5 mt-16 w-full"
+    <div class="pl-5 mt-6 w-full"
         x-data="{
                     activeTab: 'basic-info',
                     hoveredTab: null,
