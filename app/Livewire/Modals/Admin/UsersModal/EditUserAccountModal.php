@@ -307,13 +307,13 @@ class EditUserAccountModal extends Component
             ]);
 
 
-            // Admin log entry
-            AdminLog::create([
-                'admin_id' => Auth()->id,
-                'action' => "Updated staff account: {$this->getFullName($this->staff->user)} ({$this->getRoleName()})",
-                'dateTime' => now(),
-                'user_id' => Auth()->id,
-            ]);
+            // // Admin log entry
+            // AdminLog::create([
+            //     'admin_id' =>  auth()->id(),
+            //     'action' => "Updated staff account: {$this->getFullName($this->staff->user)} ({$this->getRoleName()})",
+            //     'dateTime' => now(),
+            //     'user_id' =>  auth()->id(),
+            // ]);
 
             DB::commit();
 
@@ -325,12 +325,12 @@ class EditUserAccountModal extends Component
             DB::rollBack();
 
             // Admin log entry
-            AdminLog::create([
-                'admin_id' => auth()->id,
-                'action' => "Failed to update staff account: {$this->getFullName($this->staff->user)} ({$this->getRoleName()})",
-                'dateTime' => now(),
-                'user_id' => auth()->id,
-            ]);
+            // AdminLog::create([
+            //     'admin_id' =>  auth()->id(),
+            //     'action' => "Failed to update staff account: {$this->getFullName($this->staff->user)} ({$this->getRoleName()})",
+            //     'dateTime' => now(),
+            //     'user_id' =>  auth()->id(),
+            // ]);
 
             Log::error('Failed to update user account: ' . $e->getMessage());
             session()->flash('feedback', 'Failed to update Staff Account.');
