@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use Illuminate\Support\Facades\Crypt;
 
 class AdminLogsExport implements FromView, WithEvents, WithDrawings
 {
@@ -18,6 +19,7 @@ class AdminLogsExport implements FromView, WithEvents, WithDrawings
     public function __construct($filteredAdminLogs)
     {
         $this->filteredAdminLogs = $filteredAdminLogs;
+        
     }
 
 
