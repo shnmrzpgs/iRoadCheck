@@ -4,19 +4,19 @@
 
         <x-residents.crud-page-content-base>
 
-            <x-slot:title_page_container>
-                <div class="flex justify-start text-lg text-[#4AA76F] mr-4 md:pb-2 font-semibold">Report History</div>
-            </x-slot:title_page_container>
+{{--            <x-slot:title_page_container>--}}
+{{--                <div class="flex justify-start text-lg text-[#4AA76F] mr-4 md:pb-2 font-semibold">Report History</div>--}}
+{{--            </x-slot:title_page_container>--}}
 
-            <x-slot:search_container>
-                <form class="relative flex flex-1 h-9 rounded-full border-[#F8F7F7]" action="#" method="GET">
-                    <svg class="absolute left-1 inset-y-0 w-4 h-full text-gray-400 ml-2 z-10" fill="#4AA76F" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
-                    </svg>
-                    <input wire:model.live="search" class="w-full h-full pl-8 py-0 text-sm lg:text-[14px] text-gray-900 placeholder:text-gray-400 bg-white rounded-full border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] shadow"
-                           placeholder="Search" type="search">
-                </form>
-            </x-slot:search_container>
+{{--            <x-slot:search_container>--}}
+{{--                <form class="relative flex flex-1 h-9 rounded-full border-[#F8F7F7]" action="#" method="GET">--}}
+{{--                    <svg class="absolute left-1 inset-y-0 w-4 h-full text-gray-400 ml-2 z-10" fill="#4AA76F" viewBox="0 0 20 20">--}}
+{{--                        <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />--}}
+{{--                    </svg>--}}
+{{--                    <input wire:model.live="search" class="w-full h-full pl-8 py-0 text-sm lg:text-[14px] text-gray-900 placeholder:text-gray-400 bg-white rounded-full border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] shadow"--}}
+{{--                           placeholder="Search" type="search">--}}
+{{--                </form>--}}
+{{--            </x-slot:search_container>--}}
 
             <x-slot:page_description>
                 A list of all your road defect reports history in the iRoadCheck System.
