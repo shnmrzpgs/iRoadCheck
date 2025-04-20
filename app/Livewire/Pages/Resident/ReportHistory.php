@@ -113,20 +113,40 @@ class ReportHistory extends Component
     {
         $query = DB::table(function ($union) {
             $union->select(
-                'id', 'reporter_id', 'defect', 'lat', 'lng', 'location',
-                'street', 'purok', 'barangay', 'date', 'time', 'severity',
-                'image', 'image_annotated', 'status', 'label', 'created_at', 'updated_at'
+                'reports.id', 'reports.reporter_id', 'reports.defect', 'reports.lat', 'reports.lng', 'reports.location',
+                'reports.street', 'reports.purok', 'reports.barangay', 'reports.date', 'reports.time', 'reports.severity',
+                'reports.image', 'reports.image_annotated', 'reports.status', 'reports.label', 'reports.created_at', 'reports.updated_at',
+                'reports.updated_image', 'reports.updater_id', // Including fields from reports table
+                'suggestions.id as suggestion_id', 'suggestions.report_id', 'suggestions.reporter_id as suggestion_reporter_id',
+                'suggestions.defect as suggestion_defect', 'suggestions.lat as suggestion_lat', 'suggestions.lng as suggestion_lng',
+                'suggestions.location as suggestion_location', 'suggestions.street as suggestion_street', 'suggestions.purok as suggestion_purok',
+                'suggestions.barangay as suggestion_barangay', 'suggestions.date as suggestion_date', 'suggestions.time as suggestion_time',
+                'suggestions.severity as suggestion_severity', 'suggestions.image as suggestion_image', 'suggestions.image_annotated as suggestion_image_annotated',
+                'suggestions.status as suggestion_status', 'suggestions.label as suggestion_label', 'suggestions.created_at as suggestion_created_at',
+                'suggestions.updated_at as suggestion_updated_at'
             )
                 ->from('reports')
-                ->where('reporter_id', Auth::id())
+                ->where('reports.reporter_id', Auth::id())
                 ->unionAll(
-                    DB::table('suggestions')->select(
-                        'id', 'reporter_id', 'defect', 'lat', 'lng', 'location',
-                        'street', 'purok', 'barangay', 'date', 'time', 'severity',
-                        'image', 'image_annotated', 'status', 'label', 'created_at', 'updated_at'
-                    )->where('reporter_id', Auth::id())
+                    DB::table('suggestions')
+                        ->join('reports', 'suggestions.report_id', '=', 'reports.id') // Join suggestion table with reports table
+                        ->select(
+                            'reports.id as report_id', 'reports.reporter_id', 'reports.defect', 'reports.lat', 'reports.lng', 'reports.location',
+                            'reports.street', 'reports.purok', 'reports.barangay', 'reports.date', 'reports.time', 'reports.severity',
+                            'reports.image', 'reports.image_annotated', 'reports.status', 'reports.label', 'reports.created_at', 'reports.updated_at',
+                            'reports.updated_image', 'reports.updater_id', // Include fields from reports table
+                            'suggestions.id as suggestion_id', 'suggestions.report_id', 'suggestions.reporter_id as suggestion_reporter_id',
+                            'suggestions.defect as suggestion_defect', 'suggestions.lat as suggestion_lat', 'suggestions.lng as suggestion_lng',
+                            'suggestions.location as suggestion_location', 'suggestions.street as suggestion_street', 'suggestions.purok as suggestion_purok',
+                            'suggestions.barangay as suggestion_barangay', 'suggestions.date as suggestion_date', 'suggestions.time as suggestion_time',
+                            'suggestions.severity as suggestion_severity', 'suggestions.image as suggestion_image', 'suggestions.image_annotated as suggestion_image_annotated',
+                            'suggestions.status as suggestion_status', 'suggestions.label as suggestion_label', 'suggestions.created_at as suggestion_created_at',
+                            'suggestions.updated_at as suggestion_updated_at'
+                        )
+                        ->where('suggestions.reporter_id', Auth::id())
                 );
         }, 'combined_reports');
+
 
         if (!empty($this->search)) {
             $query->where(function ($q) {
