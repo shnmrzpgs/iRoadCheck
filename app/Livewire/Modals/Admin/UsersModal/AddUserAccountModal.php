@@ -15,6 +15,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
@@ -222,16 +223,42 @@ class AddUserAccountModal extends Component
 
     private function checkForDuplicates(): bool
     {
-        $duplicate = Staff::whereHas('user', function ($query) {
-            $query->where('first_name', $this->form->first_name)
-                ->where('middle_name', $this->form->middle_name)
-                ->where('last_name', $this->form->last_name);
-        })
-            ->exists();
+        try {
+            // Get all users
+            $users = User::all();
 
-        return $duplicate;
+            // Check each user for matching decrypted names
+            foreach ($users as $user) {
+                $firstName = strtolower(Crypt::decryptString($user->first_name));
+                $lastName = strtolower(Crypt::decryptString($user->last_name));
+
+                // Match on first and last name
+                if (
+                    $firstName === strtolower($this->form->first_name) &&
+                    $lastName === strtolower($this->form->last_name)
+                ) {
+
+                    // If middle name exists, check it too
+                    if (!empty($this->form->middle_name)) {
+                        $middleName = strtolower(Crypt::decryptString($user->middle_name));
+                        if ($middleName === strtolower($this->form->middle_name)) {
+                            return true;
+                        }
+                    } else {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        } catch (\Exception $e) {
+            Log::error('Error checking duplicates', [
+                'exception' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return false; 
+        }
     }
-
 
     public function render(): Factory|View|Application|\Illuminate\View\View
     {
