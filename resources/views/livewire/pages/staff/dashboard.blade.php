@@ -1,4 +1,4 @@
-<x-Staff.staff-navigation page_title="Dashboard" action="{{ route('staff.dashboard') }}" placeholder="Search..." name="search">
+<x-staff.staff-navigation page_title="Dashboard" action="{{ route('staff.dashboard') }}" placeholder="Search..." name="search">
     <div class="w-full flex-1 -mt-2 overflow-y-scroll h-[70vh] md:h-[85vh] lg:h-auto xl:overflow-hidden pb-8">
         <div class="mx-auto bg-[#FBFBFB] w-9/10 lg:w-full px-4 py-2 rounded-lg drop-shadow mb-2 block md:hidden text-center text-[22px] text-md md:text-lg font-semibold text-[#4AA76F] md:mr-3 lg:mr-1">
             Dashboard
@@ -354,4 +354,4 @@
         });
     </script>
 
-</x-Staff.staff-navigation>
+</x-staff.staff-navigation>
