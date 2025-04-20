@@ -157,6 +157,14 @@ class AuthController extends Controller
             ])->withInput();
         }
 
+
+        // Step 3.5: Check if staff is inactive
+        if ($staff->status === 'inactive') {
+            return back()->withErrors([
+                'username' => 'This staff account is inactive. Please contact the administrator.',
+            ])->withInput();
+        }
+
         // Step 4: Check password manually
         if (!\Hash::check($request->password, $staff->password)) {
             RateLimiter::hit($key, 45);
