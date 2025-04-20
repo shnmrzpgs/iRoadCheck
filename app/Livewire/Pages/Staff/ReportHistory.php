@@ -40,9 +40,9 @@ class ReportHistory extends Component
         $this->end_date = now()->format('Y-m-d');
 
         // Fetch distinct values from reports
-        $this->defectTypes = Report::where('reporter_id', Auth::id())->pluck('defect')->unique()->toArray();
-        $this->barangays = Report::where('reporter_id', Auth::id())->pluck('barangay')->unique()->toArray();
-        $this->statuses = Report::where('reporter_id', Auth::id())->pluck('status')->unique()->toArray();
+        $this->defectTypes = Report::where('updater_id', Auth::id())->pluck('defect')->unique()->toArray();
+        $this->barangays = Report::where('updater_id', Auth::id())->pluck('barangay')->unique()->toArray();
+        $this->statuses = Report::where('updater_id', Auth::id())->pluck('status')->unique()->toArray();
     }
 
     public function toggleSorting($column)
