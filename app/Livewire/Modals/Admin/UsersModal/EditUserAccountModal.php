@@ -307,12 +307,14 @@ class EditUserAccountModal extends Component
             ]);
 
 
+            $fullName = $this->getFullName($this->staff->user); // Will return 'Juan Dela Cruz'
+            $roleName = $this->getRoleName(); // Will return 'Encoder'
             // Admin log entry
             AdminLog::create([
-                'admin_id' => Auth()->id,
-                'action' => "Updated staff account: {$this->getFullName($this->staff->user)} ({$this->getRoleName()})",
+                'admin_id' => auth()->id(),
+                'action' = "Failed to update staff account: {$fullName} ({$roleName})",
                 'dateTime' => now(),
-                'user_id' => Auth()->id,
+                'user_id' => auth()->id(),
             ]);
 
             DB::commit();
@@ -323,11 +325,12 @@ class EditUserAccountModal extends Component
 
         } catch (\Exception $e) {
             DB::rollBack();
-
+            $fullName = $this->getFullName($this->staff->user); // Will return 'Juan Dela Cruz'
+            $roleName = $this->getRoleName(); // Will return 'Encoder'
             // Admin log entry
             AdminLog::create([
                 'admin_id' => auth()->id(),
-                'action' => "Failed to update staff account: {$this->getFullName($this->staff->user)} ({$this->getRoleName()})",
+                'action' = "Failed to update staff account: {$fullName} ({$roleName})",
                 'dateTime' => now(),
                 'user_id' => auth()->id(),
             ]);
