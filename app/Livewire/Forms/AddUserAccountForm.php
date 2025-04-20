@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rules\Password;
 use Livewire\Form;
 use Ramsey\Collection\Collection;
@@ -86,13 +87,12 @@ class AddUserAccountForm extends Form
             DB::beginTransaction();
 
             // Create the Staff record
-//        dd($this->form);
             $user = User::create([
-                'first_name' => $this->first_name,
-                'middle_name' => $this->middle_name,
-                'last_name' => $this->last_name,
-                'sex' => $this->sex,
-                'username' => $this->username,
+                'first_name' => Crypt::encryptString($this->first_name),
+                'middle_name' => Crypt::encryptString($this->middle_name),
+                'last_name' => Crypt::encryptString($this->last_name),
+                'sex' => Crypt::encryptString($this->sex),
+                'username' => Crypt::encryptString($this->username),
                 'date_of_birth' => $this->date_of_birth,
                 'password' => bcrypt($this->password),
                 'generated_password' => $this->password,

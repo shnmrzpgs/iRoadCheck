@@ -15,6 +15,7 @@ use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Crypt;
 
 class ResidentLogsTable extends Component
 {
@@ -138,6 +139,16 @@ class ResidentLogsTable extends Component
         $this->resetPage();
     }
 
+    public function getDecryptedResidentLogs()
+    {
+        return $this->getFilteredQuery()->get()->map(function ($log) {
+            if ($log->resident && $log->resident->user) {
+                $log->resident->user->first_name = Crypt::decryptString($log->resident->user->first_name);
+                $log->resident->user->last_name = Crypt::decryptString($log->resident->user->last_name);
+            }
+            return $log;
+        });
+    }
     /**
      * Render the Livewire component.
      */
@@ -148,6 +159,7 @@ class ResidentLogsTable extends Component
         session()->forget('hideSearchBar');
         return view('livewire.pages.admin.resident-logs-table', [
             'residentLogs' => $residentLogs,
+            'resident_logs' => $this->getDecryptedResidentLogs(),
         ]);
     }
 }

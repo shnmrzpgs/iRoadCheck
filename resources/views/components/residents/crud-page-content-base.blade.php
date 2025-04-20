@@ -2,7 +2,7 @@
 
 
     {{-- Header --}}
-    <div class="text-center md:text-start w-[90%]" >
+    <div class="text-center md:text-start  w-[95%]" >
 
         <!-- Title Search Section -->
         <div x-cloak class="my-5 md:pl-0 sm:-pl-2 md:-pt-2 flex flex-col items-center md:flex md:items-center md:flex-row lg:flex-row lg:items-center lg:w-[95%]">
@@ -49,7 +49,7 @@
     </div>
 
     {{-- Body --}}
-    <div class="mt-2 px-0 mb-2 w-[90%]">
+    <div class="mt-2 px-0 mb-2 lg:w-[95%] md:w-[95%] w-full">
 
         {{-- Table Container --}}
         <div class="w-full">

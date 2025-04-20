@@ -20,8 +20,8 @@ class ReportHistory extends Component
     use WithPagination;
 
     public $start_date, $end_date, $date_range_filter;
-    public $sort_by = 'id';
-    public $sort_direction = 'asc';
+    public $sort_by = 'date';
+    public $sort_direction = 'desc';
     public int $rowsPerPage = 10;
 
     public $selectedDefect = '';

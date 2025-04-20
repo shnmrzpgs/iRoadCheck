@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use Illuminate\Support\Facades\Crypt;
 
 class ResidentLogsExport implements FromView, WithEvents, WithDrawings
 {
@@ -17,6 +18,7 @@ class ResidentLogsExport implements FromView, WithEvents, WithDrawings
     public function __construct($filteredResidentLogs)
     {
         $this->filteredResidentLogs = $filteredResidentLogs;
+        
     }
 
     /**

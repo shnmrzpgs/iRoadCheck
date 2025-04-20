@@ -63,9 +63,9 @@
                                     </button>
                                 </th>
                                 <th scope="col" class="sticky top-0 z-10 bg-white py-3 px-2 text-xs font-semibold text-[#757575]">
-                                    <button class="flex items-end" wire:click="toggleSorting('date')">
+                                    <button class="flex items-end" wire:click="toggleSorting('created_at')">
                                         Date
-                                        <div x-cloak x-show="$wire.sort_by === 'date'">
+                                        <div x-cloak x-show="$wire.sort_by === 'created_at'">
                                             <x-arrow-up x-cloak x-show="$wire.sort_direction === 'asc'" />
                                             <x-arrow-down x-cloak x-show="$wire.sort_direction === 'desc'" />
                                         </div>
@@ -80,28 +80,31 @@
                                         </div>
                                     </button>
                                 </th>
-                                <th class="sticky top-0 z-10 bg-white py-3 px-2 text-xs font-semibold text-[#757575]">Action</th>
+                                <th class="sticky top-0 z-10 bg-white py-3 px-2 text-xs font-semibold text-[#757575] hidden lg:block md:block">Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-300 bg-white relative">
                             @forelse ($reports as $report)
-                            <tr class="{{ $loop->iteration % 2 === 0 ? 'bg-white' : 'bg-gray-50' }} hover:bg-gray-100">
+                            <tr x-data
+                                    @click=" if (window.innerWidth < 768) { $wire.viewHistoryReports({{ $report->id }}) }"
+                                    class="cursor-pointer md:cursor-default {{ $loop->iteration % 2 === 0 ? 'bg-white' : 'bg-gray-50' }} hover:bg-gray-100">
                                 <td class="px-2 py-3 text-[11px] lg:text-xs">
-                                    {{ $sort_direction === 'asc'
-                                        ? ($reports->firstItem() + $loop->index)
-                                        : ($reports->total() - $reports->firstItem() - $loop->index + 1)
+                                    {{ $sort_direction === 'desc' 
+                                        ? ($reports->firstItem() + $loop->index) 
+                                        : ($reports->total() - $reports->firstItem() - $loop->index + 1) 
                                     }}
                                 </td>
                                 <td class="px-2 py-3 text-[11px] lg:text-xs">{{ $report->defect ?? 'N/A' }}</td>
                                 <td class="px-2 py-3 text-[11px] lg:text-xs">{{ $report->street }}, {{ $report->purok }}, {{ $report->barangay }}</td>
-                                <td class="px-2 py-3 text-[11px] lg:text-xs">{{ $report->date ? \Carbon\Carbon::parse($report->date)->format('F j, Y'): 'N/A' }}</td>
-                                <td class="px-2 py-3 text-[11px] lg:text-xs font-medium
-                                    {{ $report->status === 'Repaired' ? 'text-green-600' : '' }}
-                                    {{ $report->status === 'Ongoing' ? 'text-yellow-500' : '' }}
+                                <td class="px-2 py-3 text-[11px] lg:text-xs">{{ $report->created_at ? \Carbon\Carbon::parse($report->created_at)->format('F j, Y'): 'N/A' }}</td>
+                                <td class="px-2 py-3 text-[11px] lg:text-xs font-medium 
+                                    {{ $report->status === 'Repaired' ? 'text-green-600' : '' }} 
+                                    {{ $report->status === 'Ongoing' ? 'text-yellow-500' : '' }} 
                                     {{ $report->status === 'Unfixed' ? 'text-red-600' : '' }}">
                                     {{ ucfirst($report->status ?? 'N/A') }}
                                 </td>
-                                <td class="px-2 py-3 text-[11px] lg:text-xs">
+
+                                <td class="px-2 py-3 text-[11px] lg:text-xs hidden lg:block md:block">
                                     <div class="flex">
                                         <button class="flex items-center text-[#3251FF] hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95 hover:bg-blue-100 hover:shadow py-1 px-3 rounded-md"
                                             wire:click="viewHistoryReports({{ $report->id }})"
@@ -119,7 +122,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="6" class="px-2 py-2 text-center text-gray-500">
+                                <td colspan="6" class="px-2 py-2 text-center text-gray-500 text-[11px]">
                                     No reports found.
                                 </td>
                             </tr>

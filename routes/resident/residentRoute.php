@@ -19,9 +19,13 @@ Route::get('/resident/forgot-password', [forgotpassword::class, 'index'])->name(
 
 Route::get('/resident/login', [AuthController::class, 'loginpage'])->name('residents-login');
 Route::post('resident/register', [ResidentAuth::class, 'signup'])->name('resident-register');
-Route::view('/resident/signup', ['iroadcheck.prototype.residents.signup'])->name('signup');
 
 Route::post('/logoutResident', [AuthController::class, 'LogoutResident'])->name('logoutResident');
+Route::post('/check-phone', [App\Http\Controllers\Resident\ResidentAuth::class, 'checkPhoneExists'])->name('check-phone');
+
+Route::view('/resident/signup', ['iroadcheck.prototype.residents.signup'])->name('residents-signup');
+
+// Route::view('/resident/login', ['iroadcheck.prototype.residents.login'])->name('resident-login');
 
 Route::group(['middleware' => 'VerifyResident'], function () {
     Route::get('/resident/verify-code', [ ResidentAuth::class, 'verifycodeView'])->name('verify-code');
@@ -42,6 +46,7 @@ Route::group(['middleware' => ['AuthResident']], function () {
     Route::view('/residents/report-road-issue', ['iroadcheck.prototype.residents.report-road-issue'])->name('report-road-issue');
     Route::view('/residents/review-report', ['iroadcheck.prototype.residents.review-report'])->name('review-report');
     Route::get('/send-sms', [SMSController::class, 'sendSMS']);
+    
 
     Route::get('/resident/dashboard', [App\Http\Controllers\resident\DashboardController::class, 'index'])
     ->name('resident.dashboard');

@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Crypt;
 
 class EditUserAccountModal extends Component
 {
@@ -81,14 +82,14 @@ class EditUserAccountModal extends Component
 
         // Load existing staff data into form
         $this->form = [
-            'first_name' => $staff->user->first_name,
-            'middle_name' => $staff->user->middle_name,
-            'last_name' => $staff->user->last_name,
-            'sex' => $staff->user->sex,
+            'first_name' => Crypt::decryptString($staff->user->first_name),
+            'middle_name' => Crypt::decryptString($staff->user->middle_name),
+            'last_name' => Crypt::decryptString($staff->user->last_name),
+            'sex' => Crypt::decryptString($staff->user->sex),
             'date_of_birth' => $staff->user && $staff->user->date_of_birth
                 ? Carbon::parse($staff->user->date_of_birth)->format('F j, Y')
                 : '',
-            'username' => $staff->user->username,
+            'username' => Crypt::decryptString($staff->user->username),
             'password' => $staff->user->generated_password ?? '',
             'user_role' => $staff->staffRolesPermissions->staffRole->id,
             'is_disabled' => $staff->status === StaffStatus::INACTIVE,
@@ -267,10 +268,10 @@ class EditUserAccountModal extends Component
         try {
             // Update user information
             $this->staff->user->update([
-                'first_name' => $this->form['first_name'],
-                'middle_name' => $this->form['middle_name'],
-                'last_name' => $this->form['last_name'],
-                'username' => $this->form['username'],
+                'first_name' => Crypt::encryptString($this->form['first_name']),
+                'middle_name' => Crypt::encryptString($this->form['middle_name']),
+                'last_name' => Crypt::encryptString($this->form['last_name']),
+                'username' => Crypt::encryptString($this->form['username']),
                 'sex' => $this->form['sex'],
                 'date_of_birth' => $this->form['date_of_birth']
                     ? Carbon::createFromFormat('F j, Y', $this->form['date_of_birth'])->format('Y-m-d')
@@ -308,10 +309,10 @@ class EditUserAccountModal extends Component
 
             // Admin log entry
             AdminLog::create([
-                'admin_id' => auth()->id(),
+                'admin_id' => Auth()->id,
                 'action' => "Updated staff account: {$this->getFullName($this->staff->user)} ({$this->getRoleName()})",
                 'dateTime' => now(),
-                'user_id' => auth()->id(),
+                'user_id' => Auth()->id,
             ]);
 
             DB::commit();
@@ -325,10 +326,10 @@ class EditUserAccountModal extends Component
 
             // Admin log entry
             AdminLog::create([
-                'admin_id' => auth()->id(),
+                'admin_id' => auth()->id,
                 'action' => "Failed to update staff account: {$this->getFullName($this->staff->user)} ({$this->getRoleName()})",
                 'dateTime' => now(),
-                'user_id' => auth()->id(),
+                'user_id' => auth()->id,
             ]);
 
             Log::error('Failed to update user account: ' . $e->getMessage());

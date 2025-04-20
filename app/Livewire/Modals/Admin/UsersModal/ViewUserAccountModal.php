@@ -8,6 +8,7 @@ use App\Models\StaffRole;
 use Livewire\Attributes\On;
 use Illuminate\Support\Carbon;
 use Livewire\Component;
+use Illuminate\Support\Facades\Crypt;
 
 class ViewUserAccountModal extends Component
 {
@@ -36,6 +37,14 @@ class ViewUserAccountModal extends Component
         $this->selectedPermissions = $role ? $role->permissions->pluck('name')->toArray() : [];
 
         $this->staff = $staff;
+
+        // Decrypt user details
+        $this->staff->user->first_name = Crypt::decryptString($staff->user->first_name);
+        $this->staff->user->middle_name = Crypt::decryptString($staff->user->middle_name);
+        $this->staff->user->last_name = Crypt::decryptString($staff->user->last_name);
+        $this->staff->user->sex = Crypt::decryptString($staff->user->sex);
+        $this->staff->user->username = Crypt::decryptString($staff->user->username);
+        
         $this->date_of_birth = $staff->user->date_of_birth
             ? Carbon::parse($staff->user->date_of_birth)->format('F j, Y')
             : null;
@@ -45,7 +54,6 @@ class ViewUserAccountModal extends Component
     public function showModal(Staff $staff): void
     {
         $this->showStaffInfo($staff->id);
-
         if ($staff->user->profilePhoto) {
             $this->currentPhoto = asset('storage/' . $staff->user->profilePhoto->photo_path);
         } else {

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('residents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->string('phone', 13);
+            $table->string('phone');
             $table->boolean('is_activated')->default(false);
             $table->string('code')->nullable();
             $table->dateTime('expires_at')->nullable();

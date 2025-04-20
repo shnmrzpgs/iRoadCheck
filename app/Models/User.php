@@ -11,8 +11,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Illuminate\Support\Facades\Log;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Crypt;
 
 
 class User extends Authenticatable
@@ -97,10 +99,24 @@ class User extends Authenticatable
     // Accessor for full name
     public function getNameAttribute(): string
     {
-        // Only get the first letter of the middle name
-        $middle_initial = $this->middle_name ? $this->middle_name[0].'.' : '';
-
-        return "$this->first_name $middle_initial $this->last_name";
+        try {
+            // Decrypt the names
+            $firstName = Crypt::decryptString($this->first_name);
+            $lastName = Crypt::decryptString($this->last_name);
+            
+            // Handle middle name if it exists
+            $middleInitial = '';
+            if (!empty($this->middle_name)) {
+                $decryptedMiddleName = Crypt::decryptString($this->middle_name);
+                $middleInitial = !empty($decryptedMiddleName) ? $decryptedMiddleName[0] . '.' : '';
+            }
+            
+            return "$firstName $middleInitial $lastName";
+        } catch (\Exception $e) {
+            // Fallback in case decryption fails
+            Log::error('Error decrypting user name: ' . $e->getMessage());
+            return "User"; // Return a generic name as fallback
+        }
     }
 
     public function getUserTypeNameAttribute(): string

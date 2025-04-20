@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,29 +21,29 @@ class DatabaseSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'first_name' => 'Howard Glen',
-                'middle_name' => 'Doe',
-                'last_name' => 'Gloria',
+                'first_name' => Crypt::encryptString('Howard Glen'),
+                'middle_name' => Crypt::encryptString('Doe'),
+                'last_name' => Crypt::encryptString('Gloria'),
                 'date_of_birth' => '1990-01-01',
-                'sex' => 'male',
-                'username' => 'howardGlen_admin',
+                'sex' => Crypt::encryptString('male'),
+                'username' => Crypt::encryptString('howardGlen_admin'),
                 'email' => null,
                 'password' => Hash::make('password'),
                 'user_type' => 1,
                 'remember_token' => null,
-                'generated_password' => null, // Add this if necessary
-                'email_verified_at' => null,  // Add this if necessary
+                'generated_password' => null,
+                'email_verified_at' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'first_name' => 'Jane',
-                'middle_name' => 'D.',
-                'last_name' => 'Resident',
+                'first_name' => Crypt::encryptString('Jane'),
+                'middle_name' => Crypt::encryptString('D.'),
+                'last_name' => Crypt::encryptString('Resident'),
                 'date_of_birth' => '1995-02-02',
-                'sex' => 'female',
+                'sex' => Crypt::encryptString('female'),
                 'username' => null,
-                'email' => 'resident@example.com',
+                'email' => Crypt::encryptString('resident@example.com'),
                 'password' => Hash::make('password'),
                 'user_type' => 2,
                 'remember_token' => null,
@@ -52,14 +53,14 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'first_name' => 'Bright',
-                'middle_name' => 'D.',
-                'last_name' => 'PatcherKo',
+                'first_name' => Crypt::encryptString('Bright'),
+                'middle_name' => Crypt::encryptString('D.'),
+                'last_name' => Crypt::encryptString('PatcherKo'),
                 'date_of_birth' => '1995-02-05',
-                'sex' => 'female',
+                'sex' => Crypt::encryptString('female'),
                 'user_type' => 3,
                 'email' => null,
-                'username' => 'patcherKo',
+                'username' => Crypt::encryptString('patcherKo'),
                 'password' => Hash::make('password'),
                 'generated_password' => 'password',
                 'remember_token' => null,
@@ -67,22 +68,8 @@ class DatabaseSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-//            [
-//                'first_name' => 'Sheena Mariz',
-//                'middle_name' => 'D.',
-//                'last_name' => 'PatcherKo',
-//                'date_of_birth' => '1995-02-05',
-//                'sex' => 'female',
-//                'username' => 'sheena_staff', // Staff username
-//                'email' => null, // No email for staff
-//                'password' => Hash::make('password'), // Hashing the password
-//                'user_type' => 3, // User type of staff
-//                'remember_token' => null,
-//                'created_at' => now(),
-//                'updated_at' => now(),
-//            ],
-
         ]);
+        
 
         DB::table('severities')->insert([
             [
