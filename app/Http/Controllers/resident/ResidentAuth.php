@@ -102,7 +102,7 @@ class ResidentAuth extends Controller
 //        }
         public function index()
         {
-            return view('iroadcheck.prototype.residents.signup');
+            return view('iroadcheck.prototype.residents.verify-user-enterCode');
         }
     }
 
