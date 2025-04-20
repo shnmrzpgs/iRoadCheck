@@ -114,7 +114,8 @@
                                             <button
                                                 class="flex items-center text-[#3251FF] hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95 hover:bg-blue-100 hover:shadow py-1 px-3 rounded-md"
                                                 wire:click="viewHistoryReports({{ $report->id }})"
-                                                wire:loading.attr="disabled" x-data="{ loading: false }"
+                                                wire:loading.attr="disabled"
+                                                x-data="{ loading: false }"
                                                 x-on:click="loading = true"
                                                 x-on:view-report-history-modal-shown.window="loading = false">
                                                 <img src="{{ asset('storage/icons/view-icon.png') }}" alt="View Icon"

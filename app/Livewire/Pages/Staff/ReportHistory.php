@@ -119,7 +119,6 @@ class ReportHistory extends Component
 
     public function viewHistoryReports($reportId): void
     {
-        dd('view history reports');
         Log::info("viewHistoryReports triggered with ID: " . $reportId);
         $this->dispatch('show-view-report-history-modal', reportId: $reportId);
     }
