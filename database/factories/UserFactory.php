@@ -8,6 +8,7 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 use PhpParser\Node\Expr\Array_;
@@ -45,7 +46,7 @@ class UserFactory extends Factory
 //    public function definition(): array
 //    {
 //        return [
-////            'first_name' => $this->faker->firstName,
+//            'first_name' => $this->faker->firstName,
 ////            'middle_name' => $this->faker->optional()->firstName,
 ////            'last_name' => $this->faker->lastName,
 ////            'date_of_birth' => $this->faker->date('Y-m-d', '2005-01-01'),
@@ -86,14 +87,14 @@ class UserFactory extends Factory
         $userType = $this->faker->randomElement([1, 2, 3]);
 
         return [
-            'first_name' => $this->faker->firstName,
-            'middle_name' => $this->faker->optional()->firstName,
-            'last_name' => $this->faker->lastName,
+            'first_name' => Crypt::encryptString($this->faker->firstName),
+            'middle_name' => Crypt::encryptString($this->faker->optional()->firstName),
+            'last_name' => Crypt::encryptString($this->faker->lastName),
             'date_of_birth' => $this->faker->date('Y-m-d', '2005-01-01'),
-            'sex' => $this->faker->randomElement(['Male', 'Female']),
+            'sex' => Crypt::encryptString($this->faker->randomElement(['male', 'female'])),
             'user_type' => $userType,
             // 'status' => $this->faker->randomElement(['Active', 'Inactive']),
-            'username' => 'user_' . $this->faker->unique()->numberBetween(1, 1000),
+            'username' => Crypt::encryptString('user_' . $this->faker->unique()->numberBetween(1, 1000)),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => $this->faker->optional()->dateTimeBetween('-1 year', 'now'),
             'password' => static::$password ??= Hash::make('password'),
@@ -105,6 +106,7 @@ class UserFactory extends Factory
             'updated_at' => now(),
         ];
     }
+
 
     /**
      * Indicate that the model's email address should be unverified.
@@ -128,7 +130,7 @@ class UserFactory extends Factory
         return $this->has(
             Team::factory()
                 ->state(fn (array $attributes, User $user) => [
-                    'name' => $user->name.'\'s Team',
+                    'name' => $user->name . '\'s Team',
                     'user_id' => $user->id,
                     'personal_team' => true,
                 ])
