@@ -34,7 +34,7 @@ Route::group(['middleware' => 'AuthStaff'], function () {
 //    Route::get('/staff/suggestion-reports', [App\Http\Controllers\staff\SuggestionReportsController::class, 'index'])
 //        ->name('staff.suggestion-reports');
 
-    Route::get('/staff/report-history', [App\Http\Controllers\staff\ReportHistoryController::class, 'index'])
+    Route::get('/staff/update-history', [App\Http\Controllers\staff\ReportHistoryController::class, 'index'])
         ->name('staff.report-history');
 
     Route::get('/staff/notifications', [App\Http\Controllers\staff\NotificationsController::class, 'index'])
