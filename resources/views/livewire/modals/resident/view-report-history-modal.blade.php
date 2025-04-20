@@ -1,3 +1,4 @@
+@php use App\Models\User; @endphp
 <div x-data="{ open: false, image: '{{ $image }}' }">
     <x-residents.crud-modal-content-base modal_name="view-report-history-modal">
 
@@ -97,7 +98,20 @@
 
                         <div class="text-xs lg:text-sm flex justify-start items-start w-full">
                             <div class="w-2/4 md:w-1/4 lg:w-2/5 text-gray-600">Updated By (User ID):</div>
-                            <div class="w-2/4 md:w-3/4 lg:w-3/5 font-semibold">{{ $report->updater_id ?? 'N/A' }}</div>
+                            @php
+
+
+                                $updater = $report->updater_id ? User::find($report->updater_id) : null;
+                            @endphp
+
+                            <div class="w-2/4 md:w-3/4 lg:w-3/5 font-semibold">
+                                @if($updater)
+                                    {{ Crypt::decryptString($updater->first_name) }} {{ Crypt::decryptString($updater->last_name) }}
+                                @else
+                                    N/A
+                                @endif
+                            </div>
+
                         </div>
                     @endif
                 </div>
