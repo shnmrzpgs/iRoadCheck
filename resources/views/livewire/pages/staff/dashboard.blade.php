@@ -1,4 +1,4 @@
-<x-Staff.staff-navigation page_title="Dashboard" action="{{ route('staff.dashboard') }}" placeholder="Search..." name="search">
+<x-staff.staff-navigation page_title="Dashboard" action="{{ route('staff.dashboard') }}" placeholder="Search..." name="search">
     <div class="w-full flex-1 -mt-2 overflow-y-scroll h-[70vh] md:h-[85vh] lg:h-auto xl:overflow-hidden pb-8">
         <div class="mx-auto bg-[#FBFBFB] w-9/10 lg:w-full px-4 py-2 rounded-lg drop-shadow mb-2 block md:hidden text-center text-[22px] text-md md:text-lg font-semibold text-[#4AA76F] md:mr-3 lg:mr-1">
             Dashboard
@@ -106,8 +106,10 @@
                     <div class="flex flex-col gap-3 mb-5">
 
                         <!-- Today's Reports Card -->
-                        <a href="{{ route('admin.manage-users-table') }}"
-                           class="relative bg-white rounded-lg shadow-md py-0 px-2 overflow-hidden min-w-auto w-[300px] max-w-[340px] h-[115px]
+
+                        <a href="{{ route('staff.road-defect-reports') }}"
+                            class="relative bg-white rounded-lg shadow-md py-0 px-2 overflow-hidden min-w-auto w-[300px] max-w-[340px] h-[115px]
+                            
                             hover:drop-shadow-lg transition-all duration-500 ease-out drop-shadow
                             transform-gpu group">
 
@@ -131,8 +133,9 @@
                         </a>
 
                         <!-- Active Accounts Card -->
-                        <a href="{{ route('admin.manage-users-table') }}"
-                           class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden w-auto h-[115px]
+                        <a href="{{ route('staff.road-defect-reports') }}"
+                            class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden w-auto h-[115px]
+
                         hover:drop-shadow-lg transition-all duration-500 ease-out drop-shadow
                         transform-gpu group ">
 
@@ -158,8 +161,10 @@
                         </a>
 
                         <!-- Inactive Accounts Card -->
-                        <a href="{{ route('admin.manage-users-table') }}"
-                           class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden w-auto h-[115px]
+                        
+                        <a href="{{ route('staff.road-defect-reports') }}"
+                            class="relative bg-white rounded-lg shadow-md p-0 overflow-hidden w-auto h-[115px]
+
                         hover:drop-shadow-lg transition-all duration-500 ease-out drop-shadow
                         transform-gpu group ">
 
@@ -354,4 +359,4 @@
         });
     </script>
 
-</x-Staff.staff-navigation>
+</x-staff.staff-navigation>

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 class ResidentSeeder extends Seeder
 {
@@ -20,11 +21,15 @@ class ResidentSeeder extends Seeder
             ->select('users.id') // Only select user IDs
             ->get();
 
+
+
         // Insert into the residents table
         foreach ($residentUsers as $user) {
+            $plainPhone = '09' . rand(100000000, 999999999); // e.g., 09XXXXXXXXX
+            $formattedPhone = preg_replace('/^0/', '+63', $plainPhone);
             DB::table('residents')->insert([
                 'user_id' => $user->id,
-                'phone' => rand(1000000000, 9999999999), // Generate a random 10-digit phone number
+                'phone' => Crypt::encryptString($formattedPhone),
                 'remember_token' => null, // Null since it's optional
                 'created_at' => now(),
                 'updated_at' => now(),

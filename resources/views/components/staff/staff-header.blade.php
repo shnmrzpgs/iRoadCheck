@@ -1,6 +1,5 @@
 <!-- Header-->
-<header
-    class="bg-white md:bg-transparent fixed md:relative flex py-2 lg:py-5 shadow-lg md:shadow-none pr-0 md:pr-5 w-full z-[10]">
+<header class="bg-white md:bg-transparent fixed md:relative flex py-2 lg:py-5 shadow-lg md:shadow-none pr-0 md:pr-5 w-full z-[10]">
 
     <!-- Logo, Page Title and Search Bar-->
     <div x-cloak
@@ -120,3 +119,4 @@
 
     {{ $mobile_notification_and_profile_header }}
 </header>
+

@@ -83,26 +83,6 @@ class ReviewReport extends Component
                 ->get();
 
             if (!$existingReport) {
-//                // Save to suggestions table instead
-//                Suggestion::create([
-//                    'report_id' => $existingReport->id,
-//                    'reporter_id' => Auth::id(),
-//                    'is_match' => false, // Default to false until user confirms
-//                    'response_deadline' => Carbon::now()->addDays(2), // Set deadline 5 days later
-//                    'defect' => $temporaryReport->defect,
-//                    'lat' => $temporaryReport->latitude,
-//                    'lng' => $temporaryReport->longitude,
-//                    'location' => $temporaryReport->address,
-//                    'street' => $temporaryReport->street,
-//                    'purok' => $temporaryReport->purok,
-//                    'barangay' => $temporaryReport->barangay,
-//                    'date' => Carbon::createFromFormat('F d, Y', $temporaryReport->date)->format('Y-m-d'),
-//                    'time' => Carbon::parse($temporaryReport->time)->format('H:i:s'),
-//                    'severity' => 1,
-//                    'image' => $temporaryReport->image,
-//                    'image_annotated' => $temporaryReport->image_annotated,
-//                    'status' => "Unfixed"
-//                ]);
 
                 // Create a new record in the reports table
                 $report = Report::create([
@@ -166,6 +146,7 @@ class ReviewReport extends Component
             } else{
                 $this->isOpen = false;
                 $temporaryReport->is_opened = 2;
+                $temporaryReport->save();
                 session()->flash('suggestion-exist', 'This suggestion already exists.');
             }
 

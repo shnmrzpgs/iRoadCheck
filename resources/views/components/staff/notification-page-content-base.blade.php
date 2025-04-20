@@ -59,4 +59,6 @@
             {{ $notification_lists }}
         </div>
     </div>
+
 </div>
+

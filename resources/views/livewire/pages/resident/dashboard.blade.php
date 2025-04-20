@@ -14,15 +14,18 @@
 
                     <!-- Content -->
                     <div class="relative z-10 flex items-center">
-                        <a href="{{ route('profile-info') }}">
+                        <a href="{{ route('resident.profile-edit') }}">
                             <img src="{{ Auth::user()->profilePhoto ? asset('storage/' . Auth::user()->profilePhoto->photo_path) : asset('storage/icons/profile-graphics.png') }}"
                                 alt="Profile Image"
                                 class="w-14 h-14 md:w-20 md:h-20 rounded-full border border-customGreen bg-green-500">
                         </a>
                         <div class="ml-4 text-left">
-                            <p class="text-lg md:text-2xl text-green-600 font-semibold">Good Morning!</p>
+                            <p class="text-lg md:text-2xl text-green-600 font-semibold">{{ $greeting }}</p>
                             <p class="text-gray-600 text-sm md:text-md capitalize">
-                                {{ sprintf('%s %s', Auth::user()->first_name, Auth::user()->last_name) }}
+                                {{ sprintf('%s %s', 
+                                    Crypt::decryptString(Auth::user()->first_name), 
+                                    Crypt::decryptString(Auth::user()->last_name)) 
+                                }}
                             </p>
                         </div>
                     </div>

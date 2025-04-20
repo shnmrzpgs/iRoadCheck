@@ -47,15 +47,15 @@
                     </template>
                     <!-- Mobile LOG IN and SIGN UP buttons -->
                     <div class="flex flex-col space-y-2 md:hidden pt-4">
-                        <a href="#" @click="open = false" class="text-center text-orange-500 px-4 py-2 rounded hover:underline">LOG IN</a>
-                        <a href="#" @click="open = false" class="text-center bg-green-500 text-white px-4 py-2 rounded hover:bg-[#4AA76F]">SIGN UP</a>
+                        <a href="{{ route('residents-login') }}" class="text-center text-orange-500 px-4 py-2 rounded hover:underline">LOG IN</a>
+                        <a href="{{ route('residents-signup') }}" @click="open = false" class="text-center bg-green-500 text-white px-4 py-2 rounded hover:bg-[#4AA76F]">SIGN UP</a>
                     </div>
                 </div>
 
                 <!-- Desktop LOG IN and SIGN UP buttons -->
                 <div class="hidden md:flex space-x-4 font-medium">
-                    <a href="#" class="text-xs text-orange-500 px-4 py-2 rounded hover:underline">LOG IN</a>
-                    <a href="#" class="text-xs bg-green-500 text-white px-4 py-2 rounded hover:bg-[#4AA76F]">SIGN UP</a>
+                    <a href="{{ route('residents-login') }}" class="text-xs text-orange-500 px-4 py-2 rounded hover:underline">LOG IN</a>
+                    <a href="{{ route('residents-signup') }}" class="text-xs bg-green-500 text-white px-4 py-2 rounded hover:bg-[#4AA76F]">SIGN UP</a>
                 </div>
             </div>
         </header>
@@ -132,9 +132,9 @@
                     </div>
 
                     <!-- Report Button -->
-                    <button class="relative w-3/4 md:w-1/2 lg:w-2/4 md:shadow hover:scale-110 transform transition-transform duration-300 ease-in-out bg-gradient-to-r from-[#5A915E] to-[#F8A15E] hover:drop-shadow-md text-white p-4 md:p-4 font-semibold my-4 md:my-6 rounded-full">
+                    <a href="{{ route('report-road-issue') }}" class="text-center relative w-3/4 md:w-1/2 lg:w-2/4 md:shadow hover:scale-110 transform transition-transform duration-300 ease-in-out bg-gradient-to-r from-[#5A915E] to-[#F8A15E] hover:drop-shadow-md text-white p-4 md:p-4 font-semibold my-4 md:my-6 rounded-full">
                         Report Road Defect
-                    </button>
+                    </a>
                 </div>
 
                 <!-- Text Box with Alpine.js -->
@@ -315,9 +315,9 @@
         <!-- Want to explore more section -->
         <div class="text-center py-24">
             <p class="text-3xl font-medium text-gray-600 mb-4">Want to explore more?</p>
-            <button class="mt-4 px-8 py-2 hover:scale-110 transform transition-transform duration-300 ease-in-out bg-gradient-to-r from-[#5A915E] to-[#F8A15E] hover:drop-shadow-md text-white p-3 font-semibold rounded-[4px] shadow-[0_4px_10px_rgba(90,145,94,0.7)]">
+            <a href="{{ route('residents-signup') }}" class="mt-4 px-8 py-2 hover:scale-110 transform transition-transform duration-300 ease-in-out bg-gradient-to-r from-[#5A915E] to-[#F8A15E] hover:drop-shadow-md text-white p-3 font-semibold rounded-[4px] shadow-[0_4px_10px_rgba(90,145,94,0.7)]">
                 SIGN UP NOW
-            </button>
+            </a>
             <p class="mt-4 mx-10 text-sm text-gray-500">We will not share your information once you sign up.</p>
         </div>
 
@@ -378,7 +378,7 @@
                 <div class="text-xs text-center w-full lg:mt-0 text-[#F5F5F5] pb-5 mt-10">
                     © 2024 iRoadCheck. All rights reserved.
                     <span class="mx-2">|</span>
-                    <a href="#" class="hover:underline">Privacy Policy</a>
+                    <a href="{{ route('data-privacy-statement') }}" class="hover:underline">Privacy Policy</a>
                     <span class="mx-2">|</span>
                     <a href="#" class="hover:underline">Terms and Conditions</a>
                 </div>

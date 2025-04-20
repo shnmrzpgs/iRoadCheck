@@ -51,7 +51,7 @@ class ReportHistory extends Component
             $this->sort_direction = $this->sort_direction === 'asc' ? 'desc' : 'asc';
         } else {
             $this->sort_by = $column;
-            $this->sort_direction = $column  === 'created_at' ? 'desc' : 'asc';
+            $this->sort_direction = $column === 'created_at' ? 'desc' : 'asc';
         }
     }
 

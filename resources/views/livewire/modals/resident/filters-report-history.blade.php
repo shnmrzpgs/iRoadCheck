@@ -1,11 +1,12 @@
     <!-- FILTER FOR WEB VIEW -->
     <div x-data="{ activeFilter: 'all' }" class="hidden lg:flex md:flex gap-1">
         <!-- All resident Option -->
-        <div wire:click="resetFiltersAndSearch" class="relative rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md"
+        <div wire:click="resetFiltersAndSearch"
+            class="relative rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md"
             :class="{
-                                'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'all',
-                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'all'
-                            }"
+                'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'all',
+                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'all'
+            }"
             @click="activeFilter = 'all'">
             <span class="text-[12px] block appearance-none w-full text-center px-2 py-2 rounded">
                 All History
@@ -15,15 +16,15 @@
         <!-- Defect Filter -->
         <div class="relative flex rounded-[4px] border hover:shadow-md custom-select"
             :class="{
-                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'selectedDefect',  /* Active state */
-                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'selectedDefect'  /* Default and hover state */
-                            }">
-            <select wire:model.live="selectedDefect"
-                @change="activeFilter = 'selectedDefect'"
+                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'selectedDefect',
+                /* Active state */
+                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'selectedDefect' /* Default and hover state */
+            }">
+            <select wire:model.live="selectedDefect" @change="activeFilter = 'selectedDefect'"
                 class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
                 <option value="" class="text-gray-400 text-[12px]">Defect Types</option>
-                @foreach($defectTypes as $defect)
-                <option value="{{ $defect }}">{{ $defect }}</option>
+                @foreach ($defectTypes as $defect)
+                    <option value="{{ $defect }}">{{ $defect }}</option>
                 @endforeach
             </select>
         </div>
@@ -31,15 +32,15 @@
         <!-- barangay Filter -->
         <div class="relative flex rounded-[4px] border hover:shadow-md custom-select"
             :class="{
-                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'selectedBarangay',  /* Active state */
-                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'selectedBarangay'  /* Default and hover state */
-                            }">
-            <select wire:model.live="selectedBarangay"
-                @change="activeFilter = 'selectedBarangay'"
+                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'selectedBarangay',
+                /* Active state */
+                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'selectedBarangay' /* Default and hover state */
+            }">
+            <select wire:model.live="selectedBarangay" @change="activeFilter = 'selectedBarangay'"
                 class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
                 <option value="" class="text-gray-400 text-[12px]">Barangay</option>
-                @foreach($barangays as $barangay)
-                <option value="{{ $barangay }}">{{ $barangay }}</option>
+                @foreach ($barangays as $barangay)
+                    <option value="{{ $barangay }}">{{ $barangay }}</option>
                 @endforeach
             </select>
         </div>
@@ -47,56 +48,52 @@
         <!-- status Filter -->
         <div class="relative flex rounded-[4px] border hover:shadow-md custom-select"
             :class="{
-                                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'selectedStatus',  /* Active state */
-                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'selectedStatus'  /* Default and hover state */
-                            }">
-            <select wire:model.live="selectedStatus"
-                @change="activeFilter = 'selectedStatus'"
+                'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'selectedStatus',
+                /* Active state */
+                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'selectedStatus' /* Default and hover state */
+            }">
+            <select wire:model.live="selectedStatus" @change="activeFilter = 'selectedStatus'"
                 class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none focus:scale-105">
                 <option value="" class="text-gray-400 text-[12px]">Status</option>
-                @foreach($statuses as $status)
-                <option value="{{ $status }}">{{ $status }}</option>
+                @foreach ($statuses as $status)
+                    <option value="{{ $status }}">{{ $status }}</option>
                 @endforeach
             </select>
         </div>
 
         <!-- Date Range Filter -->
-        <div
-            x-data="{
-                                value: [$wire.start_date, $wire.end_date],
-                                init() {
-                                    let picker = flatpickr(this.$refs.picker, {
-                                        mode: 'range',
-                                        dateFormat: 'Y-m-d',
-                                        defaultDate: this.value,
-                                        minDate: $wire.start_date,
-                                        maxDate: $wire.end_date,
-                                        allowInput: false,
-                                        onChange: (date, dateString) => {
-                                            this.value = dateString.split(' to ');
-                                            $wire.date_range_filter = dateString; // Ensure Livewire updates
-                                        }
-                                    });
-                                    this.$watch('value', () => picker.setDate(this.value));
-                                }
-                            }"
+        <div x-data="{
+            value: [$wire.start_date, $wire.end_date],
+            init() {
+                let picker = flatpickr(this.$refs.picker, {
+                    mode: 'range',
+                    dateFormat: 'Y-m-d',
+                    defaultDate: this.value,
+                    minDate: $wire.start_date,
+                    maxDate: $wire.end_date,
+                    allowInput: false,
+                    onChange: (date, dateString) => {
+                        this.value = dateString.split(' to ');
+                        $wire.date_range_filter = dateString; // Ensure Livewire updates
+                    }
+                });
+                this.$watch('value', () => picker.setDate(this.value));
+            }
+        }"
             class="relative flex rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md custom-date-input"
             :class="{
-                                'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'dateRange',
-                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'dateRange'
-                            }">
+                'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'dateRange',
+                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'dateRange'
+            }">
             <input
                 class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none"
-                x-ref="picker"
-                type="text"
-                placeholder="Select Date Range"
-                wire:model.live="date_range_filter"
+                x-ref="picker" type="text" placeholder="Select Date Range" wire:model.live="date_range_filter"
                 @focus="activeFilter = 'dateRange'" />
         </div>
 
     </div>
 
-    <div x-data="{ showFilters: false }" class="w-[328px]">
+    <div x-data="{ showFilters: false }" class="w-[320px]">
         <div class="flex justify-between gap-12 items-center w-full lg:hidden md:hidden mb-4">
             <div class="flex justify-start items-center">
                 <button @click="showFilters = !showFilters"
@@ -116,9 +113,10 @@
             <div class="flex w-full gap-2">
                 <div wire:click="resetFiltersAndSearch" class="relative flex-1 rounded-[4px] border hover:shadow-md"
                     :class="{
-                    'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'all',
-                    'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'all'
-                }" @click="activeFilter = 'all'">
+                        'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'all',
+                        'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'all'
+                    }"
+                    @click="activeFilter = 'all'">
                     <span class="text-[12px] block text-center px-2 py-2 rounded">All History</span>
                 </div>
 
@@ -126,8 +124,8 @@
                     <select wire:model.live="selectedDefect" @change="activeFilter = 'selectedDefect'"
                         class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none">
                         <option value="">Defect Types</option>
-                        @foreach($defectTypes as $defect)
-                        <option value="{{ $defect }}">{{ $defect }}</option>
+                        @foreach ($defectTypes as $defect)
+                            <option value="{{ $defect }}">{{ $defect }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -139,8 +137,8 @@
                     <select wire:model.live="selectedBarangay" @change="activeFilter = 'selectedBarangay'"
                         class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none">
                         <option value="">Barangay</option>
-                        @foreach($barangays as $barangay)
-                        <option value="{{ $barangay }}">{{ $barangay }}</option>
+                        @foreach ($barangays as $barangay)
+                            <option value="{{ $barangay }}">{{ $barangay }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -149,8 +147,8 @@
                     <select wire:model.live="selectedStatus" @change="activeFilter = 'selectedStatus'"
                         class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none">
                         <option value="">Status</option>
-                        @foreach($statuses as $status)
-                        <option value="{{ $status }}">{{ $status }}</option>
+                        @foreach ($statuses as $status)
+                            <option value="{{ $status }}">{{ $status }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -158,37 +156,33 @@
 
             <!-- 3rd line -->
             <div class="flex w-full">
-                <div
-                    x-data="{
-                                value: [$wire.start_date, $wire.end_date],
-                                init() {
-                                    let picker = flatpickr(this.$refs.picker, {
-                                        mode: 'range',
-                                        dateFormat: 'Y-m-d',
-                                        defaultDate: this.value,
-                                        minDate: $wire.start_date,
-                                        maxDate: $wire.end_date,
-                                        allowInput: false,
-                                        onChange: (date, dateString) => {
-                                            this.value = dateString.split(' to ');
-                                            $wire.date_range_filter = dateString; // Ensure Livewire updates
-                                        }
-                                    });
-                                    this.$watch('value', () => picker.setDate(this.value));
-                                }
-                                }"
+                <div x-data="{
+                    value: [$wire.start_date, $wire.end_date],
+                    init() {
+                        let picker = flatpickr(this.$refs.picker, {
+                            mode: 'range',
+                            dateFormat: 'Y-m-d',
+                            defaultDate: this.value,
+                            minDate: $wire.start_date,
+                            maxDate: $wire.end_date,
+                            allowInput: false,
+                            onChange: (date, dateString) => {
+                                this.value = dateString.split(' to ');
+                                $wire.date_range_filter = dateString; // Ensure Livewire updates
+                            }
+                        });
+                        this.$watch('value', () => picker.setDate(this.value));
+                    }
+                }"
                     class="relative flex-1 rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md custom-date-input"
                     :class="{
-                                'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'dateRange',
-                                'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'dateRange'
-                                }">
+                        'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'dateRange',
+                        'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'dateRange'
+                    }">
                     <input
                         class="text-[12px] block appearance-none w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded shadow-none focus:outline-none"
-                        x-ref="picker"
-                        type="text"
-                        placeholder="Select Date Range"
-                        wire:model.live="date_range_filter"
-                        @focus="activeFilter = 'dateRange'" />
+                        x-ref="picker" type="text" placeholder="Select Date Range"
+                        wire:model.live="date_range_filter" @focus="activeFilter = 'dateRange'" />
                 </div>
             </div>
         </div>

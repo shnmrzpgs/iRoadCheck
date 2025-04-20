@@ -15,6 +15,7 @@ use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Crypt;
 
 class AdminLogsTable extends Component
 {
@@ -151,6 +152,20 @@ class AdminLogsTable extends Component
     /**
      * Render the Livewire component.
      */
+    public function getDecryptedAdminLogs()
+    {
+        return $this->getFilteredQuery()->get()->map(function ($log) {
+            if ($log->admin && $log->admin->user) {
+                $log->admin->user->first_name = Crypt::decryptString($log->admin->user->first_name);
+                $log->admin->user->last_name = Crypt::decryptString($log->admin->user->last_name);
+            }
+            return $log;
+        });
+    }
+
+    /**
+     * Render the Livewire component.
+     */
     public function render(): Factory|Application|View|\Illuminate\View\View
     {
         $adminLogs = $this->getFilteredQuery()
@@ -159,6 +174,7 @@ class AdminLogsTable extends Component
         session()->forget('hideSearchBar');
         return view('livewire.pages.admin.admin-logs-table', [
             'adminLogs' => $adminLogs,
+            'admin_logs' => $this->getDecryptedAdminLogs(),
         ]);
     }
 }

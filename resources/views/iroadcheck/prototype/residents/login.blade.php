@@ -1,3 +1,3 @@
 <x-app-layout>
-    <livewire:resident-login/>
+    <livewire:resident-login />
 </x-app-layout>
