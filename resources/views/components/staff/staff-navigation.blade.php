@@ -195,7 +195,7 @@
 
                 <x-slot:mobile_notification_and_profile_header>
                     <!-- Notifications and Profile Icon -->
-                    <div class="block md:hidden flex items-center space-x-3">
+                    <div class="block md:hidden flex items-center space-x-3 pr-2">
 
                         <livewire:staff.notification-dropdown/>
 
@@ -204,11 +204,11 @@
                             <a @click="openDropdown = !openDropdown; activeLink = ''"
                                class="cursor-pointer " >
                                 <div :class="{
-                                'border-2 border-customGreen rounded-full': openDropdown
-                             }">
+                                    'border-2 border-customGreen rounded-full': openDropdown
+                                 }">
                                     <img src="{{ Auth::user()->profile_picture_url }}" alt="Profile Image"
-                                         class="w-8 h-8 rounded-full hover:bg-customGreen
-                                {{ request()->routeIs('profile-info') ? 'border-2 border-customGreen bg-customGreen' : 'border border-gray-400' }}">
+                                         class="w-8 h-8 rounded-full hover:bg-customGreen object-cover
+                                        {{ request()->routeIs('profile-info') ? 'border-2 border-customGreen bg-customGreen' : 'border border-gray-400' }}">
                                 </div>
                             </a>
 
@@ -220,7 +220,7 @@
                                 <ul class="space-y-2">
                                     <!-- Profile Info Link -->
                                     <li>
-                                        <a href="{{ route('staff.profile-edit') }}" wire:navigate
+                                        <a href="{{ route('staff.profile-edit') }}"
                                            class="block px-4 py-2 text-gray-800 hover:bg-gray-100 rounded-t-lg border-b border-gray-300 text-sm">
                                             Profile Settings
                                         </a>
@@ -228,7 +228,7 @@
                                     <!-- Logout Option -->
                                     <li>
                                         <a href="javascript:void(0);"
-                                           @click="logoutResident">
+                                           @click="logoutStaff">
                                             <div method="POST" class="block rounded-b-lg px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm">
                                                 @csrf
                                                 <button type="submit" class="w-full text-left">Logout</button>
@@ -247,7 +247,7 @@
 
             <!-- Content Area -->
             <main
-                class="mt-24 md:pt-2 md:mt-0 flex-1 rounded-md mb-4 mx-0 p-0 bg-none w-full pr-3 {{ ' '.$main_class }}">
+                class="mt-24 md:pt-2 md:mt-0 flex-1 rounded-md mb-4 mx-0 p-0 bg-none w-full pr-0 md:pr-3 {{ ' '.$main_class }}">
                 <!-- Main content here -->
                 {{ $slot }}
             </main>
