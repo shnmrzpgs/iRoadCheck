@@ -296,7 +296,7 @@ class ReportController extends Controller
 
         if ($validator->fails()) {
             // Flash error session so your animation triggers
-            session()->flash('feedback', 'Please fill in all required fields correctly.');
+            session()->flash('feedback', 'Please wait for the details to load.');
             session()->flash('feedback_type', 'error');
 
             // Optionally redirect back with validation messages too
