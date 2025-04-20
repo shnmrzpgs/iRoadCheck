@@ -401,8 +401,8 @@ class ReportController extends Controller
             'barangay' => $barangay,
             'date' => Carbon::createFromFormat('F d, Y', $request->date)->format('Y-m-d'),
             'time' => Carbon::parse($request->time)->format('H:i:s'),
-            'severity' => 1,
-            'label' => 1,
+            'severity' => 5,
+            'label' => 5,
             'image' => $fullImagePath,
             'image_annotated' => $annotatedPath,
             'status' => "Unfixed"

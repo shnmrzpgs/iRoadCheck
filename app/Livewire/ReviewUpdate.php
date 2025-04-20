@@ -96,6 +96,10 @@ use Livewire\Component;
                     'status' => $selectedStatus,
                     'updater_id' => $userId,
                 ]);
+            SuggestionModal::where('report_id', $this->selectedReports)
+                ->update([
+                    'status' => $selectedStatus,
+                ]);
 
             DB::commit();
             session()->flash('feedback', 'Report submitted successfully!');

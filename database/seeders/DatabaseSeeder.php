@@ -69,7 +69,7 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ],
         ]);
-        
+
 
         DB::table('severities')->insert([
             [
@@ -83,6 +83,9 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'label' => 'Dangerous',
+            ],
+            [
+                'label' => 'None',
             ],
         ]);
 

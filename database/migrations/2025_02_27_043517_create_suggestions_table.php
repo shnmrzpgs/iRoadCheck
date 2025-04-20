@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('barangay')->default('N/A');
             $table->date('date');
             $table->time('time')->nullable();
+            $table->foreignId('label')->references('id')->on('severities');
             $table->foreignId('severity')->references('id')->on('severities');
             $table->string('status');
             $table->string('image');

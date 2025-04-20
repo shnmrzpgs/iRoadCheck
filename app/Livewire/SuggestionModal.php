@@ -91,7 +91,8 @@ class SuggestionModal extends Component
                 'barangay' => $reportSelected->barangay,
                 'date' => now()->format('Y-m-d'),
                 'time' => now()->format('H:i:s'),
-                'severity' => 1,
+                'severity' => $reportSelected->severity,
+                'label' => $reportSelected->label,
                 'image' => $temporaryReport->image ?? null,
                 'image_annotated' => $temporaryReport->image_annotated ?? null,
                 'status' => "Unfixed"
