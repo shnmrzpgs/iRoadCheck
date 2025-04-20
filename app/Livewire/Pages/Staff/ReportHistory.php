@@ -55,7 +55,7 @@ class ReportHistory extends Component
         }
     }
 
-    public function resetFiltersAndSearch()
+    public function resetFiltersAndSearch(): void
     {
         $this->selectedDefect = '';
         $this->selectedBarangay = '';

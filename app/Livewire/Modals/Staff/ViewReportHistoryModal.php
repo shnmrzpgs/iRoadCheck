@@ -14,7 +14,7 @@ class ViewReportHistoryModal extends Component
 
     protected $listeners = ['show-view-report-history-modal' => 'showModal'];
 
-    public function showModal($reportId)
+    public function showModal($reportId): void
     {
         Log::info('Received report ID:', ['reportId' => $reportId]);
         $this->report = Report::findOrFail($reportId);
@@ -28,7 +28,7 @@ class ViewReportHistoryModal extends Component
     }
 
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\View\View
     {
         return view('livewire.modals.staff.view-report-history-modal');
     }
