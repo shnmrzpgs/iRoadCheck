@@ -7,6 +7,7 @@ use App\Models\Resident;
 use App\Models\User;
 use App\Services\PhilSMSService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Livewire\Component;
 
 class ForgotPassword extends Component
@@ -34,8 +35,13 @@ class ForgotPassword extends Component
         $formattedPhone = preg_replace('/^0/', '+63', $phone);
 
         // Now you can query the database
-        $resident = \App\Models\Resident::where('phone', $formattedPhone)->first();
-
+        $resident = Resident::all()->first(function ($res) use ($formattedPhone) {
+            try {
+                return Crypt::decryptString($res->phone) === $formattedPhone;
+            } catch (\Exception $e) {
+                return false; // Ignore decryption errors
+            }
+        });
         if ($resident) {
             $user = User::find($resident->user_id);
             Auth::login($user);
