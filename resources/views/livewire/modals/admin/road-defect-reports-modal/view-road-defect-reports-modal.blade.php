@@ -225,7 +225,16 @@
                                 <!-- Staff Information -->
                                 <div class="mb-2 text-xs lg:text-sm flex w-full">
                                     <div class="w-2/4 text-gray-600">Updated By Staff: (Role)</div>
-                                    <div class="w-2/4">{{ $report->id }}</div>
+                                    @php
+                                        $updater = DB::table('users')->where('id', $report->updater_id)->first();
+                                        $updaterFirst = $updater ? Crypt::decryptString($updater->first_name) : 'Unknown';
+                                        $updaterLast = $updater ? Crypt::decryptString($updater->last_name) : '';
+                                    @endphp
+
+                                    <div class="w-2/4">
+                                        {{ $updaterFirst }} {{ $updaterLast }}
+                                    </div>
+
                                 </div>
 
                                 <!-- Date Updated -->
