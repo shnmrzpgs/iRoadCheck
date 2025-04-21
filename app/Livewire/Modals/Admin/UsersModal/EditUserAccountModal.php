@@ -314,7 +314,7 @@ class EditUserAccountModal extends Component
             // Admin log entry
             AdminLog::create([
                 'admin_id' => auth()->id(),
-                'action' => "Failed to update staff account: {$firstName} {$lastName} ({$this->getRoleName()})",
+                'action' => "Successful on updating staff account: {$firstName} {$lastName} ({$this->getRoleName()})",
                 'dateTime' => now(),
                 'user_id' => auth()->id(),
             ]);
