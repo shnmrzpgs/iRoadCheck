@@ -184,21 +184,7 @@
                         {{-- Updated Road Defect Information --}}
                         <div class="w-full lg:w-[48%] shadow p-5 rounded-md">
 
-{{--                            @if(!$report->updated_at)--}}
-{{--                                <h2 class="font-semibold text-gray-500 text-sm text-center mb-3">--}}
-{{--                                    UPDATED <br/> Road Defect Information--}}
-{{--                                </h2>--}}
-
-{{--                                <!-- Not Updated Yet Notice -->--}}
-{{--                                <div class="flex flex-col items-center justify-center h-[70vh] min-h-[20vh] max-h-[70vh] border-2 border-dashed border-gray-400 bg-gray-100 rounded-md p-6 text-center">--}}
-{{--                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">--}}
-{{--                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"--}}
-{{--                                              d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />--}}
-{{--                                    </svg>--}}
-{{--                                    <p class="text-sm text-gray-600">No updated information available yet.</p>--}}
-{{--                                </div>--}}
-{{--                            @else--}}
-
+                            @if($report->updated_on)
                                 <!-- Title -->
                                 <h2 class="font-semibold text-green-500 text-sm text-center mb-3">
                                     UPDATED <br/> Road Defect Information
@@ -265,7 +251,23 @@
                                         <div class="w-2/4">{{ $report->lng }}</div>
                                     </div>
                                 @endif
-{{--                            @endif--}}
+                                {{--                            @endif--}}
+                            @else
+                                <h2 class="font-semibold text-gray-500 text-sm text-center mb-3">
+                                    UPDATED <br/> Road Defect Information
+                                </h2>
+
+                                <!-- Not Updated Yet Notice -->
+                                <div class="flex flex-col items-center justify-center h-[70vh] min-h-[20vh] max-h-[70vh] border-2 border-dashed border-gray-400 bg-gray-100 rounded-md p-6 text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
+                                    </svg>
+                                    <p class="text-sm text-gray-600">No updated information available yet.</p>
+                                </div>
+                            @endif
+
+
                         </div>
                     </div>
                 </div>
