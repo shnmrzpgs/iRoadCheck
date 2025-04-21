@@ -68,8 +68,6 @@ class ReviewReport extends Component
         if ($temporaryReport) {
             // Check if report already exists
             $existingReport = Report::select('*')
-                ->where('street', $temporaryReport->street)
-                ->where('barangay', $temporaryReport->barangay)
                 ->where('location', $temporaryReport->location)
                 ->whereRaw(
                     "ST_Distance_Sphere(
