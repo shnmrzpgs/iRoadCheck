@@ -105,19 +105,19 @@
              'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'severityFilter',
              'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'severityFilter'
          }">
-            <select
-                x-on:input="
-                filterMarkers($event.target.value);"
-                @change="activeFilter = 'severityFilter'"
-                class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">
-                <option value="" disabled class="text-gray-400 text-[12px]">Severity</option>
-                <option value="Shallow">Shallow</option>
-                <option value="2">Tolerable</option>
-                <option value="3">Serious</option>
-                <option value="4">Dangerous</option>
-                <option value="5">None</option>
+{{--            <select--}}
+{{--                x-on:input="--}}
+{{--                filterMarkers($event.target.value);"--}}
+{{--                @change="activeFilter = 'severityFilter'"--}}
+{{--                class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">--}}
+{{--                <option value="" disabled class="text-gray-400 text-[12px]">Severity</option>--}}
+{{--                <option value="1">Shallow</option>--}}
+{{--                <option value="2">Tolerable</option>--}}
+{{--                <option value="3">Serious</option>--}}
+{{--                <option value="4">Dangerous</option>--}}
+{{--                <option value="5">None</option>--}}
 
-            </select>
+{{--            </select>--}}
         </div>
 
         <!-- Date Range -->
@@ -1309,8 +1309,7 @@
                             report.location?.toLowerCase(),
                             report.status?.toLowerCase(),
                             report.date?.toLowerCase(),
-                        ].some(field => field?.includes(searchQuery)) ||
-                        (report.severity == query)
+                        ].some(field => field?.includes(searchQuery))
 
                     const reportDateStr = report.date_reported || report.formatted_date || report.date;
                     const reportDate = reportDateStr ? new Date(reportDateStr) : null;
