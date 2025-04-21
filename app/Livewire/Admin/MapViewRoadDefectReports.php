@@ -60,7 +60,7 @@ class MapViewRoadDefectReports extends Component
         $this->defectTypes = Report::pluck('defect')->unique()->filter()->values()->toArray();
 
         // Get readable severity labels
-        $this->severities = Severity::pluck('label')->unique()->filter()->values()->toArray();
+        $this->severities = Severity::class->unique()->filter()->values()->toArray();
 
         // ✅ Load GeoJSON data
         $path = public_path('geoJSON/tagumCityRoad.json');
