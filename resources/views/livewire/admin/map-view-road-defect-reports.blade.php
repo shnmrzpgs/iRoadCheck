@@ -1302,6 +1302,8 @@
                 const endDate = this.dateFilterEnd ? new Date(this.dateFilterEnd) : null;
 
                 this.filteredReports = this.reports.filter(report => {
+                    console.log(query, typeof query)
+                    console.log(report.severity, typeof report.severity)
                     const matchesQuery = [
                             report.defect?.toLowerCase(),
                             report.location?.toLowerCase(),
