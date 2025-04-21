@@ -130,8 +130,8 @@
                     Phone Number
                 </label>
                 <div class="w-full md:w-3/4 max-w-md">
-                    <input type="text" name="phone" id="phone" autocomplete="off" wire:model.defer="phone"
-                           class="w-full border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow
+                    <input type="text" name="phone" id="phone" autocomplete="off" wire:model.defer="phone" readonly
+                        class="w-full border border-gray-300 focus:outline-none focus:ring-[0.5px] focus:ring-[#4AA76F] focus:border-[#4AA76F] block rounded-md bg-none text-[14px] font-normal text-gray-900 shadow
                 @error('phone') border-red-500 @enderror"
                            placeholder="Enter Phone Number">
                     @error('phone')
