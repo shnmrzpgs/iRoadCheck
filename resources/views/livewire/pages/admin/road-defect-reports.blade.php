@@ -298,8 +298,24 @@
                             <td class="px-4 py-3 text-xs">{{ $report->date ? \Carbon\Carbon::parse($report->date)->format('F j, Y') : 'N/A' }}</td>
                             <td class="px-4 py-3 text-xs font-semibold" style="color: {{ $color }};">{{ $report->status }}</td>
                             <td class="px-4 py-3 text-xs">{{ $report->report_count }}</td>
-                            <td class="px-4 py-3 text-xs font-medium italic">{{ $report->severity ?? 'N/A' }}</td>
-                            <td class="px-4 py-3 text-xs">{{ $report->updated_by }}</td>
+                            @php
+                                $severityLabel = DB::table('severities')
+                                    ->where('id', $report->severity)
+                                    ->value('label') ?? 'N/A';
+                            @endphp
+
+                            <td class="px-4 py-3 text-xs font-medium italic">
+                                {{ $severityLabel }}
+                            </td>
+
+                            @php
+                                $updater = \App\Models\User::find($report->updater_id);
+                            @endphp
+
+                            <td class="px-4 py-3 text-xs">
+                                {{ $updater ? $updater->first_name . ' ' . $updater->last_name : 'N/A' }}
+                            </td>
+
                             <td class="px-2 py-3 text-[11px] lg:text-xs">
                                 <button class="flex items-center text-[#3251FF] hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95 hover:bg-blue-100 hover:shadow py-1 px-3 rounded-md"
                                         wire:click="viewRoadDefectReports({{ $report->id }})"
