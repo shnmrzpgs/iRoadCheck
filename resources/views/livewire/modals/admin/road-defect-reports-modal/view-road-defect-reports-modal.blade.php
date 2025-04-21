@@ -30,7 +30,7 @@
                                 </div>
 
                                 <div class="text-xs lg:text-sm flex justify-start items-start w-full">
-                                    <div class="w-2/4 md:w-1/4 lg:w-2/5 font-medium text-gray-600">Report Count:</div>
+                                    <div class="w-2/4 md:w-1/4 lg:w-2/5 font-medium text-gray-600">Reports Count:</div>
                                     <div class="w-2/4 md:w-3/4 lg:w-3/5">{{ $report->report_count }}</div>
                                 </div>
                             </div>
