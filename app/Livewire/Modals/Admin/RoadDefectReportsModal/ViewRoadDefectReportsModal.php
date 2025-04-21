@@ -36,7 +36,7 @@ class ViewRoadDefectReportsModal extends Component
         if ($this->reportId) {
             $this->report = Report::find($this->reportId);
             if ($this->report) {
-                $this->image = asset('storage/' . $this->report->image);
+                $this->image = asset('storage/' . $this->report->image_annotated);
             }
         }
     }
