@@ -23,7 +23,7 @@
 
             init() {
                 this.reports.forEach(report => {
-                    report.severity = this.severityMap[report.id] || 'Unknown';
+                    report.severity = this.severityMap[report.id] || 'Unknowns';
                 });
                 // Correct bounding box for Tagum City
                 const bounds = [
