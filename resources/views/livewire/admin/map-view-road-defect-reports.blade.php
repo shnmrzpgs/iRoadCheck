@@ -112,7 +112,7 @@
                 class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">
                 <option value="" class="text-gray-400 text-[12px]">Severity</option>
                 @foreach($severities as $label)
-                    <option value="{{ $label }}">{{ $label->label }}</option>
+                    <option value="{{ $label }}">{{ $label }}</option>
                 @endforeach
             </select>
         </div>
