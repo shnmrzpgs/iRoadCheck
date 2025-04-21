@@ -1307,7 +1307,7 @@
                         report.location?.toLowerCase(),
                         report.status?.toLowerCase(),
                         report.date?.toLowerCase(),
-                        report.severity?.toLowerCase(),
+                        report.label?.toLowerCase(),
                     ].some(field => field?.includes(searchQuery));
 
                     const reportDateStr = report.date_reported || report.formatted_date || report.date;
