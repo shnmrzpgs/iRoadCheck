@@ -309,8 +309,6 @@
                             </td>
 
                             @php
-                                use Illuminate\Support\Facades\Crypt;
-
                                 $updater = \App\Models\User::find($report->updater_id);
                             @endphp
 
