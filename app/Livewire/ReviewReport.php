@@ -142,12 +142,11 @@ class ReviewReport extends Component
                 session()->flash('feedback', 'Report submitted successfully!');
                 session()->flash('feedback_type', 'success');
             } else{
-                dd($existingReport);
                 $this->isOpen = false;
                 $temporaryReport->is_opened = 2;
                 $temporaryReport->save();
                 session()->flash('suggestion-exist', 'This suggestion already exists.');
-                return;
+
             }
 
 
