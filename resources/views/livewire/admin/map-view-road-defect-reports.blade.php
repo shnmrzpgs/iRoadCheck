@@ -1308,7 +1308,7 @@
                             report.status?.toLowerCase(),
                             report.date?.toLowerCase(),
                         ].some(field => field?.includes(searchQuery)) ||
-                        (report.severity?.toLowerCase() === searchQuery);
+                        (report.severity_label?.toLowerCase() === searchQuery);
 
                     const reportDateStr = report.date_reported || report.formatted_date || report.date;
                     const reportDate = reportDateStr ? new Date(reportDateStr) : null;
