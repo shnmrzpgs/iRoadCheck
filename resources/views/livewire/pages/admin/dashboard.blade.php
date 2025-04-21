@@ -106,7 +106,7 @@
                         <div class="flex flex-col gap-3 mb-5">
 
                             <!-- Today's Reports Card -->
-                            <a href="{{ route('admin.manage-users-table') }}"
+                            <a href="{{ route('admin.road-defect-reports') }}"
                                 class="relative bg-white rounded-lg shadow-md py-0 px-2 overflow-hidden min-w-auto w-[300px] max-w-[340px] h-[115px]
                             hover:drop-shadow-lg transition-all duration-500 ease-out drop-shadow
                             transform-gpu group">
