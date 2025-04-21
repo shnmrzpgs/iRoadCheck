@@ -19,7 +19,7 @@
         @if ($report)
             <img src="{{ asset('storage/' . $report->image_annotated) }}" alt="Report Image" class="w-full rounded-lg mb-4">
             <h2 class=" font-bold mb-4 text-black">Report Details</h2>
-            <p class="text-black"><strong>Location:</strong> {{ $report->defect }}</p>
+            <p class="text-black"><strong>Defect:</strong> {{ $report->defect }}</p>
             <p class="text-black"><strong>Location:</strong> {{ $report->location }}</p>
             <p class="text-black"><strong>Date:</strong> {{ \Carbon\Carbon::parse($report->date)->format('F d, Y') }}</p>
             <p class="text-black"><strong>Time:</strong> {{ \Carbon\Carbon::parse($report->time)->format('h:i A') }}</p>
