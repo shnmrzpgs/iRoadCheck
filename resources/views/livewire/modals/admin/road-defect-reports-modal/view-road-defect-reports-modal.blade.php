@@ -126,7 +126,17 @@
                             <!-- First Road Defect Reporter Full Name -->
                             <div class="mb-2 text-xs lg:text-sm flex w-full">
                                 <div class="w-2/4 text-gray-600">First Reporter Full Name:</div>
-                                <div class="w-2/4">{{ $report->id }}</div>
+                                @php
+
+                                    $reporter = DB::table('users')->where('id', $report->reporter_id)->first();
+                                    $firstName = $reporter ? Crypt::decryptString($reporter->first_name) : 'Unknown';
+                                    $lastName = $reporter ? Crypt::decryptString($reporter->last_name) : '';
+                                @endphp
+
+                                <div class="w-2/4">
+                                    {{ $firstName }} {{ $lastName }}
+                                </div>
+
                             </div>
 
                             <!-- Date Reported -->
