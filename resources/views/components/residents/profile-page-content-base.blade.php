@@ -4,9 +4,11 @@
     <div class="bg-none rounded-[4px]">
 
         <!-- Image Background -->
-        <div loading="eager" class="relative overflow-hidden rounded-[10px] shadow w-full h-[198px] lg:h-[110px] x-cloak">
-            <img src="{{ asset('storage/images/profile-backgroundImage2.png') }}" alt="profile name background" x-cloak
-                 class="absolute top-0 left-0 w-full h-full object-cover" loading="eager">
+        <div loading="eager" class="relative overflow-hidden rounded-[10px] shadow w-full h-[110px] x-cloak">
+            <img src="{{ asset('storage/images/profile-backgroundImage2.png') }}"
+                 alt="profile name background" x-cloak
+                 class="absolute md:ml-0 top-0 left-0 w-full h-full object-cover"
+                 loading="eager">
         </div>
 
         <!--Profile Name -->
