@@ -272,7 +272,7 @@ class EditUserAccountModal extends Component
                 'middle_name' => Crypt::encryptString($this->form['middle_name']),
                 'last_name' => Crypt::encryptString($this->form['last_name']),
                 'username' => Crypt::encryptString($this->form['username']),
-                'sex' => $this->form['sex'],
+                'sex' => Crypt::encryptString($this->form['sex']),
                 'date_of_birth' => $this->form['date_of_birth']
                     ? Carbon::createFromFormat('F j, Y', $this->form['date_of_birth'])->format('Y-m-d')
                     : null,
