@@ -113,9 +113,9 @@
                 <option value="" disabled class="text-gray-400 text-[12px]">Severity</option>
                 <option value="Shallow">Shallow</option>
                 <option value="2">Tolerable</option>
-                <option value="12">Serious</option>
+                <option value="12">None</option>
                 <option value="3">Dangerous</option>
-                <option value="5">None</option>
+                <option value="5">Serious</option>
 
             </select>
         </div>
