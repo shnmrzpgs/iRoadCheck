@@ -307,7 +307,7 @@
                             </template>
 
                         </div>
-                        <div class="w-full shadow p-5 rounded-md">
+                        <div class="w-full shadow p-5 rounded-md" x-show="selectedReport.updated_image">
                             <h2 class="font-semibold text-green-500 text-sm text-center mb-3">UPDATED <br/> Road Defect Information</h2>
                             <x-admin.admin-view-road-defect-report-image-modal>
                                 <x-slot:image_title>
@@ -370,8 +370,8 @@
                                     </div>
                                 </div>
                             </template>
-
                         </div>
+
                     </div>
                 </div>
             </div>

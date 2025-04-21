@@ -35,7 +35,7 @@ class MapViewRoadDefectReports extends Component
             })
             ->select([
                 'id', 'reporter_id', 'defect', 'lat', 'lng', 'location', 'barangay',
-                'date', 'time', 'label', 'image', 'image_annotated', 'status'
+                'date', 'time', 'label', 'image', 'image_annotated', 'status', 'updated_on', 'updated_image', 'updater_id'
             ])
             ->get()
             ->map(function ($report) {
