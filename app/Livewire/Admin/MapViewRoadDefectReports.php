@@ -50,7 +50,7 @@ class MapViewRoadDefectReports extends Component
                     : null;
 
                 // Severity label
-                $report->severity_label = $report->severity->label ?? 'Unknown';
+                $report->severity = $report->severity->label ?? 'Unknown';
 
                 return $report;
             })
