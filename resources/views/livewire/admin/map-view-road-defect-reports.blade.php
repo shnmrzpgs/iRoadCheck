@@ -1301,41 +1301,30 @@
                 const startDate = this.dateFilterStart ? new Date(this.dateFilterStart) : null;
                 const endDate = this.dateFilterEnd ? new Date(this.dateFilterEnd) : null;
 
-                filterMarkers(query) {
-                    this.showingGroupReports = true;
-                    this.selectedReport = null;
+                this.filteredReports = this.reports.filter(report => {
+                    const matchesQuery = [
+                            report.defect?.toLowerCase(),
+                            report.location?.toLowerCase(),
+                            report.status?.toLowerCase(),
+                            report.date?.toLowerCase(),
+                        ].some(field => field?.includes(searchQuery)) ||
+                        (report.severity == query)
 
-                    const searchQuery = query.toLowerCase().trim();
-                    const severityValue = parseInt(query); // parse once
+                    const reportDateStr = report.date_reported || report.formatted_date || report.date;
+                    const reportDate = reportDateStr ? new Date(reportDateStr) : null;
 
-                    const startDate = this.dateFilterStart ? new Date(this.dateFilterStart) : null;
-                    const endDate = this.dateFilterEnd ? new Date(this.dateFilterEnd) : null;
+                    let passesDateFilter = true;
 
-                    this.filteredReports = this.reports.filter(report => {
-                        const matchesQuery =
-                            [
-                                report.defect?.toLowerCase(),
-                                report.location?.toLowerCase(),
-                                report.status?.toLowerCase(),
-                                report.date?.toLowerCase(),
-                            ].some(field => field?.includes(searchQuery)) ||
-                            report.severity == severityValue; // now it's properly compared
+                    if (startDate && reportDate) {
+                        passesDateFilter = passesDateFilter && reportDate >= startDate;
+                    }
 
-                        const reportDateStr = report.date_reported || report.formatted_date || report.date;
-                        const reportDate = reportDateStr ? new Date(reportDateStr) : null;
+                    if (endDate && reportDate) {
+                        passesDateFilter = passesDateFilter && reportDate <= endDate;
+                    }
 
-                        let passesDateFilter = true;
-
-                        if (startDate && reportDate) {
-                            passesDateFilter = passesDateFilter && reportDate >= startDate;
-                        }
-
-                        if (endDate && reportDate) {
-                            passesDateFilter = passesDateFilter && reportDate <= endDate;
-                        }
-
-                        return matchesQuery && passesDateFilter;
-                    });
+                    return matchesQuery && passesDateFilter;
+                });
 
                 this.updateMarkers();
 
