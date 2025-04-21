@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Log;
 
 class SuggestionModal extends Component
 {
-    public $isOpen = false;
+    public $isOpen = true;
     public $report, $nearbyReports, $wew, $existingReports;
     public $selectedReports = [];
     public function mount()
