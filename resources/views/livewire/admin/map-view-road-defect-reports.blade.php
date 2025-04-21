@@ -372,7 +372,8 @@
                 1: 'Shallow',
                 2: 'Tolerable',
                 3: 'Serious',
-                4: 'Dangerous'
+                4: 'Dangerous',
+                5: 'None'
             },
             selectedMarker: null,
             selectedMarkerReportId: null,
@@ -1302,7 +1303,8 @@
                         report.defect?.toLowerCase(),
                         report.location?.toLowerCase(),
                         report.status?.toLowerCase(),
-                        report.date?.toLowerCase()
+                        report.date?.toLowerCase(),
+                        report.severity_label?.toLowerCase()
                     ].some(field => field?.includes(searchQuery));
 
                     const reportDateStr = report.date_reported || report.formatted_date || report.date;
