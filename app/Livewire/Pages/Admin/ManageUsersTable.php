@@ -150,7 +150,7 @@ public function exportStaffs()
 
         // Get the base query without search filtering
         $staffs = $this->getFilteredQuery()->get();
-        
+
         // Decrypt user data
         foreach ($staffs as $staff) {
             if ($staff->user) {
@@ -160,18 +160,18 @@ public function exportStaffs()
                 $staff->user->username = Crypt::decryptString($staff->user->username);
             }
         }
-        
+
         // Filter by search term if needed
         if ($this->search) {
             $search = strtolower($this->search);
             $staffs = $staffs->filter(function ($staff) use ($search) {
-                return 
+                return
                     str_contains(strtolower($staff->user->first_name ?? ''), $search) ||
                     str_contains(strtolower($staff->user->middle_name ?? ''), $search) ||
                     str_contains(strtolower($staff->user->last_name ?? ''), $search) ||
                     str_contains(strtolower($staff->user->username ?? ''), $search) ||
-                    ($staff->staffRolesPermissions && 
-                     $staff->staffRolesPermissions->staffRole && 
+                    ($staff->staffRolesPermissions &&
+                     $staff->staffRolesPermissions->staffRole &&
                      str_contains(strtolower($staff->staffRolesPermissions->staffRole->name ?? ''), $search));
             });
         }
@@ -199,48 +199,48 @@ public function exportStaffs()
 
     // Get the base query (without search filtering)
     $query = $this->getFilteredQuery();
-    
+
     // Execute the query to get the initial results
     $staffs = $query->get();
-    
+
     // Decrypt user data
     foreach ($staffs as $staff) {
         if ($staff->user) {
             $staff->user->first_name = Crypt::decryptString($staff->user->first_name);
-            $staff->user->middle_name = Crypt::decryptString($staff->user->middle_name);
+//            $staff->user->middle_name = Crypt::decryptString($staff->user->middle_name);
             $staff->user->last_name = Crypt::decryptString($staff->user->last_name);
             $staff->user->username = Crypt::decryptString($staff->user->username);
         }
     }
-    
+
     // Now filter the decrypted data by search term if needed
     if ($this->search) {
         $search = strtolower($this->search);
         $staffs = $staffs->filter(function ($staff) use ($search) {
             // Check if any of the decrypted fields contain the search term
-            return 
+            return
                 str_contains(strtolower($staff->user->first_name ?? ''), $search) ||
                 str_contains(strtolower($staff->user->middle_name ?? ''), $search) ||
                 str_contains(strtolower($staff->user->last_name ?? ''), $search) ||
                 str_contains(strtolower($staff->user->username ?? ''), $search) ||
-                ($staff->staffRolesPermissions && 
-                 $staff->staffRolesPermissions->staffRole && 
+                ($staff->staffRolesPermissions &&
+                 $staff->staffRolesPermissions->staffRole &&
                  str_contains(strtolower($staff->staffRolesPermissions->staffRole->name ?? ''), $search));
         });
     }
-    
+
     // Sort the collection if sorting by a user field
     if (in_array($this->sort_by, ['first_name', 'last_name', 'middle_name', 'username'])) {
         $staffs = $staffs->sortBy([
             [$this->sort_by, $this->sort_direction === 'asc' ? 'asc' : 'desc']
         ]);
     }
-    
+
     // Paginate the filtered collection
     $staffs = $this->paginateCollection($staffs, $this->rowsPerPage);
 
     session()->forget('hideSearchBar');
-    
+
     // Return the view
     return view('livewire.pages.admin.manage-users-table', compact('staffs'));
 }
@@ -249,19 +249,19 @@ protected function paginateCollection($items, $perPage)
 {
     // Get current page from query string or default to 1
     $page = request()->input('page', 1);
-    
+
     // Slice the collection to get the items to display in current page
     $items = $items->slice(($page - 1) * $perPage, $perPage)->values();
-    
+
     // Create our paginator and pass it to the view
     $paginated = new \Illuminate\Pagination\LengthAwarePaginator(
-        $items, 
+        $items,
         $items->count(), // Total items
         $perPage,
         $page,
         ['path' => request()->url(), 'query' => request()->query()]
     );
-    
+
     return $paginated;
 }
 }
