@@ -1303,12 +1303,12 @@
 
                 this.filteredReports = this.reports.filter(report => {
                     const matchesQuery = [
-                        report.defect?.toLowerCase(),
-                        report.location?.toLowerCase(),
-                        report.status?.toLowerCase(),
-                        report.date?.toLowerCase(),
-                        report.severity?.toLowerCase(),
-                    ].some(field => field?.includes(searchQuery));
+                            report.defect?.toLowerCase(),
+                            report.location?.toLowerCase(),
+                            report.status?.toLowerCase(),
+                            report.date?.toLowerCase(),
+                        ].some(field => field?.includes(searchQuery)) ||
+                        (report.severity?.toLowerCase() === searchQuery);
 
                     const reportDateStr = report.date_reported || report.formatted_date || report.date;
                     const reportDate = reportDateStr ? new Date(reportDateStr) : null;
