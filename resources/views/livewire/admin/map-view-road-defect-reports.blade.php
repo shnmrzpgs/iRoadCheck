@@ -387,7 +387,7 @@
             showingGroupReports: false,
 
             init() {
-                this.reports.forEach(report => report.severity = this.severityMap[report.id] || 'aUnknown');
+                this.reports.forEach(report => report.severity = this.severityMap[report.id] || 'Unknown');
                 this.filteredReports = [...this.reports]; // Initially show all reports
                 this.loadGeoJSON("{{ asset('geoJSON/tagumCityRoad.json') }}");
 
@@ -1178,7 +1178,7 @@
                 if (Array.isArray(reports) && reports.length > 0) {
                     const groupBy = (array, key) => {
                         return array.reduce((result, item) => {
-                            const groupKey = item[key] ?? 'Unknown';
+                            const groupKey = item[key] ?? 'Unknowna';
                             result[groupKey] = (result[groupKey] || []);
                             result[groupKey].push(item);
                             return result;
