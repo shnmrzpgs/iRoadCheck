@@ -49,7 +49,7 @@ use Livewire\Component;
     ) AS distance
 ")
                         ->setBindings([$lng, $lat])
-                        ->having("distance", "<=", 5) // in meters
+                        ->having("distance", "<=", 15) // in meters
                         ->where("status", "Unfixed")
                         ->orderBy("distance")
                         ->get();

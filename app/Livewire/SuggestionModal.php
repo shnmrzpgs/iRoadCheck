@@ -35,7 +35,7 @@ class SuggestionModal extends Component
                     "ST_Distance_Sphere(
             point(lng, lat),
             point(?, ?)
-        ) <= 5", [
+        ) <= 10", [
                         $temporaryReport->lng,
                         $temporaryReport->lat
                     ]
