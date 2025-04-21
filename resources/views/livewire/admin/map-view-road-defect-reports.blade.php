@@ -329,7 +329,7 @@
                                 <div class="w-2/4 text-gray-600">Date Reported:</div>
                                 <div class="w-2/4">
                                     <template x-if="selectedReport.updated_on">
-                                        <span x-text="new Date(selectedReport.updated_on).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })"></span>
+                                        <span x-text="selectedReport.updated_on"></span>
                                     </template>
 
                                 </div>
