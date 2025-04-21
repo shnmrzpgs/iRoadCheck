@@ -111,7 +111,7 @@
                 @change="activeFilter = 'severityFilter'"
                 class="text-[12px] w-full bg-transparent border-none focus:ring-0 px-3 py-1 pr-8 rounded focus:outline-none">
                 <option value="" disabled class="text-gray-400 text-[12px]">Severity</option>
-                <option value="1">Shallow</option>
+                <option value="Shallow">Shallow</option>
                 <option value="2">Tolerable</option>
                 <option value="3">Serious</option>
                 <option value="4">Dangerous</option>
