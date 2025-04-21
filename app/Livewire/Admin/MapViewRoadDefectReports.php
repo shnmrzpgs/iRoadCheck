@@ -34,7 +34,7 @@ class MapViewRoadDefectReports extends Component
                 $query->where('label', '!=', 5);
             })
             ->select([
-                'id', 'reporter_id', 'defect', 'lat', 'lng', 'location', 'barangay',
+                'id', 'reporter_id', 'defect', 'lat', 'lng', 'location', 'barangay', 'severity',
                 'date', 'time', 'label', 'image', 'image_annotated', 'status', 'updated_on', 'updated_image', 'updater_id'
             ])
             ->get()
