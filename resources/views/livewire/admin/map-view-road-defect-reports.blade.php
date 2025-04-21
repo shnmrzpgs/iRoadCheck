@@ -100,11 +100,11 @@
         </div>
 
         <!-- Severity -->
-        <div class="relative flex rounded-[4px] border hover:shadow-md custom-select"
-             :class="{
-             'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'severityFilter',
-             'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'severityFilter'
-         }">
+{{--        <div class="relative flex rounded-[4px] border hover:shadow-md custom-select"--}}
+{{--             :class="{--}}
+{{--             'bg-green-200 bg-opacity-20 text-green-800 border-[#4AA76F]': activeFilter === 'severityFilter',--}}
+{{--             'text-gray-600 border-gray-300 hover:border-[#4AA76F]': activeFilter !== 'severityFilter'--}}
+{{--         }">--}}
 {{--            <select--}}
 {{--                x-on:input="--}}
 {{--                filterMarkers($event.target.value);"--}}
@@ -118,7 +118,7 @@
 {{--                <option value="5">None</option>--}}
 
 {{--            </select>--}}
-        </div>
+{{--        </div>--}}
 
         <!-- Date Range -->
         <div x-data="{
