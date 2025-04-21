@@ -309,12 +309,15 @@
                             </td>
 
                             @php
+                                use Illuminate\Support\Facades\Crypt;
+
                                 $updater = \App\Models\User::find($report->updater_id);
                             @endphp
 
                             <td class="px-4 py-3 text-xs">
-                                {{ $updater ? $updater->first_name . ' ' . $updater->last_name : 'N/A' }}
+                                {{ $updater ? Crypt::decryptString($updater->first_name) . ' ' . Crypt::decryptString($updater->last_name) : 'Not yet updated' }}
                             </td>
+
 
                             <td class="px-2 py-3 text-[11px] lg:text-xs">
                                 <button class="flex items-center text-[#3251FF] hover:text-[#1d3fcc] font-medium text-xs transition active:scale-95 hover:bg-blue-100 hover:shadow py-1 px-3 rounded-md"
