@@ -315,7 +315,7 @@
                                 </x-slot:image_title>
                                 <x-slot:image>
                                     <img
-                                        :src="selectedReport.image_annotated ? `/storage/${selectedReport.image_annotated}` : '/images/placeholder.png'"
+                                        :src="selectedReport.updated_image ? `/storage/${selectedReport.updated_image}` : '/images/placeholder.png'"
                                         alt="Updated Road Concern Image"
                                         class="w-[480px] h-[640px] rounded-[10px] object-contain cursor-pointer"
                                         :style="`transform: scale(${scale}) translate(${offsetX}px, ${offsetY}px); transform-origin: center; transition: transform 0.1s ease-out;`"/>
@@ -328,33 +328,14 @@
                             <div class="text-xs lg:text-sm flex w-full">
                                 <div class="w-2/4 text-gray-600">Date Reported:</div>
                                 <div class="w-2/4">
-                                    <template x-if="selectedReport.date">
-                                        <span x-text="new Date(selectedReport.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })"></span>
+                                    <template x-if="selectedReport.updated_on">
+                                        <span x-text="new Date(selectedReport.updated_on).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })"></span>
                                     </template>
-                                    <template x-if="!selectedReport.date && selectedReport.created_at">
-                                        <span x-text="new Date(selectedReport.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })"></span>
-                                    </template>
-                                    <template x-if="!selectedReport.date && !selectedReport.created_at">
-                                        <span>N/A</span>
-                                    </template>
+
                                 </div>
                             </div>
 
-                            <!-- Time Reported -->
-                            <div class="mb-4 text-xs lg:text-sm flex w-full">
-                                <div class="w-2/4 text-gray-600">Time Reported:</div>
-                                <div class="w-2/4">
-                                    <template x-if="selectedReport.time">
-                                        <span x-text="new Date(selectedReport.time).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })"></span>
-                                    </template>
-                                    <template x-if="!selectedReport.time && selectedReport.created_at">
-                                        <span x-text="new Date(selectedReport.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })"></span>
-                                    </template>
-                                    <template x-if="!selectedReport.time && !selectedReport.created_at">
-                                        <span>N/A</span>
-                                    </template>
-                                </div>
-                            </div>
+
 
                             <!-- Coordinates -->
                             <template x-if="selectedReport.lng && selectedReport.lat">
