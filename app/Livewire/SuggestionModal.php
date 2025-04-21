@@ -44,10 +44,11 @@ class SuggestionModal extends Component
         }
 
 
-        if (session()->has('suggestion-exist') || $temporaryReport ) {
-            if ($this->nearbyReports && $this->nearbyReports->isNotEmpty()) {
+        if (session()->has('suggestion-exist') or $temporaryReport ) {
+            if ($this->nearbyReports->isNotEmpty()) {
                 $this->isOpen = true;
             }
+
         }
     }
     public function SuggestionSubmit()
