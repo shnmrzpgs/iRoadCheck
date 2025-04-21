@@ -196,7 +196,7 @@
                                     </x-slot:image_title>
                                     <x-slot:image>
                                         <img
-                                            src="{{ $image }}"
+                                            src="{{ $image2 }}"
                                             alt="Road Defect"
                                             class="w-full h-full object-contain pointer-events-none"
                                             :style="`

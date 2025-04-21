@@ -18,7 +18,7 @@ class ViewRoadDefectReportsModal extends Component
 {
     #[Modelable]
     public ?Report $report = null; // Report data
-    public $image; // Road defect image
+    public $image, $image2; // Road defect image
     public $reportId; // Public property for Livewire data binding
 
     public string $identifier = ''; // Unique identifier for modal control
@@ -37,6 +37,7 @@ class ViewRoadDefectReportsModal extends Component
             $this->report = Report::find($this->reportId);
             if ($this->report) {
                 $this->image = asset('storage/' . $this->report->image_annotated);
+                $this->image2 = asset('storage/' . $this->report->updated_image);
             }
         }
     }
@@ -55,6 +56,7 @@ class ViewRoadDefectReportsModal extends Component
         }
 
         $this->image = asset('storage/' . $this->report->image_annotated);
+        $this->image2 = asset('storage/' . $this->report->updated_image);
 
         $this->dispatch('view-road-defect-reports-modal-shown');
     }
