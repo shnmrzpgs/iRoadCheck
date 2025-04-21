@@ -387,7 +387,7 @@
             showingGroupReports: false,
 
             init() {
-                this.reports.forEach(report => report.severity = this.severityMap[report.label] || 'Unknown');
+                this.reports.forEach(report => report.severity = this.severityMap[report.severity] || 'Unknown severity');
                 this.filteredReports = [...this.reports]; // Initially show all reports
                 this.loadGeoJSON("{{ asset('geoJSON/tagumCityRoad.json') }}");
 
