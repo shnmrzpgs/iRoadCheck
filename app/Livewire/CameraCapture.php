@@ -110,7 +110,10 @@ class CameraCapture extends Component
 
 //                return redirect()->route('report-road-issue')->with('error', 'No road issues found, please retry!.');
             }
+        } else{
+            return $this->redirect('/residents/report-road-issue', navigate:true)->with('no_defect_modal_open', true);
         }
+
 
         // Check if report already exists
 //        $existingReport = Report::where([
