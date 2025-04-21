@@ -11,7 +11,7 @@
                 {{-- Displaying the user's name with the first letter of the middle name in uppercase --}}
                 {{ ucwords(strtolower("$first_name " . strtoupper(substr($middle_name, 0, 1)) . "$last_name")) }}
             </h2>
-            <p class="text-[14px] text-white">
+            <p class="text-[14px] text-green-500">
                 {{-- Displaying the user type name in uppercase --}}
                 {{ ucfirst($userTypeName) }}
             </p>
