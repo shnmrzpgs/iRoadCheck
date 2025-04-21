@@ -207,7 +207,7 @@ public function exportStaffs()
     foreach ($staffs as $staff) {
         if ($staff->user) {
             $staff->user->first_name = Crypt::decryptString($staff->user->first_name);
-//            $staff->user->middle_name = Crypt::decryptString($staff->user->middle_name);
+            $staff->user->middle_name = Crypt::decryptString($staff->user->middle_name);
             $staff->user->last_name = Crypt::decryptString($staff->user->last_name);
             $staff->user->username = Crypt::decryptString($staff->user->username);
         }
