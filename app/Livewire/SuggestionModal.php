@@ -6,6 +6,7 @@ use App\Models\Notification;
 use App\Models\Report;
 use App\Models\Staff;
 use App\Models\Suggestion;
+use App\Models\SystemLog;
 use App\Models\TemporaryReport;
 use App\Models\TemporaryUpdate;
 use App\Models\User;
@@ -105,21 +106,59 @@ class SuggestionModal extends Component
 
         try {
             $reportSelected->report_count++;
-            // Update label based on the new report_count
-            if ($reportSelected->report_count >= 50) {
+
+            if ($reportSelected->report_count >= 10) {
                 $reportSelected->label = 4;
-            } elseif ($reportSelected->report_count >= 35) {
-                $reportSelected->label = 3;
-            } elseif ($reportSelected->report_count >= 20) {
-                $reportSelected->label = 2;
+                $reportSelected->severity = 4;
+
+                SystemLog::create([
+                    'transaction_id' => $reportSelected->id,
+                    'user_id' => Auth::id(),
+                    'action' => 'Report ID ' . $reportSelected->id . ' reached 10+ reports. Label and severity set to 4.',
+                    'type' => 'report_update',
+                ]);
+
             } elseif ($reportSelected->report_count >= 5) {
+                $reportSelected->label = 3;
+                $reportSelected->severity = 3;
+
+                SystemLog::create([
+                    'transaction_id' => $reportSelected->id,
+                    'user_id' => Auth::id(),
+                    'action' => 'Report ID ' . $reportSelected->id . ' reached 5+ reports. Label and severity set to 3.',
+                    'type' => 'report_update',
+                ]);
+
+            } elseif ($reportSelected->report_count >= 3) {
+                $reportSelected->label = 2;
+                $reportSelected->severity = 2;
+
+                SystemLog::create([
+                    'transaction_id' => $reportSelected->id,
+                    'user_id' => Auth::id(),
+                    'action' => 'Report ID ' . $reportSelected->id . ' reached 3+ reports. Label and severity set to 2.',
+                    'type' => 'report_update',
+                ]);
+
+            } elseif ($reportSelected->report_count >= 1) {
                 $reportSelected->label = 1;
+                $reportSelected->severity = 1;
+
+                SystemLog::create([
+                    'transaction_id' => $reportSelected->id,
+                    'user_id' => Auth::id(),
+                    'action' => 'Report ID ' . $reportSelected->id . ' received first report. Label and severity set to 1.',
+                    'type' => 'report_update',
+                ]);
             }
+
             $reporter = Auth::user();
             $reportSelected->save();
+
         } catch (\Exception $e) {
             throw new \Exception('Error updating report count: ' . $e->getMessage());
         }
+
 
         try {
             $reporter = Auth::user();

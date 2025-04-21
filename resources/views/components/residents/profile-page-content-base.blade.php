@@ -55,26 +55,26 @@
                 </div>
 
                 <!-- Access Control Information Tab -->
-                <div class="relative inline-block mr-6">
-                    <button
-                        class="font-medium text-[#676767] hover:text-[#676767]"
-                        @click="activeTab = 'access-control-info'"
-                        @mouseenter="hoveredTab = 'access-control-info'"
-                        @mouseleave="hoveredTab = null"
-                        :class="activeTab === 'access-control-info' ? 'text-[#676767] font-semibold' : 'text-[#00A79D]'">
-                        Access Control Information
-                    </button>
-                    <span
-                        class="absolute left-0 right-0 bottom-[-2px] h-[3px] bg-[#4AA76F] rounded-full transition-all duration-300"
-                        x-show="activeTab === 'access-control-info' || hoveredTab === 'access-control-info'"
-                        x-transition:enter="transition ease-out duration-300 transform opacity-0 translate-y-1"
-                        x-transition:enter-start="opacity-0 transform translate-y-1"
-                        x-transition:enter-end="opacity-100 transform translate-y-0"
-                        x-transition:leave="transition ease-in duration-200 transform opacity-100 translate-y-0"
-                        x-transition:leave-start="opacity-100 transform translate-y-0"
-                        x-transition:leave-end="opacity-0 transform translate-y-1"
-                    ></span>
-                </div>
+{{--                <div class="relative inline-block mr-6">--}}
+{{--                    <button--}}
+{{--                        class="font-medium text-[#676767] hover:text-[#676767]"--}}
+{{--                        @click="activeTab = 'access-control-info'"--}}
+{{--                        @mouseenter="hoveredTab = 'access-control-info'"--}}
+{{--                        @mouseleave="hoveredTab = null"--}}
+{{--                        :class="activeTab === 'access-control-info' ? 'text-[#676767] font-semibold' : 'text-[#00A79D]'">--}}
+{{--                        Access Control Information--}}
+{{--                    </button>--}}
+{{--                    <span--}}
+{{--                        class="absolute left-0 right-0 bottom-[-2px] h-[3px] bg-[#4AA76F] rounded-full transition-all duration-300"--}}
+{{--                        x-show="activeTab === 'access-control-info' || hoveredTab === 'access-control-info'"--}}
+{{--                        x-transition:enter="transition ease-out duration-300 transform opacity-0 translate-y-1"--}}
+{{--                        x-transition:enter-start="opacity-0 transform translate-y-1"--}}
+{{--                        x-transition:enter-end="opacity-100 transform translate-y-0"--}}
+{{--                        x-transition:leave="transition ease-in duration-200 transform opacity-100 translate-y-0"--}}
+{{--                        x-transition:leave-start="opacity-100 transform translate-y-0"--}}
+{{--                        x-transition:leave-end="opacity-0 transform translate-y-1"--}}
+{{--                    ></span>--}}
+{{--                </div>--}}
 
                 <!-- Account Settings Tab -->
                 <div class="relative inline-block">
@@ -140,39 +140,39 @@
                     </div>
                 </div>
 
-                <div x-show="activeTab === 'access-control-info'">
-                    <div class="pt-10 pl-5 text-[13px] italic text-gray-900">
-                        Below is your access control information as the staff of iRoadCheck.
-                    </div>
-                    <div wire:submit.prevent="save" x-transition:enter="transition ease-out duration-300"
-                          x-transition:enter-start="opacity-0 transform scale-80"
-                          x-transition:enter-end="opacity-100 transform scale-100">
-                        <div class="flex flex-col mt-8 mb-2 px-4">
-                            <!-- Staff Role -->
-                            <div class="flex items-center gap-2 mb-3">
-                                {{ $staff_role }}
-                            </div>
+{{--                <div x-show="activeTab === 'access-control-info'">--}}
+{{--                    <div class="pt-10 pl-5 text-[13px] italic text-gray-900">--}}
+{{--                        Below is your access control information as the staff of iRoadCheck.--}}
+{{--                    </div>--}}
+{{--                    <div wire:submit.prevent="save" x-transition:enter="transition ease-out duration-300"--}}
+{{--                          x-transition:enter-start="opacity-0 transform scale-80"--}}
+{{--                          x-transition:enter-end="opacity-100 transform scale-100">--}}
+{{--                        <div class="flex flex-col mt-8 mb-2 px-4">--}}
+{{--                            <!-- Staff Role -->--}}
+{{--                            <div class="flex items-center gap-2 mb-3">--}}
+{{--                                {{ $staff_role }}--}}
+{{--                            </div>--}}
 
-                            <div class="flex flex-col mb-2">
-                                {{ $permissions }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{{--                            <div class="flex flex-col mb-2">--}}
+{{--                                {{ $permissions }}--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
                 <div  x-show="activeTab === 'account-info'">
                     <!-- Account Information -->
                     <div class="mt-8 pl-5 text-[13px] italic text-gray-900">
-                        Below is your account information as the administrator of iRoadCheck.
+                        Below is your account information.
                     </div>
                     <div  x-transition:enter="transition ease-out duration-300"
                           x-transition:enter-start="opacity-0 transform scale-80"
                           x-transition:enter-end="opacity-100 transform scale-100">
                         <div class="grid grid-cols-2 my-6 space-x-6 px-4 ">
                             <div class="w-full p-2">
-                                <div class="flex items-start space-x-2 mb-2">
-                                    {{ $username }}
-                                </div>
+{{--                                <div class="flex items-start space-x-2 mb-2">--}}
+{{--                                    {{ $username }}--}}
+{{--                                </div>--}}
                                 <div class="flex items-start space-x-2 mb-2">
                                     {{ $current_password }}
                                 </div>

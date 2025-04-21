@@ -19,9 +19,9 @@
 
                 <!-- Step 1 | Capture Road Defect -->
                 <template x-if="step === 1 && !showModal">
-                    <div class="flex items-center justify-center flex-col mt-2 mb-2 bg-none w-full mx-auto h-[55vh] relative" x-data="captureHandler()">
+                    <div class="flex items-center justify-center flex-col my-2 bg-none w-full mx-auto h-[70vh] relative" x-data="captureHandler()">
 
-                        <div class="z-0 relative w-full bg-white border-2 border-gray-300 shadow-md rounded-lg overflow-hidden">
+                        <div class="-mt-9 z-0 relative w-full bg-white border-2 border-gray-300 shadow-md rounded-lg overflow-hidden">
                             <x-residents.svg-report-road-issue/>
                         </div>
                         <livewire:suggestion-modal/>
@@ -32,12 +32,12 @@
 
                         <!-- "How to Capture Road Issue" link to reopen modal -->
                         <button wire:click="$dispatch('openFirstLoginModal')" class="mt-3 text-blue-600 underline text-sm">
-                            How to Capture Road Issues Properly?
+                            How to Capture Road Defects Properly?
                         </button>
 
                         <!-- Report Road Issue Button -->
-                        <div class="mt-10 w-[85%] text-center mx-auto max-w-md">
-                            <button @click="openCamera()" class="px-4 text-[12px] py-3 w-full bg-orange-400 bg-opacity-90 text-lg lg:text-[14px] font-semibold text-white shadow-md rounded-full border-2 flex items-center justify-center space-x-2 transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
+                        <div class="mt-3 w-[85%] text-center mx-auto max-w-md">
+                            <button @click="openCamera()" class="px-4 text-[12px] py-2 w-full bg-orange-400 bg-opacity-90 text-lg lg:text-[14px] font-semibold text-white shadow-md rounded-full border-2 flex items-center justify-center space-x-2 transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 inline-block mr-2" fill="currentColor" viewBox="0 0 30 30">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M15 12.8125C15.5178 12.8125 15.9375 13.2323 15.9375 13.75V15.3125H17.5C18.0178 15.3125 18.4375 15.7323 18.4375 16.25C18.4375 16.7678 18.0178 17.1875 17.5 17.1875H15.9375V18.75C15.9375 19.2678 15.5178 19.6875 15 19.6875C14.4823 19.6875 14.0625 19.2678 14.0625 18.75V17.1875H12.5C11.9822 17.1875 11.5625 16.7678 11.5625 16.25C11.5625 15.7323 11.9822 15.3125 12.5 15.3125H14.0625V13.75C14.0625 13.2323 14.4823 12.8125 15 12.8125Z" />
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M12.2222 26.25H17.7778C21.6791 26.25 23.6297 26.25 25.031 25.3308C25.6375 24.9328 26.1584 24.4214 26.5637 23.8259C27.5 22.4501 27.5 20.5349 27.5 16.7045C27.5 12.8743 27.5 10.959 26.5637 9.58325C26.1584 8.98768 25.6375 8.4763 25.031 8.07835C24.1305 7.48766 23.0034 7.27654 21.2775 7.20108C20.4539 7.20108 19.7449 6.58835 19.5834 5.79545C19.341 4.60611 18.2774 3.75 17.0421 3.75H12.9579C11.7226 3.75 10.6589 4.60611 10.4167 5.79545C10.2551 6.58835 9.54606 7.20108 8.7225 7.20108C6.99666 7.27654 5.86944 7.48766 4.96905 8.07835C4.36244 8.4763 3.8416 8.98768 3.43628 9.58325C2.5 10.959 2.5 12.8743 2.5 16.7045C2.5 20.5349 2.5 22.4501 3.43628 23.8259C3.8416 24.4214 4.36244 24.9328 4.96905 25.3308C6.3703 26.25 8.32094 26.25 12.2222 26.25ZM20 16.25C20 19.0114 17.7614 21.25 15 21.25C12.2386 21.25 10 19.0114 10 16.25C10 13.4886 12.2386 11.25 15 11.25C17.7614 11.25 20 13.4886 20 16.25ZM22.5 11.5625C21.9822 11.5625 21.5625 11.9822 21.5625 12.5C21.5625 13.0178 21.9822 13.4375 22.5 13.4375H23.75C24.2677 13.4375 24.6875 13.0178 24.6875 12.5C24.6875 11.9822 24.2677 11.5625 23.75 11.5625H22.5Z" />
@@ -102,12 +102,12 @@
                         </div>
 
                         <!-- Photo and Address Preview -->
-                        <div x-show="photoCaptured" class="fixed inset-0 z-[1000] bg-black flex flex-col items-center justify-center text-center">
+                        <div x-show="photoCaptured" class="fixed inset-0 z-[1000] bg-[#F5F5F5] flex flex-col items-center justify-center text-center">
 
                             <!-- Header -->
-                            <div class="flex flex-col justify-center items-center mb-4 -mt-10">
+                            <div class="flex flex-col justify-center items-center mb-4 pt-8">
                                 <!--Page Title-->
-                                <div class="text-[#4AA76F] font-medium text-md mb-3">Photo Preview and Information</div>
+                                <div class="text-gray-800 font-semibold text-sm mb-3">Photo Preview and Information</div>
 
                                 <!-- Captured Photo Preview -->
                                 <div class="border border-[#4AA76F] rounded-lg mb-3">
@@ -116,7 +116,7 @@
 
                                 <!-- Retry Button -->
                                 <button @click="retryCapture()"
-                                        class="float-right bg-orange-400 bg-opacity-90 hover:bg-orange-400 hover:bg-opacity-90 text-white px-4 py-1 rounded-full shadow flex w-auto mb-3">
+                                        class="float-right bg-orange-400 bg-opacity-90 hover:bg-orange-400 text-white px-4 py-1 rounded-full shadow flex w-auto mb-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" class="w-5 h-5 pt-1 text-white -rotate-90 mr-1 -pl-1">
                                         <path d="M463.5 224l8.5 0c13.3 0 24-10.7 24-24l0-128c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8l119.5 0z"/>
                                     </svg>
@@ -124,56 +124,42 @@
                                 </button>
                             </div>
 
+
                             <!-- Body -->
-                            <div
-                                class="h-[30vh] w-full flex flex-col justify-center items-center overflow-y-auto space-y-4 mx-auto text-start"
-                            >
-{{--                                <!-- Type of Defect -->--}}
-{{--                                <div class="text-sm flex justify-start items-start w-3/4">--}}
-{{--                                    <div class="w-1/2 text-gray-300">Type of Defect:</div>--}}
-{{--                                    <div class="w-1/2 font-semibold text-[#4AA76F]">Pothole</div>--}}
-{{--                                </div>--}}
-                                <!-- Type of Defect -->
-                                <div class="text-sm flex justify-start items-start w-3/4">
-{{--                                    <div class="w-1/2 text-gray-300">Type of Defect:</div>--}}
-{{--                                    <div class="w-1/2 font-semibold text-[#4AA76F]">Pothole</div>--}}
-                                </div>
+                            <div class="h-[40vh] w-full overflow-y-auto">
 
-                                <!-- Report ID -->
-                                <div class="text-sm flex justify-start items-start w-3/4">
-{{--                                    <div class="w-1/2 text-gray-300">Report ID:</div>--}}
-{{--                                    <div class="w-1/2 font-semibold text-[#4AA76F]">00001</div>--}}
-                                </div>
+                                <div class="text-start h-auto w-full mx-auto flex flex-col justify-center items-center">
 
-                                <!-- Date and Time -->
-                                <div class="text-sm flex justify-start items-start w-3/4">
-                                    <div class="w-1/2 text-gray-300">Date Reported:</div>
-                                    <div class="w-1/2 font-semibold text-[#4AA76F]" x-text="date"></div>
-                                </div>
-                                <div class="text-sm flex justify-start items-start w-3/4">
-                                    <div class="w-1/2 text-gray-300">Time Reported:</div>
-                                    <div class="w-1/2 font-semibold text-[#4AA76F]" x-text="time"></div>
-                                </div>
-
-                                <!-- Location -->
-                                <div class="text-sm flex flex-col justify-start items-start w-3/4">
-                                    <div class="text-gray-300 font-medium text-md italic mb-1"></div>
-                                    <div class="text-sm flex justify-start items-start w-full">
-                                        <div class="w-1/2 text-gray-300">Location</div>
-                                        <div class="w-1/2 font-semibold text-[#4AA76F]" x-text="address"></div>
+                                    <!-- Date and Time -->
+                                    <div class="text-xs flex justify-start items-start w-3/4 pb-2">
+                                        <div class="w-1/2 text-gray-700">Date Reported:</div>
+                                        <div class="w-1/2 font-medium text-green-800" x-text="date"></div>
                                     </div>
-                                    <div class="text-sm flex justify-start items-start w-full">
-                                        <div class="w-1/2 text-gray-300">Latitude:</div>
-                                        <div class="w-1/2 font-semibold text-[#4AA76F]" x-text="latitude"></div>
+                                    <div class="text-xs flex justify-start items-start w-3/4 pb-2">
+                                        <div class="w-1/2 text-gray-700">Time Reported:</div>
+                                        <div class="w-1/2 font-medium text-green-800" x-text="time"></div>
                                     </div>
-                                    <div class="text-sm flex justify-start items-start w-full">
-                                        <div class="w-1/2 text-gray-300">Longitude:</div>
-                                        <div class="w-1/2 font-semibold text-[#4AA76F]" x-text="longitude"></div>
+
+                                    <!-- Location -->
+                                    <div class="text-xs flex flex-col justify-start items-start w-3/4">
+                                        <div class="text-xs flex justify-start items-start w-full pb-2">
+                                            <div class="w-1/2 text-gray-700">Location</div>
+                                            <div class="w-1/2 font-medium text-green-800" x-text="address"></div>
+                                        </div>
+                                        <div class="text-xs flex justify-start items-start w-full pb-2">
+                                            <div class="w-1/2 text-gray-700">Latitude:</div>
+                                            <div class="w-1/2 font-medium text-green-800" x-text="latitude"></div>
+                                        </div>
+                                        <div class="text-xs flex justify-start items-start w-full pb-2">
+                                            <div class="w-1/2 text-gray-700">Longitude:</div>
+                                            <div class="w-1/2 font-medium text-green-800" x-text="longitude"></div>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
-                            <!-- Confirm Button (Now inside the form) -->
 
+                            <!-- Confirm Button (Now inside the form) -->
                             <!-- Submit Report Button -->
                             <form action="{{ route('temp.submit.report') }}" id="reportForm"  method="POST" enctype="multipart/form-data">
                                 @csrf
@@ -197,15 +183,15 @@
                                         <p class="text-white text-lg font-semibold mt-4">Scanning image...</p>
                                     </div>
                                 </div>
-{{--                                <button type="submit" class="w-full text-sm md:text-md bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">--}}
-{{--                                    Submit Report--}}
-{{--                                </button>--}}
+                                {{--                                <button type="submit" class="w-full text-sm md:text-md bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">--}}
+                                {{--                                    Submit Report--}}
+                                {{--                                </button>--}}
 
-                            <!-- Confirm Button -->
-                            <button id="submitBtn" type="submit"
-                                    class="w-full fixed hover:scale-105 bottom-5 bg-[#4AA76F] hover:drop-shadow-md text-white p-3 font-semibold mt-6 mb-3 rounded-full hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
-                                Confirm
-                            </button>
+                                <!-- Confirm Button -->
+                                <button id="submitBtn" type="submit"
+                                        class="flex justify-center item-center text-center w-full px-14 py-2 hover:scale-105 bg-[#4AA76F] hover:drop-shadow-md text-white font-semibold mt-4 mb-5 rounded-full hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
+                                    Confirm
+                                </button>
                             </form>
                             <script>
                                 document.getElementById('reportForm').addEventListener('submit', function() {
@@ -232,11 +218,11 @@
 
                         <!-- Report Details -->
                         <div class="space-y-3 text-start w-10/12">
-{{--                            <!-- Type of Defect -->--}}
-{{--                            <div class="text-xs md:text-sm flex">--}}
-{{--                                <div class="w-2/5 text-gray-600">Type of Defect:</div>--}}
-{{--                                <div class="w-3/5 font-semibold text-[#4AA76F]">Pothole</div>--}}
-{{--                            </div>--}}
+                            {{--                            <!-- Type of Defect -->--}}
+                            {{--                            <div class="text-xs md:text-sm flex">--}}
+                            {{--                                <div class="w-2/5 text-gray-600">Type of Defect:</div>--}}
+                            {{--                                <div class="w-3/5 font-semibold text-[#4AA76F]">Pothole</div>--}}
+                            {{--                            </div>--}}
 
                             <!-- Report ID -->
                             <div class="text-xs md:text-sm flex">
@@ -272,31 +258,31 @@
                             </div>
                         </div>
 
-{{--                        <!-- Submit Report Button -->--}}
-{{--                        <form action="{{ route('temp.submit.report') }}" id="reportForm"  method="POST" enctype="multipart/form-data">--}}
-{{--                            @csrf--}}
-{{--                            <input type="hidden" name="latitude" x-bind:value="latitude">--}}
-{{--                            <input type="hidden" name="longitude" x-bind:value="longitude">--}}
-{{--                            <input type="hidden" name="address" x-bind:value="address">--}}
-{{--                            <input type="hidden" name="purok" x-bind:value="purok">--}}
-{{--                            <input type="hidden" name="street" x-bind:value="street">--}}
-{{--                            <input type="hidden" name="barangay" x-bind:value="barangay">--}}
-{{--                            <input type="hidden" name="date" x-bind:value="date">--}}
-{{--                            <input type="hidden" name="time" x-bind:value="time">--}}
-{{--                            <input type="hidden" name="photo" x-bind:value="photo">--}}
+                        {{--                        <!-- Submit Report Button -->--}}
+                        {{--                        <form action="{{ route('temp.submit.report') }}" id="reportForm"  method="POST" enctype="multipart/form-data">--}}
+                        {{--                            @csrf--}}
+                        {{--                            <input type="hidden" name="latitude" x-bind:value="latitude">--}}
+                        {{--                            <input type="hidden" name="longitude" x-bind:value="longitude">--}}
+                        {{--                            <input type="hidden" name="address" x-bind:value="address">--}}
+                        {{--                            <input type="hidden" name="purok" x-bind:value="purok">--}}
+                        {{--                            <input type="hidden" name="street" x-bind:value="street">--}}
+                        {{--                            <input type="hidden" name="barangay" x-bind:value="barangay">--}}
+                        {{--                            <input type="hidden" name="date" x-bind:value="date">--}}
+                        {{--                            <input type="hidden" name="time" x-bind:value="time">--}}
+                        {{--                            <input type="hidden" name="photo" x-bind:value="photo">--}}
 
-{{--                            <button type="submit" class="w-full text-sm md:text-md bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">--}}
-{{--                                Submit Report--}}
-{{--                            </button>--}}
-{{--                        </form>--}}
-{{--                        <button--}}
-{{--                            x-on:click="submitReport; openSuccessModal = true; setTimeout(() => location.reload(), 2000);"--}}
-{{--                            class="w-2/4 text-sm md:text-md: bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">--}}
-{{--                            Submit Report--}}
-{{--                        </button>--}}
+                        {{--                            <button type="submit" class="w-full text-sm md:text-md bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">--}}
+                        {{--                                Submit Report--}}
+                        {{--                            </button>--}}
+                        {{--                        </form>--}}
+                        {{--                        <button--}}
+                        {{--                            x-on:click="submitReport; openSuccessModal = true; setTimeout(() => location.reload(), 2000);"--}}
+                        {{--                            class="w-2/4 text-sm md:text-md: bg-gradient-to-r from-[#5A915E] to-[#F8A15E] text-white p-3 font-semibold mt-6 rounded-full transition-transform transform hover:scale-105 hover:drop-shadow-md active:-translate-y-1 active:scale-95">--}}
+                        {{--                            Submit Report--}}
+                        {{--                        </button>--}}
 
                         <!-- Success Modal -->
-{{--                        <x-success-modal successMessage="Your report road concern submitted successfully." x-show="openSuccessModal"></x-success-modal>--}}
+                        {{--                        <x-success-modal successMessage="Your report road concern submitted successfully." x-show="openSuccessModal"></x-success-modal>--}}
 
                         <!-- Error Modal | This should be pop up if the user inputs is not valid-->
                         <x-error-modal errorMessage='Oops! No road issues found, please retry!.' x-show="openErrorModal"></x-error-modal>
@@ -487,28 +473,28 @@
                             //         alert('Unable to retrieve location name.');
                             //     });
                             // const fetchLocation = (retries = 3) => {
-                                fetch(mapboxUrl)
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        if (data.features && data.features.length > 0) {
-                                            this.address = data.features[0].place_name;
-                                            console.log(`Address: ${this.address}\nLatitude: ${this.latitude}\nLongitude: ${this.longitude}`);
-                                        } else if (retries > 0) {
-                                            console.warn(`Retrying... (${3 - retries + 1})`);
-                                            setTimeout(() => fetchLocation(retries - 1), 500); // Wait 2s before retrying
-                                        } else {
-                                            console.error("Failed to get location after multiple attempts.");
-                                        }
-                                    })
-                                    .catch(error => {
-                                        console.error("Error with geocoding request:", error);
-                                        if (retries > 0) {
-                                            console.warn(`Retrying... (${3 - retries + 1})`);
-                                            setTimeout(() => fetchLocation(retries - 1), 500); // Wait 2s before retrying
-                                        } else {
-                                            console.error("Unable to retrieve location after multiple attempts.");
-                                        }
-                                    });
+                            fetch(mapboxUrl)
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.features && data.features.length > 0) {
+                                        this.address = data.features[0].place_name;
+                                        console.log(`Address: ${this.address}\nLatitude: ${this.latitude}\nLongitude: ${this.longitude}`);
+                                    } else if (retries > 0) {
+                                        console.warn(`Retrying... (${3 - retries + 1})`);
+                                        setTimeout(() => fetchLocation(retries - 1), 500); // Wait 2s before retrying
+                                    } else {
+                                        console.error("Failed to get location after multiple attempts.");
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error("Error with geocoding request:", error);
+                                    if (retries > 0) {
+                                        console.warn(`Retrying... (${3 - retries + 1})`);
+                                        setTimeout(() => fetchLocation(retries - 1), 500); // Wait 2s before retrying
+                                    } else {
+                                        console.error("Unable to retrieve location after multiple attempts.");
+                                    }
+                                });
                             // };
                             //
                             // // Call the function

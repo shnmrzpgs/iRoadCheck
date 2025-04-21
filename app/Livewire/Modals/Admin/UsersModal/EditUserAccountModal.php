@@ -272,7 +272,7 @@ class EditUserAccountModal extends Component
                 'middle_name' => Crypt::encryptString($this->form['middle_name']),
                 'last_name' => Crypt::encryptString($this->form['last_name']),
                 'username' => Crypt::encryptString($this->form['username']),
-                'sex' => $this->form['sex'],
+                'sex' => Crypt::encryptString($this->form['sex']),
                 'date_of_birth' => $this->form['date_of_birth']
                     ? Carbon::createFromFormat('F j, Y', $this->form['date_of_birth'])->format('Y-m-d')
                     : null,
@@ -307,13 +307,17 @@ class EditUserAccountModal extends Component
             ]);
 
 
-            // // Admin log entry
-            // AdminLog::create([
-            //     'admin_id' =>  auth()->id(),
-            //     'action' => "Updated staff account: {$this->getFullName($this->staff->user)} ({$this->getRoleName()})",
-            //     'dateTime' => now(),
-            //     'user_id' =>  auth()->id(),
-            // ]);
+            $fullName = $this->getFullName($this->staff->user); // Will return 'Juan Dela Cruz'
+            $roleName = $this->getRoleName(); // Will return 'Encoder'
+            $firstName = Crypt::decryptString($this->staff->user->first_name);
+            $lastName = Crypt::decryptString($this->staff->user->last_name);
+            // Admin log entry
+            AdminLog::create([
+                'admin_id' => auth()->id(),
+                'action' => "Successful on updating staff account: {$firstName} {$lastName} ({$this->getRoleName()})",
+                'dateTime' => now(),
+                'user_id' => auth()->id(),
+            ]);
 
             DB::commit();
 
@@ -323,14 +327,18 @@ class EditUserAccountModal extends Component
 
         } catch (\Exception $e) {
             DB::rollBack();
-
+            $fullName = $this->getFullName($this->staff->user); // Will return 'Juan Dela Cruz'
+            $roleName = $this->getRoleName(); // Will return 'Encoder'
             // Admin log entry
-            // AdminLog::create([
-            //     'admin_id' =>  auth()->id(),
-            //     'action' => "Failed to update staff account: {$this->getFullName($this->staff->user)} ({$this->getRoleName()})",
-            //     'dateTime' => now(),
-            //     'user_id' =>  auth()->id(),
-            // ]);
+            $firstName = Crypt::decryptString($this->staff->user->first_name);
+            $lastName = Crypt::decryptString($this->staff->user->last_name);
+            // Admin log entry
+            AdminLog::create([
+                'admin_id' => auth()->id(),
+                'action' => "Failed to update staff account: {$firstName} {$lastName} ({$this->getRoleName()})",
+                'dateTime' => now(),
+                'user_id' => auth()->id(),
+            ]);
 
             Log::error('Failed to update user account: ' . $e->getMessage());
             session()->flash('feedback', 'Failed to update Staff Account.');

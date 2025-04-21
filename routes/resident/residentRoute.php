@@ -24,7 +24,6 @@ Route::post('/logoutResident', [AuthController::class, 'LogoutResident'])->name(
 Route::post('/check-phone', [App\Http\Controllers\Resident\ResidentAuth::class, 'checkPhoneExists'])->name('check-phone');
 
 Route::view('/resident/signup', ['iroadcheck.prototype.residents.signup'])->name('residents-signup');
-
 // Route::view('/resident/login', ['iroadcheck.prototype.residents.login'])->name('resident-login');
 
 Route::group(['middleware' => 'VerifyResident'], function () {
