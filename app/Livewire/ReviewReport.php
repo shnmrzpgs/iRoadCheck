@@ -80,7 +80,7 @@ class ReviewReport extends Component
                 )
                 ->get();
 
-            if (!$existingReport) {
+            if ($existingReport->count() == 0) {
 
                 // Create a new record in the reports table
                 $report = Report::create([
