@@ -37,7 +37,7 @@
 
                             <div class="w-full lg:w-3/5">
                                 <div class="text-xs lg:text-sm flex justify-start items-start w-full">
-                                    <div class="w-2/4 md:w-1/4 lg:w-1/5 font-medium text-gray-600">Status:</div>
+                                    <div class="w-2/4 md:w-1/4 lg:w-1/5 font-medium text-gray-600">Statuss:</div>
                                     <div class="w-2/4 md:w-3/4 lg:w-4/5 font-semibold
                                         {{ $report->status === 'Repaired' ? 'text-green-600' : '' }}
                                         {{ $report->status === 'Ongoing' ? 'text-yellow-500' : '' }}
@@ -48,7 +48,7 @@
 
                                 <div class="text-xs lg:text-sm flex justify-start items-start w-full">
                                     <div class="w-2/4 md:w-1/4 lg:w-1/5 font-medium text-gray-600">Severity:</div>
-                                    <div class="w-2/4 md:w-3/4 lg:w-4/5">{{ $report->severity }}</div>
+                                    <div class="w-2/4 md:w-3/4 lg:w-4/5">{{ $report->severity->label }}</div>
                                 </div>
 
                                 <div class="text-xs lg:text-sm flex justify-start items-start w-full">
