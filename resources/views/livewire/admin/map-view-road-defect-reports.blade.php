@@ -114,7 +114,7 @@
                 <option value="Shallow">Shallow</option>
                 <option value="2">Tolerable</option>
                 <option value="12">Serious</option>
-                <option value="4">Dangerous</option>
+                <option value="3">Dangerous</option>
                 <option value="5">None</option>
 
             </select>
@@ -1307,7 +1307,7 @@
                         report.location?.toLowerCase(),
                         report.status?.toLowerCase(),
                         report.date?.toLowerCase(),
-                        report.label?.toLowerCase(),
+                        report.severity?.toLowerCase(),
                     ].some(field => field?.includes(searchQuery));
 
                     const reportDateStr = report.date_reported || report.formatted_date || report.date;
