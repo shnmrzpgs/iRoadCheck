@@ -54,7 +54,7 @@ class ViewRoadDefectReportsModal extends Component
             return;
         }
 
-        $this->image = asset('storage/' . $this->report->image);
+        $this->image = asset('storage/' . $this->report->image_annotated);
 
         $this->dispatch('view-road-defect-reports-modal-shown');
     }
