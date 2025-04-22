@@ -10,6 +10,7 @@ use App\Models\Suggestion;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use App\Models\TemporaryReport;
 use Illuminate\Support\Facades\Session;
@@ -67,16 +68,11 @@ class ReviewReport extends Component
 
         if ($temporaryReport) {
             // Check if report already exists
-            $existingReport = Report::select('*')
+            $existingReport = DB::table('reports')
                 ->where('location', $temporaryReport->location)
                 ->whereRaw(
-                    "ST_Distance_Sphere(
-            point(lng, lat),
-            point(?, ?)
-        ) <= 10", [
-                        $temporaryReport->lng,
-                        $temporaryReport->lat
-                    ]
+                    "ST_Distance_Sphere(point(lng, lat), point(?, ?)) <= 5",
+                    [$temporaryReport->lng, $temporaryReport->lat]
                 )
                 ->get();
 
