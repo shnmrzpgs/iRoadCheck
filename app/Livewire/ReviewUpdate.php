@@ -110,6 +110,7 @@ use Livewire\Component;
             return $this->redirect('/staff/capture-road-defect', navigate: true);
 
         } catch (\Exception $e) {
+            dd('Something went wrong while updating the report.');
             DB::rollBack();
             session()->flash('error', 'Something went wrong while updating reports.');
         }
