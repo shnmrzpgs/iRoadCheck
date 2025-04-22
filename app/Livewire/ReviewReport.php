@@ -142,7 +142,7 @@ class ReviewReport extends Component
                 $temporaryReport->is_opened = 2;
                 $temporaryReport->save();
                 session()->flash('suggestion-exist', 'This suggestion already exists.');
-                return $this->redirect('/resident/dashboard', navigate: true);
+                return $this->redirect('/residents/report-road-issue', navigate: true);
 
             }
 
