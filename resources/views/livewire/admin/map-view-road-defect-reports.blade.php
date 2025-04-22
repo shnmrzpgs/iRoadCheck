@@ -250,7 +250,8 @@
                                     <img
                                         :src="selectedReport.image_annotated ? `/storage/${selectedReport.image_annotated}` : '/images/placeholder.png'"
                                         alt="Defect Image"
-                                        class="w-[480px] h-[640px] rounded-[10px] object-contain cursor-pointer"
+                                        class="w-full h-auto
+                                         rounded-[10px] object-contain cursor-pointer"
                                         :style="`transform: scale(${scale}) translate(${offsetX}px, ${offsetY}px); transform-origin: center; transition: transform 0.1s ease-out;`"/>
                                 </x-slot:image>
                             </x-admin.admin-view-road-defect-report-image-modal>
@@ -320,7 +321,7 @@
                                     <img
                                         :src="selectedReport.updated_image ? `/storage/${selectedReport.updated_image}` : '/images/placeholder.png'"
                                         alt="Updated Road Concern Image"
-                                        class="w-[480px] h-[640px] rounded-[10px] object-contain cursor-pointer"
+                                        class="-full h-auto rounded-[10px] object-contain cursor-pointer"
                                         :style="`transform: scale(${scale}) translate(${offsetX}px, ${offsetY}px); transform-origin: center; transition: transform 0.1s ease-out;`"/>
                                 </x-slot:image>
                             </x-admin.admin-view-road-defect-report-image-modal>
