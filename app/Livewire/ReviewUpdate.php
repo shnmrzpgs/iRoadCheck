@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use AllowDynamicProperties;
 use App\Models\Report;
+use App\Models\Suggestion;
 use App\Models\TemporaryUpdate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -97,7 +98,7 @@ use Livewire\Component;
                     'updater_id' => $userId,
                     'updated_on' => today(),
                 ]);
-            SuggestionModal::where('report_id', $this->selectedReports)
+            Suggestion::where('report_id', $this->selectedReports)
                 ->update([
                     'status' => $selectedStatus,
                 ]);
