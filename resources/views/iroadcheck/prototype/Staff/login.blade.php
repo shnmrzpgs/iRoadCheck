@@ -30,7 +30,19 @@
                 @csrf
 
                 <img src="{{ asset('storage/images/IRoadCheck_Logo.png') }}" alt="graphicsLogo"
-                     class="xs:-my-2 md:mb-1 md:mt-4 w-28 sm:w-36 md:w-48 lg:w-56 max-w-[40px]"/>
+                     class="xs:-my-2 md:mb-1 md:mt-4 w-28 sm:w-36 md:w-48 lg:w-56 max-w-[40px]" id="doubleTapLogo"/>
+                <script>
+                    let lastTap = 0;
+                    document.getElementById('doubleTapLogo').addEventListener('click', function () {
+                        const currentTime = new Date().getTime();
+                        const tapLength = currentTime - lastTap;
+                        if (tapLength < 500 && tapLength > 0) {
+                            // Redirect if double-tapped within 500ms
+                            window.location.href = "/resident/login";
+                        }
+                        lastTap = currentTime;
+                    });
+                </script>
                 <div class="text-[#4D4F50] font-semibold text-[18px]">iRoadCheck</div>
                 <h2 class="text-[#4D4F50] text-[25px] font-bold mt-8 mb-2">Log in</h2>
                 <h4 class="text-[#4D4F50] text-sm font-medium mb-4 italic">as Staff</h4>
