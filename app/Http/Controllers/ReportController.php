@@ -299,8 +299,9 @@ class ReportController extends Controller
             // Optionally redirect back with validation messages too
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        // Check if geocoded address contains 'Tagum'
-        if (!str_contains(strtolower($request->address), 'tagum')) {
+        // Normalize address and check for exact 'Tagum' word
+        $address = strtolower(trim($request->address));
+        if (!preg_match('/\btagum\b/', $address)) {
             return redirect()->back()->with('not_from_tagum', true);
         }
         // Decode base64 photo
