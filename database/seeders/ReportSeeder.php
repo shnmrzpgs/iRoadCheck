@@ -138,6 +138,7 @@ class ReportSeeder extends Seeder
                 'barangay' => $barangays[array_rand($barangays)],
                 'date' => Carbon::now()->subDays(rand(0, 30))->toDateString(),
                 'label' => $labels[array_rand($labels)],
+                'severity' => $labels[array_rand($labels)],
                 'status' => $statuses[array_rand($statuses)],
                 'image' => $images[array_rand($images)],
                 'lat' => $lat,
