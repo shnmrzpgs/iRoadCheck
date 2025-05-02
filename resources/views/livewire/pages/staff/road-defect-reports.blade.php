@@ -27,9 +27,11 @@
         </x-slot:search_container>
 
         <x-slot:dropdown_filters_container>
-            <div x-data="{ activeFilter: 'all' }" class="flex space-x-2">
 
-                <!-- All Road Defect Reports Option -->
+            <div x-data="{ activeFilter: 'all' }" class="flex flex-wrap gap-2 md:flex-nowrap md:space-x-2">
+
+
+            <!-- All Road Defect Reports Option -->
                 <div class="relative rounded-[4px] border transition-all duration-200 ease-in-out transform hover:scale-105 hover:shadow-md"
                      :class="{
                      'bg-green-200 bg-opacity-20 text-green-800 border-green-600': activeFilter === 'all',

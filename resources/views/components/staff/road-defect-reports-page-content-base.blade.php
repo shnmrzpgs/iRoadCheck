@@ -139,7 +139,7 @@
         </div>
 
         <!--Table View-->
-        <div x-show="view === 'table'" class="text-[#202020] rounded-[6px] -mt-2 pt-2 h-auto w-[46vh] md:w-full">
+        <div x-show="view === 'table'" class="text-[#202020] rounded-[6px] -mt-2 md:-mt-8 pt-2 h-auto min-w-[46vh] max-w-[50vh] md:w-full">
 
             <div class="mx-0 bg-none w-9/10 lg:w-full px-2 py-4 lg:px-4 lg:py-2 rounded-lg drop-shadow mb-2 block md:hidden text-start text-[22px] text-sm md:text-lg font-semibold text-[#4AA76F] md:mr-3 lg:mr-1">
                 Road Defect Reports
@@ -149,10 +149,10 @@
             <div class="px-2 text-center md:text-start"
                  x-data = "{showFilters: false}"
             >
-                <div class="flex">
+                <div class="flex pr-5 md:pr-0">
                     {{ $search_container }}
 
-                    <div class="hidden lg:block mt-4 pl-4">
+                    <div class="hidden md:block mt-4 pl-4">
                         <!-- Toggle Filters Button -->
                         <button
                             @click="showFilters = !showFilters"
@@ -171,36 +171,51 @@
                     </div>
                 </div>
 
-                <div class="hidden lg:block flex">
+                <div class="w-full flex flex-col lg:flex-row items-start lg:items-center justify-between gap-2 px-2 mt-2 md:mt-0">
+
                     <!-- Dropdown Filters container -->
-                    <div x-show="showFilters"
-                         class="mt-4 md:pl-2 flex justify-start items-start lg:gap-2 gap-1 mb-0 mr-auto">
+                    <div
+                        x-show="showFilters"
+                        class="flex flex-wrap justify-start items-center gap-2 w-full lg:w-auto">
                         {{ $dropdown_filters_container }}
                     </div>
 
-                    <!--Page description-->
-                    <div x-show="!showFilters" class="pl-6 md:pl-0 flex justify-center items-center md:justified-start md:items-start lg:gap-2 gap-1 md:mb-0 mt-7 mr-auto">
+                    <!-- Page Description -->
+                    <div
+                        x-show="!showFilters"
+                        class="hidden lg:block w-full lg:w-auto text-center lg:text-left mt-3 lg:mt-0">
                         {{ $table_page_description }}
                     </div>
 
-                    {{-- Action Buttons container --}}
-                    {{ $action_buttons_container }}
+                    <!-- Action Buttons -->
+                    <div class="w-full lg:w-auto flex justify-center lg:justify-end -mt-2 mb-2">
+                        {{ $action_buttons_container }}
+                    </div>
+
                 </div>
+
             </div>
 
             {{-- Body --}}
-            <div class="mt-2 px-4 mb-2">
+            <div class="mt-2 px-4">
 
-                {{-- Table Container --}}
-                <div>
-                    {{ $table_container }}
-                </div>
+                {{-- Scrollable Wrapper --}}
+                <div class="overflow-y-auto min-h-[10vh] max-h-[50vh] md:max-h-full">
 
-                {{-- Pagination Container --}}
-                <div class="mt-4 px-6">
-                    {{ $pagination_container }}
+                    {{-- Table Container --}}
+                    <div class="w-full overflow-x-auto">
+                        <div class="min-w-[500px]">
+                            {{ $table_container }}
+                        </div>
+                    </div>
+
+                    {{-- Pagination Container --}}
+                    <div class="mt-4 px-6">
+                        {{ $pagination_container }}
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
 
