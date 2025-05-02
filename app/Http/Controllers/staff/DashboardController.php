@@ -21,7 +21,7 @@ class DashboardController extends Controller
                 return view('staff.pages.dashboard');
             }
             else{
-                dd('nope');
+                return route('staff.report-history');
             }
         }
     }
