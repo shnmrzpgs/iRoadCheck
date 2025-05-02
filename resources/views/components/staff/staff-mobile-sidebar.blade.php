@@ -1,13 +1,34 @@
 <div x-cloak="true"
      class="mx-auto fixed pl-0 pr-4 bottom-0 gap-x-10 xxs:gap-x-8 xs:gap-x-10 sm:gap-x-14 md:gap-x-24 md:hidden left-0 right-0 bg-white shadow-[0px_5px_40px_rgba(0,0,0,0.5)] flex justify-center items-center sm:py-2 py-2 sm:rounded-2xl w-[100%] sm:w-[82%] sm:mb-2 z-50">
+    @php
+        use App\Models\Staff;use App\Models\StaffRolesPermissions;$user = \Auth::user();
+        $staff = Staff::where('user_id', $user->id)->first();
+        $roleId = $staff?->staffRolesPermissions?->staffRole?->id ?? null;
+        $hasPermission = false;
 
+        if ($roleId) {
+            $hasPermissionDashboard = StaffRolesPermissions::where('staff_role_id', $roleId)
+                ->where('staff_permission_id', 1)
+                ->exists();
+            $hasPermissionGenerateReports = StaffRolesPermissions::where('staff_role_id', $roleId)
+                ->where('staff_permission_id', 2)
+                ->exists();
+            $hasPermissionViewReport = StaffRolesPermissions::where('staff_role_id', $roleId)
+                ->where('staff_permission_id', 3)
+                ->exists();
+            $hasPermissionUpdateRoadDefects = StaffRolesPermissions::where('staff_role_id', $roleId)
+                ->where('staff_permission_id', 4)
+                ->exists();
+        }
+    @endphp
     <!-- Dashboard -->
+    @if ($hasPermissionDashboard)
     <a href="{{ route('staff.dashboard') }}" wire:navigate
        class="group relative flex flex-col items-center transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
 
         <!-- Wave Shape -->
         <div class="absolute top-0 left-0 w-full h-full z-0 {{ request()->routeIs('staff.dashboard') ? 'block' : 'hidden' }}">
-            <svg class="absolute -ml-5 md:-mt-8 -mt-[31px] w-[90px] h-[88px]" viewBox="0 0 67 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="absolute -ml-4 md:-mt-8 -mt-[31px] w-[90px] h-[88px]" viewBox="0 0 67 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M63.5002 0C47.4347 0 51.7801 24.9995 33.1106 24.9995C14.4412 24.9995 19.0618 0 4.00012 0C-11.0615 0 33.1105 0 33.1105 0C33.1105 0 79.5658 0 63.5002 0Z" fill="#4AA76F"/>
                 <circle cx="33.5" cy="30" r="2" fill="#4AA76F"/>
             </svg>
@@ -16,8 +37,8 @@
         <!-- Icon and Label -->
         <div>
             <!-- Icon -->
-            <div class="z-50 relative flex justify-center items-center mt-3 sm:-pb-2 ml-[14px]
-                            {{ request()->routeIs('staff.dashboard') ? '-top-4 text-white h-5 w-5' : 'text-[#4AA76F] h-6 w-6 pb-0.5 -top-1 ml-2' }}">
+            <div class="z-50 relative flex justify-center items-center mt-3 sm:-pb-2 ml-[18px]
+                            {{ request()->routeIs('staff.dashboard') ? '-top-4 text-white h-5 w-5' : 'text-[#4AA76F] h-6 w-6 pb-0.5 -top-1' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" zoomAndPan="magnify" viewBox="0 0 375 374.999991" preserveAspectRatio="xMidYMid meet" version="1.0">
                     <defs>
                         <clipPath id="a3a56458c2"><path d="M 45 100 L 331 100 L 331 357.609375 L 45 357.609375 Z M 45 100 " clip-rule="nonzero" /></clipPath>
@@ -36,8 +57,10 @@
             </span>
         </div>
     </a>
+    @endif
 
     <!-- Update Road Issue -->
+    @if ($hasPermissionUpdateRoadDefects)
     <a href="{{ route('staff.capture-road-defect') }}" wire:navigate
        class="group relative flex flex-col items-center transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
 
@@ -53,7 +76,7 @@
         <div>
             <!-- Icon -->
             <div class="z-50 relative flex justify-center items-center mt-2 sm:-pb-4
-                            {{ request()->routeIs('staff.capture-road-defect') ? '-top-3 md:-top-3 text-white h-6 w-6 ml-[5px]' : 'text-[#4AA76F] h-7 w-7 ml-1' }}">
+                            {{ request()->routeIs('staff.capture-road-defect') ? '-top-3 md:-top-3 text-white h-6 w-6 ml-[5px]' : 'text-[#4AA76F] h-7 w-7 ml-[7px]' }}">
                 <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fill="currentColor" fill-rule="nonzero" d="M9 7.6875C9.31065 7.6875 9.5625 7.93935 9.5625 8.25V9.1875H10.5C10.8107 9.1875 11.0625 9.43935 11.0625 9.75C11.0625 10.0607 10.8107 10.3125 10.5 10.3125H9.5625V11.25C9.5625 11.5607 9.31065 11.8125 9 11.8125C8.68935 11.8125 8.4375 11.5607 8.4375 11.25V10.3125H7.5C7.18934 10.3125 6.9375 10.0607 6.9375 9.75C6.9375 9.43935 7.18934 9.1875 7.5 9.1875H8.4375V8.25C8.4375 7.93935 8.68935 7.6875 9 7.6875Z" />
                     <path fill="currentColor" fill-rule="nonzero" d="M7.33333 15.75H10.6666C13.0075 15.75 14.1778 15.75 15.0186 15.1985C15.3825 14.9597 15.695 14.6528 15.9382 14.2955C16.5 13.4701 16.5 12.3209 16.5 10.0227C16.5 7.72455 16.5 6.57541 15.9382 5.74995C15.695 5.39261 15.3825 5.08578 15.0186 4.84701C14.4783 4.4926 13.802 4.36592 12.7665 4.32064C12.2723 4.32064 11.8469 3.95301 11.75 3.47727C11.6046 2.76367 10.9664 2.25 10.2253 2.25H7.77472C7.03354 2.25 6.39536 2.76367 6.25 3.47727C6.15309 3.95301 5.72764 4.32064 5.2335 4.32064C4.198 4.36592 3.52166 4.4926 2.98143 4.84701C2.61746 5.08578 2.30496 5.39261 2.06177 5.74995C1.5 6.57541 1.5 7.72455 1.5 10.0227C1.5 12.3209 1.5 13.4701 2.06177 14.2955C2.30496 14.6528 2.61746 14.9597 2.98143 15.1985C3.82218 15.75 4.99256 15.75 7.33333 15.75ZM12 9.75C12 11.4068 10.6568 12.75 9 12.75C7.34314 12.75 6 11.4068 6 9.75C6 8.09318 7.34314 6.75 9 6.75C10.6568 6.75 12 8.09318 12 9.75ZM13.5 6.9375C13.1893 6.9375 12.9375 7.18934 12.9375 7.5C12.9375 7.81065 13.1893 8.0625 13.5 8.0625H14.25C14.5606 8.0625 14.8125 7.81065 14.8125 7.5C14.8125 7.18934 14.5606 6.9375 14.25 6.9375H13.5Z"/>
@@ -66,8 +89,10 @@
                         </span>
         </div>
     </a>
+    @endif
 
     <!-- Road Defect Reports -->
+    @if ($hasPermissionViewReport)
     <a href="{{ route('staff.road-defect-reports') }}" wire:navigate
        class="group relative flex flex-col items-center transition-all duration-300 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">
 
@@ -83,7 +108,7 @@
         <div>
             <!-- Icon -->
             <div class="z-50 relative flex justify-center items-center mt-3 sm:-pb-4 ml-[7px]
-                            {{ request()->routeIs('staff.road-defect-reports') ? '-top-3 md:-top-3 text-white h-5 w-5' : 'text-[#4AA76F] h-6 w-6 ml-1' }}">
+                            {{ request()->routeIs('staff.road-defect-reports') ? '-top-3 md:-top-3 text-white h-5 w-5' : 'text-[#4AA76F] h-6 w-6' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 527 455">
                     <path fill="currentColor" d="M164.541 227.5H109.499C101.414 227.5 94.8604 233.159 94.8604 240.139V360.461C94.8604 367.441 101.414 373.1 109.499 373.1H164.541C172.626 373.1 179.18 367.441 179.18 360.461V240.139C179.18 233.159 172.626 227.5 164.541 227.5Z"/>
                     <path fill="currentColor" d="M291.021 81.9004H235.979C227.894 81.9004 221.34 87.559 221.34 94.5393V360.462C221.34 367.442 227.894 373.1 235.979 373.1H291.021C299.106 373.1 305.66 367.442 305.66 360.462V94.5393C305.66 87.559 299.106 81.9004 291.021 81.9004Z"/>
@@ -97,6 +122,7 @@
                     </span>
         </div>
     </a>
+    @endif
 
     <!-- Update History -->
     <a href="{{ route('staff.report-history') }}" wire:navigate
