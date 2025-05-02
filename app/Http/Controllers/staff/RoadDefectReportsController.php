@@ -17,14 +17,14 @@ class RoadDefectReportsController extends Controller
         $get = StaffRolesPermissions::where('staff_role_id', $roleid)->get();
 
         foreach ($get as $item) {
-            if ($item->staff_permission_id == 3) {
+            if ($item->staff_permission_id === 3) {
                 return view('staff.pages.road-defect-reports');
             }
-            else{
-                return redirect()->route('staff.report-history');
-
-            }
         }
+
+// If no permission_id === 3 was found
+        return redirect()->route('staff.report-history');
+
     }
 
 }

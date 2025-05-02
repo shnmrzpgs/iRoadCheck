@@ -20,10 +20,10 @@ class DashboardController extends Controller
             if ($item->staff_permission_id == 1) {
                 return view('staff.pages.dashboard');
             }
-            else{
-                return redirect()->route('staff.report-history');
-
-            }
         }
+
+// If no permission_id == 1 was found
+        return redirect()->route('staff.report-history');
+
     }
 }
