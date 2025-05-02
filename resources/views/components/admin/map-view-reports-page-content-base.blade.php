@@ -1,12 +1,12 @@
-<div x-data="mapComponent()" class="-mt-5 lg:mt-2 bg-none overflow-y-auto h-auto py-2 -ml-2">
+<div x-data="mapComponent()" class="-mt-5 lg:-mt-8 bg-none overflow-y-auto h-full py-2 -ml-2">
 
     <!--Page description-->
-    <div class="hidden lg:block mb-2 text-xs text-[#656565] pl-3 py-2">
+    <div class="hidden lg:block mb-2 text-xs text-[#656565] pl-3 py-3">
         {{ $page_description }}
     </div>
 
     <!-- Map Reports Information -->
-    <div class="min-h-[35vh] max-h-[80vh] -mt-3 lg:mt-0 z-0 m-0 border border-t-gray-300 lg:min-h-[35vh] lg:max-h-[78vh] inset-0">
+    <div class="min-h-[35vh] max-h-[75vh] -mt-3 lg:mt-0 z-0 m-0 border border-t-gray-300 lg:min-h-[35vh] lg:max-h-[78vh] inset-0">
         <div class="w-full inline-block align-middle p-0 z-0">
             <div class="flex" x-data="{ expanded: false }">
                 <button @click="expanded = !expanded"
@@ -17,9 +17,9 @@
                     <span class="text-sm ml-1" x-text="expanded ? 'View Report Information' : 'Hide Report Information'"></span>
                 </button>
 
-                <div class="w-full min-h-[35vh] max-h-[70vh] lg:min-h-[35vh] lg:max-h-[78vh] flex flex-col lg:flex-row">
+                <div class="w-full min-h-[35vh] max-h-[75vh] lg:min-h-[35vh] lg:max-h-[90vh] flex flex-col lg:flex-row">
                     <!-- Map Container View -->
-                    <div id="map" class="w-auto min-h-[35vh] max-h-auto lg:min-h-[35vh] lg:max-h-[78vh] bg-gradient-to-b from-[#84D689] to-green-500 border-r border-r-gray-300 drop-shadow"></div>
+                    <div id="map" class="w-auto min-h-[35vh] max-h-[75vh] lg:min-h-[35vh] lg:max-h-[90vh] bg-gradient-to-b from-[#84D689] to-green-500 border-r border-r-gray-300 drop-shadow"></div>
 
                     <!-- Map Information Sidebar -->
                     <div class="hidden lg:block ">
@@ -97,16 +97,13 @@
                 </div>
 
                 <!-- Panel Content -->
-                <div class="overflow-y-auto h-[calc(100%-2rem)] px-0 w-full">
+                <div @click="toggleOpen" class="overflow-y-auto h-[calc(100%-2rem)] px-0 w-full">
                     <!-- Optional Search + Filters -->
                     <div x-data="{ showFilters: false }" class="flex flex-col gap-3">
                         <!-- ✅ Expand panel when clicking search -->
-                        <div class="relative flex flex-1 w-full pt-2 pb-0" >
+                        <div class="relative flex flex-1 w-full pt-2 pb-0 -mt-1" >
                             {{ $search_container }}
                         </div>
-
-{{--                        @click="expandPanel"--}}
-
                         <!-- Dropdown Filters -->
                         <div x-show="showFilters" class="hidden border-t pt-2">
                             <div x-data="{ activeFilter: '', query: '' }"
@@ -142,8 +139,9 @@
                 isDragging: false,
                 minHeight: 125, // in px
                 maxHeight: window.innerHeight * 0.8, // 80%
-                fullHeight: '75vh',  // full expanded height (adjust if needed)
+                fullHeight: '75vh',
                 isOpen: false,
+                dragThreshold: 100, // Max Y deviation allowed from the panel
 
                 expandPanel() {
                     this.isOpen = true;
@@ -158,6 +156,9 @@
                 startDrag(event) {
                     this.isDragging = true;
                     this.startY = event.touches[0].clientY;
+
+                    // Attach document-level listener to detect dragging outside
+                    document.addEventListener('touchmove', this.checkIfOutsidePanel, { passive: false });
                 },
 
                 onDrag(event) {
@@ -176,6 +177,8 @@
 
                 endDrag() {
                     this.isDragging = false;
+                    document.removeEventListener('touchmove', this.checkIfOutsidePanel);
+
                     const currentHeight = parseInt(this.panelHeight);
 
                     if (currentHeight > this.maxHeight * 0.8) {
@@ -185,11 +188,21 @@
                         this.panelHeight = `${this.minHeight}px`;
                         this.open = false;
                     }
+                },
+
+                checkIfOutsidePanel(event) {
+                    const touchY = event.touches[0].clientY;
+                    const panelTop = window.innerHeight - parseInt(this.panelHeight);
+
+                    if (touchY < panelTop - this.dragThreshold || touchY > window.innerHeight + this.dragThreshold) {
+                        // If user drags way outside, cancel the drag
+                        this.isDragging = false;
+                        document.removeEventListener('touchmove', this.checkIfOutsidePanel);
+                    }
                 }
             }
         }
     </script>
-
 
 </div>
 
