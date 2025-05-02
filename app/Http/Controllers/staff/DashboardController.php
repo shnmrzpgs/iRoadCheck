@@ -21,7 +21,8 @@ class DashboardController extends Controller
                 return view('staff.pages.dashboard');
             }
             else{
-                return view('staff.pages.report-history');
+                return redirect()->route('staff.report-history');
+
             }
         }
     }

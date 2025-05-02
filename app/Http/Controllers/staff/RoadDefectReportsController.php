@@ -21,7 +21,8 @@ class RoadDefectReportsController extends Controller
                 return view('staff.pages.road-defect-reports');
             }
             else{
-                return view('staff.pages.report-history');
+                return redirect()->route('staff.report-history');
+
             }
         }
     }
