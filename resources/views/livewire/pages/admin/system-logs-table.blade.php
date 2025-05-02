@@ -58,7 +58,7 @@
                 </div>
             </x-slot:dropdown_filters_container>
 
-{{--            <x-slot:action_buttons_container>--}}
+            <x-slot:action_buttons_container>
 {{--                <button type="button" wire:click="exportSystemLogs"--}}
 {{--                        class="mt-5 flex gap-x-[8px] w-auto text-xs px-[14px] py-[10px] font-normal tracking-wider text-[#FFFFFF] bg-gradient-to-b from-[#84D689] to-green-500 rounded-full hover:drop-shadow hover:bg-[#4AA76F] hover:scale-105 hover:ease-in-out hover:duration-300 transition-all duration-300 [transition-timing-function:cubic-bezier (0.175,0.885,0.32,1.275)] active:-translate-y-1 active:scale-x-90 active:scale-y-110">--}}
 {{--                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="15" height="15" class="mt-0.5 mr-0">--}}
@@ -66,7 +66,7 @@
 {{--                    </svg>--}}
 {{--                    <span class="ml-0 mt-0 text-[#FFFFFF] text-md">Export Logs</span>--}}
 {{--                </button>--}}
-{{--            </x-slot:action_buttons_container>--}}
+            </x-slot:action_buttons_container>
 
             <x-slot:table_container>
                 <div class="inline-block w-[40vh] md:w-full lg:w-full h-auto md:h-[52vh] lg:h-[55vh] xl:h-[62vh] xl:max-h-[100vh] overflow-y-auto align-middle drop-shadow rounded-b-md">
