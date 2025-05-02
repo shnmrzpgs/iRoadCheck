@@ -16,8 +16,8 @@ class DashboardController extends Controller
         $roleid = $staff->staffRolesPermissions->staffRole->id;
         $get = StaffRolesPermissions::where('staff_role_id', $roleid)->get();
 
-        if ($roleid ) {
-            dd($get);
+        if ($get->staff_permission_id != 1 ) {
+            dd('nope');
             return view('staff.pages.dashboard');
         }
     }
