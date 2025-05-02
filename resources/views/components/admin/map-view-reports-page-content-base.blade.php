@@ -141,7 +141,7 @@
                 maxHeight: window.innerHeight * 0.8, // 80%
                 fullHeight: '75vh',
                 isOpen: false,
-                dragThreshold: 100, // Max Y deviation allowed from the panel
+                dragThreshold: 500, // Max Y deviation allowed from the panel
 
                 expandPanel() {
                     this.isOpen = true;
