@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Enums\Staff\StaffStatus; 
+use App\Enums\Staff\StaffStatus;
 
 return new class extends Migration
 {
@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('staffs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('staff_roles_permissions_id')->constrained('staff_roles_permissions')->onDelete('cascade');
+            $table->foreignId('staff_role')->constrained('staff_roles')->onDelete('cascade');
             $table->string('status')->default(StaffStatus::ACTIVE);
             $table->timestamps();
         });
