@@ -1,4 +1,4 @@
-<x-Staff.staff-navigation page_title="Suggestion Reports">
+<x-staff.staff-navigation page_title="Suggestion Reports">
 
     <!-- Main Content -->
     <main class="flex-1 -mt-2 overflow-y-scroll h-[83vh] md:h-[85vh] xl:h-full xl:overflow-hidden pb-5">
@@ -177,4 +177,4 @@
         </script>
     </main>
 
-</x-Staff.staff-navigation>
+</x-staff.staff-navigation>

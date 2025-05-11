@@ -1,4 +1,4 @@
-<x-Staff.staff-navigation page_title="Update History" action="{{ route('staff.report-history') }}" placeholder="Search..."
+<x-staff.staff-navigation page_title="Update History" action="{{ route('staff.report-history') }}" placeholder="Search..."
     name="search" wire:model.live="search">
 
     <div class="flex justify-center items-center mx-auto     sm:justify-start sm:items-start">
@@ -162,4 +162,4 @@
     </div>
 
 
-</x-Staff.staff-navigation>
+</x-staff.staff-navigation>

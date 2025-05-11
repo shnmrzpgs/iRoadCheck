@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <x-Staff.staff-navigation page_title="Manage Tagging" >
+    <x-staff.staff-navigation page_title="Manage Tagging" >
 
         {{--        <div id="notification" class="fixed top-4 right-4 z-50"></div>--}}
         <div  x-data="mapComponent()" >
@@ -257,7 +257,7 @@
             </div>
         </div>
 
-    </x-Staff.staff-navigation>
+    </x-staff.staff-navigation>
 
 </x-app-layout>
 

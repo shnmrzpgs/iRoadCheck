@@ -1,4 +1,4 @@
-<x-Staff.staff-navigation page_title="Notifications" action="{{ route('staff.notifications') }}" placeholder="Search..." id="search" name="search" wire:model.live="search">
+<x-staff.staff-navigation page_title="Notifications" action="{{ route('staff.notifications') }}" placeholder="Search..." id="search" name="search" wire:model.live="search">
 
     <x-Staff.notification-page-content-base>
 
@@ -221,4 +221,4 @@
          class="z-50 absolute inset-0 w-full min-h-full bg-black/50 flex justify-center items-center transition-all pointer-events-none opacity-0">
         <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading/>
     </div>
-</x-Staff.staff-navigation>
+</x-staff.staff-navigation>

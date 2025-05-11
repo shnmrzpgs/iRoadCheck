@@ -1,5 +1,5 @@
 <x-app-layout title="iRoadCheck | Capture Road Defect">
-    <x-Staff.staff-navigation page_title="Capture Road Defect">
+    <x-staff.staff-navigation page_title="Capture Road Defect">
         <main class="flex-1 -mt-2 overflow-y-scroll h-[83vh] md:h-[85vh] xl:h-full xl:overflow-hidden pb-5">
             <!-- Main Content -->
             <div class="flex flex-col items-center justify-center w-full mb-10 lg:hidden" x-data="{  step: 1, selected: '', cameraOpen: false, photoCaptured: false, photo: null, locationCaptured: false}">
@@ -271,7 +271,7 @@
                 <p class="text-lg font-semibold">This feature is available only on mobile and tablets.</p>
             </div>
         </main>
-    </x-Staff.staff-navigation>
+    </x-staff.staff-navigation>
 </x-app-layout>
 <script>
     function captureHandler() {

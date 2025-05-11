@@ -1,4 +1,4 @@
-<x-Staff.staff-navigation page_title="Profile Settings">
+<x-staff.staff-navigation page_title="Profile Settings">
 
     <x-staff.profile-page-content-base>
 
@@ -318,7 +318,7 @@
             openModal = false;
             setTimeout(() => location.reload(), 100); // Reload the page after the notification disappears
         }, 1000); // Auto-hide after 1 second
-        
+
         @if(session('feedback_type') === 'success')
         lottie.loadAnimation({
             container: $refs.lottieAnimation,
@@ -420,4 +420,4 @@
         <x-loading-indicator class="h-[50px] w-[50px] text-white" wire:loading />
     </div>
 
-</x-Staff.staff-navigation>
+</x-staff.staff-navigation>
