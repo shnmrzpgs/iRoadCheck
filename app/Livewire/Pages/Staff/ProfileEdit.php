@@ -58,8 +58,8 @@ class ProfileEdit extends Component
 
         $this->staff = Staff::where('user_id', $user->id)->first();
 
-        if ($this->staff && $this->staff->staff_roles_permissions_id) {
-            $staffRole = StaffRole::with('permissions')->find($this->staff->staff_roles_permissions_id);
+        if ($this->staff && $this->staff->staff_role) {
+            $staffRole = StaffRole::with('permissions')->find($this->staff->staff_role);
             $this->staff_role = $staffRole ? $staffRole->name : 'No Role Assigned';
 
             // Store permissions as an array of objects

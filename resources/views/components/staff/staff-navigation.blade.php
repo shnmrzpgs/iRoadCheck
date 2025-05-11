@@ -51,8 +51,8 @@
                 <!-- Dashboard -->
                 @php
                     $user = \Auth::user();
-                    $staff = Staff::where('user_id', $user->id)->first();
-                    $roleId = $staff?->staffRolesPermissions?->staffRole?->id ?? null;
+                   $staff = Staff::where('user_id', $user->id)->first();
+                    $roleId = $staff?->staff_role ?? null;
                     $hasPermission = false;
 
                     if ($roleId) {
@@ -69,12 +69,13 @@
                             ->where('staff_permission_id', 4)
                             ->exists();
                     }
+                    else{
+                    }
                 @endphp
 
-                @if ($hasPermission)
-                    {{-- show dashboard content --}}
-                @endif
-
+{{--                @if ($hasPermission)--}}
+{{--                    --}}{{-- show dashboard content --}}
+{{--                @endif--}}
                 @if ($hasPermissionDashboard)
                     <a href="{{ route('staff.dashboard') }}" wire:navigate loading="lazy" class="group flex items-center block py-2.5 px-5 rounded font-medium
                     {{ request()->routeIs('staff.dashboard') ? 'bg-[#4AA76F] text-white shadow-md font-bold' : 'text-[#4D4F50] hover:text-[#4AA76F] hover:bg-gray-50 hover:shadow-md' }}">

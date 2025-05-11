@@ -13,11 +13,14 @@ class RoadDefectReportsController extends Controller
     {
         $user = \Auth::user();
         $staff = Staff::where('user_id', $user->id)->first();
-        $roleid = $staff->staffRolesPermissions->staffRole->id;
-        $get = StaffRolesPermissions::where('staff_role_id', $roleid)->get();
+        $roleId = $staff?->staff_role ?? null;
+        $hasPermission = false;
 
-        foreach ($get as $item) {
-            if ($item->staff_permission_id === 3) {
+        if ($roleId) {
+            $hasPermissionDashboard = StaffRolesPermissions::where('staff_role_id', $roleId)
+                ->where('staff_permission_id', 3)
+                ->exists();
+            if($hasPermissionDashboard){
                 return view('staff.pages.road-defect-reports');
             }
         }

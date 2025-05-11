@@ -2,24 +2,27 @@
      class="mx-auto fixed pl-0 pr-4 bottom-0 gap-x-10 xxs:gap-x-8 xs:gap-x-10 sm:gap-x-14 md:gap-x-24 md:hidden left-0 right-0 bg-white shadow-[0px_5px_40px_rgba(0,0,0,0.5)] flex justify-center items-center sm:py-2 py-2 sm:rounded-2xl w-[100%] sm:w-[82%] sm:mb-2 z-50">
     @php
         use App\Models\Staff;use App\Models\StaffRolesPermissions;$user = \Auth::user();
-        $staff = Staff::where('user_id', $user->id)->first();
-        $roleId = $staff?->staffRolesPermissions?->staffRole?->id ?? null;
-        $hasPermission = false;
+        $user = \Auth::user();
+                   $staff = Staff::where('user_id', $user->id)->first();
+                    $roleId = $staff?->staff_role ?? null;
+                    $hasPermission = false;
 
-        if ($roleId) {
-            $hasPermissionDashboard = StaffRolesPermissions::where('staff_role_id', $roleId)
-                ->where('staff_permission_id', 1)
-                ->exists();
-            $hasPermissionGenerateReports = StaffRolesPermissions::where('staff_role_id', $roleId)
-                ->where('staff_permission_id', 2)
-                ->exists();
-            $hasPermissionViewReport = StaffRolesPermissions::where('staff_role_id', $roleId)
-                ->where('staff_permission_id', 3)
-                ->exists();
-            $hasPermissionUpdateRoadDefects = StaffRolesPermissions::where('staff_role_id', $roleId)
-                ->where('staff_permission_id', 4)
-                ->exists();
-        }
+                    if ($roleId) {
+                        $hasPermissionDashboard = StaffRolesPermissions::where('staff_role_id', $roleId)
+                            ->where('staff_permission_id', 1)
+                            ->exists();
+                        $hasPermissionGenerateReports = StaffRolesPermissions::where('staff_role_id', $roleId)
+                            ->where('staff_permission_id', 2)
+                            ->exists();
+                        $hasPermissionViewReport = StaffRolesPermissions::where('staff_role_id', $roleId)
+                            ->where('staff_permission_id', 3)
+                            ->exists();
+                        $hasPermissionUpdateRoadDefects = StaffRolesPermissions::where('staff_role_id', $roleId)
+                            ->where('staff_permission_id', 4)
+                            ->exists();
+                    }
+                    else{
+                    }
     @endphp
     <!-- Dashboard -->
     @if ($hasPermissionDashboard)
