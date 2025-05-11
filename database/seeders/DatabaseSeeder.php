@@ -94,7 +94,7 @@ class DatabaseSeeder extends Seeder
 //            ActivityLogSeeder::class,
 //            ReportSeeder::class,
             RolePermissionSeeder::class,
-            AdminLogSeeder::class,
+//            AdminLogSeeder::class,
 //            StaffLogSeeder::class,
 //            ResidentLogSeeder::class,
             AdminSeeder::class,
