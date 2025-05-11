@@ -1,5 +1,5 @@
 <x-app-layout title="iRoadCheck | Update Road Defect">
-    <x-Staff.staff-navigation page_title="Update Road Defect">
+    <x-staff.staff-navigation page_title="Update Road Defect">
         <div class="flex flex-col items-center justify-center w-full mb-10 lg:hidden"
              x-data="{  step: 1, selected: '', cameraOpen: false, photoCaptured: false, photo: null, locationCaptured: false}">
             <div class="w-full md:w-[85%] flex flex-col justify-center items-center">
@@ -282,7 +282,7 @@
         <div class="hidden lg:flex flex-col items-center justify-center w-[85%] ml-32 text-center p-4 bg-gray-100 text-gray-700">
             <p class="text-lg font-semibold">This feature is available only on mobile and tablets.</p>
         </div>
-    </x-Staff.staff-navigation>
+    </x-staff.staff-navigation>
 </x-app-layout>
 <script>
 
