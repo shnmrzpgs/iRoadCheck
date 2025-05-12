@@ -144,7 +144,7 @@
 
                                 <td class="px-4 py-3 text-xs">{{ $staff->user->username }}</td>
                                 <td class="px-4 py-3 text-xs">
-                                    {{ optional($staff->staffRolesPermissions->staffRole)->name ?? 'No role assigned' }}
+                                    {{ optional($staff->staffRole)->name ?? 'No role assigned' }}
                                 </td>
                                 <td class="px-4 py-3 text-xs font-medium">
                                     <span class="{{ strtolower($staff->status ?? '') === 'active' ? 'text-green-600 font-bold' : 'text-red-600 font-bold' }}">

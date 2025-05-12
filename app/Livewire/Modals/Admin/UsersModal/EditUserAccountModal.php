@@ -91,7 +91,7 @@ class EditUserAccountModal extends Component
                 : '',
             'username' => Crypt::decryptString($staff->user->username),
             'password' => $staff->user->generated_password ?? '',
-            'user_role' => $staff->staffRolesPermissions->staffRole->id,
+            'user_role' => $staff->staffRole->id,
             'is_disabled' => $staff->status === StaffStatus::INACTIVE,
         ];
 
@@ -295,14 +295,13 @@ class EditUserAccountModal extends Component
                 ]);
             }
 
-            $staffRolePermission = StaffRolesPermissions::where('staff_role_id', $this->form['user_role'])->first();
+            $staffRole = StaffRole::where('id', $this->form['user_role'])->first();
 
-            if (!$staffRolePermission) {
+            if (!$staffRole) {
                 throw new \Exception('Invalid role-to-permission mapping');
             }
-
             $this->staff->update([
-                'staff_roles_permissions_id' => $staffRolePermission->id,
+                'staff_role' => $this->form['user_role'],
                 'status' => $this->form['is_disabled'] ? StaffStatus::INACTIVE : StaffStatus::ACTIVE,
             ]);
 

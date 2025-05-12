@@ -49,7 +49,9 @@ class Dashboard extends Component
         $this->activeStaffCount = Staff::where('status', 'Active')->count();
         $this->inactiveStaffCount = Staff::where('status', 'Inactive')->count();
 
-        $this->roles = StaffRole::whereHas('staffs')->get();
+
+        $this->roles = StaffRole::query()->get();
+
         $this->getStaffRolesData();
 
         $this->updateReportsCount();
@@ -224,10 +226,9 @@ class Dashboard extends Component
         $staffRoles = $query->get();
 
         $rolesData = $staffRoles->map(function ($role) {
-            // Get all staff members for this role
-            $staffMembers = Staff::whereHas('staffRolesPermissions', function ($query) use ($role) {
-                $query->where('staff_role_id', $role->id);
-            })->with('user')->get();
+            $staffMembers = Staff::where('staff_role', $role->id)
+                ->with('user')
+                ->get();
 
             $count = $staffMembers->count();
 

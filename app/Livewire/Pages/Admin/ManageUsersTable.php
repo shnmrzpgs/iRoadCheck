@@ -62,7 +62,7 @@ class ManageUsersTable extends Component
             ],
         ]);
 
-        $this->roles = StaffRole::with('permissions')->get();
+        $this->roles = StaffRole::query()->get();
     }
 
     public function editUserAccount($staffId): void
@@ -115,17 +115,15 @@ class ManageUsersTable extends Component
     $query = Staff::query()
         ->select('staffs.*')
         ->leftJoin('users', 'staffs.user_id', '=', 'users.id')
-        ->leftJoin('staff_roles_permissions', 'staffs.staff_roles_permissions_id', '=', 'staff_roles_permissions.id')
-        ->leftJoin('staff_roles', 'staff_roles_permissions.staff_role_id', '=', 'staff_roles.id')
-        ->with(['user', 'staffRolesPermissions', 'staffRolesPermissions.staffRole'])
+        ->leftJoin('staff_roles', 'staffs.staff_role', '=', 'staff_roles.id')
+        ->with(['user', 'staffRole'])
         ->when($this->user_status_filter, function ($query) {
             $query->where('staffs.status', $this->user_status_filter);
         })
         ->when($this->staff_roles_filter, function ($query) {
-            $query->whereHas('staffRolesPermissions', function ($query) {
-                $query->where('staff_role_id', $this->staff_roles_filter);
-            });
+            $query->where('staffs.staff_role', $this->staff_roles_filter);
         });
+
 
     // Apply sorting but handle user fields separately
     if (in_array($this->sort_by, ['first_name', 'last_name', 'middle_name', 'username'])) {
@@ -135,7 +133,6 @@ class ManageUsersTable extends Component
     } else {
         $query->orderBy('staffs.' . $this->sort_by, $this->sort_direction);
     }
-
     return $query;
 }
 
@@ -228,8 +225,7 @@ public function exportStaffs()
                 str_contains(strtolower($staff->user->middle_name ?? ''), $search) ||
                 str_contains(strtolower($staff->user->last_name ?? ''), $search) ||
                 str_contains(strtolower($staff->user->username ?? ''), $search) ||
-                ($staff->staffRolesPermissions &&
-                 $staff->staffRolesPermissions->staffRole &&
+                ($staff->staffRole &&
                  str_contains(strtolower($staff->staffRolesPermissions->staffRole->name ?? ''), $search));
         });
     }

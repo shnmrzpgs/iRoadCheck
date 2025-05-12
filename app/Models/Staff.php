@@ -14,7 +14,7 @@ class Staff extends Model
 
     protected $fillable = [
         'user_id',
-        'staff_roles_permissions_id',
+        'staff_role',
         // 'generated password',
         'status'
     ];
@@ -48,6 +48,11 @@ class Staff extends Model
     {
         return $this->belongsToMany(StaffRole::class, 'staff_roles_permissions');
     }
+    public function staffRole()
+    {
+        return $this->belongsTo(StaffRole::class, 'staff_role');
+    }
+
 
     public function user(): BelongsTo
     {
