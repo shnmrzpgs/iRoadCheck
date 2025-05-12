@@ -30,7 +30,7 @@ class ViewUserAccountModal extends Component
         $staff = Staff::with(['staffRolesPermissions.staffRole', 'staffRolesPermissions.permissions'])
             ->findOrFail($staffId);
 
-            $this->user_role = $staff->staffRolesPermissions->staffRole->id;
+            $this->user_role = $staff->staffRole->id;
         //     $this->permissions = $staff->staffRolesPermissions->permissions->pluck('name')->toArray();
 
         $role = StaffRole::with('permissions')->find($this->user_role);
@@ -44,7 +44,7 @@ class ViewUserAccountModal extends Component
         $this->staff->user->last_name = Crypt::decryptString($staff->user->last_name);
         $this->staff->user->sex = Crypt::decryptString($staff->user->sex);
         $this->staff->user->username = Crypt::decryptString($staff->user->username);
-        
+
         $this->date_of_birth = $staff->user->date_of_birth
             ? Carbon::parse($staff->user->date_of_birth)->format('F j, Y')
             : null;
