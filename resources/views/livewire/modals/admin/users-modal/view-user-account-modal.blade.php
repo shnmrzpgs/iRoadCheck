@@ -56,7 +56,7 @@
                                 <div class="bg-white shadow-sm rounded-md p-2">
                                     <h4 class="font-medium text-gray-700 border-b mb-2 pb-2 border-[#4AA76F]"><strong>Access Control Information</strong></h4>
                                     <ul>
-                                        <li class="mb-1">Role: <i class="ml-4">{{ ucfirst($staff->staffRolesPermissions->staffRole->name) ?? 'No role assigned' }}</i></li>
+                                        <li class="mb-1">Role: <i class="ml-4">{{ ucfirst($staff->staffRole->name) ?? 'No role assigned' }}</i></li>
                                         <li class="mb-1">Permissions:</li>
                                         <ul class="pl-4 list-disc">
                                             @if(!empty($selectedPermissions))
