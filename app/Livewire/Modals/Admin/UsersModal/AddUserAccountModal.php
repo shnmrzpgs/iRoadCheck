@@ -208,6 +208,7 @@ class AddUserAccountModal extends Component
         try {
             $result = $this->form->save();
 
+
             if ($result) {
                 Log::info('Form saved successfully.');
 
@@ -220,11 +221,12 @@ class AddUserAccountModal extends Component
                     'dateTime' => now(),
                     'user_id' => auth()->id(),
                 ]);
+
+                $this->dispatch('modal-close');
+                session()->flash('feedback', 'Staff Account added successfully!');
+                session()->flash('feedback_type', 'success');
             }
 
-            $this->dispatch('modal-close');
-            session()->flash('feedback', 'Staff Account added successfully!');
-            session()->flash('feedback_type', 'success');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             Log::error('Validation failed.', ['errors' => $e->errors()]);
@@ -279,7 +281,7 @@ class AddUserAccountModal extends Component
                 'exception' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
-            return false; 
+            return false;
         }
     }
 
