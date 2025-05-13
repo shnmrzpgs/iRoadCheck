@@ -109,7 +109,7 @@ class AddUserAccountForm extends Form
 
 
             // Find the StaffRolesPermissions entry that matches the role
-            $staffRolePermission = StaffRolesPermissions::where('staff_role_id', $staffRole->id)->first();
+            $staffRolePermission = StaffRole::where('id', $staffRole->id)->first();
             if (!$staffRolePermission) {
                 throw new Exception('No permissions assigned to the selected role.');
             }
@@ -120,7 +120,7 @@ class AddUserAccountForm extends Form
             // Create a corresponding staff record
             $staff = Staff::create([
                 'user_id' => $user->id,
-                'staff_roles_permissions_id' => $staffRolePermission->id, // Assuming $this->user_role maps to a valid staff role
+                'staff_role' => $staffRolePermission->id, // Assuming $this->user_role maps to a valid staff role
                 'status' => $this->user_status ? StaffStatus::ACTIVE : StaffStatus::INACTIVE,
             ]);
 
